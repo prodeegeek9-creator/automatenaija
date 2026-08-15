@@ -16,8 +16,8 @@
     --bg-3:#161B15;
     --line:rgba(255,255,255,.09);
     --line-2:rgba(255,255,255,.16);
-    --lime:#D7FF3E;
-    --lime-dim:#BFE62B;
+    --lime:#CC5500;
+    --lime-dim:#A64100;
     --ink:#0A0D0B;
     --text:#F4F7F1;
     --text-2:#C7D2C7;
@@ -74,8 +74,8 @@
   .btn-ghost:hover{color:var(--text);}
   .btn-line{border-color:var(--line-2);background:transparent;color:var(--text);}
   .btn-line:hover{border-color:var(--lime);}
-  .btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(215,255,62,.18);}
-  .btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(215,255,62,.28);}
+  .btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(204,85,0,.18);}
+  .btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(204,85,0,.28);}
   .btn-lg{padding:14px 24px;font-size:.94rem;border-radius:11px;}
   .menu-btn{display:none;background:none;border:none;padding:6px;cursor:pointer;color:var(--text);}
 
@@ -94,19 +94,22 @@
   .hero{padding:88px 0 68px;position:relative;}
   .hero::before{
     content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:520px;
-    background:radial-gradient(circle,rgba(215,255,62,.14),transparent 70%);
+    background:radial-gradient(circle,rgba(204,85,0,.14),transparent 70%);
     pointer-events:none;z-index:0;
   }
   .hero-grid{position:relative;z-index:1;text-align:center;max-width:800px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
   .pill{
     display:inline-flex;align-items:center;gap:9px;
-    background:rgba(215,255,62,.08);color:var(--lime);
-    border:1px solid rgba(215,255,62,.28);border-radius:999px;
+    background:rgba(204,85,0,.08);color:var(--lime);
+    border:1px solid rgba(204,85,0,.28);border-radius:999px;
     padding:7px 14px;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
     margin-bottom:22px;font-family:'IBM Plex Mono',monospace;
   }
   h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.1;letter-spacing:-.025em;margin-bottom:22px;max-width:760px;}
   h1 em{font-style:normal;color:var(--lime);}
+  .word-flip{display:inline-block;position:relative;vertical-align:top;}
+  .word-flip .cursor{display:inline-block;margin-left:2px;color:var(--lime);animation:caretBlink 1s step-end infinite;}
+  @keyframes caretBlink{0%,50%{opacity:1;}50.01%,100%{opacity:0;}}
   .lede{font-size:1.08rem;color:var(--muted);max-width:600px;margin:0 auto 32px;font-weight:500;}
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;justify-content:center;}
 
@@ -183,7 +186,7 @@
   }
   .stat{display:flex;align-items:center;justify-content:center;gap:12px;padding:22px 20px;border-right:1px solid var(--line);}
   .stat:last-child{border-right:none;}
-  .stat-ic{width:38px;height:38px;border-radius:10px;background:rgba(215,255,62,.09);color:var(--lime);display:grid;place-items:center;flex-shrink:0;}
+  .stat-ic{width:38px;height:38px;border-radius:10px;background:rgba(204,85,0,.09);color:var(--lime);display:grid;place-items:center;flex-shrink:0;}
   .stat b{display:block;font-size:1.2rem;font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1.2;font-family:'IBM Plex Sans',sans-serif;}
   .stat span{font-size:.76rem;color:var(--muted);font-weight:500;}
   @media(max-width:820px){.stats-bar{grid-template-columns:repeat(2,1fr);}.stat{border-bottom:1px solid var(--line);}.stat:nth-child(2n){border-right:none;}}
@@ -208,7 +211,7 @@
   .eco-card:hover{transform:translateY(-4px);border-color:var(--line-2);}
   .eco-arrow{display:flex;align-items:center;justify-content:center;width:34px;color:var(--muted);flex-shrink:0;}
   .eco-ic{width:38px;height:38px;border-radius:10px;background:var(--bg-3);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime);margin-bottom:16px;}
-  .eco-card h4{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:7px;font-family:'IBM Plex Sans',sans-serif;}
+  .eco-card h4{font-size:1.05rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--text);margin-bottom:7px;font-family:'IBM Plex Sans',sans-serif;}
   .eco-card p{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:14px;flex:1;}
   .eco-card .link-arrow{font-size:.78rem;}
   @media(max-width:1020px){
@@ -229,10 +232,10 @@
   .challenge{padding:22px;border-right:1px solid var(--line);text-align:center;}
   .challenge-top{display:flex;justify-content:center;gap:12px;align-items:center;margin-bottom:14px;}
   .badge{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 10px;border-radius:999px;font-family:'IBM Plex Mono',monospace;}
-  .badge-lime{background:rgba(215,255,62,.12);color:var(--lime);border:1px solid rgba(215,255,62,.25);}
+  .badge-lime{background:rgba(204,85,0,.12);color:var(--lime);border:1px solid rgba(204,85,0,.25);}
   .days-left{font-size:.74rem;color:var(--muted);font-weight:600;}
   .trophy-box{
-    height:150px;border-radius:12px;background:radial-gradient(circle at 30% 30%, rgba(215,255,62,.16), var(--bg-3) 70%);
+    height:150px;border-radius:12px;background:radial-gradient(circle at 30% 30%, rgba(204,85,0,.16), var(--bg-3) 70%);
     border:1px solid var(--line-2);display:grid;place-items:center;margin-bottom:16px;color:var(--lime);
   }
   .challenge h4{font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:8px;font-family:'IBM Plex Sans',sans-serif;}
@@ -369,6 +372,14 @@
     background:linear-gradient(to top, rgba(10,13,11,.92), rgba(10,13,11,.05));
   }
   .tutor-idx{display:block;color:var(--lime);font-size:.7rem;font-weight:700;letter-spacing:.08em;margin-bottom:6px;}
+  .tutor-socials{position:absolute;right:16px;bottom:16px;display:flex;gap:8px;z-index:2;}
+  .tutor-social-btn{
+    width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+    background:rgba(10,13,11,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);
+    color:var(--text);transition:background .2s ease,border-color .2s ease,transform .2s ease,color .2s ease;
+  }
+  .tutor-social-btn:hover{background:var(--lime);border-color:var(--lime);color:var(--ink);transform:translateY(-2px);}
+  .tutor-social-btn i{width:16px;height:16px;}
   .tutor-caption h4{font-family:'Lora',Georgia,serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:2px;}
   .tutor-caption span{font-size:.8rem;color:var(--muted);}
 
@@ -379,7 +390,7 @@
     transition:border-color .2s ease, background .2s ease;
   }
   .tutor-item:hover{border-color:var(--line-2);}
-  .tutor-item.active{border-color:var(--lime);background:rgba(215,255,62,.06);}
+  .tutor-item.active{border-color:var(--lime);background:rgba(204,85,0,.06);}
   .tutor-item-num{font-size:.78rem;color:var(--muted);font-weight:700;flex-shrink:0;}
   .tutor-item.active .tutor-item-num{color:var(--lime);}
   .tutor-item b{display:block;font-size:.94rem;font-weight:800;color:var(--text);font-family:'IBM Plex Sans',sans-serif;}
@@ -407,7 +418,7 @@
   <div class="wrap nav">
     <a href="#" class="brand">
       <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#D7FF3E"/>
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
         <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
       </svg>
       <span class="brand-name">AUTOMATE NAIJA</span>
@@ -446,7 +457,7 @@
   <div class="wrap hero-grid">
     <div>
       <span class="pill rv">The #1 Automation Builder Hub in Nigeria</span>
-      <h1 class="rv">Build the future.<br>One <em>workflow</em> at a time.</h1>
+      <h1 class="rv">Build the future.<br>One <em><span class="word-flip"><span id="heroWord">workflow</span><span class="cursor">|</span></span></em> at a time.</h1>
       <p class="lede rv">Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.</p>
 
       <div class="hero-cta rv">
@@ -471,6 +482,11 @@
           <span class="tutor-idx mono" id="tutorIdx">01 / 03</span>
           <h4 id="tutorName">Oginni Oluwafemi</h4>
           <span id="tutorRole">Lead Instructor · n8n &amp; AI Agents</span>
+        </div>
+        <div class="tutor-socials">
+          <a class="tutor-social-btn" id="tutorLinkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+          <a class="tutor-social-btn" id="tutorInstagram" href="#" target="_blank" rel="noopener" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+          <a class="tutor-social-btn" id="tutorTwitter" href="#" target="_blank" rel="noopener" aria-label="Twitter / X"><i data-lucide="twitter"></i></a>
         </div>
       </div>
 
@@ -659,7 +675,7 @@
         <div class="chat-side">
           <span class="brand">
             <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#D7FF3E"/>
+              <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
               <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
             </svg>
             <span class="brand-name">AUTOMATE NAIJA</span>
@@ -731,7 +747,7 @@
       <div class="fbrand">
         <span class="brand" style="margin-bottom:6px;">
           <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#D7FF3E"/>
+            <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
             <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
           </svg>
           <span class="brand-name">AUTOMATE NAIJA</span>
@@ -806,9 +822,12 @@
     host: "https://i.pravatar.cc/60?img=12",
     showcase: "https://picsum.photos/seed/an-showcase/800/500",
     tutors: [
-      { name: "Abdulhafeez Adebayo", role: "Lead Instructor · n8n & AI Agents", photo: "https://picsum.photos/seed/an-tutor-1/900/1000" },
-      { name: "Oluwabunmi Josephine",      role: "Automation & Integrations",         photo: "https://media.prodeegee.com/1769428499086.jpg" },
-      { name: "Abdulhafeez Adebayo",    role: "Client Work & Deployment",          photo: "https://media.prodeegee.com/1741059755772.jpg" }
+      { name: "Abdulhafeez Adebayo", role: "Lead Instructor · n8n & AI Agents", photo: "https://picsum.photos/seed/an-tutor-1/900/1000",
+        social: { linkedin: "https://linkedin.com/in/abdulhafeez-adebayo", instagram: "https://instagram.com/abdulhafeez", twitter: "https://twitter.com/abdulhafeez" } },
+      { name: "Oluwabunmi Josephine",      role: "Automation & Integrations",         photo: "https://media.prodeegee.com/1769428499086.jpg",
+        social: { linkedin: "https://linkedin.com/in/oluwabunmi-josephine", instagram: "https://instagram.com/oluwabunmi", twitter: "https://twitter.com/oluwabunmi" } },
+      { name: "Abdulhafeez Adebayo",    role: "Client Work & Deployment",          photo: "https://media.prodeegee.com/1741059755772.jpg",
+        social: { linkedin: "https://linkedin.com/in/abdulhafeez-adebayo", instagram: "https://instagram.com/abdulhafeez", twitter: "https://twitter.com/abdulhafeez" } }
     ]
   };
   /* ================================================================= */
@@ -886,6 +905,12 @@
     if(!frame || !items.length) return;
 
     var current = -1;
+    function setSocial(id, url){
+      var el = document.getElementById(id);
+      if(!el) return;
+      if(url){ el.href = url; el.style.display = ''; }
+      else { el.style.display = 'none'; }
+    }
     function show(i){
       if(i === current) return;
       current = i;
@@ -898,6 +923,10 @@
         roleEl.textContent = t.role;
         idxEl.textContent = String(i+1).padStart(2,'0') + ' / ' + String(IMAGES.tutors.length).padStart(2,'0');
         frame.style.opacity = 1;
+        var s = t.social || {};
+        setSocial('tutorLinkedin', s.linkedin);
+        setSocial('tutorInstagram', s.instagram);
+        setSocial('tutorTwitter', s.twitter);
       }, 180);
       items.forEach(function(el){ el.classList.toggle('active', Number(el.dataset.idx) === i); });
     }
@@ -916,6 +945,58 @@
     }
 
     show(0);
+  })();
+
+  /* hero heading typewriter animation */
+  (function(){
+    var el = document.getElementById('heroWord');
+    if(!el) return;
+    var words = ['workflow','node','automation','canvas','step','build','assignment','project'];
+    var i = 0;
+    var typeSpeed = 90;
+    var deleteSpeed = 50;
+    var holdTime = 1500;
+
+    function type(word, cb){
+      var idx = 0;
+      (function step(){
+        el.textContent = word.slice(0, idx);
+        idx++;
+        if(idx <= word.length){
+          setTimeout(step, typeSpeed);
+        } else {
+          cb();
+        }
+      })();
+    }
+
+    function erase(word, cb){
+      var idx = word.length;
+      (function step(){
+        el.textContent = word.slice(0, idx);
+        idx--;
+        if(idx >= 0){
+          setTimeout(step, deleteSpeed);
+        } else {
+          cb();
+        }
+      })();
+    }
+
+    function cycle(){
+      var current = words[i];
+      type(current, function(){
+        setTimeout(function(){
+          erase(current, function(){
+            i = (i + 1) % words.length;
+            setTimeout(cycle, 150);
+          });
+        }, holdTime);
+      });
+    }
+
+    el.textContent = '';
+    cycle();
   })();
 </script>
 </body>
