@@ -1,1022 +1,2284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automate Naija — Where Builders Ship</title>
-<meta name="description" content="Automate Naija is where AI & automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script>document.documentElement.className+=' js';</script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PuppyPlace.ng — Nigeria's #1 Pet Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
-  :root{
-    --bg:#0A0D0B;
-    --bg-2:#10140F;
-    --bg-3:#161B15;
-    --line:rgba(255,255,255,.09);
-    --line-2:rgba(255,255,255,.16);
-    --lime:#CC5500;
-    --lime-dim:#A64100;
-    --ink:#0A0D0B;
-    --text:#F4F7F1;
-    --text-2:#C7D2C7;
-    --muted:#8A968E;
-    --radius:16px;
-    --shadow-md:0 12px 32px rgba(0,0,0,.35);
-    --shadow-lg:0 24px 64px rgba(0,0,0,.5);
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:'IBM Plex Sans',system-ui,sans-serif;
-    background:var(--bg);
-    color:var(--text-2);
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  a{color:inherit;text-decoration:none;}
-  img{max-width:100%;display:block;}
-  .mono{font-family:'IBM Plex Mono',monospace;}
-  h1,h2,h3{font-family:'Lora',Georgia,serif;font-weight:700;color:var(--text);}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 22px;}
-  :focus-visible{outline:2.5px solid var(--lime);outline-offset:3px;border-radius:6px;}
-  .i{width:18px;height:18px;stroke-width:2;}
+/* ─── RESET & BASE ───────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;color:#333;background:#f5f5f5;line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit;transition:color .25s}
+ul{list-style:none}
+img{max-width:100%;display:block}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px}
+::selection{background:#ed6436;color:#fff}
 
-  /* ---------- NAV ---------- */
-  header{
-    position:sticky;top:0;z-index:100;
-    background:rgba(10,13,11,.86);
-    backdrop-filter:blur(14px);
-    border-bottom:1px solid var(--line);
-  }
-  .nav{display:flex;align-items:center;justify-content:space-between;height:70px;}
-  .brand{display:flex;align-items:center;gap:10px;}
-  .mark{width:30px;height:30px;flex-shrink:0;}
-  .brand-name{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--text);}
-  .nav-links{display:flex;gap:30px;font-size:.88rem;font-weight:600;color:var(--muted);}
-  .nav-links a{position:relative;padding:6px 0;transition:color .18s;}
-  .nav-links a:hover{color:var(--text);}
-  .nav-links a.active{color:var(--text);}
-  .nav-links a.active::after{
-    content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--lime);border-radius:2px;
-  }
-  .nav-act{display:flex;align-items:center;gap:10px;}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    font-weight:700;font-size:.87rem;border-radius:10px;
-    padding:10px 18px;border:1.5px solid transparent;cursor:pointer;
-    transition:transform .16s ease, box-shadow .2s ease, background .18s, border-color .18s;
-    font-family:'IBM Plex Sans',sans-serif;
-  }
-  .btn-ghost{color:var(--text-2);}
-  .btn-ghost:hover{color:var(--text);}
-  .btn-line{border-color:var(--line-2);background:transparent;color:var(--text);}
-  .btn-line:hover{border-color:var(--lime);}
-  .btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(204,85,0,.18);}
-  .btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(204,85,0,.28);}
-  .btn-lg{padding:14px 24px;font-size:.94rem;border-radius:11px;}
-  .menu-btn{display:none;background:none;border:none;padding:6px;cursor:pointer;color:var(--text);}
+/* ─── TOKENS ─────────────────────────────── */
+:root{
+  --orange:#ed6436;
+  --orange-d:#dc4614;
+  --black:#000;
+  --dark:#1f1f1f;
+  --gray:#868686;
+  --light-gray:#f5f5f5;
+  --border:#e7e7e7;
+  --white:#fff;
+  --radius:30px;
+  --radius-sm:10px;
+  --radius-xs:6px;
+  --shadow:0 2px 15px rgba(0,0,0,.08);
+  --shadow2:0 5px 25px rgba(0,0,0,.12);
+  --trans:.3s ease;
+}
 
-  .mobile-menu{display:none;flex-direction:column;gap:2px;padding:8px 22px 20px;border-bottom:1px solid var(--line);background:var(--bg);}
-  .mobile-menu.open{display:flex;}
-  .mobile-menu a{padding:12px 0;font-weight:600;color:var(--text-2);border-bottom:1px solid var(--line);}
-  .mobile-menu .btn{margin-top:14px;width:100%;}
-  @media(max-width:980px){
-    .nav-links{display:none;}
-    .nav-act .btn-ghost{display:none;}
-    .menu-btn{display:block;}
-  }
-  @media(max-width:420px){.nav-act .btn-solid{padding:9px 13px;font-size:.8rem;}}
+/* ─── TOPBAR ─────────────────────────────── */
+#topbar{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  height:45px;
+  line-height:45px;
+  font-size:13px;
+  font-weight:700;
+}
+.topbar-inner{
+  max-width:1200px;margin:0 auto;padding:0 15px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.tb-left{display:flex;align-items:center;gap:0}
+.tb-item{display:flex;align-items:center;gap:8px;padding-right:15px;margin-right:10px;position:relative}
+.tb-item:not(:last-child)::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:1px;height:18px;background:#d4d4d4}
+.tb-item i{font-size:16px;color:var(--orange);position:relative;top:1px}
+.tb-right{display:flex;align-items:center;gap:16px}
+.tb-right a{color:#868686;font-size:12px;font-weight:700}
+.tb-right a:hover{color:var(--orange)}
+.tb-sep{width:1px;height:14px;background:#d4d4d4}
 
-  /* ---------- HERO ---------- */
-  .hero{padding:88px 0 68px;position:relative;overflow:hidden;}
-  .hero::before{
-    content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:520px;
-    background:radial-gradient(circle,rgba(204,85,0,.14),transparent 70%);
-    pointer-events:none;z-index:0;
-  }
-  .hero-video{
-    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-    filter:blur(6px) brightness(.55) saturate(1.05);
-    transform:scale(1.06);z-index:0;pointer-events:none;
-  }
-  .hero-video-overlay{
-    position:absolute;inset:0;z-index:0;pointer-events:none;
-    background:linear-gradient(to bottom, rgba(10,13,11,.55), rgba(10,13,11,.72) 55%, var(--bg) 96%);
-  }
-  .hero-grid{position:relative;z-index:1;text-align:center;max-width:800px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
-  .pill{
-    display:inline-flex;align-items:center;gap:9px;
-    background:rgba(204,85,0,.08);color:var(--lime);
-    border:1px solid rgba(204,85,0,.28);border-radius:999px;
-    padding:7px 14px;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
-    margin-bottom:22px;font-family:'IBM Plex Mono',monospace;
-  }
-  h1{font-size:clamp(2.4rem,6vw,4.2rem);line-height:1.1;letter-spacing:-.025em;margin-bottom:22px;max-width:760px;}
-  h1 em{font-style:normal;color:var(--lime);}
-  .word-flip{display:inline-block;position:relative;vertical-align:top;}
-  .word-flip .cursor{display:inline-block;margin-left:2px;color:var(--lime);animation:caretBlink 1s step-end infinite;}
-  @keyframes caretBlink{0%,50%{opacity:1;}50.01%,100%{opacity:0;}}
-  .lede{font-size:1.08rem;color:var(--muted);max-width:600px;margin:0 auto 32px;font-weight:500;}
-  .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;justify-content:center;}
+/* ─── HEADER ─────────────────────────────── */
+.site-header{
+  background:var(--white);
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  position:sticky;top:0;z-index:300;
+}
+.header-inner{
+  max-width:1200px;margin:0 auto;padding:0 15px;
+  display:flex;align-items:center;gap:20px;height:80px;
+}
+/* Logo */
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-icon{width:48px;height:48px;background:var(--orange);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.logo-name{font-size:24px;font-weight:900;color:var(--black);line-height:1}
+.logo-name span{color:var(--orange)}
+.logo-tag{font-size:10px;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 
-  .avatar-row{display:flex;align-items:center;gap:12px;justify-content:center;}
-  .avatars{display:flex;}
-  .avatars img{
-    width:36px;height:36px;border-radius:50%;object-fit:cover;
-    border:2px solid var(--bg);margin-left:-10px;background:var(--bg-3);
-  }
-  .avatars img:first-child{margin-left:0;}
-  .avatar-row span{font-size:.84rem;color:var(--muted);font-weight:500;}
-  .avatar-row b{color:var(--text);}
+/* Search */
+.header-search{flex:1;max-width:560px;position:relative}
+.header-search select{
+  position:absolute;left:0;top:0;bottom:0;
+  border:none;background:var(--light-gray);
+  border-right:1px solid var(--border);
+  border-radius:var(--radius) 0 0 var(--radius);
+  padding:0 12px 0 16px;font-family:'Nunito',sans-serif;
+  font-size:12px;font-weight:700;color:var(--black);
+  cursor:pointer;outline:none;
+}
+.header-search input{
+  width:100%;height:46px;
+  padding:0 54px 0 110px;
+  border:2px solid var(--border);
+  border-radius:var(--radius);
+  font-family:'Nunito',sans-serif;font-size:13px;
+  outline:none;background:var(--light-gray);color:var(--black);
+  transition:border-color var(--trans);
+}
+.header-search input:focus{border-color:var(--orange);background:var(--white)}
+.header-search input::placeholder{color:#aaa}
+.search-submit{
+  position:absolute;right:0;top:0;bottom:0;
+  width:46px;border-radius:0 var(--radius) var(--radius) 0;
+  background:var(--orange);border:none;cursor:pointer;
+  font-size:17px;color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  transition:background var(--trans);
+}
+.search-submit:hover{background:var(--orange-d)}
 
-  /* workflow canvas */
-  .canvas{
-    background:var(--bg-2);border:1px solid var(--line);border-radius:18px;
-    box-shadow:var(--shadow-lg);overflow:visible;position:relative;
-  }
-  .canvas-inner{border-radius:18px;overflow:hidden;}
-  .canvas-bar{
-    display:flex;align-items:center;gap:10px;padding:13px 16px;
-    border-bottom:1px solid var(--line);
-  }
-  .canvas-title{font-size:.82rem;font-weight:700;color:var(--text);}
-  .canvas-bar .spacer{flex:1;}
-  .stack-mini{display:flex;}
-  .stack-mini img{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--bg-2);margin-left:-7px;object-fit:cover;background:var(--bg-3);}
-  .stack-mini img:first-child{margin-left:0;}
-  .plus-mini{width:22px;height:22px;border-radius:50%;background:var(--bg-3);border:1.5px solid var(--bg-2);margin-left:-7px;display:grid;place-items:center;font-size:.6rem;color:var(--muted);font-weight:700;}
-  .live-tag{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;color:var(--lime);font-weight:700;margin-left:10px;}
-  .live-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--lime);animation:blip 1.6s infinite;}
-  @keyframes blip{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
+/* Header icons */
+.header-icons{display:flex;align-items:center;gap:6px;margin-left:auto}
+.hico{
+  display:flex;flex-direction:column;align-items:center;
+  padding:6px 10px;cursor:pointer;position:relative;
+  border-radius:var(--radius-xs);transition:background var(--trans);
+}
+.hico:hover{background:var(--light-gray)}
+.hico-icon{font-size:22px;line-height:1;position:relative}
+.hico-badge{
+  position:absolute;top:-4px;right:-4px;
+  width:17px;height:17px;background:var(--orange);
+  color:#fff;font-size:9px;font-weight:800;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  border:2px solid var(--white);
+}
+.hico-label{font-size:10px;color:var(--gray);font-weight:700;margin-top:1px}
+.header-cta{
+  background:var(--black);color:#fff;font-family:'Nunito',sans-serif;
+  font-weight:800;font-size:13px;padding:10px 22px;
+  border-radius:var(--radius);border:none;cursor:pointer;
+  white-space:nowrap;transition:background var(--trans);
+}
+.header-cta:hover{background:var(--orange)}
 
-  .stage{
-    position:relative;padding:34px 20px 26px;min-height:300px;
-    background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);
-    background-size:18px 18px;
-  }
-  .stage svg.wires{position:absolute;inset:0;width:100%;height:100%;}
-  .wires path{fill:none;stroke:rgba(255,255,255,.14);stroke-width:1.6;stroke-dasharray:4 5;}
-  .wires .flow{stroke:var(--lime);stroke-width:2;stroke-dasharray:6 200;opacity:.9;}
+/* ─── NAVIGATION ─────────────────────────── */
+.main-nav{
+  background:var(--white);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;padding:0 15px;
+  display:flex;align-items:center;height:48px;gap:0;
+}
+.nav-link{
+  font-size:13px;font-weight:700;color:var(--black);
+  padding:0 16px;height:48px;display:flex;align-items:center;gap:6px;
+  border-bottom:3px solid transparent;transition:all var(--trans);white-space:nowrap;
+}
+.nav-link:hover,.nav-link.on{color:var(--orange);border-bottom-color:var(--orange)}
+.nav-sep{width:1px;height:16px;background:var(--border);flex-shrink:0;margin:0 4px}
+.nav-badge{
+  background:var(--orange);color:#fff;font-size:9px;font-weight:800;
+  padding:2px 6px;border-radius:var(--radius);text-transform:uppercase;letter-spacing:.3px;
+}
 
-  .wf-row{display:flex;justify-content:space-between;gap:10px;position:relative;z-index:1;margin-bottom:30px;}
-  .wf-row.row2{justify-content:center;gap:60px;}
-  .wf-node{display:flex;flex-direction:column;align-items:center;gap:10px;width:88px;}
-  .wf-ic{
-    width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
-    background:var(--bg-3);border:1px solid var(--line-2);color:#fff;
-  }
-  .wf-node b{font-size:.72rem;font-weight:700;color:var(--text);text-align:center;line-height:1.3;}
-  .wf-node span{font-size:.64rem;color:var(--muted);text-align:center;}
+/* ─── LAYOUT ─────────────────────────────── */
+.page-wrap{max-width:1200px;margin:0 auto;padding:24px 15px}
+.content-grid{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:start}
 
-  .live-card{
-    position:absolute;left:18px;bottom:-26px;width:200px;
-    background:var(--bg-3);border:1px solid var(--line-2);border-radius:13px;
-    padding:14px 16px;box-shadow:var(--shadow-md);z-index:2;
-  }
-  .live-card h5{font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:10px;}
-  .live-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
-  .live-card li{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--text-2);}
-  .live-card li svg{color:var(--lime);flex-shrink:0;}
-  @media(max-width:640px){.live-card{position:static;width:auto;margin:16px 20px 20px;}}
+/* ─── SIDEBAR ────────────────────────────── */
+.sidebar{}
+.sidebar-widget{
+  background:var(--white);border-radius:var(--radius-sm);
+  border:1px solid var(--border);margin-bottom:16px;overflow:hidden;
+}
+/* Category menu */
+.cat-menu-header{
+  background:var(--orange);color:#fff;padding:14px 20px;
+  display:flex;align-items:center;gap:14px;
+  border-radius:var(--radius) var(--radius) 0 0;
+  cursor:pointer;
+}
+.cat-menu-bars{display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+.cat-bar{height:2px;background:#fff;border-radius:2px}
+.cat-bar:nth-child(1){width:20px}
+.cat-bar:nth-child(2){width:14px}
+.cat-bar:nth-child(3){width:17px}
+.cat-menu-title{font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.cat-menu-list{}
+.cat-menu-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 20px;border-bottom:1px solid #f5f5f5;
+  cursor:pointer;transition:all var(--trans);position:relative;
+}
+.cat-menu-item:last-child{border-bottom:none}
+.cat-menu-item:hover{background:#fff7f5;padding-left:26px}
+.cat-menu-item:hover .cat-menu-item-name{color:var(--orange)}
+.cat-menu-item.on{background:#fff7f5}
+.cat-menu-item.on .cat-menu-item-name{color:var(--orange);font-weight:800}
+.cat-menu-item-left{display:flex;align-items:center;gap:10px}
+.cat-ico{font-size:16px;width:20px;text-align:center}
+.cat-menu-item-name{font-size:13px;font-weight:700;color:var(--black);transition:color var(--trans)}
+.cat-count-badge{
+  background:var(--light-gray);color:var(--gray);
+  font-size:10px;font-weight:700;padding:2px 7px;
+  border-radius:var(--radius);
+}
+.cat-menu-item.on .cat-count-badge{background:rgba(237,100,54,.12);color:var(--orange)}
 
-  @media(max-width:1060px){
-    .lede{max-width:520px;}
-  }
+/* Sidebar section title */
+.sb-title{
+  font-size:13px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--black);padding:16px 20px 10px;
+  border-bottom:2px solid var(--orange);margin-bottom:0;
+  position:relative;
+}
+.sb-title::after{
+  content:'';position:absolute;bottom:-2px;left:0;
+  width:40px;height:2px;background:var(--orange);
+}
 
-  /* ---------- STATS ---------- */
-  .stats{padding:30px 0;}
-  .stats-bar{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    background:var(--bg-2);border:1px solid var(--line);border-radius:16px;
-    overflow:hidden;
-  }
-  .stat{display:flex;align-items:center;justify-content:center;gap:12px;padding:22px 20px;border-right:1px solid var(--line);}
-  .stat:last-child{border-right:none;}
-  .stat-ic{width:38px;height:38px;border-radius:10px;background:rgba(204,85,0,.09);color:var(--lime);display:grid;place-items:center;flex-shrink:0;}
-  .stat b{display:block;font-size:1.2rem;font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1.2;font-family:'IBM Plex Sans',sans-serif;}
-  .stat span{font-size:.76rem;color:var(--muted);font-weight:500;}
-  @media(max-width:820px){.stats-bar{grid-template-columns:repeat(2,1fr);}.stat{border-bottom:1px solid var(--line);}.stat:nth-child(2n){border-right:none;}}
-  @media(max-width:460px){.stat{padding:18px 14px;gap:10px;}.stat-ic{width:32px;height:32px;}.stat b{font-size:1.02rem;}}
+/* Price filter */
+.sb-body{padding:14px 20px}
+.price-inputs{display:flex;gap:8px;margin-bottom:12px}
+.price-inp{
+  flex:1;border:1px solid var(--border);border-radius:var(--radius-xs);
+  padding:7px 10px;font-family:'Nunito',sans-serif;font-size:12px;
+  color:var(--black);outline:none;transition:border-color var(--trans);
+}
+.price-inp:focus{border-color:var(--orange)}
+.price-inp::placeholder{color:#bbb}
+.sb-btn{
+  width:100%;background:var(--black);color:#fff;border:none;
+  border-radius:var(--radius);padding:9px;font-family:'Nunito',sans-serif;
+  font-size:12px;font-weight:800;cursor:pointer;transition:background var(--trans);
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.sb-btn:hover{background:var(--orange)}
 
-  /* ---------- SECTIONS ---------- */
-  section{padding:70px 0;}
-  h2{font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.015em;line-height:1.2;margin-bottom:8px;text-align:center;}
-  h2 em{font-style:normal;color:var(--lime);}
-  .sub{color:var(--muted);font-size:.96rem;font-weight:500;max-width:560px;margin:0 auto 36px;text-align:center;}
-  .sec-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;margin-bottom:0;}
-  .link-arrow{display:inline-flex;align-items:center;gap:6px;color:var(--lime);font-weight:700;font-size:.86rem;white-space:nowrap;}
-  .link-arrow:hover{gap:9px;transition:gap .15s;}
+/* Checkboxes */
+.check-list{display:flex;flex-direction:column;gap:5px}
+.chk-row{display:flex;align-items:center;gap:8px;cursor:pointer;padding:3px 0;font-size:12px;font-weight:600;color:#555}
+.chk-row:hover{color:var(--orange)}
+.chk-row input{accent-color:var(--orange);cursor:pointer}
 
-  /* ecosystem */
-  .eco{display:flex;align-items:stretch;gap:0;margin-top:6px;}
-  .eco-card{
-    flex:1;border:1px solid var(--line);border-radius:14px;padding:22px 18px;
-    background:var(--bg-2);transition:transform .2s ease, border-color .2s ease;
-    display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;
-  }
-  .eco-card:hover{transform:translateY(-4px);border-color:var(--line-2);}
-  .eco-arrow{display:flex;align-items:center;justify-content:center;width:34px;color:var(--muted);flex-shrink:0;}
-  .eco-ic{width:38px;height:38px;border-radius:10px;background:var(--bg-3);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime);margin-bottom:16px;}
-  .eco-card h4{font-size:1.05rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--text);margin-bottom:7px;font-family:'IBM Plex Sans',sans-serif;}
-  .eco-card p{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:14px;flex:1;}
-  .eco-card .link-arrow{font-size:.78rem;}
-  @media(max-width:1020px){
-    .eco{flex-wrap:wrap;gap:14px;}
-    .eco-arrow{display:none;}
-    .eco-card{flex:1 1 220px;}
-  }
-  @media(max-width:560px){.eco-card{flex:1 1 100%;}}
+/* Tags */
+.tag-cloud{display:flex;flex-wrap:wrap;gap:6px}
+.stag{
+  padding:5px 12px;border-radius:var(--radius);border:1px solid var(--border);
+  font-size:11px;font-weight:700;color:var(--gray);cursor:pointer;
+  transition:all var(--trans);
+}
+.stag:hover,.stag.on{background:var(--orange);border-color:var(--orange);color:#fff}
 
-  /* arena + showcase */
-  .arena-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin-top:6px;align-items:start;}
-  .panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);overflow:hidden;}
-  .panel-head{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px 22px 0;}
-  .panel-head h3{font-size:1.15rem;font-family:'IBM Plex Sans',sans-serif;font-weight:800;color:var(--text);}
-  .panel-sub{padding:0 22px;font-size:.82rem;color:var(--muted);margin:6px 0 18px;text-align:center;}
+/* ─── MAIN CONTENT ───────────────────────── */
+.main-content{}
 
-  .arena-body{display:grid;grid-template-columns:1.3fr 1fr;gap:0;border-top:1px solid var(--line);}
-  .challenge{padding:22px;border-right:1px solid var(--line);text-align:center;}
-  .challenge-top{display:flex;justify-content:center;gap:12px;align-items:center;margin-bottom:14px;}
-  .badge{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 10px;border-radius:999px;font-family:'IBM Plex Mono',monospace;}
-  .badge-lime{background:rgba(204,85,0,.12);color:var(--lime);border:1px solid rgba(204,85,0,.25);}
-  .days-left{font-size:.74rem;color:var(--muted);font-weight:600;}
-  .trophy-box{
-    height:150px;border-radius:12px;background:radial-gradient(circle at 30% 30%, rgba(204,85,0,.16), var(--bg-3) 70%);
-    border:1px solid var(--line-2);display:grid;place-items:center;margin-bottom:16px;color:var(--lime);
-  }
-  .challenge h4{font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:8px;font-family:'IBM Plex Sans',sans-serif;}
-  .challenge p{font-size:.84rem;color:var(--muted);margin-bottom:16px;}
-  .tag-row{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:18px;}
-  .tag-sm{font-size:.68rem;font-weight:600;color:var(--text-2);background:var(--bg-3);border:1px solid var(--line-2);border-radius:7px;padding:4px 9px;}
-  .challenge-foot{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
-  .xp{font-size:.84rem;font-weight:700;color:var(--lime);}
-  .foot-right{display:flex;align-items:center;gap:12px;}
-  .foot-right .avatars img{width:26px;height:26px;margin-left:-8px;}
-  .foot-right span{font-size:.72rem;color:var(--muted);}
+/* Hero banner */
+.hero-banner{
+  border-radius:var(--radius-sm);overflow:hidden;margin-bottom:20px;
+  display:grid;grid-template-columns:1fr 1fr;min-height:320px;
+  position:relative;
+}
+.hero-left{
+  background:linear-gradient(135deg,#fff9f6 0%,#fdeee7 100%);
+  padding:44px 40px;display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.hero-left::before{
+  content:'🐾';position:absolute;right:-30px;bottom:-20px;
+  font-size:220px;opacity:.06;line-height:1;pointer-events:none;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(237,100,54,.1);border-radius:var(--radius);
+  padding:5px 14px;font-size:11px;font-weight:800;color:var(--orange);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;width:fit-content;
+}
+.hero-left h1{
+  font-size:clamp(22px,2.8vw,38px);font-weight:900;
+  color:var(--black);line-height:1.15;margin-bottom:12px;
+}
+.hero-left h1 em{color:var(--orange);font-style:normal}
+.hero-desc{font-size:14px;color:var(--gray);margin-bottom:24px;max-width:360px;line-height:1.7}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn-orange{
+  background:var(--orange);color:#fff;font-family:'Nunito',sans-serif;
+  font-weight:800;font-size:13px;padding:11px 24px;border-radius:var(--radius);
+  border:none;cursor:pointer;transition:all var(--trans);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.btn-orange:hover{background:var(--orange-d);transform:translateY(-1px);box-shadow:0 4px 14px rgba(237,100,54,.35)}
+.btn-black{
+  background:var(--black);color:#fff;font-family:'Nunito',sans-serif;
+  font-weight:800;font-size:13px;padding:11px 24px;border-radius:var(--radius);
+  border:none;cursor:pointer;transition:all var(--trans);
+  display:inline-flex;align-items:center;gap:7px;
+}
+.btn-black:hover{background:#333;transform:translateY(-1px)}
+.hero-right{
+  display:grid;grid-template-rows:1fr 1fr;
+}
+.hero-mini{
+  padding:24px 28px;display:flex;flex-direction:column;justify-content:flex-end;
+  position:relative;overflow:hidden;cursor:pointer;transition:filter var(--trans);
+}
+.hero-mini:hover{filter:brightness(1.04)}
+.hero-mini:first-child{background:linear-gradient(135deg,#e8f4f8,#c8e6f0)}
+.hero-mini:last-child{background:linear-gradient(135deg,#f0f8e8,#c8e8c0);border-top:1px solid #fff}
+.hero-mini-emoji{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:72px;opacity:.2;line-height:1;transition:all var(--trans)}
+.hero-mini:hover .hero-mini-emoji{opacity:.35;transform:translateY(-50%) scale(1.08)}
+.hm-tag{
+  background:rgba(0,0,0,.12);color:#fff;font-size:10px;font-weight:800;
+  padding:3px 9px;border-radius:var(--radius);display:inline-block;
+  text-transform:uppercase;letter-spacing:.04em;margin-bottom:7px;width:fit-content;
+}
+.hm-title{font-size:17px;font-weight:800;color:var(--black);margin-bottom:4px}
+.hm-sub{font-size:12px;color:var(--gray);margin-bottom:10px}
+.hm-price{font-size:15px;font-weight:800;color:var(--orange)}
 
-  .recent{padding:22px;text-align:center;}
-  .recent h5{font-size:.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;font-family:'IBM Plex Mono',monospace;}
-  .recent ul{list-style:none;display:flex;flex-direction:column;gap:13px;}
-  .recent li{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--text-2);text-align:left;}
-  .recent-ic{width:26px;height:26px;border-radius:7px;background:var(--bg-3);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime);flex-shrink:0;}
-  .recent li svg.done{margin-left:auto;color:var(--lime);flex-shrink:0;}
-  .panel-foot{border-top:1px solid var(--line);padding:16px 22px;text-align:center;}
+/* ─── SECTION HEAD ───────────────────────── */
+.sec-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);
+}
+.sec-head-left{}
+.sec-head-label{
+  font-size:11px;font-weight:800;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--orange);margin-bottom:3px;
+}
+.sec-head h2{font-size:20px;font-weight:900;color:var(--black)}
+.sec-head h2 span{color:var(--orange)}
+.sec-link{
+  font-size:12px;font-weight:700;color:var(--gray);
+  display:flex;align-items:center;gap:4px;transition:color var(--trans);
+}
+.sec-link:hover{color:var(--orange)}
 
-  .showcase-img{aspect-ratio:16/10;background:var(--bg-3);position:relative;overflow:hidden;}
-  .showcase-img img{width:100%;height:100%;object-fit:cover;}
-  .showcase-body{padding:18px 20px 20px;text-align:center;}
-  .showcase-body h4{font-size:1.02rem;font-weight:800;color:var(--text);margin-bottom:10px;font-family:'IBM Plex Sans',sans-serif;}
-  .by-row{display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .by-who{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);}
-  .by-who img{width:22px;height:22px;border-radius:50%;object-fit:cover;background:var(--bg-3);}
-  .meta-row{display:flex;gap:14px;font-size:.78rem;color:var(--muted);}
-  .meta-row span{display:flex;align-items:center;gap:5px;}
-  @media(max-width:900px){.arena-grid{grid-template-columns:1fr;}.arena-body{grid-template-columns:1fr;}.challenge{border-right:none;border-bottom:1px solid var(--line);}}
+/* ─── FILTER TABS ────────────────────────── */
+.filter-tabs{display:flex;align-items:center;gap:0;margin-bottom:20px;flex-wrap:wrap;gap:6px}
+.ftab{
+  padding:7px 18px;border-radius:var(--radius);border:1px solid var(--border);
+  font-size:12px;font-weight:700;color:var(--gray);cursor:pointer;
+  transition:all var(--trans);background:var(--white);
+}
+.ftab:hover,.ftab.on{background:var(--orange);border-color:var(--orange);color:#fff}
 
-  /* opportunities */
-  .opp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:6px;}
-  .opp-card{
-    border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--bg-2);
-    display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;transition:transform .2s ease, border-color .2s ease;
-  }
-  .opp-card .opp-top{width:100%;}
-  .opp-tags{justify-content:center;}
-  .opp-loc{justify-content:center;}
-  .opp-card:hover{transform:translateY(-4px);border-color:var(--line-2);}
-  .opp-top{display:flex;justify-content:space-between;align-items:center;}
-  .opp-arrow{width:26px;height:26px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--muted);flex-shrink:0;}
-  .opp-card h4{font-size:.94rem;font-weight:800;color:var(--text);line-height:1.35;font-family:'IBM Plex Sans',sans-serif;}
-  .opp-card p{font-size:.78rem;color:var(--muted);line-height:1.5;flex:1;}
-  .opp-budget{font-size:.82rem;font-weight:700;color:var(--lime);}
-  .opp-tags{display:flex;flex-wrap:wrap;gap:6px;}
-  .opp-loc{display:flex;align-items:center;gap:6px;font-size:.74rem;color:var(--muted);}
-  .badge-purple{background:rgba(178,140,255,.12);color:#B98CFF;border:1px solid rgba(178,140,255,.25);}
-  .badge-orange{background:rgba(255,168,90,.12);color:#FFA85A;border:1px solid rgba(255,168,90,.25);}
-  .badge-blue{background:rgba(90,170,255,.12);color:#5AAAFF;border:1px solid rgba(90,170,255,.25);}
-  @media(max-width:1020px){.opp-grid{grid-template-columns:repeat(2,1fr);}}
-  @media(max-width:560px){.opp-grid{grid-template-columns:1fr;}}
+/* ─── PRODUCT GRID ───────────────────────── */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.prod-grid.cols4{grid-template-columns:repeat(4,1fr)}
 
-  /* community */
-  .comm-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:6px;align-items:stretch;}
-  .chat-panel{display:flex;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);overflow:hidden;}
-  .chat-side{width:150px;border-right:1px solid var(--line);padding:16px 12px;flex-shrink:0;}
-  .chat-side .brand{margin-bottom:16px;}
-  .chat-side .mark{width:20px;height:20px;}
-  .chat-side .brand-name{font-size:.72rem;}
-  .chan{display:flex;flex-direction:column;gap:2px;}
-  .chan span{font-size:.76rem;color:var(--muted);padding:6px 8px;border-radius:6px;font-weight:500;}
-  .chan span.active{background:var(--bg-3);color:var(--text);font-weight:700;}
-  .chat-main{flex:1;display:flex;flex-direction:column;min-width:0;}
-  .msgs{padding:16px;display:flex;flex-direction:column;gap:14px;flex:1;}
-  .msg{display:flex;gap:10px;}
-  .msg img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg-3);}
-  .msg .who{font-size:.78rem;font-weight:700;color:var(--text);}
-  .msg .who span{font-weight:500;color:var(--muted);margin-left:6px;font-size:.7rem;}
-  .msg p{font-size:.8rem;color:var(--text-2);margin-top:2px;}
-  .online-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-top:1px solid var(--line);}
-  .online-bar .avatars img{width:22px;height:22px;margin-left:-7px;}
-  .online-bar span{font-size:.72rem;color:var(--muted);}
+/* Product Card — faithful Petio reproduction */
+.pcard{
+  background:var(--white);border-radius:var(--radius-sm);
+  border:1px solid var(--border);overflow:hidden;
+  transition:all var(--trans);cursor:pointer;position:relative;
+}
+.pcard:hover{
+  box-shadow:var(--shadow2);transform:translateY(-4px);
+  border-color:#e0e0e0;
+}
+/* Thumb */
+.pc-thumb{
+  aspect-ratio:1;background:#f9f9f9;
+  display:flex;align-items:center;justify-content:center;
+  font-size:72px;position:relative;overflow:hidden;
+}
+.pc-thumb::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(0,0,0,0);transition:background var(--trans);z-index:1;
+}
+.pcard:hover .pc-thumb::before{background:rgba(0,0,0,.04)}
 
-  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .why-card{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--bg-2);display:flex;flex-direction:column;align-items:center;text-align:center;}
-  .why-ic{width:36px;height:36px;border-radius:10px;background:var(--bg-3);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime);margin-bottom:14px;}
-  .why-card h4{font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:6px;font-family:'IBM Plex Sans',sans-serif;}
-  .why-card p{font-size:.78rem;color:var(--muted);line-height:1.5;}
-  @media(max-width:940px){.comm-grid{grid-template-columns:1fr;}}
-  @media(max-width:460px){.chat-side{display:none;}}
+/* Labels */
+.pc-label{
+  position:absolute;top:10px;left:10px;z-index:3;
+  font-size:10px;font-weight:800;padding:3px 10px;
+  border-radius:var(--radius);text-transform:uppercase;letter-spacing:.04em;
+}
+.lbl-sale{background:var(--orange);color:#fff}
+.lbl-new{background:#2ecc71;color:#fff}
+.lbl-hot{background:#e74c3c;color:#fff}
+.lbl-best{background:#3498db;color:#fff}
 
-  /* final CTA */
-  .final{background:var(--lime);color:var(--ink);border-radius:20px;padding:44px 40px;margin:0 auto;max-width:1200px;}
-  .final-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;}
-  .final h2{color:var(--ink);font-size:clamp(1.4rem,2.6vw,1.85rem);margin-bottom:4px;text-align:center;}
-  .final-steps{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;}
-  .final-step{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:700;color:rgba(10,13,11,.7);}
-  .final .btn-solid{background:var(--ink);color:var(--lime);box-shadow:none;}
-  .final .btn-solid:hover{background:#000;transform:translateY(-2px);}
-  .final-cta-col{display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .final-note{font-size:.76rem;color:rgba(10,13,11,.65);font-weight:600;}
-  @media(max-width:900px){.final{padding:32px 24px;}}
+/* Action buttons — slide up on hover */
+.pc-actions{
+  position:absolute;bottom:-50px;left:0;right:0;z-index:4;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:10px;transition:bottom var(--trans);
+}
+.pcard:hover .pc-actions{bottom:10px}
+.pa-btn{
+  height:34px;background:var(--black);color:#fff;border:none;
+  border-radius:var(--radius);font-family:'Nunito',sans-serif;
+  font-size:11px;font-weight:800;cursor:pointer;
+  display:flex;align-items:center;gap:5px;padding:0 14px;
+  transition:background var(--trans);white-space:nowrap;
+}
+.pa-btn:hover{background:var(--orange)}
+.pa-icon{
+  width:34px;height:34px;background:var(--white);border:1px solid #ddd;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:14px;cursor:pointer;transition:all var(--trans);flex-shrink:0;
+}
+.pa-icon:hover{background:var(--orange);border-color:var(--orange)}
 
-  /* footer */
-  footer{padding:64px 0 28px;}
-  .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1.3fr;gap:30px;margin-bottom:40px;text-align:center;}
-  .fgrid .brand{justify-content:center;}
-  .fbrand p{font-size:.82rem;color:var(--muted);max-width:230px;margin:14px auto 0;line-height:1.6;}
-  footer h5{color:var(--text);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
-  .fcol{display:flex;flex-direction:column;align-items:center;gap:10px;}
-  .fcol a{font-size:.84rem;color:var(--muted);}
-  .fcol a:hover{color:var(--lime);}
-  .signup{display:flex;gap:8px;margin:6px auto 0;max-width:280px;}
-  .signup input{
-    flex:1;background:var(--bg-2);border:1px solid var(--line-2);border-radius:9px;
-    padding:11px 13px;color:var(--text);font-size:.82rem;font-family:inherit;min-width:0;
-  }
-  .signup input::placeholder{color:var(--muted);}
-  .signup button{
-    width:42px;height:42px;border-radius:9px;background:var(--lime);color:var(--ink);
-    display:grid;place-items:center;border:none;cursor:pointer;flex-shrink:0;
-  }
-  .fbot{
-    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
-    border-top:1px solid var(--line);padding-top:22px;font-size:.8rem;color:var(--muted);
-  }
-  .fsocial{display:flex;gap:14px;}
-  .fsocial a{color:var(--muted);}
-  .fsocial a:hover{color:var(--lime);}
-  @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr;}}
-  @media(max-width:520px){.fgrid{grid-template-columns:1fr;}}
+/* Wishlist top-right */
+.pc-wish{
+  position:absolute;top:10px;right:10px;z-index:3;
+  width:30px;height:30px;background:rgba(255,255,255,.9);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:13px;cursor:pointer;border:1px solid #eee;
+  transition:all var(--trans);opacity:0;
+}
+.pcard:hover .pc-wish{opacity:1}
+.pc-wish:hover{background:var(--orange);border-color:var(--orange)}
 
-  /* ---------- MEET YOUR TUTORS ---------- */
-  .tutors-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;margin-top:36px;}
-  .tutor-frame{
-    position:relative;aspect-ratio:9/10;border-radius:var(--radius);overflow:hidden;
-    border:1px solid var(--line);background:var(--bg-2);box-shadow:var(--shadow-lg);
-  }
-  .tutor-shot{width:100%;height:100%;object-fit:cover;transition:opacity .45s ease;}
-  .tutor-caption{
-    position:absolute;left:0;right:0;bottom:0;padding:22px 22px 20px;
-    background:linear-gradient(to top, rgba(10,13,11,.92), rgba(10,13,11,.05));
-  }
-  .tutor-idx{display:block;color:var(--lime);font-size:.7rem;font-weight:700;letter-spacing:.08em;margin-bottom:6px;}
-  .tutor-socials{position:absolute;right:16px;bottom:16px;display:flex;gap:8px;z-index:2;}
-  .tutor-social-btn{
-    width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
-    background:rgba(10,13,11,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);
-    color:var(--text);transition:background .2s ease,border-color .2s ease,transform .2s ease,color .2s ease;
-  }
-  .tutor-social-btn:hover{background:var(--lime);border-color:var(--lime);color:var(--ink);transform:translateY(-2px);}
-  .tutor-social-btn i{width:16px;height:16px;}
-  .tutor-caption h4{font-family:'Lora',Georgia,serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:2px;}
-  .tutor-caption span{font-size:.8rem;color:var(--muted);}
+/* Card body */
+.pc-body{padding:12px 14px 14px}
+.pc-cat{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.pc-name{
+  font-size:14px;font-weight:700;color:var(--black);
+  margin-bottom:6px;line-height:1.35;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+  transition:color var(--trans);
+}
+.pcard:hover .pc-name{color:var(--orange)}
+.pc-stars{color:#ffc107;font-size:11px;letter-spacing:1px;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.pc-rc{font-size:11px;color:var(--gray)}
+.pc-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:0}
+.pc-price{font-size:17px;font-weight:900;color:var(--black)}
+.pc-del{font-size:12px;color:var(--gray);text-decoration:line-through}
+.pc-pct{
+  font-size:10px;font-weight:800;color:var(--orange);
+  background:rgba(237,100,54,.1);padding:2px 6px;border-radius:var(--radius);
+}
 
-  .tutor-list{display:flex;flex-direction:column;gap:10px;}
-  .tutor-item{
-    display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:12px;
-    border:1px solid var(--line);background:var(--bg-2);cursor:pointer;
-    transition:border-color .2s ease, background .2s ease;
-  }
-  .tutor-item:hover{border-color:var(--line-2);}
-  .tutor-item.active{border-color:var(--lime);background:rgba(204,85,0,.06);}
-  .tutor-item-num{font-size:.78rem;color:var(--muted);font-weight:700;flex-shrink:0;}
-  .tutor-item.active .tutor-item-num{color:var(--lime);}
-  .tutor-item b{display:block;font-size:.94rem;font-weight:800;color:var(--text);font-family:'IBM Plex Sans',sans-serif;}
-  .tutor-item span span{font-size:.78rem;color:var(--muted);}
-  @media(max-width:820px){
-    .tutors-grid{grid-template-columns:1fr;}
-    .tutor-frame{aspect-ratio:4/3;}
-  }
+/* ─── BANNER GRID ────────────────────────── */
+.banner-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:24px}
+.banner-card{
+  border-radius:var(--radius-sm);padding:24px 20px;
+  position:relative;overflow:hidden;cursor:pointer;
+  min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;
+  transition:transform var(--trans);
+}
+.banner-card:hover{transform:scale(1.02)}
+.bc-emoji{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:70px;opacity:.18;transition:all var(--trans)}
+.banner-card:hover .bc-emoji{opacity:.28;transform:translateY(-50%) scale(1.06)}
+.bc-tag{
+  font-size:10px;font-weight:800;padding:3px 9px;border-radius:var(--radius);
+  display:inline-block;text-transform:uppercase;letter-spacing:.04em;
+  margin-bottom:7px;width:fit-content;color:#fff;background:rgba(0,0,0,.25);
+}
+.bc-title{font-size:16px;font-weight:800;color:var(--black);margin-bottom:3px}
+.bc-price{font-size:13px;font-weight:700;color:var(--orange)}
 
-  /* reveal */
-  .js .rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease;}
-  .js .rv.in{opacity:1;transform:none;}
-  .rv.in{opacity:1;transform:none;}
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none !important;transition:none !important;}
-    .rv,.js .rv{opacity:1;transform:none;}
-    html{scroll-behavior:auto;}
-  }
+/* ─── DEALS SECTION ──────────────────────── */
+.deals-wrap{
+  background:var(--white);border-radius:var(--radius-sm);
+  border:1px solid var(--border);overflow:hidden;margin-bottom:24px;
+}
+.deals-header{
+  background:var(--black);padding:18px 24px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.deals-title{font-size:18px;font-weight:900;color:#fff}
+.deals-title span{color:var(--orange)}
+.deals-countdown{display:flex;align-items:center;gap:8px}
+.deal-cbox{
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  border-radius:var(--radius-xs);width:50px;text-align:center;padding:7px 0;
+}
+.deal-cnum{font-size:20px;font-weight:900;color:#fff;display:block;line-height:1}
+.deal-clbl{font-size:9px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em}
+.deal-sep{font-size:18px;color:rgba(255,255,255,.4);font-weight:900}
+.deals-body{padding:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.deal-item{
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  overflow:hidden;cursor:pointer;transition:all var(--trans);
+}
+.deal-item:hover{border-color:var(--orange);box-shadow:var(--shadow)}
+.di-img{height:120px;background:#f9f9f9;display:flex;align-items:center;justify-content:center;font-size:52px}
+.di-body{padding:10px 12px}
+.di-name{font-size:12px;font-weight:700;color:var(--black);margin-bottom:6px;line-height:1.3}
+.di-prices{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.di-now{font-size:14px;font-weight:900;color:var(--orange)}
+.di-was{font-size:11px;color:var(--gray);text-decoration:line-through}
+.di-save{font-size:10px;font-weight:800;background:rgba(237,100,54,.1);color:var(--orange);padding:2px 6px;border-radius:var(--radius)}
+
+/* ─── PET LISTINGS ───────────────────────── */
+.pet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.pet-card{
+  background:var(--white);border-radius:var(--radius-sm);
+  border:1px solid var(--border);overflow:hidden;
+  cursor:pointer;transition:all var(--trans);
+}
+.pet-card:hover{box-shadow:var(--shadow2);transform:translateY(-3px)}
+.pt-img{
+  aspect-ratio:1.1;display:flex;align-items:center;justify-content:center;
+  font-size:60px;position:relative;
+}
+.pt-badge{
+  position:absolute;top:9px;left:9px;font-size:10px;font-weight:800;
+  padding:3px 9px;border-radius:var(--radius);color:#fff;text-transform:uppercase;
+}
+.pt-wish{
+  position:absolute;top:9px;right:9px;
+  width:28px;height:28px;background:rgba(255,255,255,.88);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:13px;cursor:pointer;border:none;opacity:0;transition:all var(--trans);
+}
+.pet-card:hover .pt-wish{opacity:1}
+.pt-body{padding:12px 14px 16px}
+.pt-breed{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:3px}
+.pt-name{font-size:15px;font-weight:900;color:var(--black);margin-bottom:7px;transition:color var(--trans)}
+.pet-card:hover .pt-name{color:var(--orange)}
+.pt-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.pt-tag{font-size:10px;padding:3px 9px;border-radius:var(--radius);background:var(--light-gray);color:var(--gray);font-weight:600;border:1px solid var(--border)}
+.pt-loc{font-size:11px;color:var(--gray);margin-bottom:12px;display:flex;align-items:center;gap:4px}
+.pt-footer{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border)}
+.pt-price{font-size:17px;font-weight:900;color:var(--black)}
+.pt-cta{
+  background:var(--orange);color:#fff;border:none;
+  border-radius:var(--radius);padding:7px 14px;
+  font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;
+  cursor:pointer;transition:background var(--trans);
+}
+.pt-cta:hover{background:var(--orange-d)}
+
+/* ─── VET CARDS ──────────────────────────── */
+.vet-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.vet-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:22px;
+  cursor:pointer;transition:all var(--trans);
+}
+.vet-card:hover{box-shadow:var(--shadow2);border-color:var(--orange)}
+.vc-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.vc-avatar{
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,#fdeee7,#fbd4c3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;flex-shrink:0;border:2px solid var(--border);
+}
+.vc-name{font-size:15px;font-weight:800;color:var(--black);margin-bottom:2px}
+.vc-spec{font-size:12px;color:var(--gray)}
+.vc-stars{color:#ffc107;font-size:12px;margin-bottom:3px}
+.vc-reviews{font-size:11px;color:var(--gray)}
+.vc-chips{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.vc-chip{font-size:10px;padding:3px 9px;border-radius:var(--radius);background:rgba(237,100,54,.1);color:var(--orange);font-weight:700}
+.vc-loc{font-size:12px;color:var(--gray);margin-bottom:14px;display:flex;align-items:center;gap:4px}
+.vc-footer{display:flex;gap:8px}
+.vc-book{
+  flex:1;background:var(--black);color:#fff;border:none;
+  border-radius:var(--radius);padding:9px;
+  font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;
+  cursor:pointer;transition:background var(--trans);
+}
+.vc-book:hover{background:var(--orange)}
+.vc-call{
+  width:36px;height:36px;border-radius:50%;border:1px solid var(--border);
+  background:var(--white);display:flex;align-items:center;justify-content:center;
+  font-size:15px;cursor:pointer;transition:all var(--trans);flex-shrink:0;
+}
+.vc-call:hover{background:var(--orange);border-color:var(--orange)}
+
+/* ─── BREEDER CARDS ──────────────────────── */
+.breeder-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.breeder-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:20px;
+  text-align:center;cursor:pointer;transition:all var(--trans);
+}
+.breeder-card:hover{box-shadow:var(--shadow2);transform:translateY(-3px);border-color:var(--orange)}
+.br-avatar{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--light-gray);display:flex;align-items:center;
+  justify-content:center;font-size:28px;margin:0 auto 12px;
+  border:2px solid var(--border);
+}
+.br-name{font-size:14px;font-weight:800;margin-bottom:3px}
+.br-spec{font-size:11px;color:var(--gray);margin-bottom:8px}
+.br-verified{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  font-size:11px;font-weight:700;color:#2ecc71;margin-bottom:12px;
+}
+.br-stats{
+  display:flex;justify-content:center;gap:20px;
+  padding:10px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  margin-bottom:12px;
+}
+.bstat-n{font-size:15px;font-weight:900;color:var(--black);display:block}
+.bstat-l{font-size:10px;color:var(--gray)}
+.br-loc{font-size:11px;color:var(--gray);margin-bottom:13px;display:flex;align-items:center;justify-content:center;gap:4px}
+.br-btn{
+  width:100%;background:transparent;border:1px solid var(--border);
+  border-radius:var(--radius);padding:8px;
+  font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;
+  cursor:pointer;transition:all var(--trans);color:var(--black);
+}
+.br-btn:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+
+/* ─── BLOG ───────────────────────────────── */
+.blog-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:16px}
+.blog-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius-sm);overflow:hidden;
+  cursor:pointer;transition:all var(--trans);
+}
+.blog-card:hover{box-shadow:var(--shadow2);transform:translateY(-3px)}
+.blog-img{height:160px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative}
+.blog-img.sm{height:120px}
+.blog-cat-pill{
+  position:absolute;bottom:10px;left:12px;
+  background:var(--orange);color:#fff;font-size:10px;font-weight:800;
+  padding:3px 10px;border-radius:var(--radius);text-transform:uppercase;letter-spacing:.04em;
+}
+.blog-body{padding:14px}
+.blog-title{font-size:14px;font-weight:800;color:var(--black);line-height:1.4;margin-bottom:7px;transition:color var(--trans)}
+.blog-card:hover .blog-title{color:var(--orange)}
+.blog-meta{font-size:11px;color:var(--gray)}
+.blog-read{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:700;color:var(--orange);margin-top:8px;
+}
+
+/* ─── NEWSLETTER ─────────────────────────── */
+.newsletter{
+  background:var(--black);border-radius:var(--radius-sm);
+  padding:44px;text-align:center;margin:24px 0;
+  position:relative;overflow:hidden;
+}
+.newsletter::before{
+  content:'🐾';position:absolute;right:-30px;bottom:-30px;
+  font-size:260px;opacity:.04;line-height:1;
+}
+.nl-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);margin-bottom:10px}
+.nl-title{font-size:clamp(20px,2.5vw,30px);font-weight:900;color:#fff;margin-bottom:8px}
+.nl-desc{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:28px;max-width:420px;margin-left:auto;margin-right:auto}
+.nl-form{display:flex;gap:8px;max-width:440px;margin:0 auto}
+.nl-input{
+  flex:1;border:none;border-radius:var(--radius);padding:12px 18px;
+  font-family:'Nunito',sans-serif;font-size:14px;color:var(--black);
+  background:rgba(255,255,255,.95);outline:none;
+}
+.nl-input::placeholder{color:#aaa}
+.nl-btn{
+  background:var(--orange);color:#fff;border:none;border-radius:var(--radius);
+  padding:12px 22px;font-family:'Nunito',sans-serif;
+  font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;
+  transition:background var(--trans);
+}
+.nl-btn:hover{background:var(--orange-d)}
+
+/* ─── BRANDS ─────────────────────────────── */
+.brands-row{display:flex;align-items:center;gap:12px;overflow-x:auto;padding:4px 0}
+.brands-row::-webkit-scrollbar{display:none}
+.brand-chip{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);padding:10px 22px;
+  font-size:12px;font-weight:800;color:var(--gray);
+  white-space:nowrap;cursor:pointer;flex-shrink:0;transition:all var(--trans);
+}
+.brand-chip:hover{border-color:var(--orange);color:var(--orange)}
+.brand-chip.ft{border-color:var(--orange);color:var(--orange);background:rgba(237,100,54,.06)}
+
+/* ─── TRUST STRIP ────────────────────────── */
+.trust-strip{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:20px;
+  display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  margin-bottom:24px;
+}
+.trust-item{display:flex;align-items:center;gap:12px}
+.trust-ico{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(237,100,54,.1);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;
+}
+.trust-label{font-size:13px;font-weight:800;color:var(--black);display:block}
+.trust-sub{font-size:11px;color:var(--gray)}
+
+/* ─── TOOLBAR ────────────────────────────── */
+.toolbar{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:10px 16px;
+  margin-bottom:16px;flex-wrap:wrap;gap:8px;
+}
+.tb-result{font-size:13px;color:var(--gray);font-weight:600}
+.tb-result strong{color:var(--black)}
+.af-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(237,100,54,.1);border:1px solid rgba(237,100,54,.3);
+  color:var(--orange);padding:4px 10px;border-radius:var(--radius);
+  font-size:11px;font-weight:700;
+}
+.af-x{background:none;border:none;cursor:pointer;color:var(--orange);font-size:12px;padding:0}
+.sort-sel{
+  border:1px solid var(--border);border-radius:var(--radius);
+  padding:6px 12px;font-family:'Nunito',sans-serif;font-size:12px;
+  font-weight:700;color:var(--black);outline:none;cursor:pointer;background:var(--white);
+}
+
+/* ─── PAGINATION ─────────────────────────── */
+.pager{display:flex;justify-content:center;gap:5px;padding:24px 0 8px}
+.pgb{
+  width:36px;height:36px;border-radius:var(--radius);
+  border:1px solid var(--border);background:var(--white);
+  font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  color:var(--gray);transition:all var(--trans);
+}
+.pgb:hover,.pgb.on{background:var(--orange);border-color:var(--orange);color:#fff}
+
+/* ─── SECTION WRAPPER ────────────────────── */
+.sec{margin-bottom:28px}
+
+/* ─── FOOTER ─────────────────────────────── */
+footer{background:var(--dark);color:rgba(255,255,255,.6);padding:48px 0 0;margin-top:32px}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 15px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:36px;padding-bottom:36px;border-bottom:1px solid rgba(255,255,255,.08)}
+.fb-desc{font-size:13px;line-height:1.8;max-width:240px;margin-top:12px;margin-bottom:16px}
+.fb-social{display:flex;gap:7px}
+.fsoc{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:all var(--trans)}
+.fsoc:hover{background:var(--orange);border-color:var(--orange)}
+.fc h4{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#fff;margin-bottom:14px}
+.fc a{display:block;font-size:13px;color:rgba(255,255,255,.55);padding:3px 0;transition:color var(--trans)}
+.fc a:hover{color:var(--orange)}
+.footer-bottom{max-width:1200px;margin:0 auto;padding:16px 15px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12px;color:rgba(255,255,255,.4)}
+.footer-bottom a{color:rgba(255,255,255,.4);margin-left:14px}
+.footer-bottom a:hover{color:#fff}
+.pay-row{display:flex;gap:7px}
+.pay-badge{background:rgba(255,255,255,.08);border-radius:var(--radius-xs);padding:4px 10px;font-size:10px;font-weight:800;color:rgba(255,255,255,.6);letter-spacing:.03em}
+
+/* ─── MODAL ──────────────────────────────── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-bg.open{display:flex}
+.modal{background:var(--white);border-radius:var(--radius-sm);max-width:560px;width:100%;max-height:90vh;overflow-y:auto;animation:popUp .22s ease}
+@keyframes popUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.mhd{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--border)}
+.mhd-title{font-size:17px;font-weight:800;color:var(--black)}
+.m-close{background:var(--light-gray);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background var(--trans)}
+.m-close:hover{background:var(--orange);color:#fff}
+.mbd{padding:20px}
+.m-img{height:180px;background:#f9f9f9;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:90px;margin-bottom:18px}
+.m-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.mf{background:var(--light-gray);border-radius:var(--radius-xs);padding:10px 14px}
+.mfl{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);display:block;margin-bottom:3px}
+.mfv{font-size:13px;font-weight:700;color:var(--black)}
+.m-price{font-size:26px;font-weight:900;color:var(--black);margin-bottom:4px}
+.m-orig{font-size:13px;color:var(--gray);text-decoration:line-through;margin-bottom:14px}
+.m-actions{display:flex;gap:10px}
+.m-actions .btn-orange,.m-actions .btn-black{flex:1;justify-content:center}
+
+/* ─── CART DRAWER ────────────────────────── */
+.drawer-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:400;
+  opacity:0;pointer-events:none;transition:opacity var(--trans);
+}
+.drawer-overlay.open{opacity:1;pointer-events:all}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;width:380px;max-width:100vw;
+  background:var(--white);z-index:401;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);
+  box-shadow:-4px 0 32px rgba(0,0,0,.14);
+}
+.drawer.open{transform:translateX(0)}
+.drawer-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 20px;border-bottom:1px solid var(--border);flex-shrink:0;
+}
+.drawer-title{font-size:17px;font-weight:900;color:var(--black);display:flex;align-items:center;gap:8px}
+.drawer-count{
+  background:var(--orange);color:#fff;font-size:11px;font-weight:800;
+  width:22px;height:22px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.drawer-close{
+  background:var(--light-gray);border:none;border-radius:50%;
+  width:32px;height:32px;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background var(--trans);
+}
+.drawer-close:hover{background:var(--orange);color:#fff}
+.drawer-body{flex:1;overflow-y:auto;padding:16px 20px}
+.drawer-body::-webkit-scrollbar{width:4px}
+.drawer-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.drawer-empty{
+  text-align:center;padding:60px 20px;color:var(--gray);
+}
+.drawer-empty .de-ico{font-size:56px;margin-bottom:14px;opacity:.35}
+.drawer-empty p{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--black)}
+.drawer-empty span{font-size:12px}
+/* Cart item */
+.cart-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 0;border-bottom:1px solid var(--border);
+  position:relative;
+}
+.cart-item:last-child{border-bottom:none}
+.ci-img{
+  width:64px;height:64px;background:var(--light-gray);
+  border-radius:var(--radius-xs);display:flex;align-items:center;
+  justify-content:center;font-size:30px;flex-shrink:0;
+}
+.ci-info{flex:1;min-width:0}
+.ci-cat{font-size:10px;color:var(--gray);font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.ci-name{font-size:13px;font-weight:800;color:var(--black);margin-bottom:5px;line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-price{font-size:14px;font-weight:900;color:var(--orange)}
+.ci-qty{display:flex;align-items:center;gap:6px;margin-top:6px}
+.qty-btn{
+  width:24px;height:24px;border-radius:50%;border:1px solid var(--border);
+  background:var(--white);font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all var(--trans);line-height:1;
+}
+.qty-btn:hover{background:var(--orange);border-color:var(--orange);color:#fff}
+.qty-val{font-size:13px;font-weight:800;color:var(--black);min-width:16px;text-align:center}
+.ci-remove{
+  position:absolute;top:14px;right:0;background:none;border:none;
+  color:#ccc;font-size:16px;cursor:pointer;transition:color var(--trans);
+  line-height:1;
+}
+.ci-remove:hover{color:var(--orange)}
+/* Drawer footer */
+.drawer-footer{
+  border-top:1px solid var(--border);padding:16px 20px;flex-shrink:0;
+  background:var(--white);
+}
+.drawer-subtotal{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:6px;
+}
+.dst-label{font-size:13px;color:var(--gray);font-weight:700}
+.dst-val{font-size:18px;font-weight:900;color:var(--black)}
+.drawer-shipping{font-size:11px;color:var(--gray);text-align:center;margin-bottom:14px}
+.drawer-shipping span{color:var(--orange);font-weight:700}
+.drawer-checkout{
+  width:100%;background:var(--orange);color:#fff;border:none;
+  border-radius:var(--radius);padding:13px;
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;
+  cursor:pointer;transition:background var(--trans);margin-bottom:8px;
+}
+.drawer-checkout:hover{background:var(--orange-d)}
+.drawer-continue{
+  width:100%;background:transparent;color:var(--black);border:1px solid var(--border);
+  border-radius:var(--radius);padding:10px;
+  font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all var(--trans);
+}
+.drawer-continue:hover{border-color:var(--black);background:var(--light-gray)}
+/* Wishlist item (reuse most of cart-item) */
+.wi-item{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 0;border-bottom:1px solid var(--border);position:relative;
+}
+.wi-item:last-child{border-bottom:none}
+
+/* ─── CHECKOUT MODAL ─────────────────────── */
+.co-bg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:600;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.co-bg.open{display:flex}
+.co-modal{background:var(--white);border-radius:var(--radius-sm);width:100%;max-width:560px;max-height:92vh;overflow-y:auto;animation:popUp .25s ease;display:flex;flex-direction:column}
+.co-modal::-webkit-scrollbar{width:4px}
+.co-modal::-webkit-scrollbar-thumb{background:var(--border)}
+
+/* Header */
+.co-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border);flex-shrink:0}
+.co-hd-title{font-size:17px;font-weight:900;color:var(--black);display:flex;align-items:center;gap:8px}
+.co-close{background:var(--light-gray);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background var(--trans)}
+.co-close:hover{background:var(--orange);color:#fff}
+
+/* Steps indicator */
+.co-steps{display:flex;align-items:center;padding:16px 22px;border-bottom:1px solid var(--border);gap:0;flex-shrink:0}
+.co-step{display:flex;align-items:center;gap:7px;flex:1}
+.co-step-num{width:26px;height:26px;border-radius:50%;border:2px solid var(--border);background:var(--white);font-size:11px;font-weight:900;color:var(--gray);display:flex;align-items:center;justify-content:center;transition:all var(--trans);flex-shrink:0}
+.co-step-label{font-size:12px;font-weight:700;color:var(--gray);transition:color var(--trans)}
+.co-step.active .co-step-num{background:var(--orange);border-color:var(--orange);color:#fff}
+.co-step.active .co-step-label{color:var(--black)}
+.co-step.done .co-step-num{background:var(--black);border-color:var(--black);color:#fff}
+.co-step.done .co-step-label{color:var(--black)}
+.co-step-line{flex:1;height:2px;background:var(--border);margin:0 8px;transition:background var(--trans)}
+.co-step.done+.co-step-line,.co-step-line.done{background:var(--black)}
+
+/* Body */
+.co-body{padding:22px;flex:1}
+.co-section{display:none}
+.co-section.active{display:block}
+
+/* Order summary in checkout */
+.co-summary{background:var(--light-gray);border-radius:var(--radius-sm);padding:14px;margin-bottom:20px}
+.co-sum-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:10px}
+.co-sum-items{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.co-sum-item{display:flex;align-items:center;justify-content:space-between;font-size:13px}
+.co-sum-item-left{display:flex;align-items:center;gap:8px}
+.co-sum-emoji{font-size:18px}
+.co-sum-name{font-weight:600;color:var(--black)}
+.co-sum-qty{color:var(--gray);font-size:11px}
+.co-sum-price{font-weight:800;color:var(--black)}
+.co-sum-divider{height:1px;background:var(--border);margin:8px 0}
+.co-sum-total{display:flex;justify-content:space-between;font-size:15px;font-weight:900;color:var(--black)}
+
+/* Form fields */
+.co-form{display:flex;flex-direction:column;gap:14px}
+.co-field{display:flex;flex-direction:column;gap:5px}
+.co-field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.co-label{font-size:12px;font-weight:800;color:var(--black);text-transform:uppercase;letter-spacing:.05em}
+.co-label span{color:var(--orange)}
+.co-input{border:1.5px solid var(--border);border-radius:var(--radius-xs);padding:11px 14px;font-family:'Nunito',sans-serif;font-size:14px;color:var(--black);outline:none;transition:all var(--trans);background:var(--white)}
+.co-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(237,100,54,.1)}
+.co-input::placeholder{color:#bbb}
+.co-input.error{border-color:#e74c3c;background:#fff5f5}
+.co-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23868686' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer}
+.co-err{font-size:11px;color:#e74c3c;font-weight:700;display:none}
+.co-err.show{display:block}
+
+/* Payment step */
+.co-pay-info{background:linear-gradient(135deg,#fff8f5,#fdeee7);border:1px solid rgba(237,100,54,.2);border-radius:var(--radius-sm);padding:16px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px}
+.co-pay-ico{font-size:22px;flex-shrink:0}
+.co-pay-text h4{font-size:14px;font-weight:800;color:var(--black);margin-bottom:3px}
+.co-pay-text p{font-size:12px;color:var(--gray);line-height:1.6}
+.co-pay-secure{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--gray);font-weight:700;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.co-test-banner{background:#e8f4fd;border:1px solid #bee3f8;border-radius:var(--radius-xs);padding:10px 14px;font-size:12px;font-weight:700;color:#2b6cb0;margin-bottom:16px;display:flex;align-items:center;gap:7px}
+
+/* Success screen */
+.co-success{text-align:center;padding:20px 0}
+.co-success-ico{font-size:72px;margin-bottom:16px;animation:bounce .6s ease}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.co-success h3{font-size:22px;font-weight:900;color:var(--black);margin-bottom:8px}
+.co-success p{font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:20px}
+.co-success-ref{background:var(--light-gray);border-radius:var(--radius-xs);padding:12px 16px;font-size:13px;font-weight:700;color:var(--black);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+.co-success-steps{text-align:left;background:var(--light-gray);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:20px}
+.co-success-steps h4{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--gray);margin-bottom:10px}
+.co-ss-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--black);padding:5px 0}
+.co-ss-dot{width:20px;height:20px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px}
+
+/* Footer */
+.co-footer{border-top:1px solid var(--border);padding:16px 22px;display:flex;gap:10px;flex-shrink:0;background:var(--white)}
+.co-btn-back{flex:0 0 auto;background:transparent;border:1.5px solid var(--border);border-radius:var(--radius);padding:11px 20px;font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;cursor:pointer;color:var(--black);transition:all var(--trans)}
+.co-btn-back:hover{border-color:var(--black)}
+.co-btn-next{flex:1;background:var(--orange);color:#fff;border:none;border-radius:var(--radius);padding:13px;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:background var(--trans);display:flex;align-items:center;justify-content:center;gap:8px}
+.co-btn-next:hover{background:var(--orange-d)}
+.co-btn-next:disabled{background:#ccc;cursor:not-allowed}
+.co-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.co-spinner.show{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── RESPONSIVE ─────────────────────────── */
+@media(max-width:1024px){.content-grid{grid-template-columns:200px 1fr}.breeder-grid{grid-template-columns:repeat(2,1fr)}.footer-inner{grid-template-columns:1fr 1fr}}
+@media(max-width:768px){.content-grid{grid-template-columns:1fr}.sidebar{display:none}.hero-banner{grid-template-columns:1fr;min-height:auto}.hero-right{display:none}.vet-grid{grid-template-columns:1fr 1fr}.blog-grid{grid-template-columns:1fr}.banner-grid{grid-template-columns:1fr 1fr}.trust-strip{grid-template-columns:1fr 1fr}.footer-inner{grid-template-columns:1fr}}
+@media(max-width:480px){.hero-banner{display:block}.banner-grid{grid-template-columns:1fr}.trust-strip{grid-template-columns:1fr}.vet-grid{grid-template-columns:1fr}.breeder-grid{grid-template-columns:1fr}.prod-grid{grid-template-columns:1fr 1fr}.pet-grid{grid-template-columns:1fr 1fr}.header-icons .hico-label{display:none}.deals-body{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
-<header>
-  <div class="wrap nav">
-    <a href="#" class="brand">
-      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
-        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
-      </svg>
-      <span class="brand-name">AUTOMATE NAIJA</span>
-    </a>
-
-    <nav class="nav-links">
-      <a href="#" class="active">Home</a>
-      <a href="#ecosystem">Learn</a>
-      <a href="#arena">Build</a>
-      <a href="#community">Community</a>
-      <a href="#opportunities">Opportunities</a>
-      <a href="#faq">About</a>
-    </nav>
-
-    <div class="nav-act">
-      <a href="#" id="loginTop" class="btn btn-ghost">Log in</a>
-      <a href="#pricing" class="btn btn-solid">Join Automate Naija</a>
-      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
-        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
-      </button>
+<!-- Topbar -->
+<div id="topbar">
+  <div class="topbar-inner">
+    <div class="tb-left">
+      <div class="tb-item"><i>📍</i><span>Lagos, Nigeria</span></div>
+      <div class="tb-item"><i>📞</i><span>0800-PUPPY-NG</span></div>
+      <div class="tb-item"><i>✉️</i><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7d15181111123d0d080d0d040d111c1e1853131a">[email&#160;protected]</a></span></div>
+    </div>
+    <div class="tb-right">
+      <a href="#">Sign In</a>
+      <div class="tb-sep"></div>
+      <a href="#">Register</a>
+      <div class="tb-sep"></div>
+      <a href="#">Track Order</a>
     </div>
   </div>
+</div>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#ecosystem">Learn</a>
-    <a href="#arena">Build</a>
-    <a href="#community">Community</a>
-    <a href="#opportunities">Opportunities</a>
-    <a href="#faq">About</a>
-    <a href="#" id="loginMob" class="btn btn-line">Log in</a>
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🐾</div>
+      <div>
+        <div class="logo-name">Puppy<span>Place</span></div>
+        <div class="logo-tag">.ng — Nigeria's Pet Shop</div>
+      </div>
+    </a>
+    <div class="header-search">
+      <select>
+        <option>All Categories</option>
+        <option>Dog Food</option>
+        <option>Cat Food</option>
+        <option>Toys</option>
+        <option>Grooming</option>
+        <option>Live Pets</option>
+      </select>
+      <input id="sInput" type="text" placeholder="Search products, pets, vets…" oninput="liveSearch(this.value)"/>
+      <button class="search-submit">🔍</button>
+    </div>
+    <div class="header-icons">
+      <div class="hico" onclick="openWishlist()">
+        <div class="hico-icon">❤️<span class="hico-badge" id="wBadge">0</span></div>
+        <div class="hico-label">Wishlist</div>
+      </div>
+      <div class="hico" onclick="openCart()">
+        <div class="hico-icon">🛒<span class="hico-badge" id="cBadge">0</span></div>
+        <div class="hico-label">Cart</div>
+      </div>
+      <button class="header-cta" onclick="window.location.href='account.html'">👤 My Account</button>
+      <button class="header-cta" style="margin-left:4px" onclick="alert('Seller listing coming soon!')">List / Sell</button>
+    </div>
   </div>
 </header>
 
-<!-- ============ HERO ============ -->
-<div class="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://www.pexels.com/download/video/9365671/" type="video/mp4">
-  </video>
-  <div class="hero-video-overlay"></div>
-  <div class="wrap hero-grid">
-    <div>
-      <span class="pill rv">The #1 Automation Builder Hub in Nigeria</span>
-      <h1 class="rv">Build the future.<br>One <em><span class="word-flip"><span id="heroWord">workflow</span><span class="cursor">|</span></span></em> at a time.</h1>
-      <p class="lede rv">Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.</p>
+<!-- Main Nav -->
+<nav class="main-nav">
+  <div class="nav-inner wrap" style="max-width:1200px;margin:0 auto;padding:0 15px">
+    <a class="nav-link on" href="#">🏠 Home</a>
+    <a class="nav-link" href="#products" onclick="setNav(this)">🛍️ Shop All</a>
+    <a class="nav-link" href="#" onclick="setNav(this)">🥩 Food &amp; Treats</a>
+    <a class="nav-link" href="#" onclick="setNav(this)">🧸 Toys</a>
+    <a class="nav-link" href="#" onclick="setNav(this)">🛁 Grooming</a>
+    <a class="nav-link" href="#" onclick="setNav(this)">🏠 Housing</a>
+    <a class="nav-link" href="#" onclick="setNav(this)">💊 Health <span class="nav-badge">New</span></a>
+    <a class="nav-link" href="#" onclick="setNav(this)">👗 Clothing</a>
+    <div class="nav-sep"></div>
+    <a class="nav-link" href="#pets" onclick="setNav(this)">🐶 Adopt a Pet</a>
+    <a class="nav-link" href="#vets" onclick="setNav(this)">🏥 Vets</a>
+    <a class="nav-link" href="#breeders" onclick="setNav(this)">🤝 Breeders</a>
+    <a class="nav-link" href="#blog" onclick="setNav(this)">📖 Blog</a>
+  </div>
+</nav>
 
-      <div class="hero-cta rv">
-        <a href="#pricing" class="btn btn-solid btn-lg">Start Building <i data-lucide="arrow-right" class="i"></i></a>
-        <a href="#community" class="btn btn-line btn-lg">Explore Community</a>
+<!-- Page -->
+<div class="page-wrap">
+  <div class="content-grid">
+
+    <!-- ═══ SIDEBAR ═══════════════════════════ -->
+    <aside class="sidebar">
+
+      <!-- Category Menu -->
+      <div class="sidebar-widget">
+        <div class="cat-menu-header">
+          <div class="cat-menu-bars">
+            <div class="cat-bar"></div>
+            <div class="cat-bar"></div>
+            <div class="cat-bar"></div>
+          </div>
+          <span class="cat-menu-title">Browse Categories</span>
+        </div>
+        <ul class="cat-menu-list" id="catMenu">
+          <li class="cat-menu-item on" onclick="filterCat(this,'All')"><div class="cat-menu-item-left"><span class="cat-ico">🐾</span><span class="cat-menu-item-name">All Products</span></div><span class="cat-count-badge">8.4k</span></li>
+          <li class="cat-menu-item" onclick="filterCat(this,'Food')"><div class="cat-menu-item-left"><span class="cat-ico">🥩</span><span class="cat-menu-item-name">Food &amp; Treats</span></div><span class="cat-count-badge">2.4k</span></li>
+          <li class="cat-menu-item" onclick="filterCat(this,'Toy')"><div class="cat-menu-item-left"><span class="cat-ico">🧸</span><span class="cat-menu-item-name">Toys &amp; Play</span></div><span class="cat-count-badge">980</span></li>
+          <li class="cat-menu-item" onclick="filterCat(this,'Grooming')"><div class="cat-menu-item-left"><span class="cat-ico">🛁</span><span class="cat-menu-item-name">Grooming</span></div><span class="cat-count-badge">640</span></li>
+          <li class="cat-menu-item" onclick="filterCat(this,'Housing')"><div class="cat-menu-item-left"><span class="cat-ico">🏠</span><span class="cat-menu-item-name">Housing &amp; Beds</span></div><span class="cat-count-badge">520</span></li>
+          <li class="cat-menu-item" onclick="filterCat(this,'Health')"><div class="cat-menu-item-left"><span class="cat-ico">💊</span><span class="cat-menu-item-name">Health &amp; Vet</span></div><span class="cat-count-badge">430</span></li>
+          <li class="cat-menu-item" onclick="filterCat(this,'Accessories')"><div class="cat-menu-item-left"><span class="cat-ico">🐾</span><span class="cat-menu-item-name">Accessories</span></div><span class="cat-count-badge">870</span></li>
+          <li class="cat-menu-item" onclick="filterCat(this,'Clothing')"><div class="cat-menu-item-left"><span class="cat-ico">👗</span><span class="cat-menu-item-name">Clothing</span></div><span class="cat-count-badge">290</span></li>
+          <li class="cat-menu-item" onclick="filterCat(this,'Travel')"><div class="cat-menu-item-left"><span class="cat-ico">🚗</span><span class="cat-menu-item-name">Travel</span></div><span class="cat-count-badge">215</span></li>
+        </ul>
       </div>
+
+      <!-- Price Filter -->
+      <div class="sidebar-widget">
+        <div class="sb-title">Filter by Price</div>
+        <div class="sb-body">
+          <div class="price-inputs"><input class="price-inp" placeholder="Min ₦"/><input class="price-inp" placeholder="Max ₦"/></div>
+          <button class="sb-btn" onclick="alert('Price filter applied!')">Apply Filter</button>
+        </div>
+      </div>
+
+      <!-- Pet Type -->
+      <div class="sidebar-widget">
+        <div class="sb-title">Pet Type</div>
+        <div class="sb-body">
+          <div class="check-list">
+            <label class="chk-row"><input type="checkbox" checked/> 🐶 Dogs (3,200)</label>
+            <label class="chk-row"><input type="checkbox" checked/> 🐱 Cats (2,100)</label>
+            <label class="chk-row"><input type="checkbox"/> 🦜 Birds (780)</label>
+            <label class="chk-row"><input type="checkbox"/> 🐰 Rabbits (340)</label>
+            <label class="chk-row"><input type="checkbox"/> 🐠 Fish (510)</label>
+            <label class="chk-row"><input type="checkbox"/> 🦎 Reptiles (180)</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brands -->
+      <div class="sidebar-widget">
+        <div class="sb-title">Brands</div>
+        <div class="sb-body">
+          <div class="tag-cloud">
+            <span class="stag on">Royal Canin</span>
+            <span class="stag" onclick="this.classList.toggle('on')">Pedigree</span>
+            <span class="stag" onclick="this.classList.toggle('on')">Whiskas</span>
+            <span class="stag" onclick="this.classList.toggle('on')">Hills</span>
+            <span class="stag" onclick="this.classList.toggle('on')">Kong</span>
+            <span class="stag" onclick="this.classList.toggle('on')">Purina</span>
+            <span class="stag" onclick="this.classList.toggle('on')">NaturalPet</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rating -->
+      <div class="sidebar-widget">
+        <div class="sb-title">Rating</div>
+        <div class="sb-body">
+          <div class="check-list">
+            <label class="chk-row"><input type="radio" name="r"/> ⭐⭐⭐⭐⭐ &amp; above</label>
+            <label class="chk-row"><input type="radio" name="r" checked/> ⭐⭐⭐⭐ &amp; above</label>
+            <label class="chk-row"><input type="radio" name="r"/> ⭐⭐⭐ &amp; above</label>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ═══ MAIN ═══════════════════════════════ -->
+    <div class="main-content">
+
+      <!-- Hero Banner -->
+      <div class="hero-banner sec">
+        <div class="hero-left">
+          <div class="hero-eyebrow">🇳🇬 Nigeria's #1 Pet Shop</div>
+          <h1>Everything Your Pet<br><em>Loves</em>, Delivered.</h1>
+          <p class="hero-desc">Food, toys, grooming, accessories &amp; healthcare — plus find your next companion from verified breeders nationwide.</p>
+          <div class="hero-btns">
+            <button class="btn-orange" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">🛍️ Shop Now</button>
+            <button class="btn-black" onclick="document.getElementById('pets').scrollIntoView({behavior:'smooth'})">🐾 Adopt a Pet</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="hero-mini">
+            <span class="hero-mini-emoji">🥩</span>
+            <div class="hm-tag">Up to 30% off</div>
+            <div class="hm-title">Premium Pet Food</div>
+            <div class="hm-sub">Royal Canin, Pedigree &amp; more</div>
+            <div class="hm-price">From ₦3,500 →</div>
+          </div>
+          <div class="hero-mini">
+            <span class="hero-mini-emoji">🏥</span>
+            <div class="hm-tag">Book now</div>
+            <div class="hm-title">Find a Vet Near You</div>
+            <div class="hm-sub">200+ vets across Nigeria</div>
+            <div class="hm-price" style="color:#2ecc71">Free consultation →</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust Strip -->
+      <div class="trust-strip sec">
+        <div class="trust-item"><div class="trust-ico">🚚</div><div><span class="trust-label">Same-Day Delivery</span><span class="trust-sub">Lagos &amp; Abuja</span></div></div>
+        <div class="trust-item"><div class="trust-ico">↩️</div><div><span class="trust-label">7-Day Returns</span><span class="trust-sub">Hassle-free</span></div></div>
+        <div class="trust-item"><div class="trust-ico">✅</div><div><span class="trust-label">100% Authentic</span><span class="trust-sub">Verified sellers</span></div></div>
+        <div class="trust-item"><div class="trust-ico">🔒</div><div><span class="trust-label">Secure Payments</span><span class="trust-sub">Paystack &amp; bank</span></div></div>
+        <div class="trust-item"><div class="trust-ico">🏥</div><div><span class="trust-label">Vet-Backed</span><span class="trust-sub">Expert picks</span></div></div>
+      </div>
+
+      <!-- Banner Grid -->
+      <div class="banner-grid sec">
+        <div class="banner-card" style="background:linear-gradient(135deg,#fdeee7,#fbd4c3)" onclick="filterCat(null,'Food')"><span class="bc-emoji">🥩</span><div class="bc-tag">Sale</div><div class="bc-title">Food &amp; Treats</div><div class="bc-price">From ₦3,500</div></div>
+        <div class="banner-card" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)"><span class="bc-emoji">🧸</span><div class="bc-tag">New</div><div class="bc-title">Toys &amp; Play</div><div class="bc-price" style="color:#2ecc71">From ₦1,200</div></div>
+        <div class="banner-card" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb)" onclick="filterCat(null,'Grooming')"><span class="bc-emoji">✂️</span><div class="bc-tag">Popular</div><div class="bc-title">Grooming Kits</div><div class="bc-price" style="color:#2196f3">From ₦2,800</div></div>
+      </div>
+
+      <!-- ── DEALS ── -->
+      <div class="deals-wrap sec" id="deals">
+        <div class="deals-header">
+          <div class="deals-title">⚡ Flash Deals — <span>Up to 40% Off</span></div>
+          <div class="deals-countdown">
+            <span style="color:rgba(255,255,255,.5);font-size:12px;font-weight:700">Ends in:</span>
+            <div class="deal-cbox"><span class="deal-cnum" id="dh">08</span><span class="deal-clbl">hrs</span></div>
+            <span class="deal-sep">:</span>
+            <div class="deal-cbox"><span class="deal-cnum" id="dm">42</span><span class="deal-clbl">min</span></div>
+            <span class="deal-sep">:</span>
+            <div class="deal-cbox"><span class="deal-cnum" id="ds">17</span><span class="deal-clbl">sec</span></div>
+          </div>
+        </div>
+        <div class="deals-body">
+          <div class="deal-item" onclick="openModal('d0')"><div class="di-img">🥩</div><div class="di-body"><div class="di-name">Royal Canin Adult 4kg</div><div class="di-prices"><span class="di-now">₦14,500</span><span class="di-was">₦18,000</span><span class="di-save">-19%</span></div></div></div>
+          <div class="deal-item" onclick="openModal('d1')"><div class="di-img">🐟</div><div class="di-body"><div class="di-name">Whiskas Tuna Pouches ×12</div><div class="di-prices"><span class="di-now">₦4,200</span><span class="di-was">₦5,500</span><span class="di-save">-24%</span></div></div></div>
+          <div class="deal-item" onclick="openModal('d2')"><div class="di-img">✂️</div><div class="di-body"><div class="di-name">Pro Dog Clipper Kit</div><div class="di-prices"><span class="di-now">₦9,800</span><span class="di-was">₦15,000</span><span class="di-save">-35%</span></div></div></div>
+          <div class="deal-item" onclick="openModal('d3')"><div class="di-img">🧸</div><div class="di-body"><div class="di-name">Kong Classic Chew Toy</div><div class="di-prices"><span class="di-now">₦3,500</span><span class="di-was">₦4,800</span><span class="di-save">-27%</span></div></div></div>
+        </div>
+      </div>
+
+      <!-- ── PRODUCTS ── -->
+      <div class="sec" id="products">
+        <div class="sec-head">
+          <div class="sec-head-left">
+            <div class="sec-head-label">Shop</div>
+            <h2 id="shopTitle">Featured <span>Products</span></h2>
+          </div>
+          <a href="#" class="sec-link">View all →</a>
+        </div>
+        <div class="filter-tabs" id="petTypeTabs">
+          <span class="ftab on" onclick="filterType(this,'All')">All Pets</span>
+          <span class="ftab" onclick="filterType(this,'Dog')">🐶 Dogs</span>
+          <span class="ftab" onclick="filterType(this,'Cat')">🐱 Cats</span>
+          <span class="ftab" onclick="filterType(this,'Bird')">🦜 Birds</span>
+          <span class="ftab" onclick="filterType(this,'Rabbit')">🐰 Rabbits</span>
+          <span class="ftab" onclick="filterType(this,'Fish')">🐠 Fish</span>
+          <span class="ftab" onclick="filterType(this,'Reptile')">🦎 Reptiles</span>
+        </div>
+        <div class="toolbar">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <span class="tb-result">Showing <strong id="pCount">24</strong> products</span>
+            <span class="af-chip" id="afChip">All Products <button class="af-x" onclick="resetFilter()">✕</button></span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select class="sort-sel" onchange="sortProds(this.value)">
+              <option>Sort: Featured</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>Best Rated</option>
+              <option>Newest</option>
+            </select>
+          </div>
+        </div>
+        <div class="prod-grid" id="prodGrid"></div>
+        <div class="pager">
+          <button class="pgb">‹</button>
+          <button class="pgb on">1</button>
+          <button class="pgb" onclick="setPg(this)">2</button>
+          <button class="pgb" onclick="setPg(this)">3</button>
+          <button class="pgb" onclick="setPg(this)">4</button>
+          <span style="color:#aaa;padding:0 4px;font-size:13px">…</span>
+          <button class="pgb" onclick="setPg(this)">18</button>
+          <button class="pgb">›</button>
+        </div>
+      </div>
+
+      <!-- Brands -->
+      <div class="sec">
+        <div class="sec-head"><div class="sec-head-left"><div class="sec-head-label">Partners</div><h2>Top <span>Brands</span></h2></div></div>
+        <div class="brands-row">
+          <div class="brand-chip ft">🏆 Royal Canin</div><div class="brand-chip">Pedigree</div><div class="brand-chip">Whiskas</div>
+          <div class="brand-chip ft">⭐ Hill's Science</div><div class="brand-chip">Purina Pro Plan</div><div class="brand-chip">Kong</div>
+          <div class="brand-chip">Drontal</div><div class="brand-chip ft">🇳🇬 NaturalPet NG</div><div class="brand-chip">Friskies</div>
+          <div class="brand-chip">Trixie</div><div class="brand-chip">Advance</div>
+        </div>
+      </div>
+
+      <!-- ── PET LISTINGS ── -->
+      <div class="sec" id="pets">
+        <div class="sec-head">
+          <div class="sec-head-left"><div class="sec-head-label">Adopt &amp; Buy</div><h2>Find Your <span>Companion</span></h2></div>
+          <a href="#" class="sec-link">All listings →</a>
+        </div>
+        <div class="pet-grid" id="petGrid"></div>
+      </div>
+
+      <!-- ── VET DIRECTORY ── -->
+      <div class="sec" id="vets">
+        <div class="sec-head">
+          <div class="sec-head-left"><div class="sec-head-label">Healthcare</div><h2>Vet <span>Directory</span></h2></div>
+          <a href="#" class="sec-link">Browse all vets →</a>
+        </div>
+        <div class="vet-grid">
+          <div class="vet-card"><div class="vc-head"><div class="vc-avatar">👩‍⚕️</div><div><div class="vc-name">Dr. Adaeze Obi</div><div class="vc-spec">Small Animal Medicine</div><div class="vc-stars">★★★★★</div><div class="vc-reviews">312 reviews</div></div></div><div class="vc-chips"><span class="vc-chip">Dogs</span><span class="vc-chip">Cats</span><span class="vc-chip">Surgery</span></div><div class="vc-loc">📍 Lekki Phase 1, Lagos</div><div class="vc-footer"><button class="vc-book" onclick="alert('Booking Dr. Adaeze…')">Book Appointment</button><button class="vc-call">📞</button></div></div>
+          <div class="vet-card"><div class="vc-head"><div class="vc-avatar">👨‍⚕️</div><div><div class="vc-name">Dr. Emeka Chukwu</div><div class="vc-spec">Exotic Animals Specialist</div><div class="vc-stars">★★★★★</div><div class="vc-reviews">198 reviews</div></div></div><div class="vc-chips"><span class="vc-chip">Birds</span><span class="vc-chip">Reptiles</span><span class="vc-chip">Fish</span></div><div class="vc-loc">📍 Wuse 2, Abuja</div><div class="vc-footer"><button class="vc-book" onclick="alert('Booking Dr. Emeka…')">Book Appointment</button><button class="vc-call">📞</button></div></div>
+          <div class="vet-card"><div class="vc-head"><div class="vc-avatar">👩‍⚕️</div><div><div class="vc-name">Dr. Ngozi Eze</div><div class="vc-spec">Veterinary Dermatology</div><div class="vc-stars">★★★★☆</div><div class="vc-reviews">143 reviews</div></div></div><div class="vc-chips"><span class="vc-chip">Dogs</span><span class="vc-chip">Cats</span><span class="vc-chip">Skin Care</span></div><div class="vc-loc">📍 GRA, Port Harcourt</div><div class="vc-footer"><button class="vc-book" onclick="alert('Booking Dr. Ngozi…')">Book Appointment</button><button class="vc-call">📞</button></div></div>
+        </div>
+      </div>
+
+      <!-- ── BREEDERS ── -->
+      <div class="sec" id="breeders">
+        <div class="sec-head">
+          <div class="sec-head-left"><div class="sec-head-label">Trusted Breeders</div><h2>Breeder <span>Profiles</span></h2></div>
+          <a href="#" class="sec-link">All breeders →</a>
+        </div>
+        <div class="breeder-grid">
+          <div class="breeder-card"><div class="br-avatar">🐕</div><div class="br-name">Lagos K9 Kennels</div><div class="br-spec">Golden Retriever · Labrador</div><div class="br-verified">✅ Verified Breeder</div><div class="br-stats"><div><span class="bstat-n">48</span><span class="bstat-l">Pets sold</span></div><div><span class="bstat-n">4.9★</span><span class="bstat-l">Rating</span></div></div><div class="br-loc">📍 Ikorodu, Lagos</div><button class="br-btn">View Profile</button></div>
+          <div class="breeder-card"><div class="br-avatar">🐱</div><div class="br-name">AbujaKitty Farm</div><div class="br-spec">Persian · Siamese · Fold</div><div class="br-verified">✅ Verified Breeder</div><div class="br-stats"><div><span class="bstat-n">31</span><span class="bstat-l">Pets sold</span></div><div><span class="bstat-n">4.8★</span><span class="bstat-l">Rating</span></div></div><div class="br-loc">📍 Garki, Abuja</div><button class="br-btn">View Profile</button></div>
+          <div class="breeder-card"><div class="br-avatar">🦮</div><div class="br-name">EliteGuard Breeds</div><div class="br-spec">Rottweiler · Boerboel · GSD</div><div class="br-verified">✅ Verified Breeder</div><div class="br-stats"><div><span class="bstat-n">76</span><span class="bstat-l">Pets sold</span></div><div><span class="bstat-n">5.0★</span><span class="bstat-l">Rating</span></div></div><div class="br-loc">📍 GRA, Port Harcourt</div><button class="br-btn">View Profile</button></div>
+          <div class="breeder-card"><div class="br-avatar">🦜</div><div class="br-name">BirdWorld Nigeria</div><div class="br-spec">African Grey · Cockatiel</div><div class="br-verified">✅ Verified Breeder</div><div class="br-stats"><div><span class="bstat-n">94</span><span class="bstat-l">Birds sold</span></div><div><span class="bstat-n">4.7★</span><span class="bstat-l">Rating</span></div></div><div class="br-loc">📍 Benin City, Edo</div><button class="br-btn">View Profile</button></div>
+        </div>
+      </div>
+
+      <!-- ── BLOG ── -->
+      <div class="sec" id="blog">
+        <div class="sec-head">
+          <div class="sec-head-left"><div class="sec-head-label">Tips &amp; Advice</div><h2>Pet Care <span>Blog</span></h2></div>
+          <a href="#" class="sec-link">All articles →</a>
+        </div>
+        <div class="blog-grid">
+          <div class="blog-card"><div class="blog-img" style="background:linear-gradient(135deg,#fdeee7,#fbd4c3)">🥦<div class="blog-cat-pill">Nutrition</div></div><div class="blog-body"><div class="blog-title">Best Dog Foods Available in Nigeria — Complete 2025 Guide</div><div class="blog-meta">By Dr. Adaeze Obi · 5 min read · 1,240 views</div><div class="blog-read">Read article →</div></div></div>
+          <div class="blog-card"><div class="blog-img sm" style="background:linear-gradient(135deg,#e8f5e9,#c8e6c9)">🌡️<div class="blog-cat-pill">Health</div></div><div class="blog-body"><div class="blog-title">How to Keep Your Pet Healthy in Nigeria's Heat</div><div class="blog-meta">By Dr. Emeka · 4 min · 890 views</div><div class="blog-read">Read →</div></div></div>
+          <div class="blog-card"><div class="blog-img sm" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb)">🏋️<div class="blog-cat-pill">Training</div></div><div class="blog-body"><div class="blog-title">5 Commands to Teach Your Puppy This Weekend</div><div class="blog-meta">By PuppyPlace Team · 6 min · 2,100 views</div><div class="blog-read">Read →</div></div></div>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="newsletter sec">
+        <div class="nl-label">Stay Connected</div>
+        <div class="nl-title">Join the PuppyPlace Family 🐾</div>
+        <div class="nl-desc">Weekly deals, new arrivals &amp; expert pet care tips straight to your inbox.</div>
+        <div class="nl-form">
+          <input class="nl-input" type="email" placeholder="Enter your email address"/>
+          <button class="nl-btn" onclick="alert('Subscribed! 🐾')">Subscribe Free</button>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /content-grid -->
+</div><!-- /page-wrap -->
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <a href="#" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none">
+        <div style="width:40px;height:40px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">🐾</div>
+        <div><div style="font-size:20px;font-weight:900;color:#fff">Puppy<span style="color:var(--orange)">Place</span></div></div>
+      </a>
+      <p class="fb-desc">Nigeria's most trusted pet marketplace — connecting pet lovers with the products, services and companions they need.</p>
+      <div class="fb-social"><a class="fsoc" href="#">f</a><a class="fsoc" href="#">ig</a><a class="fsoc" href="#">tw</a><a class="fsoc" href="#">yt</a><a class="fsoc" href="#">wa</a></div>
+    </div>
+    <div class="fc"><h4>Shop</h4><a href="#">Food &amp; Treats</a><a href="#">Toys &amp; Play</a><a href="#">Grooming</a><a href="#">Housing &amp; Beds</a><a href="#">Health &amp; Vet</a><a href="#">Clothing</a></div>
+    <div class="fc"><h4>Marketplace</h4><a href="#">Buy a Pet</a><a href="#">Vet Directory</a><a href="#">Breeders</a><a href="#">List a Pet</a><a href="#">Become a Seller</a></div>
+    <div class="fc"><h4>Account</h4><a href="#">My Orders</a><a href="#">Wishlist</a><a href="#">Seller Dashboard</a><a href="#">Loyalty Points</a></div>
+    <div class="fc"><h4>Help</h4><a href="#">Help Center</a><a href="#">Track Order</a><a href="#">Returns</a><a href="#">Contact Us</a><a href="#">Blog</a></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 PuppyPlace.ng · Made with ❤️ in Nigeria 🇳🇬</span>
+    <div class="pay-row"><span class="pay-badge">Paystack</span><span class="pay-badge">GTBank</span><span class="pay-badge">Flutterwave</span><span class="pay-badge">USSD</span></div>
+    <div><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+  </div>
+</footer>
+
+<!-- Cart Drawer -->
+<div class="drawer-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <div class="drawer-title">🛒 Your Cart <span class="drawer-count" id="cartDrawerCount">0</span></div>
+    <button class="drawer-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody">
+    <div class="drawer-empty" id="cartEmpty">
+      <div class="de-ico">🛒</div>
+      <p>Your cart is empty</p>
+      <span>Add some products to get started!</span>
+    </div>
+    <div id="cartItems"></div>
+  </div>
+  <div class="drawer-footer" id="cartFooter" style="display:none">
+    <div class="drawer-subtotal">
+      <span class="dst-label">Subtotal</span>
+      <span class="dst-val" id="cartTotal">₦0</span>
+    </div>
+    <div class="drawer-shipping">Free delivery on orders above <span>₦10,000</span> in Lagos</div>
+    <button class="drawer-checkout" onclick="openCheckout()">Proceed to Checkout →</button>
+    <button class="drawer-continue" onclick="closeCart()">← Continue Shopping</button>
+  </div>
+</div>
+
+<!-- Wishlist Drawer -->
+<div class="drawer-overlay" id="wishOverlay" onclick="closeWishlist()"></div>
+<div class="drawer" id="wishDrawer">
+  <div class="drawer-header">
+    <div class="drawer-title">❤️ Wishlist <span class="drawer-count" id="wishDrawerCount">0</span></div>
+    <button class="drawer-close" onclick="closeWishlist()">✕</button>
+  </div>
+  <div class="drawer-body" id="wishBody">
+    <div class="drawer-empty" id="wishEmpty">
+      <div class="de-ico">❤️</div>
+      <p>Your wishlist is empty</p>
+      <span>Save items you love for later!</span>
+    </div>
+    <div id="wishItems"></div>
+  </div>
+  <div class="drawer-footer" id="wishFooter" style="display:none">
+    <button class="drawer-checkout" onclick="moveAllToCart()">🛒 Move All to Cart</button>
+    <button class="drawer-continue" onclick="closeWishlist()">← Keep Browsing</button>
+  </div>
+</div>
+
+<!-- Paystack -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<!-- Checkout Modal -->
+<div class="co-bg" id="coBg" onclick="if(event.target===this)closeCheckout()">
+  <div class="co-modal" onclick="event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="co-hd">
+      <div class="co-hd-title">🛒 Checkout</div>
+      <button class="co-close" onclick="closeCheckout()">✕</button>
+    </div>
+
+    <!-- Steps -->
+    <div class="co-steps">
+      <div class="co-step active" id="step1ind"><span class="co-step-num">1</span><span class="co-step-label">Details</span></div>
+      <div class="co-step-line" id="line1"></div>
+      <div class="co-step" id="step2ind"><span class="co-step-num">2</span><span class="co-step-label">Review</span></div>
+      <div class="co-step-line" id="line2"></div>
+      <div class="co-step" id="step3ind"><span class="co-step-num">3</span><span class="co-step-label">Payment</span></div>
+    </div>
+
+    <!-- Body -->
+    <div class="co-body">
+
+      <!-- Step 1: Customer Details -->
+      <div class="co-section active" id="coStep1">
+        <div class="co-form">
+          <div class="co-field-row">
+            <div class="co-field">
+              <label class="co-label">Full Name <span>*</span></label>
+              <input class="co-input" id="coName" type="text" placeholder="e.g. Emeka Okafor"/>
+              <span class="co-err" id="coNameErr">Please enter your full name</span>
+            </div>
+            <div class="co-field">
+              <label class="co-label">Phone <span>*</span></label>
+              <input class="co-input" id="coPhone" type="tel" placeholder="e.g. 08012345678"/>
+              <span class="co-err" id="coPhoneErr">Please enter a valid phone number</span>
+            </div>
+          </div>
+          <div class="co-field">
+            <label class="co-label">Email Address <span>*</span></label>
+            <input class="co-input" id="coEmail" type="email" placeholder="emeka@example.com"/>
+            <span class="co-err" id="coEmailErr">Please enter a valid email address</span>
+          </div>
+          <div class="co-field">
+            <label class="co-label">Delivery Address <span>*</span></label>
+            <input class="co-input" id="coAddress" type="text" placeholder="Street address, area, landmark…"/>
+            <span class="co-err" id="coAddressErr">Please enter your delivery address</span>
+          </div>
+          <div class="co-field">
+            <label class="co-label">State <span>*</span></label>
+            <select class="co-input co-select" id="coState">
+              <option value="">Select your state…</option>
+              <option>Abia</option><option>Adamawa</option><option>Akwa Ibom</option>
+              <option>Anambra</option><option>Bauchi</option><option>Bayelsa</option>
+              <option>Benue</option><option>Borno</option><option>Cross River</option>
+              <option>Delta</option><option>Ebonyi</option><option>Edo</option>
+              <option>Ekiti</option><option>Enugu</option><option>FCT — Abuja</option>
+              <option>Gombe</option><option>Imo</option><option>Jigawa</option>
+              <option>Kaduna</option><option>Kano</option><option>Katsina</option>
+              <option>Kebbi</option><option>Kogi</option><option>Kwara</option>
+              <option>Lagos</option><option>Nasarawa</option><option>Niger</option>
+              <option>Ogun</option><option>Ondo</option><option>Osun</option>
+              <option>Oyo</option><option>Plateau</option><option>Rivers</option>
+              <option>Sokoto</option><option>Taraba</option><option>Yobe</option>
+              <option>Zamfara</option>
+            </select>
+            <span class="co-err" id="coStateErr">Please select your state</span>
+          </div>
+          <div class="co-field">
+            <label class="co-label">Order Notes <span style="color:var(--gray);font-weight:600">(optional)</span></label>
+            <input class="co-input" id="coNotes" type="text" placeholder="Any special instructions for delivery…"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Review -->
+      <div class="co-section" id="coStep2">
+        <div class="co-summary" id="coSummaryBlock"></div>
+        <div style="background:var(--light-gray);border-radius:var(--radius-sm);padding:14px;font-size:13px">
+          <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:10px">Delivering to</div>
+          <div id="coReviewDetails" style="display:flex;flex-direction:column;gap:5px"></div>
+        </div>
+      </div>
+
+      <!-- Step 3: Payment -->
+      <div class="co-section" id="coStep3">
+        <div class="co-test-banner">🧪 Test mode — use card <strong>4084 0840 8408 4081</strong> · Exp: any future date · CVV: any 3 digits</div>
+        <div class="co-pay-info">
+          <div class="co-pay-ico">🔒</div>
+          <div class="co-pay-text">
+            <h4>Secure payment via Paystack</h4>
+            <p>Your payment is encrypted and processed securely. PuppyPlace.ng never stores your card details.</p>
+          </div>
+        </div>
+        <div class="co-summary" id="coPaySummary"></div>
+        <div class="co-pay-secure">🔐 SSL Encrypted &nbsp;·&nbsp; ✅ Paystack Secured &nbsp;·&nbsp; 🇳🇬 Nigerian Payment Gateway</div>
+      </div>
+
+      <!-- Step 4: Success -->
+      <div class="co-section" id="coStep4">
+        <div class="co-success">
+          <div class="co-success-ico">🎉</div>
+          <h3>Order Confirmed!</h3>
+          <p>Thank you for shopping with PuppyPlace.ng. A confirmation email is on its way to you.</p>
+          <div class="co-success-ref">
+            <span>Order Reference</span>
+            <strong id="coOrderRef">—</strong>
+          </div>
+          <div class="co-success-steps">
+            <h4>What happens next</h4>
+            <div class="co-ss-item"><div class="co-ss-dot">1</div><div><strong>Confirmation email</strong> sent to your inbox within 2 minutes with your order details.</div></div>
+            <div class="co-ss-item"><div class="co-ss-dot">2</div><div><strong>Order processing</strong> begins immediately. We'll pack and dispatch your items.</div></div>
+            <div class="co-ss-item"><div class="co-ss-dot">3</div><div><strong>Delivery update</strong> — you'll get a follow-up message with tracking info and expected delivery date.</div></div>
+          </div>
+          <button class="btn-orange" style="width:100%;justify-content:center" onclick="closeCheckout()">Continue Shopping 🐾</button>
+        </div>
+      </div>
+
+    </div><!-- /co-body -->
+
+    <!-- Footer -->
+    <div class="co-footer" id="coFooter">
+      <button class="co-btn-back" id="coBtnBack" onclick="coBack()" style="display:none">← Back</button>
+      <button class="co-btn-next" id="coBtnNext" onclick="coNext()">
+        <span id="coBtnLabel">Continue to Review</span>
+        <div class="co-spinner" id="coSpinner"></div>
+      </button>
     </div>
 
   </div>
 </div>
 
-<!-- ============ MEET YOUR TUTORS ============ -->
-<section id="tutors">
-  <div class="wrap">
-    <h2 class="rv">Meet Your Tutors</h2>
-    <p class="sub rv">The builders who'll actually be teaching you, live, every week.</p>
-
-    <div class="tutors-grid">
-      <div class="tutor-frame rv">
-        <img class="tutor-shot" id="tutorShot" alt="Automate Naija tutor" loading="lazy" width="900" height="1000">
-        <div class="tutor-caption">
-          <span class="tutor-idx mono" id="tutorIdx">01 / 03</span>
-          <h4 id="tutorName">Oginni Oluwafemi</h4>
-          <span id="tutorRole">Lead Instructor · n8n &amp; AI Agents</span>
-        </div>
-        <div class="tutor-socials">
-          <a class="tutor-social-btn" id="tutorLinkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
-          </a>
-          <a class="tutor-social-btn" id="tutorInstagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a class="tutor-social-btn" id="tutorTwitter" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24H16.2l-5.2-6.8-5.95 6.8H1.74l7.73-8.84L1.32 2.25H8.6l4.7 6.22 4.94-6.22Zm-1.16 17.52h1.83L7.02 4.13H5.05l12.03 15.64Z"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="tutor-list">
-        <div class="tutor-item rv active" data-idx="0">
-          <span class="tutor-item-num mono">01</span>
-          <span><b>Oginni Oluwafemi</b><span>Lead Instructor · n8n &amp; AI Agents</span></span>
-        </div>
-        <div class="tutor-item rv" data-idx="1">
-          <span class="tutor-item-num mono">02</span>
-          <span><b>Oluwabunmi Josephine</b><span>Automation &amp; Integrations</span></span>
-        </div>
-        <div class="tutor-item rv" data-idx="2">
-          <span class="tutor-item-num mono">03</span>
-          <span><b>Abdulhafeez Adebayo</b><span>Client Work &amp; Deployment</span></span>
-        </div>
+<!-- Modal -->
+<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mhd"><span class="mhd-title" id="mT">Product</span><button class="m-close" onclick="closeModal()">✕</button></div>
+    <div class="mbd">
+      <div class="m-img" id="mE">📦</div>
+      <div class="m-grid" id="mG"></div>
+      <div class="m-price" id="mP">₦0</div>
+      <div class="m-orig" id="mO"></div>
+      <div class="m-actions">
+        <button id="modalCartBtn" class="btn-orange">🛒 Add to Cart</button>
+        <button id="modalWishBtn" class="btn-black">❤️ Wishlist</button>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ============ ECOSYSTEM ============ -->
-<section id="ecosystem">
-  <div class="wrap">
-    <h2 class="rv">The Automate Naija <em>Ecosystem</em></h2>
-    <p class="sub rv">From learning to earning. We've got your entire builder journey covered.</p>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── DATA — loaded from admin panel storage ── */
+const PROD_KEY = 'puppyplace_products';
 
-    <div class="eco rv">
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="book-open" class="i"></i></span>
-        <h4>Learn</h4>
-        <p>Master AI, automation and no-code tools through practical resources.</p>
-        <a href="#" class="link-arrow">Explore Courses <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-      <div class="eco-arrow"><i data-lucide="chevron-right" class="i"></i></div>
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="wrench" class="i"></i></span>
-        <h4>Build</h4>
-        <p>Work on real-world challenges and community projects.</p>
-        <a href="#arena" class="link-arrow">Join Challenges <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-      <div class="eco-arrow"><i data-lucide="chevron-right" class="i"></i></div>
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="users" class="i"></i></span>
-        <h4>Collaborate</h4>
-        <p>Find builders who can complement your skills and build together.</p>
-        <a href="#community" class="link-arrow">Find Builders <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-      <div class="eco-arrow"><i data-lucide="chevron-right" class="i"></i></div>
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="star" class="i"></i></span>
-        <h4>Showcase</h4>
-        <p>Build your portfolio, earn reputation and grow your visibility.</p>
-        <a href="#arena" class="link-arrow">View Showcase <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-      <div class="eco-arrow"><i data-lucide="chevron-right" class="i"></i></div>
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="briefcase" class="i"></i></span>
-        <h4>Get Opportunities</h4>
-        <p>Access jobs, freelance gigs and paid projects from real businesses.</p>
-        <a href="#opportunities" class="link-arrow">View Opportunities <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-    </div>
-  </div>
-</section>
+// Fallback products if admin panel hasn't been used yet
+const FALLBACK_PRODUCTS = [
+  {id:'p0',n:'Royal Canin Adult Dog 4kg',cat:'Food',pet:'Dog',e:'🥩',p:14500,o:18000,tag:'sale',r:4.9,rv:312,brand:'Royal Canin',vars:['2kg','4kg','10kg'],stock:'in'},
+  {id:'p1',n:'Kong Classic Chew Toy (L)',cat:'Toy',pet:'Dog',e:'🧸',p:3500,o:4800,tag:'popular',r:4.8,rv:245,brand:'Kong',vars:['S','M','L'],stock:'in'},
+  {id:'p2',n:'Whiskas Tuna Pouches ×12',cat:'Food',pet:'Cat',e:'🐟',p:4200,o:5500,tag:'sale',r:4.7,rv:198,brand:'Whiskas',vars:['Tuna','Chicken'],stock:'in'},
+  {id:'p3',n:'Pro Dog Clipper Set',cat:'Grooming',pet:'Dog',e:'✂️',p:9800,o:15000,tag:'hot',r:4.6,rv:87,brand:'Generic',vars:['Basic','Pro'],stock:'in'},
+  {id:'p4',n:'Orthopedic Dog Bed (L)',cat:'Housing',pet:'Dog',e:'🛏️',p:18500,o:28000,tag:'sale',r:4.7,rv:143,brand:'Generic',vars:['M','L','XL'],stock:'in'},
+  {id:'p5',n:'Drontal Dewormer ×10',cat:'Health',pet:'Dog',e:'💊',p:5200,o:7000,tag:'best',r:4.8,rv:226,brand:'Drontal',vars:['×5','×10'],stock:'in'},
+  {id:'p6',n:"Hill's Kitten Food 1.5kg",cat:'Food',pet:'Cat',e:'🍗',p:8900,o:11000,tag:'new',r:4.9,rv:88,brand:'Hills',vars:['1.5kg','3kg'],stock:'in'},
+  {id:'p7',n:'Retractable Dog Leash 5m',cat:'Accessories',pet:'Dog',e:'🐾',p:2800,o:null,tag:'',r:4.5,rv:310,brand:'Generic',vars:['3m','5m'],stock:'in'},
+  {id:'p8',n:'Cat Scratch Post Deluxe',cat:'Toy',pet:'Cat',e:'🪵',p:7500,o:9500,tag:'popular',r:4.6,rv:134,brand:'Generic',vars:['Small','Large'],stock:'in'},
+  {id:'p9',n:'Pedigree Adult 10kg Beef',cat:'Food',pet:'Dog',e:'🥩',p:22000,o:26000,tag:'sale',r:4.7,rv:411,brand:'Pedigree',vars:['3kg','10kg'],stock:'in'},
+  {id:'p10',n:'Pet Carrier Bag Airline',cat:'Travel',pet:'Cat',e:'👜',p:12500,o:null,tag:'new',r:4.5,rv:67,brand:'Generic',vars:['S','M'],stock:'in'},
+  {id:'p11',n:'Bird Cage Deluxe 60cm',cat:'Housing',pet:'Bird',e:'🏠',p:16000,o:21000,tag:'sale',r:4.4,rv:52,brand:'Generic',vars:['40cm','60cm'],stock:'in'},
+  {id:'p12',n:'Purina One Salmon Cat 2kg',cat:'Food',pet:'Cat',e:'🐠',p:6500,o:null,tag:'',r:4.8,rv:176,brand:'Purina',vars:['800g','2kg'],stock:'in'},
+  {id:'p13',n:'Dog Grooming Kit 7pcs',cat:'Grooming',pet:'Dog',e:'🛁',p:5800,o:8000,tag:'sale',r:4.5,rv:99,brand:'Generic',vars:['Starter','Pro'],stock:'in'},
+  {id:'p14',n:'Rabbit Hutch 2-Tier',cat:'Housing',pet:'Rabbit',e:'🐰',p:28000,o:36000,tag:'sale',r:4.6,rv:38,brand:'Generic',vars:['1-Tier','2-Tier'],stock:'in'},
+  {id:'p15',n:'Aquarium Starter Kit 30L',cat:'Housing',pet:'Fish',e:'🐟',p:19500,o:null,tag:'new',r:4.7,rv:61,brand:'Generic',vars:['20L','30L'],stock:'in'},
+  {id:'p16',n:'Dog Winter Jacket M',cat:'Clothing',pet:'Dog',e:'🧥',p:4500,o:6000,tag:'new',r:4.3,rv:42,brand:'Generic',vars:['XS','S','M','L'],stock:'in'},
+  {id:'p17',n:'NaturalPet NG Bone Broth',cat:'Food',pet:'Dog',e:'🍲',p:3200,o:null,tag:'',r:4.8,rv:154,brand:'NaturalPet',vars:['250ml','500ml'],stock:'in'},
+  {id:'p18',n:'Interactive Laser Cat Toy',cat:'Toy',pet:'Cat',e:'🔴',p:2100,o:3000,tag:'popular',r:4.7,rv:287,brand:'Generic',vars:['Manual','Auto'],stock:'in'},
+  {id:'p19',n:'Pet First Aid Kit 28pcs',cat:'Health',pet:'Dog',e:'🩺',p:7800,o:null,tag:'best',r:4.9,rv:73,brand:'Generic',vars:['Basic','Premium'],stock:'in'},
+  {id:'p20',n:'Stainless Steel Bowl Set',cat:'Accessories',pet:'Dog',e:'🍽️',p:2400,o:null,tag:'',r:4.6,rv:392,brand:'Generic',vars:['S','M','L'],stock:'in'},
+  {id:'p21',n:'Cat Litter Silica Gel 5L',cat:'Accessories',pet:'Cat',e:'🪣',p:3800,o:4500,tag:'popular',r:4.5,rv:218,brand:'Generic',vars:['5L','10L'],stock:'in'},
+  {id:'p22',n:'Dog Vitamin Tablets ×60',cat:'Health',pet:'Dog',e:'💊',p:4500,o:null,tag:'',r:4.7,rv:130,brand:'Generic',vars:['×30','×60'],stock:'in'},
+  {id:'p23',n:'Parrot Seed Mix 1kg',cat:'Food',pet:'Bird',e:'🌻',p:2200,o:null,tag:'new',r:4.4,rv:84,brand:'Generic',vars:['500g','1kg'],stock:'in'},
+];
 
-<!-- ============ ARENA + SHOWCASE ============ -->
-<section id="arena">
-  <div class="wrap arena-grid">
-    <div class="panel rv">
-      <div class="panel-head"><i data-lucide="flame" class="i" style="color:#FF8A3D"></i><h3>The Automation Arena</h3></div>
-      <p class="panel-sub">Real problems. Real builders. Real impact.</p>
-      <div class="arena-body">
-        <div class="challenge">
-          <div class="challenge-top">
-            <span class="badge badge-lime">Featured Challenge</span>
-            <span class="days-left">6 Days Left</span>
-          </div>
-          <div class="trophy-box"><i data-lucide="trophy" style="width:44px;height:44px"></i></div>
-          <h4>The 7-Day Sales Machine</h4>
-          <p>Build an end-to-end system that qualifies leads, answers FAQs, records customer information and alerts the sales team automatically.</p>
-          <div class="tag-row">
-            <span class="tag-sm">Intermediate</span>
-            <span class="tag-sm">n8n</span>
-            <span class="tag-sm">WhatsApp</span>
-            <span class="tag-sm">OpenAI</span>
-            <span class="tag-sm">Supabase</span>
-          </div>
-          <div class="challenge-foot">
-            <span class="xp">₦500 XP Reward</span>
-            <span class="foot-right">
-              <span class="avatars"><img id="chA" alt="" width="26" height="26"><img id="chB" alt="" width="26" height="26"><img id="chC" alt="" width="26" height="26"></span>
-              <span>+32 builders</span>
-            </span>
-          </div>
-          <a href="#pricing" class="btn btn-solid" style="margin-top:18px;width:100%;">Join Challenge</a>
-        </div>
-        <div class="recent">
-          <h5>Recently Completed</h5>
-          <ul>
-            <li><span class="recent-ic"><i data-lucide="file-text" style="width:13px;height:13px"></i></span> Invoice Processing Automation <i data-lucide="check-circle-2" class="i done" style="width:15px;height:15px"></i></li>
-            <li><span class="recent-ic"><i data-lucide="instagram" style="width:13px;height:13px"></i></span> Instagram Lead Capture System <i data-lucide="check-circle-2" class="i done" style="width:15px;height:15px"></i></li>
-            <li><span class="recent-ic"><i data-lucide="sparkles" style="width:13px;height:13px"></i></span> AI Content Repurposing Workflow <i data-lucide="check-circle-2" class="i done" style="width:15px;height:15px"></i></li>
-            <li><span class="recent-ic"><i data-lucide="youtube" style="width:13px;height:13px"></i></span> YouTube Automation Pipeline <i data-lucide="check-circle-2" class="i done" style="width:15px;height:15px"></i></li>
-          </ul>
-        </div>
-      </div>
-      <div class="panel-foot"><a href="#" class="link-arrow">View All Challenges <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a></div>
-    </div>
+// Load from localStorage (set by admin panel), fallback to hardcoded list
+function loadProducts(){
+  const raw = localStorage.getItem(PROD_KEY);
+  return raw ? JSON.parse(raw) : FALLBACK_PRODUCTS;
+}
 
-    <div class="panel rv">
-      <div class="panel-head"><h3>Builders Showcase</h3></div>
-      <p class="panel-sub">Amazing projects built by our community</p>
-      <div class="showcase-img"><img id="imgShowcase" alt="AI-powered customer support agent workflow, built by a community member" loading="lazy" width="800" height="500"></div>
-      <div class="showcase-body">
-        <h4>AI-Powered Customer Support Agent</h4>
-        <div class="by-row">
-          <span class="by-who"><img id="imgHost" alt="" width="22" height="22"> By David A.</span>
-          <span class="meta-row">
-            <span><i data-lucide="thumbs-up" style="width:14px;height:14px"></i> 128</span>
-            <span><i data-lucide="message-square" style="width:14px;height:14px"></i> 24</span>
-          </span>
-        </div>
-      </div>
-      <div class="panel-foot"><a href="#" class="link-arrow">See All Projects <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a></div>
-    </div>
-  </div>
-</section>
+// Live — always read from storage so admin changes show instantly
+let prods = loadProducts();
+const dealData=[
+  {n:'Royal Canin Adult 4kg',e:'🥩',p:14500,o:18000,cat:'Food',pet:'Dog',brand:'Royal Canin',r:4.9,rv:312},
+  {n:'Whiskas Tuna ×12',e:'🐟',p:4200,o:5500,cat:'Food',pet:'Cat',brand:'Whiskas',r:4.7,rv:198},
+  {n:'Pro Clipper Kit',e:'✂️',p:9800,o:15000,cat:'Grooming',pet:'Dog',brand:'Generic',r:4.6,rv:87},
+  {n:'Kong Classic Toy',e:'🧸',p:3500,o:4800,cat:'Toy',pet:'Dog',brand:'Kong',r:4.8,rv:245},
+];
+const petsData=[
+  {n:'Biscuit',breed:'Golden Retriever',cat:'Dog',e:'🐕',age:'8 wks',p:220000,loc:'Lagos',badge:'Hot',bdg:'lbl-hot',health:'Vaccinated',bg:'linear-gradient(135deg,#fdeee7,#fbd4c3)'},
+  {n:'Luna',breed:'Persian Cat',cat:'Cat',e:'🐈',age:'10 wks',p:95000,loc:'Abuja',badge:'New',bdg:'lbl-new',health:'Vet Checked',bg:'linear-gradient(135deg,#e8f5e9,#c8e6c9)'},
+  {n:'Zeus',breed:'Rottweiler',cat:'Dog',e:'🦮',age:'12 wks',p:280000,loc:'PH',badge:'Rare',bdg:'lbl-sale',health:'Microchipped',bg:'linear-gradient(135deg,#fdeee7,#fae0d8)'},
+  {n:'Koko',breed:'African Grey',cat:'Bird',e:'🦜',age:'6 mo',p:220000,loc:'Lagos',badge:'',bdg:'',health:'Dewormed',bg:'linear-gradient(135deg,#e3f2fd,#bbdefb)'},
+  {n:'Oreo',breed:'French Bulldog',cat:'Dog',e:'🐶',age:'9 wks',p:350000,loc:'Lekki',badge:'Hot',bdg:'lbl-hot',health:'Vaccinated',bg:'linear-gradient(135deg,#f3e5f5,#e1bee7)'},
+  {n:'Snowball',breed:'Holland Lop',cat:'Rabbit',e:'🐰',age:'3 mo',p:45000,loc:'Ibadan',badge:'New',bdg:'lbl-new',health:'Vet Checked',bg:'linear-gradient(135deg,#e8f5e9,#c8e6c9)'},
+  {n:'Titan',breed:'Boerboel',cat:'Dog',e:'🦮',age:'11 wks',p:400000,loc:'Lagos',badge:'Hot',bdg:'lbl-hot',health:'Microchipped',bg:'linear-gradient(135deg,#fffde7,#fff9c4)'},
+  {n:'Nemo',breed:'Clownfish',cat:'Fish',e:'🐠',age:'1 yr',p:12000,loc:'Lagos',badge:'New',bdg:'lbl-new',health:'Healthy',bg:'linear-gradient(135deg,#e0f7fa,#b2ebf2)'},
+];
 
-<!-- ============ OPPORTUNITIES ============ -->
-<section id="opportunities">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <h2>Opportunities Board</h2>
-        <p class="sub" style="margin-bottom:0;">Real businesses. Real budgets. Real impact.</p>
-      </div>
-      <a href="#" class="link-arrow">View All Opportunities <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-    </div>
+/* ── CART & WISHLIST STATE ── */
+let cartItems = [];   // [{id, n, e, cat, p, qty}]
+let wishItems = [];   // [{id, n, e, cat, p}]
 
-    <div class="opp-grid" style="margin-top:30px;">
-      <div class="opp-card rv">
-        <div class="opp-top"><span class="badge badge-lime">Project</span><span class="opp-arrow"><i data-lucide="arrow-up-right" style="width:14px;height:14px"></i></span></div>
-        <h4>WhatsApp Sales Automation System</h4>
-        <p>We receive hundreds of enquiries weekly. Need a system that qualifies leads and follows up automatically.</p>
-        <span class="opp-budget">₦250k - ₦400k</span>
-        <div class="opp-tags"><span class="tag-sm">n8n</span><span class="tag-sm">WhatsApp API</span><span class="tag-sm">CRM</span></div>
-        <span class="opp-loc"><i data-lucide="map-pin" style="width:12px;height:12px"></i> Lagos, Nigeria</span>
-      </div>
-      <div class="opp-card rv">
-        <div class="opp-top"><span class="badge badge-purple">Hiring</span><span class="opp-arrow"><i data-lucide="arrow-up-right" style="width:14px;height:14px"></i></span></div>
-        <h4>AI Automation Builder</h4>
-        <p>Looking for an experienced builder to join our team on long-term automation projects.</p>
-        <span class="opp-budget">₦150k - ₦300k / month</span>
-        <div class="opp-tags"><span class="tag-sm">n8n</span><span class="tag-sm">Make</span><span class="tag-sm">OpenAI</span></div>
-        <span class="opp-loc"><i data-lucide="map-pin" style="width:12px;height:12px"></i> Remote</span>
-      </div>
-      <div class="opp-card rv">
-        <div class="opp-top"><span class="badge badge-orange">Project</span><span class="opp-arrow"><i data-lucide="arrow-up-right" style="width:14px;height:14px"></i></span></div>
-        <h4>E-commerce Order Processing Automation</h4>
-        <p>Automate order processing, inventory updates, customer notifications and reporting.</p>
-        <span class="opp-budget">₦200k - ₦350k</span>
-        <div class="opp-tags"><span class="tag-sm">Make</span><span class="tag-sm">Shopify</span><span class="tag-sm">GSheets</span></div>
-        <span class="opp-loc"><i data-lucide="map-pin" style="width:12px;height:12px"></i> Remote</span>
-      </div>
-      <div class="opp-card rv">
-        <div class="opp-top"><span class="badge badge-blue">Collaboration</span><span class="opp-arrow"><i data-lucide="arrow-up-right" style="width:14px;height:14px"></i></span></div>
-        <h4>Build an AI Cold Email Agent</h4>
-        <p>Looking for a builder to help develop an AI agent that finds leads, writes and follows up emails.</p>
-        <span class="opp-budget">Budget: Negotiable</span>
-        <div class="opp-tags"><span class="tag-sm">AI</span><span class="tag-sm">n8n</span><span class="tag-sm">Email APIs</span></div>
-        <span class="opp-loc"><i data-lucide="map-pin" style="width:12px;height:12px"></i> Remote</span>
-      </div>
-    </div>
-  </div>
-</section>
+const fmt = n => '₦' + n.toLocaleString('en-NG');
 
-<!-- ============ COMMUNITY ============ -->
-<section id="community">
-  <div class="wrap">
-    <h2 class="rv">Community is our Superpower</h2>
-    <p class="sub rv">Ask builders. Share budgets. Get better together.</p>
+/* ── BADGE UPDATES ── */
+function updateBadges() {
+  const cartQty = cartItems.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cBadge').textContent = cartQty;
+  document.getElementById('wBadge').textContent = wishItems.length;
+  document.getElementById('cartDrawerCount').textContent = cartQty;
+  document.getElementById('wishDrawerCount').textContent = wishItems.length;
+}
 
-    <div class="comm-grid">
-      <div class="chat-panel rv">
-        <div class="chat-side">
-          <span class="brand">
-            <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
-              <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
-            </svg>
-            <span class="brand-name">AUTOMATE NAIJA</span>
-          </span>
-          <div class="chan">
-            <span class="active"># general</span>
-            <span># showcase</span>
-            <span># n8n</span>
-            <span># make</span>
-            <span># ai-agents</span>
-            <span># opportunities</span>
-            <span># collaborations</span>
-            <span># resources</span>
-          </div>
-        </div>
-        <div class="chat-main">
-          <div class="msgs">
-            <div class="msg"><img id="msA" alt="" width="30" height="30"><span><span class="who">David A. <span>10:24 AM</span></span><p>Finally got the webhook working 🎉</p></span></div>
-            <div class="msg"><img id="msB" alt="" width="30" height="30"><span><span class="who">Amaka <span>10:25 AM</span></span><p>Drop the workflow, I want to see how you handled retries.</p></span></div>
-            <div class="msg"><img id="msC" alt="" width="30" height="30"><span><span class="who">Tobi <span>10:26 AM</span></span><p>Anyone here good with Supabase?</p></span></div>
-            <div class="msg"><img id="msD" alt="" width="30" height="30"><span><span class="who">Emeka <span>10:27 AM</span></span><p>I'm free, send it over.</p></span></div>
-          </div>
-          <div class="online-bar">
-            <span class="avatars"><img id="onA" alt="" width="22" height="22"><img id="onB" alt="" width="22" height="22"><img id="onC" alt="" width="22" height="22"></span>
-            <span>247 builders online</span>
-          </div>
-        </div>
-      </div>
+/* ── CART LOGIC ── */
+function addCart(id, name, emoji, cat, price) {
+  const existing = cartItems.find(i => i.id === id);
+  if (existing) { existing.qty++; }
+  else { cartItems.push({ id, n: name, e: emoji, cat, p: price, qty: 1 }); }
+  updateBadges();
+  renderCartDrawer();
+  openCart();
+}
 
-      <div class="rv">
-        <h3 style="font-family:'IBM Plex Sans',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:16px;text-align:center;">Why Builders Love Automate Naija</h3>
-        <div class="why-grid">
-          <div class="why-card"><span class="why-ic"><i data-lucide="graduation-cap" class="i"></i></span><h4>Practical Learning</h4><p>No fluff. Learn by doing real projects that matter.</p></div>
-          <div class="why-card"><span class="why-ic"><i data-lucide="users-round" class="i"></i></span><h4>Active Community</h4><p>Get help, share ideas and grow with other builders.</p></div>
-          <div class="why-card"><span class="why-ic"><i data-lucide="target" class="i"></i></span><h4>Real Opportunities</h4><p>Access high-paying projects and full-time roles.</p></div>
-          <div class="why-card"><span class="why-ic"><i data-lucide="award" class="i"></i></span><h4>Build Your Reputation</h4><p>Earn XP, badges and showcase your skills.</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+function removeFromCart(id) {
+  cartItems = cartItems.filter(i => i.id !== id);
+  updateBadges();
+  renderCartDrawer();
+}
 
-<!-- ============ FINAL CTA ============ -->
-<section id="pricing" style="padding-top:20px;">
-  <div class="final rv">
-    <div class="final-inner">
-      <div>
-        <h2>Your next build<br>starts here.</h2>
-        <div class="final-steps" style="margin-top:16px;">
-          <span class="final-step"><i data-lucide="book-open" style="width:14px;height:14px"></i> Learn something.</span>
-          <span class="final-step"><i data-lucide="wrench" style="width:14px;height:14px"></i> Build something.</span>
-          <span class="final-step"><i data-lucide="users" style="width:14px;height:14px"></i> Meet someone.</span>
-          <span class="final-step"><i data-lucide="star" style="width:14px;height:14px"></i> Solve something.</span>
-          <span class="final-step"><i data-lucide="rocket" style="width:14px;height:14px"></i> Ship something.</span>
-        </div>
-      </div>
-      <div class="final-cta-col">
-        <a href="#" class="btn btn-solid btn-lg">Join Automate Naija</a>
-        <span class="final-note">It's free to start. Forever.</span>
-      </div>
-    </div>
-  </div>
-</section>
+function changeQty(id, delta) {
+  const item = cartItems.find(i => i.id === id);
+  if (!item) return;
+  item.qty += delta;
+  if (item.qty <= 0) { removeFromCart(id); return; }
+  updateBadges();
+  renderCartDrawer();
+}
 
-<!-- ============ FOOTER ============ -->
-<footer>
-  <div class="wrap">
-    <div class="fgrid">
-      <div class="fbrand">
-        <span class="brand" style="margin-bottom:6px;">
-          <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
-            <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
-          </svg>
-          <span class="brand-name">AUTOMATE NAIJA</span>
-        </span>
-        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
-      </div>
-      <div><h5>Platform</h5><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#arena">Showcase</a></div></div>
-      <div><h5>Resources</h5><div class="fcol"><a href="#">Blog</a><a href="#">Guides</a><a href="#">Templates</a><a href="#">Tools</a><a href="#faq">FAQ</a></div></div>
-      <div><h5>Company</h5><div class="fcol"><a href="#">About Us</a><a href="#">Careers</a><a href="#">Partner With Us</a><a href="#">Contact</a></div></div>
-      <div>
-        <h5>Stay in the loop</h5>
-        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
-        <form class="signup" onsubmit="return false;">
-          <input type="email" placeholder="Enter your email" aria-label="Email address">
-          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
-        </form>
-      </div>
-    </div>
-    <div class="fbot">
-      <span>© 2026 Automate Naija. All rights reserved.</span>
-      <span class="fsocial">
-        <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
-      </span>
-      <span class="mono">Built in Naija. For the world. 🇳🇬</span>
-    </div>
-  </div>
-</footer>
+function renderCartDrawer() {
+  const itemsEl = document.getElementById('cartItems');
+  const emptyEl = document.getElementById('cartEmpty');
+  const footerEl = document.getElementById('cartFooter');
+  const totalEl = document.getElementById('cartTotal');
 
-<style>@keyframes dash{to{stroke-dashoffset:-206;}}</style>
-
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
-        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){drawIcons();};document.head.appendChild(s);"></script>
-<script>
-  /* =================================================================
-     EDIT EVERYTHING HERE. Nothing else needs touching.
-     ================================================================= */
-  var N8N_URL = "https://automatenaija.prodeegee.com/signin";
-
-  var IMAGES = {
-    // Replace each with your own image URL, or "./filename.jpg" if the
-    // file sits in the same folder as this index.html on Cloudflare Pages.
-    avatars: [
-      "https://i.pravatar.cc/80?img=12",
-      "https://i.pravatar.cc/80?img=32",
-      "https://i.pravatar.cc/80?img=45",
-      "https://i.pravatar.cc/80?img=5"
-    ],
-    canvasFaces: [
-      "https://i.pravatar.cc/60?img=15",
-      "https://i.pravatar.cc/60?img=22",
-      "https://i.pravatar.cc/60?img=8"
-    ],
-    challengeFaces: [
-      "https://i.pravatar.cc/60?img=18",
-      "https://i.pravatar.cc/60?img=27",
-      "https://i.pravatar.cc/60?img=41"
-    ],
-    onlineFaces: [
-      "https://i.pravatar.cc/60?img=3",
-      "https://i.pravatar.cc/60?img=9",
-      "https://i.pravatar.cc/60?img=19"
-    ],
-    chatFaces: {
-      david: "https://i.pravatar.cc/60?img=12",
-      amaka: "https://i.pravatar.cc/60?img=32",
-      tobi:  "https://i.pravatar.cc/60?img=51",
-      emeka: "https://i.pravatar.cc/60?img=13"
-    },
-    host: "https://i.pravatar.cc/60?img=12",
-    showcase: "https://picsum.photos/seed/an-showcase/800/500",
-    tutors: [
-      { name: "Abdulhafeez Adebayo", role: "Lead Instructor · n8n & AI Agents", photo: "https://picsum.photos/seed/an-tutor-1/900/1000",
-        social: { linkedin: "https://linkedin.com/in/abdulhafeez-adebayo", instagram: "https://instagram.com/abdulhafeez", twitter: "https://twitter.com/abdulhafeez" } },
-      { name: "Oluwabunmi Josephine",      role: "Automation & Integrations",         photo: "https://media.prodeegee.com/1769428499086.jpg",
-        social: { linkedin: "https://linkedin.com/in/oluwabunmi-josephine", instagram: "https://instagram.com/oluwabunmi", twitter: "https://twitter.com/oluwabunmi" } },
-      { name: "Abdulhafeez Adebayo",    role: "Client Work & Deployment",          photo: "https://media.prodeegee.com/1741059755772.jpg",
-        social: { linkedin: "https://linkedin.com/in/abdulhafeez-adebayo", instagram: "https://instagram.com/abdulhafeez", twitter: "https://twitter.com/abdulhafeez" } }
-    ]
-  };
-  /* ================================================================= */
-
-  /* ---- 1. SCROLL REVEAL - runs first so nothing can block it ---- */
-  (function(){
-    var els = document.querySelectorAll('.rv');
-    function showAll(){ els.forEach(function(el){ el.classList.add('in'); }); }
-    if (!('IntersectionObserver' in window)) { showAll(); return; }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-    els.forEach(function(el, i){
-      el.style.transitionDelay = (Math.min(i % 5, 4) * 60) + 'ms';
-      io.observe(el);
-    });
-    setTimeout(showAll, 2000); // safety net
-  })();
-
-  /* ---- 2. ICONS - guarded, never fatal ---- */
-  function drawIcons(){
-    try { if (window.lucide && lucide.createIcons) lucide.createIcons(); } catch(e){}
+  if (cartItems.length === 0) {
+    emptyEl.style.display = '';
+    itemsEl.innerHTML = '';
+    footerEl.style.display = 'none';
+    return;
   }
-  drawIcons();
-  window.addEventListener('load', drawIcons);
+  emptyEl.style.display = 'none';
+  footerEl.style.display = '';
 
-  /* ---- 3. IMAGES + LOGIN LINK ---- */
-  (function(){
-    function set(id, prop, val){ var el = document.getElementById(id); if (el) el[prop] = val; }
-    set('avA','src',IMAGES.avatars[0]); set('avB','src',IMAGES.avatars[1]);
-    set('avC','src',IMAGES.avatars[2]); set('avD','src',IMAGES.avatars[3]);
-    set('ncA','src',IMAGES.canvasFaces[0]); set('ncB','src',IMAGES.canvasFaces[1]); set('ncC','src',IMAGES.canvasFaces[2]);
-    set('chA','src',IMAGES.challengeFaces[0]); set('chB','src',IMAGES.challengeFaces[1]); set('chC','src',IMAGES.challengeFaces[2]);
-    set('onA','src',IMAGES.onlineFaces[0]); set('onB','src',IMAGES.onlineFaces[1]); set('onC','src',IMAGES.onlineFaces[2]);
-    set('msA','src',IMAGES.chatFaces.david); set('msB','src',IMAGES.chatFaces.amaka);
-    set('msC','src',IMAGES.chatFaces.tobi); set('msD','src',IMAGES.chatFaces.emeka);
-    set('imgHost','src',IMAGES.host);
-    set('imgShowcase','src',IMAGES.showcase);
-    set('tutorShot','src',IMAGES.tutors[0].photo);
-    set('loginTop','href',N8N_URL);
-    set('loginMob','href',N8N_URL);
-  })();
+  itemsEl.innerHTML = cartItems.map(item => `
+    <div class="cart-item">
+      <div class="ci-img">${item.e}</div>
+      <div class="ci-info">
+        <div class="ci-cat">${item.cat}</div>
+        <div class="ci-name">${item.n}</div>
+        <div class="ci-price">${fmt(item.p * item.qty)}</div>
+        <div class="ci-qty">
+          <button class="qty-btn" onclick="changeQty('${item.id}',-1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}',1)">+</button>
+        </div>
+      </div>
+      <button class="ci-remove" onclick="removeFromCart('${item.id}')">✕</button>
+    </div>`).join('');
 
-  /* ---- 4. MOBILE MENU ---- */
-  (function(){
-    var mb = document.getElementById('menuBtn'), mm = document.getElementById('mobileMenu');
-    if(!mb || !mm) return;
-    function setIcon(name){
-      mb.innerHTML = '<i data-lucide="'+name+'" style="width:24px;height:24px"></i>';
-      drawIcons();
+  const total = cartItems.reduce((s, i) => s + i.p * i.qty, 0);
+  totalEl.textContent = fmt(total);
+}
+
+function openCart() {
+  document.getElementById('cartDrawer').classList.add('open');
+  document.getElementById('cartOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCart() {
+  document.getElementById('cartDrawer').classList.remove('open');
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── WISHLIST LOGIC ── */
+function addWish(id, name, emoji, cat, price) {
+  if (wishItems.find(i => i.id === id)) return; // no duplicates
+  wishItems.push({ id, n: name, e: emoji, cat, p: price });
+  updateBadges();
+  renderWishDrawer();
+  openWishlist();
+}
+
+function removeFromWish(id) {
+  wishItems = wishItems.filter(i => i.id !== id);
+  updateBadges();
+  renderWishDrawer();
+}
+
+function moveToCart(id) {
+  const item = wishItems.find(i => i.id === id);
+  if (!item) return;
+  removeFromWish(id);
+  addCart(item.id, item.n, item.e, item.cat, item.p);
+}
+
+function moveAllToCart() {
+  [...wishItems].forEach(i => {
+    const existing = cartItems.find(c => c.id === i.id);
+    if (existing) existing.qty++;
+    else cartItems.push({ ...i, qty: 1 });
+  });
+  wishItems = [];
+  updateBadges();
+  renderWishDrawer();
+  renderCartDrawer();
+  closeWishlist();
+  openCart();
+}
+
+function renderWishDrawer() {
+  const itemsEl = document.getElementById('wishItems');
+  const emptyEl = document.getElementById('wishEmpty');
+  const footerEl = document.getElementById('wishFooter');
+
+  if (wishItems.length === 0) {
+    emptyEl.style.display = '';
+    itemsEl.innerHTML = '';
+    footerEl.style.display = 'none';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  footerEl.style.display = '';
+
+  itemsEl.innerHTML = wishItems.map(item => `
+    <div class="wi-item">
+      <div class="ci-img">${item.e}</div>
+      <div class="ci-info">
+        <div class="ci-cat">${item.cat}</div>
+        <div class="ci-name">${item.n}</div>
+        <div class="ci-price">${fmt(item.p)}</div>
+        <div class="ci-qty" style="margin-top:6px">
+          <button class="qty-btn" style="width:auto;padding:0 10px;border-radius:30px;font-size:11px;font-weight:800"
+            onclick="moveToCart('${item.id}')">🛒 Add to Cart</button>
+        </div>
+      </div>
+      <button class="ci-remove" onclick="removeFromWish('${item.id}')">✕</button>
+    </div>`).join('');
+}
+
+function openWishlist() {
+  document.getElementById('wishDrawer').classList.add('open');
+  document.getElementById('wishOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeWishlist() {
+  document.getElementById('wishDrawer').classList.remove('open');
+  document.getElementById('wishOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── PRODUCT RENDER ── */
+const lblMap={sale:'lbl-sale',new:'lbl-new',hot:'lbl-hot',best:'lbl-best',popular:'lbl-sale'};
+const lblText={sale:'Sale',new:'New',hot:'Hot',best:'Best Seller',popular:'Popular'};
+
+function renderProds(list) {
+  const g = document.getElementById('prodGrid');
+  g.innerHTML = '';
+  list.forEach(p => {
+    const disc = p.o ? Math.round((1 - p.p / p.o) * 100) : 0;
+    g.innerHTML += `<div class="pcard" onclick="openModal('${p.id}')">
+      <div class="pc-thumb">
+        ${p.tag ? `<span class="pc-label ${lblMap[p.tag]||'lbl-sale'}">${lblText[p.tag]||p.tag}</span>` : ''}
+        <button class="pc-wish" onclick="event.stopPropagation();addWishFromCard(this,'${p.id}')">♡</button>
+        <span>${p.e}</span>
+        <div class="pc-actions">
+          <button class="pa-btn" onclick="event.stopPropagation();addCart('${p.id}','${p.n.replace(/'/g,"\\'")}','${p.e}','${p.cat}',${p.p})">🛒 Add to Cart</button>
+          <span class="pa-icon" onclick="event.stopPropagation();openModal('${p.id}')">👁</span>
+        </div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat">${p.cat} · ${p.pet}</div>
+        <div class="pc-name">${p.n}</div>
+        <div class="pc-stars">★★★★${p.r>=5?'★':'☆'}<span class="pc-rc">${p.r} (${p.rv})</span></div>
+        <div class="pc-price-row">
+          <span class="pc-price">${fmt(p.p)}</span>
+          ${p.o ? `<span class="pc-del">${fmt(p.o)}</span><span class="pc-pct">-${disc}%</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('pCount').textContent = list.length;
+}
+
+function addWishFromCard(btn, id) {
+  const p = prods.find(x => x.id === id);
+  if (!p) return;
+  const isAdded = btn.textContent === '♥';
+  if (isAdded) { removeFromWish(id); btn.textContent = '♡'; }
+  else { btn.textContent = '♥'; addWish(id, p.n, p.e, p.cat, p.p); }
+}
+
+function renderPets() {
+  const g = document.getElementById('petGrid');
+  g.innerHTML = '';
+  petsData.forEach(p => {
+    g.innerHTML += `<div class="pet-card" onclick="alert('Contact seller for ${p.n}\\n${p.breed} — ${fmt(p.p)}')">
+      <div class="pt-img" style="background:${p.bg}">
+        ${p.badge ? `<span class="pt-badge ${p.bdg}">${p.badge}</span>` : ''}
+        <button class="pt-wish" onclick="event.stopPropagation();this.textContent=this.textContent==='♡'?'♥':'♡'">♡</button>
+        <span style="font-size:58px">${p.e}</span>
+      </div>
+      <div class="pt-body">
+        <div class="pt-breed">${p.breed}</div>
+        <div class="pt-name">${p.n}</div>
+        <div class="pt-tags"><span class="pt-tag">${p.age}</span><span class="pt-tag" style="color:#2ecc71;background:#eafaf1;border-color:#eafaf1">${p.health}</span></div>
+        <div class="pt-loc">📍 ${p.loc}</div>
+        <div class="pt-footer">
+          <span class="pt-price">${fmt(p.p)}</span>
+          <button class="pt-cta" onclick="event.stopPropagation();alert('Opening WhatsApp for ${p.n}…')">Contact</button>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+/* ── MODAL ── */
+function openModal(id) {
+  let p = null;
+  if (id.startsWith('d')) { p = dealData[parseInt(id.slice(1))]; }
+  else { p = prods.find(x => x.id === id); }
+  if (!p) return;
+  document.getElementById('mT').textContent = p.n || p.name;
+  document.getElementById('mE').textContent = p.e;
+  document.getElementById('mP').textContent = fmt(p.p || p.price);
+  document.getElementById('mO').textContent = (p.o || p.orig) ? 'Was ' + fmt(p.o || p.orig) : '';
+  document.getElementById('mG').innerHTML = `
+    <div class="mf"><span class="mfl">Category</span><span class="mfv">${p.cat}</span></div>
+    <div class="mf"><span class="mfl">For</span><span class="mfv">${p.pet}</span></div>
+    <div class="mf"><span class="mfl">Brand</span><span class="mfv">${p.brand || '—'}</span></div>
+    <div class="mf"><span class="mfl">Rating</span><span class="mfv">⭐ ${p.r || '4.7'} · ${p.rv || '—'} reviews</span></div>`;
+  // Wire modal buttons
+  document.getElementById('modalCartBtn').onclick = () => { addCart(p.id || 'd', p.n, p.e, p.cat, p.p); closeModal(); };
+  document.getElementById('modalWishBtn').onclick = () => { addWish(p.id || 'd', p.n, p.e, p.cat, p.p); closeModal(); };
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+/* ── FILTERS ── */
+function filterCat(el, cat) {
+  if (el) { document.querySelectorAll('#catMenu .cat-menu-item').forEach(i => i.classList.remove('on')); el.classList.add('on'); }
+  document.getElementById('afChip').innerHTML = `${cat} <button class="af-x" onclick="resetFilter()">✕</button>`;
+  renderProds(cat === 'All' ? prods : prods.filter(p => p.cat === cat));
+  document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
+}
+function resetFilter() {
+  document.querySelectorAll('#catMenu .cat-menu-item').forEach((i, x) => { i.classList.remove('on'); if (x === 0) i.classList.add('on'); });
+  document.getElementById('afChip').innerHTML = 'All Products <button class="af-x" onclick="resetFilter()">✕</button>';
+  renderProds(prods);
+}
+function filterType(el, type) {
+  document.querySelectorAll('#petTypeTabs .ftab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  renderProds(type === 'All' ? prods : prods.filter(p => p.pet === type));
+}
+function sortProds(v) {
+  let s = [...prods];
+  if (v.includes('Low')) s.sort((a, b) => a.p - b.p);
+  else if (v.includes('High')) s.sort((a, b) => b.p - a.p);
+  else if (v.includes('Rated')) s.sort((a, b) => b.r - a.r);
+  renderProds(s);
+}
+function liveSearch(q) {
+  if (!q) { renderProds(prods); return; }
+  q = q.toLowerCase();
+  renderProds(prods.filter(p => p.n.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.pet.toLowerCase().includes(q)));
+}
+function setNav(el) { document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('on')); el.classList.add('on'); }
+function setPg(btn) { document.querySelectorAll('.pgb').forEach(b => b.classList.remove('on')); btn.classList.add('on'); }
+
+/* ── COUNTDOWN ── */
+let secs = 8*3600 + 42*60 + 17;
+setInterval(() => {
+  if (secs <= 0) return; secs--;
+  const h = Math.floor(secs/3600), m = Math.floor((secs%3600)/60), s = secs%60;
+  document.getElementById('dh').textContent = String(h).padStart(2,'0');
+  document.getElementById('dm').textContent = String(m).padStart(2,'0');
+  document.getElementById('ds').textContent = String(s).padStart(2,'0');
+}, 1000);
+
+/* ══════════════════════════════════════════
+   CHECKOUT + PAYSTACK + N8N INTEGRATION
+   ══════════════════════════════════════════ */
+
+// ── CONFIG — swap these when going live ──
+const PAYSTACK_PUBLIC_KEY = 'pk_test_f82004b2022fdfbafa4fb5f749f3708113062e0b';
+const N8N_WEBHOOK_URL     = 'https://your-n8n.app.n8n.cloud/webhook/puppyplace-order'; // 🔗 Replace with your n8n webhook URL
+
+let coCurrentStep = 1;
+
+// ── OPEN / CLOSE ──
+function openCheckout() {
+  if (cartItems.length === 0) { alert('Your cart is empty!'); return; }
+  closeCart();
+  coCurrentStep = 1;
+  renderCoStep(1);
+  document.getElementById('coBg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCheckout() {
+  document.getElementById('coBg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── STEP RENDERER ──
+function renderCoStep(step) {
+  // sections
+  document.querySelectorAll('.co-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('coStep' + step).classList.add('active');
+
+  // step indicators
+  [1,2,3].forEach(n => {
+    const el = document.getElementById('step' + n + 'ind');
+    el.classList.remove('active','done');
+    if (n < step) el.classList.add('done');
+    else if (n === step) el.classList.add('active');
+  });
+  document.getElementById('line1').classList.toggle('done', step > 1);
+  document.getElementById('line2').classList.toggle('done', step > 2);
+
+  // footer
+  const footer  = document.getElementById('coFooter');
+  const btnBack = document.getElementById('coBtnBack');
+  const btnNext = document.getElementById('coBtnNext');
+  const btnLbl  = document.getElementById('coBtnLabel');
+
+  if (step === 4) { footer.style.display = 'none'; return; }
+  footer.style.display = '';
+  btnBack.style.display = step > 1 ? '' : 'none';
+
+  if (step === 1) btnLbl.textContent = 'Continue to Review →';
+  if (step === 2) { btnLbl.textContent = 'Proceed to Payment →'; buildReview(); }
+  if (step === 3) { btnLbl.textContent = '🔒 Pay Now — ' + fmt(cartTotal()); buildPaySummary(); }
+}
+
+function cartTotal() {
+  return cartItems.reduce((s, i) => s + i.p * i.qty, 0);
+}
+
+// ── NAVIGATION ──
+function coNext() {
+  if (coCurrentStep === 1) { if (!validateStep1()) return; coCurrentStep = 2; }
+  else if (coCurrentStep === 2) { coCurrentStep = 3; }
+  else if (coCurrentStep === 3) { launchPaystack(); return; }
+  renderCoStep(coCurrentStep);
+}
+function coBack() {
+  if (coCurrentStep > 1) { coCurrentStep--; renderCoStep(coCurrentStep); }
+}
+
+// ── VALIDATION ──
+function validateStep1() {
+  let ok = true;
+  const fields = [
+    { id: 'coName',    err: 'coNameErr',    test: v => v.trim().length >= 2 },
+    { id: 'coPhone',   err: 'coPhoneErr',   test: v => /^0[7-9][01]\d{8}$/.test(v.replace(/\s/g,'')) },
+    { id: 'coEmail',   err: 'coEmailErr',   test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+    { id: 'coAddress', err: 'coAddressErr', test: v => v.trim().length >= 5 },
+    { id: 'coState',   err: 'coStateErr',   test: v => v !== '' },
+  ];
+  fields.forEach(f => {
+    const inp = document.getElementById(f.id);
+    const err = document.getElementById(f.err);
+    const valid = f.test(inp.value);
+    inp.classList.toggle('error', !valid);
+    err.classList.toggle('show', !valid);
+    if (!valid) ok = false;
+  });
+  return ok;
+}
+
+// clear errors on input
+['coName','coPhone','coEmail','coAddress','coState'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', function() {
+    this.classList.remove('error');
+    const err = document.getElementById(id + 'Err');
+    if (err) err.classList.remove('show');
+  });
+});
+
+// ── BUILD REVIEW ──
+function buildReview() {
+  // Summary block
+  const sb = document.getElementById('coSummaryBlock');
+  const itemsHtml = cartItems.map(i =>
+    `<div class="co-sum-item">
+      <div class="co-sum-item-left">
+        <span class="co-sum-emoji">${i.e}</span>
+        <span class="co-sum-name">${i.n}</span>
+        <span class="co-sum-qty">×${i.qty}</span>
+      </div>
+      <span class="co-sum-price">${fmt(i.p * i.qty)}</span>
+    </div>`).join('');
+  sb.innerHTML = `
+    <div class="co-sum-title">Order Summary</div>
+    <div class="co-sum-items">${itemsHtml}</div>
+    <div class="co-sum-divider"></div>
+    <div class="co-sum-total"><span>Total</span><span>${fmt(cartTotal())}</span></div>`;
+
+  // Delivery details
+  const rd = document.getElementById('coReviewDetails');
+  rd.innerHTML = [
+    ['👤 Name',    document.getElementById('coName').value],
+    ['📞 Phone',   document.getElementById('coPhone').value],
+    ['✉️ Email',   document.getElementById('coEmail').value],
+    ['📍 Address', document.getElementById('coAddress').value],
+    ['🗺️ State',   document.getElementById('coState').value],
+  ].map(([l,v]) => `<div style="display:flex;gap:8px;font-size:13px"><span style="color:var(--gray);width:90px;flex-shrink:0">${l}</span><strong>${v}</strong></div>`).join('');
+}
+
+// ── BUILD PAY SUMMARY ──
+function buildPaySummary() {
+  const ps = document.getElementById('coPaySummary');
+  ps.innerHTML = `
+    <div class="co-sum-title">Order Total</div>
+    <div class="co-sum-divider"></div>
+    <div class="co-sum-total" style="font-size:20px"><span>Amount to pay</span><span style="color:var(--orange)">${fmt(cartTotal())}</span></div>`;
+}
+
+// ── PAYSTACK ──
+function launchPaystack() {
+  const btnNext = document.getElementById('coBtnNext');
+  const spinner = document.getElementById('coSpinner');
+  const btnLbl  = document.getElementById('coBtnLabel');
+  btnNext.disabled = true;
+  spinner.classList.add('show');
+  btnLbl.textContent = 'Opening payment…';
+
+  const ref = 'PP-' + Date.now() + '-' + Math.random().toString(36).slice(2,7).toUpperCase();
+  document.getElementById('coOrderRef').textContent = ref;
+
+  const handler = PaystackPop.setup({
+    key:      PAYSTACK_PUBLIC_KEY,
+    email:    document.getElementById('coEmail').value,
+    amount:   cartTotal() * 100, // Paystack uses kobo
+    currency: 'NGN',
+    ref:      ref,
+    metadata: {
+      custom_fields: [
+        { display_name: 'Customer Name',  variable_name: 'name',    value: document.getElementById('coName').value },
+        { display_name: 'Phone',          variable_name: 'phone',   value: document.getElementById('coPhone').value },
+        { display_name: 'Address',        variable_name: 'address', value: document.getElementById('coAddress').value },
+        { display_name: 'State',          variable_name: 'state',   value: document.getElementById('coState').value },
+      ]
+    },
+    callback: function(response) {
+      // Payment successful — send to n8n
+      sendToN8n(ref, response.transaction);
+    },
+    onClose: function() {
+      // Customer closed popup without paying
+      btnNext.disabled = false;
+      spinner.classList.remove('show');
+      btnLbl.textContent = '🔒 Pay Now — ' + fmt(cartTotal());
     }
-    mb.addEventListener('click', function(){
-      var open = mm.classList.toggle('open');
-      mb.setAttribute('aria-expanded', open);
-      setIcon(open ? 'x' : 'menu');
+  });
+  handler.openIframe();
+}
+
+// ── SEND TO N8N ──
+async function sendToN8n(ref, transactionId) {
+  const orderData = {
+    reference:      ref,
+    transaction_id: transactionId || 'N/A',
+    timestamp:      new Date().toISOString(),
+    customer: {
+      name:    document.getElementById('coName').value,
+      phone:   document.getElementById('coPhone').value,
+      email:   document.getElementById('coEmail').value,
+      address: document.getElementById('coAddress').value,
+      state:   document.getElementById('coState').value,
+      notes:   document.getElementById('coNotes').value || '',
+    },
+    items: cartItems.map(i => ({
+      id:       i.id,
+      name:     i.n,
+      category: i.cat,
+      price:    i.p,
+      quantity: i.qty,
+      subtotal: i.p * i.qty,
+    })),
+    total:    cartTotal(),
+    currency: 'NGN',
+    status:   'paid',
+    source:   'puppyplace.ng',
+  };
+
+  // Show success screen immediately — n8n call happens in background
+  showSuccess();
+
+  try {
+    await fetch(N8N_WEBHOOK_URL, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(orderData),
     });
-    mm.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        mm.classList.remove('open');
-        mb.setAttribute('aria-expanded', false);
-        setIcon('menu');
-      });
-    });
-  })();
+    console.log('✅ Order sent to n8n:', ref);
+  } catch (err) {
+    // Silent fail — order still confirmed on Paystack's side
+    console.warn('⚠️ n8n webhook failed (order still confirmed):', err.message);
+  }
+}
 
-  /* ---- 5. MEET YOUR TUTORS - image swaps as you scroll ---- */
-  (function(){
-    var frame = document.getElementById('tutorShot');
-    var idxEl = document.getElementById('tutorIdx');
-    var nameEl = document.getElementById('tutorName');
-    var roleEl = document.getElementById('tutorRole');
-    var items = document.querySelectorAll('.tutor-item');
-    if(!frame || !items.length) return;
+// ── SUCCESS SCREEN ──
+function showSuccess() {
+  coCurrentStep = 4;
+  renderCoStep(4);
 
-    var current = -1;
-    function setSocial(id, url){
-      var el = document.getElementById(id);
-      if(!el) return;
-      if(url){ el.href = url; el.style.display = ''; }
-      else { el.style.display = 'none'; }
+  // Push order to member account if logged in
+  const session = JSON.parse(sessionStorage.getItem('pp_session')||'null');
+  if(session){
+    const users = JSON.parse(localStorage.getItem('pp_users')||'[]');
+    const idx = users.findIndex(u => u.id === session.id);
+    if(idx >= 0){
+      const order = {
+        ref:     document.getElementById('coOrderRef').textContent,
+        date:    new Date().toISOString(),
+        status:  'processing',
+        address: document.getElementById('coAddress').value + ', ' + document.getElementById('coState').value,
+        items:   cartItems.map(i=>({id:i.id, n:i.n, e:i.e, p:i.p, qty:i.qty})),
+        total:   cartTotal(),
+      };
+      users[idx].orders = users[idx].orders || [];
+      users[idx].orders.push(order);
+      users[idx].points = (users[idx].points||0) + Math.floor(cartTotal()/1000);
+      localStorage.setItem('pp_users', JSON.stringify(users));
     }
-    function show(i){
-      if(i === current) return;
-      current = i;
-      var t = IMAGES.tutors[i];
-      if(!t) return;
-      frame.style.opacity = 0;
-      setTimeout(function(){
-        frame.src = t.photo;
-        nameEl.textContent = t.name;
-        roleEl.textContent = t.role;
-        idxEl.textContent = String(i+1).padStart(2,'0') + ' / ' + String(IMAGES.tutors.length).padStart(2,'0');
-        frame.style.opacity = 1;
-        var s = t.social || {};
-        setSocial('tutorLinkedin', s.linkedin);
-        setSocial('tutorInstagram', s.instagram);
-        setSocial('tutorTwitter', s.twitter);
-      }, 180);
-      items.forEach(function(el){ el.classList.toggle('active', Number(el.dataset.idx) === i); });
-    }
+  }
 
-    // click / tap a name to jump straight to that tutor
-    items.forEach(function(el){
-      el.addEventListener('click', function(){ show(Number(el.dataset.idx)); });
-    });
+  // Clear cart
+  cartItems = [];
+  updateBadges();
+  renderCartDrawer();
+}
 
-    // auto-advance as the section scrolls through view
-    if('IntersectionObserver' in window){
-      var io2 = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){ if(e.isIntersecting) show(Number(e.target.dataset.idx)); });
-      }, { threshold: 0.6 });
-      items.forEach(function(el){ io2.observe(el); });
-    }
-
-    show(0);
-  })();
-
-  /* hero heading typewriter animation */
-  (function(){
-    var el = document.getElementById('heroWord');
-    if(!el) return;
-    var words = ['workflow','node','automation','canvas','step','build','assignment','project'];
-    var i = 0;
-    var typeSpeed = 90;
-    var deleteSpeed = 50;
-    var holdTime = 1500;
-
-    function type(word, cb){
-      var idx = 0;
-      (function step(){
-        el.textContent = word.slice(0, idx);
-        idx++;
-        if(idx <= word.length){
-          setTimeout(step, typeSpeed);
-        } else {
-          cb();
-        }
-      })();
-    }
-
-    function erase(word, cb){
-      var idx = word.length;
-      (function step(){
-        el.textContent = word.slice(0, idx);
-        idx--;
-        if(idx >= 0){
-          setTimeout(step, deleteSpeed);
-        } else {
-          cb();
-        }
-      })();
-    }
-
-    function cycle(){
-      var current = words[i];
-      type(current, function(){
-        setTimeout(function(){
-          erase(current, function(){
-            i = (i + 1) % words.length;
-            setTimeout(cycle, 150);
-          });
-        }, holdTime);
-      });
-    }
-
-    el.textContent = '';
-    cycle();
-  })();
+/* ── INIT ── */
+renderProds(prods);
+renderPets();
 </script>
 </body>
 </html>
+  {id:'p1',n:'Kong Classic Chew Toy (L)',cat:'Toy',pet:'Dog',e:'🧸',p:3500,o:4800,tag:'popular',r:4.8,rv:245,brand:'Kong',vars:['S','M','L']},
+  {id:'p2',n:'Whiskas Tuna Pouches ×12',cat:'Food',pet:'Cat',e:'🐟',p:4200,o:5500,tag:'sale',r:4.7,rv:198,brand:'Whiskas',vars:['Tuna','Chicken']},
+  {id:'p3',n:'Pro Dog Clipper Set',cat:'Grooming',pet:'Dog',e:'✂️',p:9800,o:15000,tag:'hot',r:4.6,rv:87,brand:'Generic',vars:['Basic','Pro']},
+  {id:'p4',n:'Orthopedic Dog Bed (L)',cat:'Housing',pet:'Dog',e:'🛏️',p:18500,o:28000,tag:'sale',r:4.7,rv:143,brand:'Generic',vars:['M','L','XL']},
+  {id:'p5',n:'Drontal Dewormer ×10',cat:'Health',pet:'Dog',e:'💊',p:5200,o:7000,tag:'best',r:4.8,rv:226,brand:'Drontal',vars:['×5','×10']},
+  {id:'p6',n:"Hill's Kitten Food 1.5kg",cat:'Food',pet:'Cat',e:'🍗',p:8900,o:11000,tag:'new',r:4.9,rv:88,brand:'Hills',vars:['1.5kg','3kg']},
+  {id:'p7',n:'Retractable Dog Leash 5m',cat:'Accessories',pet:'Dog',e:'🐾',p:2800,o:null,tag:'',r:4.5,rv:310,brand:'Generic',vars:['3m','5m']},
+  {id:'p8',n:'Cat Scratch Post Deluxe',cat:'Toy',pet:'Cat',e:'🪵',p:7500,o:9500,tag:'popular',r:4.6,rv:134,brand:'Generic',vars:['Small','Large']},
+  {id:'p9',n:'Pedigree Adult 10kg Beef',cat:'Food',pet:'Dog',e:'🥩',p:22000,o:26000,tag:'sale',r:4.7,rv:411,brand:'Pedigree',vars:['3kg','10kg']},
+  {id:'p10',n:'Pet Carrier Bag Airline',cat:'Travel',pet:'Cat',e:'👜',p:12500,o:null,tag:'new',r:4.5,rv:67,brand:'Generic',vars:['S','M']},
+  {id:'p11',n:'Bird Cage Deluxe 60cm',cat:'Housing',pet:'Bird',e:'🏠',p:16000,o:21000,tag:'sale',r:4.4,rv:52,brand:'Generic',vars:['40cm','60cm']},
+  {id:'p12',n:'Purina One Salmon Cat 2kg',cat:'Food',pet:'Cat',e:'🐠',p:6500,o:null,tag:'',r:4.8,rv:176,brand:'Purina',vars:['800g','2kg']},
+  {id:'p13',n:'Dog Grooming Kit 7pcs',cat:'Grooming',pet:'Dog',e:'🛁',p:5800,o:8000,tag:'sale',r:4.5,rv:99,brand:'Generic',vars:['Starter','Pro']},
+  {id:'p14',n:'Rabbit Hutch 2-Tier',cat:'Housing',pet:'Rabbit',e:'🐰',p:28000,o:36000,tag:'sale',r:4.6,rv:38,brand:'Generic',vars:['1-Tier','2-Tier']},
+  {id:'p15',n:'Aquarium Starter Kit 30L',cat:'Housing',pet:'Fish',e:'🐟',p:19500,o:null,tag:'new',r:4.7,rv:61,brand:'Generic',vars:['20L','30L']},
+  {id:'p16',n:'Dog Winter Jacket M',cat:'Clothing',pet:'Dog',e:'🧥',p:4500,o:6000,tag:'new',r:4.3,rv:42,brand:'Generic',vars:['XS','S','M','L']},
+  {id:'p17',n:'NaturalPet NG Bone Broth',cat:'Food',pet:'Dog',e:'🍲',p:3200,o:null,tag:'',r:4.8,rv:154,brand:'NaturalPet',vars:['250ml','500ml']},
+  {id:'p18',n:'Interactive Laser Cat Toy',cat:'Toy',pet:'Cat',e:'🔴',p:2100,o:3000,tag:'popular',r:4.7,rv:287,brand:'Generic',vars:['Manual','Auto']},
+  {id:'p19',n:'Pet First Aid Kit 28pcs',cat:'Health',pet:'Dog',e:'🩺',p:7800,o:null,tag:'best',r:4.9,rv:73,brand:'Generic',vars:['Basic','Premium']},
+  {id:'p20',n:'Stainless Steel Bowl Set',cat:'Accessories',pet:'Dog',e:'🍽️',p:2400,o:null,tag:'',r:4.6,rv:392,brand:'Generic',vars:['S','M','L']},
+  {id:'p21',n:'Cat Litter Silica Gel 5L',cat:'Accessories',pet:'Cat',e:'🪣',p:3800,o:4500,tag:'popular',r:4.5,rv:218,brand:'Generic',vars:['5L','10L']},
+  {id:'p22',n:'Dog Vitamin Tablets ×60',cat:'Health',pet:'Dog',e:'💊',p:4500,o:null,tag:'',r:4.7,rv:130,brand:'Generic',vars:['×30','×60']},
+  {id:'p23',n:'Parrot Seed Mix 1kg',cat:'Food',pet:'Bird',e:'🌻',p:2200,o:null,tag:'new',r:4.4,rv:84,brand:'Generic',vars:['500g','1kg']},
+];
+const dealData=[
+  {n:'Royal Canin Adult 4kg',e:'🥩',p:14500,o:18000,cat:'Food',pet:'Dog',brand:'Royal Canin',r:4.9,rv:312},
+  {n:'Whiskas Tuna ×12',e:'🐟',p:4200,o:5500,cat:'Food',pet:'Cat',brand:'Whiskas',r:4.7,rv:198},
+  {n:'Pro Clipper Kit',e:'✂️',p:9800,o:15000,cat:'Grooming',pet:'Dog',brand:'Generic',r:4.6,rv:87},
+  {n:'Kong Classic Toy',e:'🧸',p:3500,o:4800,cat:'Toy',pet:'Dog',brand:'Kong',r:4.8,rv:245},
+];
+const petsData=[
+  {n:'Biscuit',breed:'Golden Retriever',cat:'Dog',e:'🐕',age:'8 wks',p:220000,loc:'Lagos',badge:'Hot',bdg:'lbl-hot',health:'Vaccinated',bg:'linear-gradient(135deg,#fdeee7,#fbd4c3)'},
+  {n:'Luna',breed:'Persian Cat',cat:'Cat',e:'🐈',age:'10 wks',p:95000,loc:'Abuja',badge:'New',bdg:'lbl-new',health:'Vet Checked',bg:'linear-gradient(135deg,#e8f5e9,#c8e6c9)'},
+  {n:'Zeus',breed:'Rottweiler',cat:'Dog',e:'🦮',age:'12 wks',p:280000,loc:'PH',badge:'Rare',bdg:'lbl-sale',health:'Microchipped',bg:'linear-gradient(135deg,#fdeee7,#fae0d8)'},
+  {n:'Koko',breed:'African Grey',cat:'Bird',e:'🦜',age:'6 mo',p:220000,loc:'Lagos',badge:'',bdg:'',health:'Dewormed',bg:'linear-gradient(135deg,#e3f2fd,#bbdefb)'},
+  {n:'Oreo',breed:'French Bulldog',cat:'Dog',e:'🐶',age:'9 wks',p:350000,loc:'Lekki',badge:'Hot',bdg:'lbl-hot',health:'Vaccinated',bg:'linear-gradient(135deg,#f3e5f5,#e1bee7)'},
+  {n:'Snowball',breed:'Holland Lop',cat:'Rabbit',e:'🐰',age:'3 mo',p:45000,loc:'Ibadan',badge:'New',bdg:'lbl-new',health:'Vet Checked',bg:'linear-gradient(135deg,#e8f5e9,#c8e6c9)'},
+  {n:'Titan',breed:'Boerboel',cat:'Dog',e:'🦮',age:'11 wks',p:400000,loc:'Lagos',badge:'Hot',bdg:'lbl-hot',health:'Microchipped',bg:'linear-gradient(135deg,#fffde7,#fff9c4)'},
+  {n:'Nemo',breed:'Clownfish',cat:'Fish',e:'🐠',age:'1 yr',p:12000,loc:'Lagos',badge:'New',bdg:'lbl-new',health:'Healthy',bg:'linear-gradient(135deg,#e0f7fa,#b2ebf2)'},
+];
+
+const lblMap={sale:'lbl-sale',new:'lbl-new',hot:'lbl-hot',best:'lbl-best',popular:'lbl-sale'};
+const lblText={sale:'Sale',new:'New',hot:'Hot',best:'Best Seller',popular:'Popular'};
+const fmt=n=>'₦'+n.toLocaleString('en-NG');
+let cart=0,wish=0;
+
+function renderProds(list){
+  const g=document.getElementById('prodGrid');
+  g.innerHTML='';
+  list.forEach(p=>{
+    const disc=p.o?Math.round((1-p.p/p.o)*100):0;
+    g.innerHTML+=`<div class="pcard" onclick="openModal('${p.id}')">
+      <div class="pc-thumb">
+        ${p.tag?`<span class="pc-label ${lblMap[p.tag]||'lbl-sale'}">${lblText[p.tag]||p.tag}</span>`:''}
+        <button class="pc-wish" onclick="event.stopPropagation();twish(this)">♡</button>
+        <span>${p.e}</span>
+        <div class="pc-actions">
+          <button class="pa-btn" onclick="event.stopPropagation();addCart()">🛒 Add to Cart</button>
+          <span class="pa-icon" onclick="event.stopPropagation();openModal('${p.id}')">👁</span>
+        </div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-cat">${p.cat} · ${p.pet}</div>
+        <div class="pc-name">${p.n}</div>
+        <div class="pc-stars">★★★★${p.r>=5?'★':'☆'}<span class="pc-rc">${p.r} (${p.rv})</span></div>
+        <div class="pc-price-row">
+          <span class="pc-price">${fmt(p.p)}</span>
+          ${p.o?`<span class="pc-del">${fmt(p.o)}</span><span class="pc-pct">-${disc}%</span>`:''}
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('pCount').textContent=list.length;
+}
+
+function renderPets(){
+  const g=document.getElementById('petGrid');
+  g.innerHTML='';
+  petsData.forEach(p=>{
+    g.innerHTML+=`<div class="pet-card" onclick="alert('Contact seller for ${p.n}\\n${p.breed} — ${fmt(p.p)}')">
+      <div class="pt-img" style="background:${p.bg}">
+        ${p.badge?`<span class="pt-badge ${p.bdg}">${p.badge}</span>`:''}
+        <button class="pt-wish" onclick="event.stopPropagation();this.textContent=this.textContent==='♡'?'♥':'♡'">♡</button>
+        <span style="font-size:58px">${p.e}</span>
+      </div>
+      <div class="pt-body">
+        <div class="pt-breed">${p.breed}</div>
+        <div class="pt-name">${p.n}</div>
+        <div class="pt-tags"><span class="pt-tag">${p.age}</span><span class="pt-tag" style="color:#2ecc71;background:#eafaf1;border-color:#eafaf1">${p.health}</span></div>
+        <div class="pt-loc">📍 ${p.loc}</div>
+        <div class="pt-footer">
+          <span class="pt-price">${fmt(p.p)}</span>
+          <button class="pt-cta" onclick="event.stopPropagation();alert('Opening WhatsApp for ${p.n}…')">Contact</button>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+function openModal(id){
+  let p=null;
+  if(id.startsWith('d')){p=dealData[parseInt(id.slice(1))]}
+  else{p=prods.find(x=>x.id===id)}
+  if(!p)return;
+  document.getElementById('mT').textContent=p.n||p.name;
+  document.getElementById('mE').textContent=p.e;
+  document.getElementById('mP').textContent=fmt(p.p||p.price);
+  document.getElementById('mO').textContent=(p.o||p.orig)?'Was '+fmt(p.o||p.orig):'';
+  document.getElementById('mG').innerHTML=`
+    <div class="mf"><span class="mfl">Category</span><span class="mfv">${p.cat}</span></div>
+    <div class="mf"><span class="mfl">For</span><span class="mfv">${p.pet}</span></div>
+    <div class="mf"><span class="mfl">Brand</span><span class="mfv">${p.brand||'—'}</span></div>
+    <div class="mf"><span class="mfl">Rating</span><span class="mfv">⭐ ${p.r||p.rating||'4.7'} · ${p.rv||p.reviews||'—'} reviews</span></div>`;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function addCart(){cart++;document.getElementById('cBadge').textContent=cart}
+function addWish(){wish++;document.getElementById('wBadge').textContent=wish}
+function twish(btn){btn.textContent=btn.textContent==='♡'?'♥':'♡';if(btn.textContent==='♥')addWish()}
+
+function filterCat(el,cat){
+  if(el){document.querySelectorAll('#catMenu .cat-menu-item').forEach(i=>i.classList.remove('on'));el.classList.add('on')}
+  document.getElementById('afChip').innerHTML=`${cat} <button class="af-x" onclick="resetFilter()">✕</button>`;
+  renderProds(cat==='All'?prods:prods.filter(p=>p.cat===cat));
+  document.getElementById('products').scrollIntoView({behavior:'smooth'});
+}
+function resetFilter(){
+  document.querySelectorAll('#catMenu .cat-menu-item').forEach((i,x)=>{i.classList.remove('on');if(x===0)i.classList.add('on')});
+  document.getElementById('afChip').innerHTML='All Products <button class="af-x" onclick="resetFilter()">✕</button>';
+  renderProds(prods);
+}
+function filterType(el,type){
+  document.querySelectorAll('#petTypeTabs .ftab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  renderProds(type==='All'?prods:prods.filter(p=>p.pet===type));
+}
+function sortProds(v){
+  let s=[...prods];
+  if(v.includes('Low'))s.sort((a,b)=>a.p-b.p);
+  else if(v.includes('High'))s.sort((a,b)=>b.p-a.p);
+  else if(v.includes('Rated'))s.sort((a,b)=>b.r-a.r);
+  renderProds(s);
+}
+function liveSearch(q){
+  if(!q){renderProds(prods);return}
+  q=q.toLowerCase();
+  renderProds(prods.filter(p=>p.n.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||p.pet.toLowerCase().includes(q)));
+}
+function setNav(el){document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('on'));el.classList.add('on')}
+function setPg(btn){document.querySelectorAll('.pgb').forEach(b=>b.classList.remove('on'));btn.classList.add('on')}
+
+// Countdown
+let secs=8*3600+42*60+17;
+setInterval(()=>{
+  if(secs<=0)return;secs--;
+  const h=Math.floor(secs/3600),m=Math.floor((secs%3600)/60),s=secs%60;
+  document.getElementById('dh').textContent=String(h)
