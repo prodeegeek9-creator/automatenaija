@@ -30,6 +30,12 @@
     --bg:#f7f8f5;--bg-2:#ffffff;--bg-3:#edf0eb;--line:rgba(10,13,11,.10);--line-2:rgba(10,13,11,.17);
     --lime:#E45E00;--lime-dim:#B94B00;--ink:#111510;--text:#111510;--text-2:#3f4941;--muted:#69736b;
     --shadow-md:0 12px 32px rgba(20,30,22,.10);--shadow-lg:0 24px 64px rgba(20,30,22,.14);
+    --accent-rgb:228,94,0;--good:#178A43;
+  }
+  :root{
+    /* aliases so the bento layout below reads from the same tokens as the rest of the site */
+    --surface:var(--bg-2);--surface2:var(--bg-3);--line2:var(--line-2);
+    --accent:var(--lime);--accent-rgb:204,85,0;--good:#4ADE80;--soft:var(--text-2);--shadow:var(--shadow-md);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -216,135 +222,86 @@
   .link-arrow{display:inline-flex;align-items:center;gap:6px;color:var(--lime);font-weight:700;font-size:.86rem;white-space:nowrap;}
   .link-arrow:hover{gap:9px;transition:gap .15s;}
 
-  /* ecosystem */
-  .eco{display:flex;align-items:stretch;gap:0;margin-top:6px;}
-  .eco-card{
-    flex:1;border:1px solid var(--line);border-radius:14px;padding:22px 18px;
-    background:var(--bg-2);transition:transform .2s ease, border-color .2s ease;
-    display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0;
+  /* ---------- BENTO LAYOUT (ecosystem / arena / opportunities / community / cta) ---------- */
+  .newstats{padding:18px 0 30px;}
+  .statbar{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);}
+  .statbar>div{padding:20px;border-right:1px solid var(--line);}
+  .statbar>div:last-child{border:0;}
+  .statbar b{display:block;color:var(--text);font-size:18px;}
+  .statbar span{font-size:12px;color:var(--muted);}
+
+  .section-head{text-align:center;max-width:720px;margin:0 auto 40px;}
+  .section-head h2{font-size:clamp(32px,4vw,50px);letter-spacing:-.045em;margin:12px 0;}
+  .section-head p{color:var(--muted);}
+
+  .bento{display:grid;grid-template-columns:1.15fr .85fr .85fr;gap:15px;}
+  .newcard{border:1px solid var(--line);background:var(--surface);border-radius:22px;padding:27px;position:relative;overflow:hidden;transition:.25s;}
+  .newcard:hover{transform:translateY(-4px);border-color:var(--line2);box-shadow:var(--shadow);}
+  .newcard h3{font-size:23px;margin:12px 0 9px;}
+  .newcard p{color:var(--muted);font-size:14px;}
+  .newcard a{display:inline-block;color:var(--accent);font-weight:800;font-size:13px;margin-top:20px;}
+  .newcard.large{grid-row:span 2;}
+  .newicon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:rgba(var(--accent-rgb),.1);color:var(--accent);font-size:22px;}
+  .mini{display:grid;gap:8px;margin-top:25px;}
+  .mini div{background:var(--surface2);border:1px solid var(--line);padding:10px;border-radius:10px;font-size:12px;}
+
+  .arena-new{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;}
+  .challenge small{float:right;color:var(--muted);}
+  .badge{display:inline-block;padding:7px 10px;border-radius:999px;border:1px solid rgba(var(--accent-rgb),.25);background:rgba(var(--accent-rgb),.08);color:var(--accent);font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;}
+  .challenge h3{font-size:30px;margin-top:26px;}
+  .tags{display:flex;gap:7px;flex-wrap:wrap;margin:20px 0;}
+  .tags span{padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface2);font-size:11px;}
+  .challenge-foot{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:18px;margin-top:22px;}
+  .challenge-foot b{color:var(--accent);}
+  .newbtn{display:inline-flex!important;justify-content:center;align-items:center;width:100%;padding:13px 17px;border-radius:11px;background:var(--accent);color:#fff!important;margin-top:20px!important;font-weight:800!important;}
+  .newbtn.outline{background:transparent;border:1px solid var(--line2);color:var(--text)!important;}
+  .newbtn.dark{background:#111;color:#fff!important;width:auto;padding:13px 20px;}
+  .workflow-preview{height:230px;border-radius:15px;margin-bottom:20px;background:radial-gradient(circle at center,rgba(var(--accent-rgb),.15),transparent 45%),repeating-linear-gradient(0deg,transparent 0 25px,var(--line) 26px),repeating-linear-gradient(90deg,transparent 0 25px,var(--line) 26px);display:flex;align-items:center;justify-content:space-around;}
+  .workflow-preview i{font-style:normal;border:1px solid var(--line2);background:var(--surface2);padding:12px;border-radius:10px;color:var(--accent);font:800 10px 'IBM Plex Mono',monospace;}
+
+  .oppgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;}
+  .oppgrid .newcard h3{font-size:18px;margin-top:18px;}
+  .oppgrid .newcard>b{display:block;color:var(--accent);margin-top:15px;}
+  .oppgrid small{display:block;color:var(--muted);font-size:10px;margin-top:10px;}
+
+  .community-new{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;}
+  .chat>b{color:var(--text);}
+  .chat>span{float:right;color:var(--good);font-size:11px;}
+  .messages{border-top:1px solid var(--line);margin-top:20px;padding-top:20px;display:grid;gap:15px;}
+  .messages p{font-size:12px;}
+  .whynew{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+  .whynew .newcard{padding:20px;}
+  .whynew h3{font-size:16px;}
+
+  .pricegrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;margin:36px auto 0;}
+  .pricegrid .featured{border-color:rgba(var(--accent-rgb),.45);background:linear-gradient(145deg,rgba(var(--accent-rgb),.07),var(--surface));}
+  .price{font-family:'Lora',Georgia,serif;font-weight:700;font-size:42px;color:var(--accent);margin:18px 0;}
+  .pricegrid ul{list-style:none;display:grid;gap:10px;color:var(--soft);font-size:13px;}
+  .price-note{text-align:center;color:var(--muted);font-size:12px;margin-top:15px;}
+
+  .cta-new{padding:25px 0 70px;}
+  .cta-new .wrap{background:var(--accent);padding:30px;border-radius:25px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+  .cta-new h2{color:#fff;font-size:36px;}
+  .cta-new p{color:rgba(255,255,255,.78);font-size:13px;}
+  .cta-new .newbtn{width:auto;margin-top:0!important;}
+
+  @media(max-width:1000px){
+    .bento{grid-template-columns:1fr 1fr;}
+    .newcard.large{grid-column:span 2;grid-row:auto;}
+    .oppgrid{grid-template-columns:1fr 1fr;}
+    .arena-new,.community-new{grid-template-columns:1fr;}
+    .statbar{grid-template-columns:1fr 1fr;}
   }
-  .eco-card:hover{transform:translateY(-4px);border-color:var(--line-2);}
-  .eco-arrow{display:flex;align-items:center;justify-content:center;width:34px;color:var(--muted);flex-shrink:0;}
-  .eco-ic{width:38px;height:38px;border-radius:10px;background:var(--bg-3);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime);margin-bottom:16px;}
-  .eco-card h4{font-size:1.05rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--text);margin-bottom:7px;font-family:'IBM Plex Sans',sans-serif;}
-  .eco-card p{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:14px;flex:1;}
-  .eco-card .link-arrow{font-size:.78rem;}
-  @media(max-width:1020px){
-    .eco{flex-wrap:wrap;gap:14px;}
-    .eco-arrow{display:none;}
-    .eco-card{flex:1 1 220px;}
+  @media(max-width:650px){
+    .bento,.oppgrid,.pricegrid{grid-template-columns:1fr;}
+    .newcard.large{grid-column:auto;}
+    .whynew{grid-template-columns:1fr;}
+    .statbar{grid-template-columns:1fr;}
+    .statbar>div{border-right:0;border-bottom:1px solid var(--line);}
+    .statbar>div:last-child{border-bottom:0;}
+    .cta-new .wrap{flex-direction:column;align-items:flex-start;}
+    .cta-new h2{font-size:29px;}
   }
-  @media(max-width:560px){.eco-card{flex:1 1 100%;}}
-
-  /* arena + showcase */
-  .arena-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:20px;margin-top:6px;align-items:start;}
-  .panel{border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);overflow:hidden;}
-  .panel-head{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px 22px 0;}
-  .panel-head h3{font-size:1.15rem;font-family:'IBM Plex Sans',sans-serif;font-weight:800;color:var(--text);}
-  .panel-sub{padding:0 22px;font-size:.82rem;color:var(--muted);margin:6px 0 18px;text-align:center;}
-
-  .arena-body{display:grid;grid-template-columns:1.3fr 1fr;gap:0;border-top:1px solid var(--line);}
-  .challenge{padding:22px;border-right:1px solid var(--line);text-align:center;}
-  .challenge-top{display:flex;justify-content:center;gap:12px;align-items:center;margin-bottom:14px;}
-  .badge{font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:5px 10px;border-radius:999px;font-family:'IBM Plex Mono',monospace;}
-  .badge-lime{background:rgba(204,85,0,.12);color:var(--lime);border:1px solid rgba(204,85,0,.25);}
-  .days-left{font-size:.74rem;color:var(--muted);font-weight:600;}
-  .trophy-box{
-    height:150px;border-radius:12px;background:radial-gradient(circle at 30% 30%, rgba(204,85,0,.16), var(--bg-3) 70%);
-    border:1px solid var(--line-2);display:grid;place-items:center;margin-bottom:16px;color:var(--lime);
-  }
-  .challenge h4{font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:8px;font-family:'IBM Plex Sans',sans-serif;}
-  .challenge p{font-size:.84rem;color:var(--muted);margin-bottom:16px;}
-  .tag-row{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-bottom:18px;}
-  .tag-sm{font-size:.68rem;font-weight:600;color:var(--text-2);background:var(--bg-3);border:1px solid var(--line-2);border-radius:7px;padding:4px 9px;}
-  .challenge-foot{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
-  .xp{font-size:.84rem;font-weight:700;color:var(--lime);}
-  .foot-right{display:flex;align-items:center;gap:12px;}
-  .foot-right .avatars img{width:26px;height:26px;margin-left:-8px;}
-  .foot-right span{font-size:.72rem;color:var(--muted);}
-
-  .recent{padding:22px;text-align:center;}
-  .recent h5{font-size:.76rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:14px;font-family:'IBM Plex Mono',monospace;}
-  .recent ul{list-style:none;display:flex;flex-direction:column;gap:13px;}
-  .recent li{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--text-2);text-align:left;}
-  .recent-ic{width:26px;height:26px;border-radius:7px;background:var(--bg-3);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime);flex-shrink:0;}
-  .recent li svg.done{margin-left:auto;color:var(--lime);flex-shrink:0;}
-  .panel-foot{border-top:1px solid var(--line);padding:16px 22px;text-align:center;}
-
-  .showcase-img{aspect-ratio:16/10;background:var(--bg-3);position:relative;overflow:hidden;}
-  .showcase-img img{width:100%;height:100%;object-fit:cover;}
-  .showcase-body{padding:18px 20px 20px;text-align:center;}
-  .showcase-body h4{font-size:1.02rem;font-weight:800;color:var(--text);margin-bottom:10px;font-family:'IBM Plex Sans',sans-serif;}
-  .by-row{display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .by-who{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);}
-  .by-who img{width:22px;height:22px;border-radius:50%;object-fit:cover;background:var(--bg-3);}
-  .meta-row{display:flex;gap:14px;font-size:.78rem;color:var(--muted);}
-  .meta-row span{display:flex;align-items:center;gap:5px;}
-  @media(max-width:900px){.arena-grid{grid-template-columns:1fr;}.arena-body{grid-template-columns:1fr;}.challenge{border-right:none;border-bottom:1px solid var(--line);}}
-
-  /* opportunities */
-  .opp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:6px;}
-  .opp-card{
-    border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--bg-2);
-    display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;transition:transform .2s ease, border-color .2s ease;
-  }
-  .opp-card .opp-top{width:100%;}
-  .opp-tags{justify-content:center;}
-  .opp-loc{justify-content:center;}
-  .opp-card:hover{transform:translateY(-4px);border-color:var(--line-2);}
-  .opp-top{display:flex;justify-content:space-between;align-items:center;}
-  .opp-arrow{width:26px;height:26px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;color:var(--muted);flex-shrink:0;}
-  .opp-card h4{font-size:.94rem;font-weight:800;color:var(--text);line-height:1.35;font-family:'IBM Plex Sans',sans-serif;}
-  .opp-card p{font-size:.78rem;color:var(--muted);line-height:1.5;flex:1;}
-  .opp-budget{font-size:.82rem;font-weight:700;color:var(--lime);}
-  .opp-tags{display:flex;flex-wrap:wrap;gap:6px;}
-  .opp-loc{display:flex;align-items:center;gap:6px;font-size:.74rem;color:var(--muted);}
-  .badge-purple{background:rgba(178,140,255,.12);color:#B98CFF;border:1px solid rgba(178,140,255,.25);}
-  .badge-orange{background:rgba(255,168,90,.12);color:#FFA85A;border:1px solid rgba(255,168,90,.25);}
-  .badge-blue{background:rgba(90,170,255,.12);color:#5AAAFF;border:1px solid rgba(90,170,255,.25);}
-  @media(max-width:1020px){.opp-grid{grid-template-columns:repeat(2,1fr);}}
-  @media(max-width:560px){.opp-grid{grid-template-columns:1fr;}}
-
-  /* community */
-  .comm-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:6px;align-items:stretch;}
-  .chat-panel{display:flex;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg-2);overflow:hidden;}
-  .chat-side{width:150px;border-right:1px solid var(--line);padding:16px 12px;flex-shrink:0;}
-  .chat-side .brand{margin-bottom:16px;}
-  .chat-side .mark{width:20px;height:20px;}
-  .chat-side .brand-name{font-size:.72rem;}
-  .chan{display:flex;flex-direction:column;gap:2px;}
-  .chan span{font-size:.76rem;color:var(--muted);padding:6px 8px;border-radius:6px;font-weight:500;}
-  .chan span.active{background:var(--bg-3);color:var(--text);font-weight:700;}
-  .chat-main{flex:1;display:flex;flex-direction:column;min-width:0;}
-  .msgs{padding:16px;display:flex;flex-direction:column;gap:14px;flex:1;}
-  .msg{display:flex;gap:10px;}
-  .msg img{width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0;background:var(--bg-3);}
-  .msg .who{font-size:.78rem;font-weight:700;color:var(--text);}
-  .msg .who span{font-weight:500;color:var(--muted);margin-left:6px;font-size:.7rem;}
-  .msg p{font-size:.8rem;color:var(--text-2);margin-top:2px;}
-  .online-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-top:1px solid var(--line);}
-  .online-bar .avatars img{width:22px;height:22px;margin-left:-7px;}
-  .online-bar span{font-size:.72rem;color:var(--muted);}
-
-  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .why-card{border:1px solid var(--line);border-radius:14px;padding:20px;background:var(--bg-2);display:flex;flex-direction:column;align-items:center;text-align:center;}
-  .why-ic{width:36px;height:36px;border-radius:10px;background:var(--bg-3);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime);margin-bottom:14px;}
-  .why-card h4{font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:6px;font-family:'IBM Plex Sans',sans-serif;}
-  .why-card p{font-size:.78rem;color:var(--muted);line-height:1.5;}
-  @media(max-width:940px){.comm-grid{grid-template-columns:1fr;}}
-  @media(max-width:460px){.chat-side{display:none;}}
-
-  /* final CTA */
-  .final{background:var(--lime);color:var(--ink);border-radius:20px;padding:44px 40px;margin:0 auto;max-width:1200px;}
-  .final-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:22px;}
-  .final h2{color:var(--ink);font-size:clamp(1.4rem,2.6vw,1.85rem);margin-bottom:4px;text-align:center;}
-  .final-steps{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;}
-  .final-step{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:700;color:rgba(10,13,11,.7);}
-  .final .btn-solid{background:var(--ink);color:var(--lime);box-shadow:none;}
-  .final .btn-solid:hover{background:#000;transform:translateY(-2px);}
-  .final-cta-col{display:flex;flex-direction:column;align-items:center;gap:8px;}
-  .final-note{font-size:.76rem;color:rgba(10,13,11,.65);font-weight:600;}
-  @media(max-width:900px){.final{padding:32px 24px;}}
 
   /* footer */
   footer{padding:64px 0 28px;}
@@ -468,23 +425,6 @@
   .wa-cta h4{font-size:.98rem;color:var(--text);margin-bottom:3px;font-family:'IBM Plex Sans',sans-serif;font-weight:800;}
   .wa-cta p{font-size:.8rem;color:var(--muted);}
   @media(max-width:560px){.wa-cta{flex-direction:column;text-align:center;}.wa-cta-left{flex-direction:column;text-align:center;}}
-
-  /* ---------- PRICING ---------- */
-  .price-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:900px;margin:36px auto 0;}
-  .price-card{border:1px solid var(--line);border-radius:18px;background:var(--bg-2);padding:32px;position:relative;}
-  .price-card.featured{border-color:rgba(204,85,0,.4);background:linear-gradient(160deg, rgba(204,85,0,.06), var(--bg-2) 55%);}
-  .price-tag{position:absolute;top:-11px;left:28px;background:var(--lime);color:var(--bg);font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:999px;}
-  .price-card h3{font-family:'Lora',Georgia,serif;font-size:1.3rem;color:var(--text);margin-bottom:6px;}
-  .price-card .price-sub{font-size:.84rem;color:var(--muted);margin-bottom:20px;}
-  .price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:22px;}
-  .price-now{font-family:'Lora',Georgia,serif;font-size:2.2rem;color:var(--lime);font-weight:700;line-height:1;}
-  .price-now span{font-family:'IBM Plex Sans',sans-serif;font-size:.85rem;color:var(--muted);font-weight:500;}
-  .price-features{display:flex;flex-direction:column;gap:11px;margin-bottom:26px;}
-  .price-features li{display:flex;gap:10px;align-items:flex-start;font-size:.86rem;color:var(--text-2);}
-  .price-features svg{color:var(--lime);flex-shrink:0;margin-top:2px;width:15px;height:15px;}
-  .price-note{text-align:center;font-size:.78rem;color:var(--muted);margin-top:20px;}
-  .price-note b{color:var(--text-2);}
-  @media(max-width:700px){.price-grid{grid-template-columns:1fr;}}
 
   /* ---------- FAQ ---------- */
   .faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
@@ -642,110 +582,92 @@
   </div>
 </section>
 
+<!-- ============ QUICK STATS ============ -->
+<section class="newstats">
+  <div class="wrap">
+    <div class="statbar rv">
+      <div><b>Learn</b><span>Practical, project-led</span></div>
+      <div><b>Build</b><span>Real-world challenges</span></div>
+      <div><b>Collaborate</b><span>Find your people</span></div>
+      <div><b>Get Paid</b><span>Projects &amp; opportunities</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ ECOSYSTEM ============ -->
 <section id="ecosystem">
   <div class="wrap">
-    <h2 class="rv">The Automate Naija <em>Ecosystem</em></h2>
-    <p class="sub rv">From learning to earning. We've got your entire builder journey covered.</p>
-
-    <div class="eco rv">
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="book-open" class="i"></i></span>
-        <h4>Learn</h4>
-        <p>Master AI, automation and no-code tools through practical resources.</p>
-        <a href="#pricing" class="link-arrow">Explore Courses <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-      <div class="eco-arrow"><i data-lucide="chevron-right" class="i"></i></div>
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="wrench" class="i"></i></span>
-        <h4>Build</h4>
-        <p>Work on real-world challenges and community projects.</p>
-        <a href="#arena" class="link-arrow">Join Challenges <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-      <div class="eco-arrow"><i data-lucide="chevron-right" class="i"></i></div>
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="users" class="i"></i></span>
-        <h4>Collaborate</h4>
-        <p>Find builders who can complement your skills and build together.</p>
-        <a href="#community" class="link-arrow">Find Builders <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-      <div class="eco-arrow"><i data-lucide="chevron-right" class="i"></i></div>
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="star" class="i"></i></span>
-        <h4>Showcase</h4>
-        <p>Build your portfolio, earn reputation and grow your visibility.</p>
-        <a href="#credential" class="link-arrow">View Showcase <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
-      <div class="eco-arrow"><i data-lucide="chevron-right" class="i"></i></div>
-      <div class="eco-card">
-        <span class="eco-ic"><i data-lucide="briefcase" class="i"></i></span>
-        <h4>Get Opportunities</h4>
-        <p>Access jobs, freelance gigs and paid projects from real businesses.</p>
-        <a href="#opportunities" class="link-arrow">View Opportunities <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
-      </div>
+    <div class="section-head rv">
+      <span class="kicker">ONE ECOSYSTEM</span>
+      <h2>Everything you need to become a better builder.</h2>
+      <p>Not another course library. A place where learning connects directly to building, proof and opportunity.</p>
+    </div>
+    <div class="bento">
+      <article class="newcard large rv">
+        <span class="newicon">✦</span>
+        <h3>Learn by doing, not watching.</h3>
+        <p>Follow a structured path through AI, automation and no-code tools, then turn what you learn into something usable.</p>
+        <a href="#pricing">Explore learning →</a>
+        <div class="mini">
+          <div>✓ AI &amp; automation foundations</div>
+          <div>✓ Hands-on workflows &amp; integrations</div>
+          <div>✓ Deployment &amp; client-ready builds</div>
+        </div>
+      </article>
+      <article class="newcard rv">
+        <span class="newicon">＋</span>
+        <h3>Build</h3>
+        <p>Compete in challenges designed around problems businesses actually have.</p>
+        <a href="#arena">Enter the Arena →</a>
+      </article>
+      <article class="newcard rv">
+        <span class="newicon">◎</span>
+        <h3>Collaborate</h3>
+        <p>Find builders with complementary skills and ship together.</p>
+        <a href="#community">Meet builders →</a>
+      </article>
+      <article class="newcard rv">
+        <span class="newicon">★</span>
+        <h3>Showcase</h3>
+        <p>Turn finished projects into portfolio proof and reputation.</p>
+        <a href="#credential">See credentials →</a>
+      </article>
+      <article class="newcard rv">
+        <span class="newicon">▣</span>
+        <h3>Get opportunities</h3>
+        <p>Discover freelance projects, roles and paid automation work.</p>
+        <a href="#opportunities">View opportunities →</a>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- ============ ARENA + SHOWCASE ============ -->
 <section id="arena">
-  <div class="wrap arena-grid">
-    <div class="panel rv">
-      <div class="panel-head"><i data-lucide="flame" class="i" style="color:#FF8A3D"></i><h3>The Automation Arena</h3></div>
-      <p class="panel-sub">Real problems. Real builders. Real impact.</p>
-      <div class="arena-body">
-        <div class="challenge">
-          <div class="challenge-top">
-            <span class="badge badge-lime">Featured Challenge</span>
-            <span class="days-left">6 Days Left</span>
-          </div>
-          <div class="trophy-box"><i data-lucide="trophy" style="width:44px;height:44px"></i></div>
-          <h4>The 7-Day Sales Machine</h4>
-          <p>Build an end-to-end system that qualifies leads, answers FAQs, records customer information and alerts the sales team automatically.</p>
-          <div class="tag-row">
-            <span class="tag-sm">Intermediate</span>
-            <span class="tag-sm">n8n</span>
-            <span class="tag-sm">WhatsApp</span>
-            <span class="tag-sm">OpenAI</span>
-            <span class="tag-sm">Supabase</span>
-          </div>
-          <div class="challenge-foot">
-            <span class="xp">₦500 XP Reward</span>
-            <span class="foot-right">
-              <span class="avatars"><img id="chA" alt="" width="26" height="26"><img id="chB" alt="" width="26" height="26"><img id="chC" alt="" width="26" height="26"></span>
-              <span>+32 builders</span>
-            </span>
-          </div>
-          <a href="#pricing" class="btn btn-solid" style="margin-top:18px;width:100%;">Join Challenge</a>
-        </div>
-        <div class="recent">
-          <h5>Recently Completed</h5>
-          <ul>
-            <li><span class="recent-ic"><i data-lucide="file-text" style="width:13px;height:13px"></i></span> Invoice Processing Automation <i data-lucide="check-circle-2" class="i done" style="width:15px;height:15px"></i></li>
-            <li><span class="recent-ic"><i data-lucide="instagram" style="width:13px;height:13px"></i></span> Instagram Lead Capture System <i data-lucide="check-circle-2" class="i done" style="width:15px;height:15px"></i></li>
-            <li><span class="recent-ic"><i data-lucide="sparkles" style="width:13px;height:13px"></i></span> AI Content Repurposing Workflow <i data-lucide="check-circle-2" class="i done" style="width:15px;height:15px"></i></li>
-            <li><span class="recent-ic"><i data-lucide="youtube" style="width:13px;height:13px"></i></span> YouTube Automation Pipeline <i data-lucide="check-circle-2" class="i done" style="width:15px;height:15px"></i></li>
-          </ul>
-        </div>
-      </div>
-      <div class="panel-foot"><a href="#" class="link-arrow">View All Challenges <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a></div>
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="kicker">AUTOMATION ARENA</span>
+      <h2>Real problems. Real builders. Real impact.</h2>
+      <p>Build under constraints, earn XP and leave with work you can actually show.</p>
     </div>
-
-    <div class="panel rv">
-      <div class="panel-head"><h3>Builders Showcase</h3></div>
-      <p class="panel-sub">Amazing projects built by our community</p>
-      <div class="showcase-img"><img id="imgShowcase" alt="AI-powered customer support agent workflow, built by a community member" loading="lazy" width="800" height="500"></div>
-      <div class="showcase-body">
-        <h4>AI-Powered Customer Support Agent</h4>
-        <div class="by-row">
-          <span class="by-who"><img id="imgHost" alt="" width="22" height="22"> By David A.</span>
-          <span class="meta-row">
-            <span><i data-lucide="thumbs-up" style="width:14px;height:14px"></i> 128</span>
-            <span><i data-lucide="message-square" style="width:14px;height:14px"></i> 24</span>
-          </span>
+    <div class="arena-new">
+      <article class="newcard challenge rv">
+        <span class="badge">FEATURED CHALLENGE</span>
+        <small>6 days left</small>
+        <h3>The 7-Day Sales Machine</h3>
+        <p>Build an end-to-end system that qualifies leads, answers FAQs, records customer information and alerts the sales team automatically.</p>
+        <div class="tags">
+          <span>Intermediate</span><span>n8n</span><span>WhatsApp</span><span>OpenAI</span><span>Supabase</span>
         </div>
-      </div>
-      <div class="panel-foot"><a href="#" class="link-arrow">See All Projects <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a></div>
+        <div class="challenge-foot"><b>₦500 XP reward</b><span>+32 builders</span></div>
+        <a class="newbtn" href="#pricing">Join challenge</a>
+      </article>
+      <article class="newcard showcase rv">
+        <div class="workflow-preview"><i>LEAD</i><i>AI AGENT</i><i>CRM</i></div>
+        <span class="kicker">BUILDER SHOWCASE</span>
+        <h3>AI-Powered Customer Support Agent</h3>
+        <p>Built by <b>David A.</b> · 128 likes · 24 comments</p>
+      </article>
     </div>
   </div>
 </section>
@@ -804,47 +726,40 @@
 <!-- ============ OPPORTUNITIES ============ -->
 <section id="opportunities">
   <div class="wrap">
-    <div class="sec-head rv">
-      <div>
-        <h2>Opportunities Board</h2>
-        <p class="sub" style="margin-bottom:0;">Real businesses. Real budgets. Real impact.</p>
-      </div>
-      <a href="#" class="link-arrow">View All Opportunities <i data-lucide="arrow-right" style="width:14px;height:14px"></i></a>
+    <div class="section-head rv">
+      <span class="kicker">OPPORTUNITIES</span>
+      <h2>Build skills that can pay you.</h2>
+      <p>Projects, hiring and collaboration opportunities.</p>
     </div>
-
-    <div class="opp-grid" style="margin-top:30px;">
-      <div class="opp-card rv">
-        <div class="opp-top"><span class="badge badge-lime">Project</span><span class="opp-arrow"><i data-lucide="arrow-up-right" style="width:14px;height:14px"></i></span></div>
-        <h4>WhatsApp Sales Automation System</h4>
-        <p>We receive hundreds of enquiries weekly. Need a system that qualifies leads and follows up automatically.</p>
-        <span class="opp-budget">₦250k - ₦400k</span>
-        <div class="opp-tags"><span class="tag-sm">n8n</span><span class="tag-sm">WhatsApp API</span><span class="tag-sm">CRM</span></div>
-        <span class="opp-loc"><i data-lucide="map-pin" style="width:12px;height:12px"></i> Lagos, Nigeria</span>
-      </div>
-      <div class="opp-card rv">
-        <div class="opp-top"><span class="badge badge-purple">Hiring</span><span class="opp-arrow"><i data-lucide="arrow-up-right" style="width:14px;height:14px"></i></span></div>
-        <h4>AI Automation Builder</h4>
-        <p>Looking for an experienced builder to join our team on long-term automation projects.</p>
-        <span class="opp-budget">₦150k - ₦300k / month</span>
-        <div class="opp-tags"><span class="tag-sm">n8n</span><span class="tag-sm">Make</span><span class="tag-sm">OpenAI</span></div>
-        <span class="opp-loc"><i data-lucide="map-pin" style="width:12px;height:12px"></i> Remote</span>
-      </div>
-      <div class="opp-card rv">
-        <div class="opp-top"><span class="badge badge-orange">Project</span><span class="opp-arrow"><i data-lucide="arrow-up-right" style="width:14px;height:14px"></i></span></div>
-        <h4>E-commerce Order Processing Automation</h4>
-        <p>Automate order processing, inventory updates, customer notifications and reporting.</p>
-        <span class="opp-budget">₦200k - ₦350k</span>
-        <div class="opp-tags"><span class="tag-sm">Make</span><span class="tag-sm">Shopify</span><span class="tag-sm">GSheets</span></div>
-        <span class="opp-loc"><i data-lucide="map-pin" style="width:12px;height:12px"></i> Remote</span>
-      </div>
-      <div class="opp-card rv">
-        <div class="opp-top"><span class="badge badge-blue">Collaboration</span><span class="opp-arrow"><i data-lucide="arrow-up-right" style="width:14px;height:14px"></i></span></div>
-        <h4>Build an AI Cold Email Agent</h4>
-        <p>Looking for a builder to help develop an AI agent that finds leads, writes and follows up emails.</p>
-        <span class="opp-budget">Budget: Negotiable</span>
-        <div class="opp-tags"><span class="tag-sm">AI</span><span class="tag-sm">n8n</span><span class="tag-sm">Email APIs</span></div>
-        <span class="opp-loc"><i data-lucide="map-pin" style="width:12px;height:12px"></i> Remote</span>
-      </div>
+    <div class="oppgrid">
+      <article class="newcard rv">
+        <span class="badge">PROJECT</span>
+        <h3>WhatsApp Sales Automation</h3>
+        <p>Qualify leads and automate follow-up for a growing business.</p>
+        <b>₦250k – ₦400k</b>
+        <small>Lagos · n8n · WhatsApp API · CRM</small>
+      </article>
+      <article class="newcard rv">
+        <span class="badge">HIRING</span>
+        <h3>AI Automation Builder</h3>
+        <p>Join a team working on long-term automation projects.</p>
+        <b>₦150k – ₦300k / month</b>
+        <small>Remote · n8n · Make · OpenAI</small>
+      </article>
+      <article class="newcard rv">
+        <span class="badge">PROJECT</span>
+        <h3>E-commerce Order Automation</h3>
+        <p>Automate orders, inventory, notifications and reporting.</p>
+        <b>₦200k – ₦350k</b>
+        <small>Remote · Make · Shopify · Sheets</small>
+      </article>
+      <article class="newcard rv">
+        <span class="badge">COLLABORATION</span>
+        <h3>AI Cold Email Agent</h3>
+        <p>Find leads, write personalised emails and automate follow-ups.</p>
+        <b>Negotiable</b>
+        <small>Remote · AI · n8n · Email APIs</small>
+      </article>
     </div>
   </div>
 </section>
@@ -852,104 +767,82 @@
 <!-- ============ COMMUNITY ============ -->
 <section id="community">
   <div class="wrap">
-    <h2 class="rv">Community is our Superpower</h2>
-    <p class="sub rv">Ask builders. Share budgets. Get better together.</p>
-
-    <div class="comm-grid">
-      <div class="chat-panel rv">
-        <div class="chat-side">
-          <span class="brand">
-            <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-              <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
-              <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
-            </svg>
-            <span class="brand-name">AUTOMATE NAIJA</span>
-          </span>
-          <div class="chan">
-            <span class="active"># general</span>
-            <span># showcase</span>
-            <span># n8n</span>
-            <span># make</span>
-            <span># ai-agents</span>
-            <span># opportunities</span>
-            <span># collaborations</span>
-            <span># resources</span>
-          </div>
-        </div>
-        <div class="chat-main">
-          <div class="msgs">
-            <div class="msg"><img id="msA" alt="" width="30" height="30"><span><span class="who">David A. <span>10:24 AM</span></span><p>Finally got the webhook working 🎉</p></span></div>
-            <div class="msg"><img id="msB" alt="" width="30" height="30"><span><span class="who">Amaka <span>10:25 AM</span></span><p>Drop the workflow, I want to see how you handled retries.</p></span></div>
-            <div class="msg"><img id="msC" alt="" width="30" height="30"><span><span class="who">Tobi <span>10:26 AM</span></span><p>Anyone here good with Supabase?</p></span></div>
-            <div class="msg"><img id="msD" alt="" width="30" height="30"><span><span class="who">Emeka <span>10:27 AM</span></span><p>I'm free, send it over.</p></span></div>
-          </div>
-          <div class="online-bar">
-            <span class="avatars"><img id="onA" alt="" width="22" height="22"><img id="onB" alt="" width="22" height="22"><img id="onC" alt="" width="22" height="22"></span>
-            <span>247 builders online</span>
-          </div>
+    <div class="section-head rv">
+      <span class="kicker">COMMUNITY</span>
+      <h2>Your network becomes part of your toolkit.</h2>
+      <p>Ask builders. Share budgets. Debug together. Find collaborators.</p>
+    </div>
+    <div class="community-new">
+      <div class="newcard chat rv">
+        <b>AUTOMATE NAIJA / #general</b>
+        <span>247 online</span>
+        <div class="messages">
+          <p><b>David A.</b> — Finally got the webhook working 🎉</p>
+          <p><b>Amaka</b> — Drop the workflow, I want to see how you handled retries.</p>
+          <p><b>Tobi</b> — Anyone here good with Supabase?</p>
+          <p><b>Emeka</b> — I'm free, send it over.</p>
         </div>
       </div>
-
-      <div class="rv">
-        <h3 style="font-family:'IBM Plex Sans',sans-serif;font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:16px;text-align:center;">Why Builders Love Automate Naija</h3>
-        <div class="why-grid">
-          <div class="why-card"><span class="why-ic"><i data-lucide="graduation-cap" class="i"></i></span><h4>Practical Learning</h4><p>No fluff. Learn by doing real projects that matter.</p></div>
-          <div class="why-card"><span class="why-ic"><i data-lucide="users-round" class="i"></i></span><h4>Active Community</h4><p>Get help, share ideas and grow with other builders.</p></div>
-          <div class="why-card"><span class="why-ic"><i data-lucide="target" class="i"></i></span><h4>Real Opportunities</h4><p>Access high-paying projects and full-time roles.</p></div>
-          <div class="why-card"><span class="why-ic"><i data-lucide="award" class="i"></i></span><h4>Build Your Reputation</h4><p>Earn XP, badges and showcase your skills.</p></div>
-        </div>
-      </div>
-
-      <div class="wa-cta rv">
-        <div class="wa-cta-left">
-          <span class="wa-ic"><i data-lucide="message-circle" style="width:22px;height:22px"></i></span>
-          <div>
-            <h4>Join the Automate Naija WhatsApp community</h4>
-            <p>Fastest way to get help, find collaborators and hear about new challenges first.</p>
-          </div>
-        </div>
-        <a href="https://chat.whatsapp.com/" target="_blank" rel="noopener" class="btn btn-solid">Join on WhatsApp</a>
+      <div class="whynew">
+        <div class="newcard rv"><h3>Practical learning</h3><p>No fluff. Learn by shipping.</p></div>
+        <div class="newcard rv"><h3>Active community</h3><p>Get help from people building too.</p></div>
+        <div class="newcard rv"><h3>Real opportunities</h3><p>Turn capability into income.</p></div>
+        <div class="newcard rv"><h3>Build reputation</h3><p>Show work, credentials and progress.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PRICING ============ -->
-<section id="pricing">
+<!-- ============ WHATSAPP COMMUNITY CTA ============ -->
+<section style="padding-top:0;">
   <div class="wrap">
-    <div class="sec-head rv">
-      <span class="kicker">Simple pricing</span>
-      <h2>Choose your starting point.</h2>
-      <p class="sub">The community is free. Pay once to unlock a structured learning track.</p>
+    <div class="wa-cta rv">
+      <div class="wa-cta-left">
+        <span class="wa-ic"><i data-lucide="message-circle" style="width:22px;height:22px"></i></span>
+        <div>
+          <h4>Join the Automate Naija WhatsApp community</h4>
+          <p>Fastest way to get help, find collaborators and hear about new challenges first.</p>
+        </div>
+      </div>
+      <a href="https://chat.whatsapp.com/" target="_blank" rel="noopener" class="btn btn-solid">Join on WhatsApp</a>
     </div>
+  </div>
+</section>
 
-    <div class="price-grid">
-      <div class="price-card rv">
+<!-- ============ PRICING ============ -->
+<section class="pricing-new" id="pricing">
+  <div class="wrap">
+    <div class="section-head rv">
+      <span class="kicker">SIMPLE PRICING</span>
+      <h2>Choose your starting point.</h2>
+      <p>Community is free. Pay once to unlock a learning track.</p>
+    </div>
+    <div class="pricegrid">
+      <article class="newcard rv">
         <h3>Learn</h3>
-        <p class="price-sub">3-month structured syllabus for starting from zero.</p>
-        <div class="price-row"><span class="price-now">₦10,000</span></div>
-        <ul class="price-features">
-          <li><i data-lucide="check" class="i"></i> Structured curriculum</li>
-          <li><i data-lucide="check" class="i"></i> Weekly guided lessons</li>
-          <li><i data-lucide="check" class="i"></i> Tutors and community access</li>
-          <li><i data-lucide="check" class="i"></i> Graduate straight into Automate</li>
+        <p>3-month structured syllabus for starting from zero.</p>
+        <div class="price">₦10,000</div>
+        <ul>
+          <li>✓ Structured curriculum</li>
+          <li>✓ Weekly guided lessons</li>
+          <li>✓ Tutors and community</li>
+          <li>✓ Graduate into Automate</li>
         </ul>
-        <a href="https://automate-naija-app.pages.dev/login" class="btn btn-line" style="width:100%;">Start learning</a>
-      </div>
-
-      <div class="price-card featured rv">
-        <span class="price-tag">Skip straight in</span>
+        <a class="newbtn outline" href="https://automate-naija-app.pages.dev/login">Start learning</a>
+      </article>
+      <article class="newcard featured rv">
+        <span class="badge">SKIP STRAIGHT IN</span>
         <h3>Automate</h3>
-        <p class="price-sub">6-week build cycle for people who already know a tool.</p>
-        <div class="price-row"><span class="price-now">₦5,000</span></div>
-        <ul class="price-features">
-          <li><i data-lucide="check" class="i"></i> 6-week build cycle</li>
-          <li><i data-lucide="check" class="i"></i> Automation Arena challenges</li>
-          <li><i data-lucide="check" class="i"></i> Portfolio &amp; verifiable credentials</li>
-          <li><i data-lucide="check" class="i"></i> Opportunity board access</li>
+        <p>6-week build cycle for people who already know a tool.</p>
+        <div class="price">₦5,000</div>
+        <ul>
+          <li>✓ 6-week build cycle</li>
+          <li>✓ Automation Arena challenges</li>
+          <li>✓ Portfolio &amp; credentials</li>
+          <li>✓ Opportunity board</li>
         </ul>
-        <a href="https://automate-naija-app.pages.dev/login" class="btn btn-solid" style="width:100%;">Start automating</a>
-      </div>
+        <a class="newbtn" href="https://automate-naija-app.pages.dev/login">Start automating</a>
+      </article>
     </div>
     <p class="price-note">Optional hosted n8n instance: <b>₦2,000/month</b></p>
   </div>
@@ -985,24 +878,13 @@
 </section>
 
 <!-- ============ FINAL CTA ============ -->
-<section id="cta" style="padding-top:20px;">
-  <div class="final rv">
-    <div class="final-inner">
-      <div>
-        <h2>Your next build<br>starts here.</h2>
-        <div class="final-steps" style="margin-top:16px;">
-          <span class="final-step"><i data-lucide="book-open" style="width:14px;height:14px"></i> Learn something.</span>
-          <span class="final-step"><i data-lucide="wrench" style="width:14px;height:14px"></i> Build something.</span>
-          <span class="final-step"><i data-lucide="users" style="width:14px;height:14px"></i> Meet someone.</span>
-          <span class="final-step"><i data-lucide="star" style="width:14px;height:14px"></i> Solve something.</span>
-          <span class="final-step"><i data-lucide="rocket" style="width:14px;height:14px"></i> Ship something.</span>
-        </div>
-      </div>
-      <div class="final-cta-col">
-        <a href="https://automate-naija-app.pages.dev/login" class="btn btn-solid btn-lg">Join Automate Naija</a>
-        <span class="final-note">It's free to start. Forever.</span>
-      </div>
+<section class="cta-new" id="cta">
+  <div class="wrap">
+    <div class="rv">
+      <h2>Your next build starts here.</h2>
+      <p>Learn something. Build something. Meet someone. Ship something.</p>
     </div>
+    <a class="newbtn dark rv" href="https://automate-naija-app.pages.dev/login">Join Automate Naija →</a>
   </div>
 </section>
 
