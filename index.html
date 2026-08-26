@@ -153,12 +153,12 @@
   .hero-visual{display:flex;justify-content:center;align-items:center;perspective:1100px;margin-top:8px;}
   .cube-rig{
     width:200px;height:200px;position:relative;transform-style:preserve-3d;
-    animation:cubeTumble 16s linear infinite;
+    animation:cubeTumble 20s linear infinite;
   }
   @media(min-width:960px){.cube-rig{width:270px;height:270px;}}
   @keyframes cubeTumble{
-    0%{transform:rotateX(-24deg) rotateY(0deg);}
-    100%{transform:rotateX(-24deg) rotateY(360deg);}
+    from{transform:rotateX(-18deg) rotate3d(1,1,1,0deg);}
+    to{transform:rotateX(-18deg) rotate3d(1,1,1,360deg);}
   }
   .cube-scene{position:absolute;inset:0;transform-style:preserve-3d;}
   .turn-group{position:absolute;top:0;left:0;transform-style:preserve-3d;}
