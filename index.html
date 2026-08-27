@@ -108,16 +108,6 @@
     background:radial-gradient(circle,rgba(204,85,0,.14),transparent 70%);
     pointer-events:none;z-index:0;
   }
-  .hero-video{
-    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-    filter:blur(6px) brightness(.55) saturate(1.05);
-    transform:scale(1.06);z-index:0;pointer-events:none;
-  }
-  .hero-video-overlay{
-    position:absolute;inset:0;z-index:0;pointer-events:none;
-    background:linear-gradient(to bottom, rgba(10,13,11,.55), rgba(10,13,11,.72) 55%, var(--bg) 96%);
-  }
-  html[data-theme="light"] .hero-video-overlay{background:linear-gradient(to bottom, rgba(10,13,11,.62), rgba(10,13,11,.8) 55%, var(--bg) 96%);}
   .hero-grid{position:relative;z-index:1;text-align:center;max-width:800px;margin:0 auto;display:flex;flex-direction:column;align-items:center;}
   @media(min-width:960px){
     .hero-grid{max-width:1180px;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:40px;text-align:left;}
@@ -528,10 +518,6 @@
 
 <!-- ============ HERO ============ -->
 <div class="hero">
-  <video class="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="https://www.pexels.com/download/video/9365671/" type="video/mp4">
-  </video>
-  <div class="hero-video-overlay"></div>
   <div class="wrap hero-grid">
     <div>
       <span class="pill rv">The #1 Automation Builder Hub in Nigeria</span>
