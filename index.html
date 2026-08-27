@@ -140,9 +140,14 @@
   .avatar-row b{color:var(--text);}
 
   /* ---------- HERO 3D RUBIK'S CUBE ---------- */
-  .hero-visual{display:flex;justify-content:center;align-items:center;perspective:1100px;margin-top:8px;}
+  .hero-visual{display:flex;justify-content:center;align-items:center;perspective:900px;margin-top:8px;position:relative;}
+  .hero-visual::after{
+    content:"";position:absolute;bottom:6%;left:50%;transform:translateX(-50%);
+    width:60%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent 75%);
+    pointer-events:none;z-index:0;
+  }
   .cube-rig{
-    width:200px;height:200px;position:relative;transform-style:preserve-3d;
+    width:200px;height:200px;position:relative;transform-style:preserve-3d;z-index:1;
     cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none;
   }
   .cube-rig.dragging{cursor:grabbing;}
@@ -151,10 +156,18 @@
   .turn-group{position:absolute;top:0;left:0;transform-style:preserve-3d;}
   .cubie{position:absolute;top:0;left:0;width:var(--cubie);height:var(--cubie);transform-style:preserve-3d;}
   .cubie .face{position:absolute;top:0;left:0;width:var(--cubie);height:var(--cubie);border-radius:7px;border:2px solid rgba(0,0,0,.6);box-shadow:inset 0 0 0 2px rgba(255,255,255,.08);backface-visibility:hidden;}
+  .cubie .face::after{content:"";position:absolute;inset:0;border-radius:5px;pointer-events:none;}
+  /* fixed per-direction lighting overlay - simulates a light from top-front-right so the cube reads as a lit 3D object, independent of whatever logo/color the shuffle currently has assigned to that face */
+  .face-px::after{background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,0) 60%);}
+  .face-nx::after{background:rgba(0,0,0,.22);}
+  .face-py::after{background:rgba(0,0,0,.32);}
+  .face-ny::after{background:linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,0) 70%);}
+  .face-pz::after{background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,0) 55%);}
+  .face-nz::after{background:rgba(0,0,0,.28);}
   .face-px{transform:rotateY(90deg) translateZ(calc(var(--cubie) / 2));}
   .face-nx{transform:rotateY(-90deg) translateZ(calc(var(--cubie) / 2));}
-  .face-py{transform:rotateX(90deg) translateZ(calc(var(--cubie) / 2));}
-  .face-ny{transform:rotateX(-90deg) translateZ(calc(var(--cubie) / 2));}
+  .face-py{transform:rotateX(-90deg) translateZ(calc(var(--cubie) / 2));}
+  .face-ny{transform:rotateX(90deg) translateZ(calc(var(--cubie) / 2));}
   .face-pz{transform:translateZ(calc(var(--cubie) / 2));}
   .face-nz{transform:rotateY(180deg) translateZ(calc(var(--cubie) / 2));}
 
@@ -1400,8 +1413,8 @@
           var colors = {px:null,nx:null,py:null,ny:null,pz:null,nz:null};
           if(x===1) colors.px = LOGOS.px;
           if(x===-1) colors.nx = LOGOS.nx;
-          if(y===-1) colors.py = LOGOS.py; // rotateX(90deg) renders at the visual top, not +Y
-          if(y===1) colors.ny = LOGOS.ny;  // rotateX(-90deg) renders at the visual bottom
+          if(y===1) colors.py = LOGOS.py;
+          if(y===-1) colors.ny = LOGOS.ny;
           if(z===1) colors.pz = LOGOS.pz;
           if(z===-1) colors.nz = LOGOS.nz;
 
