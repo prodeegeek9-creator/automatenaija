@@ -455,6 +455,77 @@
   .theme-toggle{position:fixed;right:20px;bottom:20px;z-index:999;width:48px;height:48px;border-radius:50%;border:1px solid var(--line-2);background:var(--bg-2);color:var(--text);box-shadow:var(--shadow-md);cursor:pointer;font-size:20px;display:grid;place-items:center;transition:.2s}
   .theme-toggle:hover{transform:translateY(-2px);border-color:var(--lime);color:var(--lime)}
 
+  /* ---------- JUNE CHAT WIDGET ---------- */
+  .june-launcher{
+    position:fixed;left:20px;bottom:20px;z-index:999;
+    display:flex;align-items:center;gap:10px;
+    background:var(--lime);color:var(--ink);border:none;border-radius:999px;
+    padding:13px 20px 13px 15px;cursor:pointer;box-shadow:0 12px 28px rgba(204,85,0,.32);
+    font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.88rem;
+    transition:transform .18s ease, box-shadow .2s ease;
+  }
+  .june-launcher:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(204,85,0,.4);}
+  .june-launcher .i{width:20px;height:20px;}
+  .june-launcher .june-dot{width:8px;height:8px;border-radius:50%;background:#1a7a3d;box-shadow:0 0 0 2px rgba(255,255,255,.5);}
+  .june-launcher.hide{display:none;}
+
+  .june-panel{
+    position:fixed;right:20px;bottom:20px;z-index:1000;
+    width:min(370px, calc(100vw - 32px));height:min(560px, calc(100vh - 40px));
+    background:var(--bg-2);border:1px solid var(--line-2);border-radius:18px;
+    box-shadow:var(--shadow-lg);display:none;flex-direction:column;overflow:hidden;
+  }
+  .june-panel.open{display:flex;}
+  .june-head{
+    display:flex;align-items:center;gap:10px;padding:16px 16px;
+    border-bottom:1px solid var(--line);background:var(--bg-3);flex-shrink:0;
+  }
+  .june-avatar{
+    width:36px;height:36px;border-radius:50%;background:var(--lime);color:var(--ink);
+    display:grid;place-items:center;font-weight:800;font-family:'IBM Plex Sans',sans-serif;flex-shrink:0;
+  }
+  .june-head-info{flex:1;min-width:0;}
+  .june-head-info b{display:block;color:var(--text);font-size:.9rem;font-family:'IBM Plex Sans',sans-serif;}
+  .june-head-info span{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--muted);}
+  .june-head-info span .june-dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;}
+  .june-close{background:none;border:none;color:var(--muted);cursor:pointer;padding:6px;border-radius:8px;flex-shrink:0;}
+  .june-close:hover{color:var(--text);background:var(--line);}
+
+  .june-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+  .june-msg{max-width:84%;font-size:.86rem;line-height:1.55;padding:10px 13px;border-radius:13px;white-space:pre-line;}
+  .june-msg.bot{align-self:flex-start;background:var(--bg-3);border:1px solid var(--line);color:var(--text-2);border-bottom-left-radius:4px;}
+  .june-msg.user{align-self:flex-end;background:var(--lime);color:var(--ink);font-weight:600;border-bottom-right-radius:4px;}
+  .june-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:var(--bg-3);border:1px solid var(--line);border-radius:13px;border-bottom-left-radius:4px;}
+  .june-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:juneBlink 1.1s infinite;}
+  .june-typing span:nth-child(2){animation-delay:.15s;}
+  .june-typing span:nth-child(3){animation-delay:.3s;}
+  @keyframes juneBlink{0%,60%,100%{opacity:.3;transform:scale(.85);}30%{opacity:1;transform:scale(1);}}
+
+  .june-suggest{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 12px;flex-shrink:0;}
+  .june-chip{
+    border:1px solid var(--line-2);background:var(--bg-3);color:var(--text-2);
+    border-radius:999px;padding:7px 12px;font-size:.74rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .june-chip:hover{border-color:var(--lime);color:var(--lime);}
+
+  .june-input-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);flex-shrink:0;}
+  .june-input-row input{
+    flex:1;background:var(--bg);border:1px solid var(--line-2);border-radius:10px;
+    padding:11px 13px;color:var(--text);font-size:.85rem;font-family:inherit;min-width:0;
+  }
+  .june-input-row input::placeholder{color:var(--muted);}
+  .june-input-row input:focus{outline:none;border-color:var(--lime);}
+  .june-send{
+    width:42px;height:42px;border-radius:10px;background:var(--lime);color:var(--ink);
+    display:grid;place-items:center;border:none;cursor:pointer;flex-shrink:0;transition:.15s;
+  }
+  .june-send:hover{background:var(--lime-dim);}
+  @media(max-width:480px){
+    .june-panel{right:10px;left:10px;width:auto;bottom:10px;height:min(72vh,560px);}
+    .june-launcher{left:10px;bottom:10px;}
+  }
+
   /* reveal */
   .js .rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease;}
   .js .rv.in{opacity:1;transform:none;}
@@ -508,6 +579,34 @@
 
   <button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
 </header>
+
+<!-- ============ JUNE CHAT WIDGET ============ -->
+<button class="june-launcher" id="juneLauncher" aria-label="Chat with June">
+  <i data-lucide="message-circle" class="i"></i>
+  Ask June
+  <span class="june-dot" aria-hidden="true"></span>
+</button>
+
+<div class="june-panel" id="junePanel" role="dialog" aria-label="Chat with June" aria-hidden="true">
+  <div class="june-head">
+    <div class="june-avatar">J</div>
+    <div class="june-head-info">
+      <b>June</b>
+      <span><span class="june-dot"></span> Automate Naija's assistant</span>
+    </div>
+    <button class="june-close" id="juneClose" aria-label="Close chat">
+      <i data-lucide="x" class="i" style="width:18px;height:18px"></i>
+    </button>
+  </div>
+  <div class="june-body" id="juneBody"></div>
+  <div class="june-suggest" id="juneSuggest"></div>
+  <form class="june-input-row" id="juneForm">
+    <input type="text" id="juneInput" placeholder="Ask me anything about Automate Naija…" aria-label="Message June" autocomplete="off">
+    <button type="submit" class="june-send" aria-label="Send">
+      <i data-lucide="send" class="i" style="width:17px;height:17px"></i>
+    </button>
+  </form>
+</div>
 
 <!-- ============ HERO ============ -->
 <div class="hero">
@@ -1410,6 +1509,153 @@
     if(!reduceMotion){
       setInterval(shuffleMove, 4200);
     }
+  })();
+
+  /* ---- 7. JUNE — the Automate Naija Q&A bot ----
+     Answers are matched locally against JUNE_KB below. To hook June up to a
+     real AI model later, replace the body of getJuneAnswer() with a call to
+     your API (e.g. fetch a backend endpoint), keeping the same signature:
+     it receives the raw user text and must return the reply string. ---- */
+  (function(){
+    var JUNE_KB = [
+      { k: ['hi','hello','hey','good morning','good afternoon','good evening','yo'],
+        a: "Hey, I'm June 👋 I can answer questions about Automate Naija — pricing, the Learn and Automate tracks, the community, challenges, credentials and opportunities. What do you want to know?" },
+      { k: ['what is automate naija','about automate naija','what do you do','what is this','who are you','your name','what are you'],
+        a: "Automate Naija is a hub for AI & automation builders in Nigeria. It's where you learn practical automation skills, build real projects in the Automation Arena, collaborate with other builders, and connect with paid opportunities." },
+      { k: ['price','pricing','cost','how much','fee','fees'],
+        a: "Pricing is simple:\n• Learn — ₦10,000 for a 3-month structured syllabus (great for beginners)\n• Automate — ₦5,000 for a 6-week build cycle (if you already know a tool like n8n or Make)\n• Optional hosted n8n instance — ₦2,000/month\nThe community itself is completely free to join." },
+      { k: ['free','community free','is it free','cost to join'],
+        a: "Yes — joining the community is 100% free. You only pay if you want the structured Learn syllabus (₦10,000) or the Automate build track (₦5,000)." },
+      { k: ['learn track','learn program','beginner','no experience','no code','never coded','new to this'],
+        a: "The Learn track (₦10,000) is a 3-month structured curriculum built for complete beginners — weekly guided lessons, tutors, community support, and it graduates you into the Automate track." },
+      { k: ['automate track','automate program','6-week','6 week','already know'],
+        a: "The Automate track (₦5,000) is a 6-week build cycle for people who already know a tool like n8n or Make. You get Automation Arena challenges, a portfolio, verified credentials, and access to the opportunity board." },
+      { k: ['tool','tools','tech stack','stack','what will i learn','n8n','make.com','whatsapp api','openai','supabase'],
+        a: "You'll work with real automation tools: n8n, WhatsApp APIs, OpenAI, Supabase and Make — all taught through actual builds, not isolated tutorials." },
+      { k: ['job','jobs','paid work','hire','hiring','opportunit','freelance','money','income','get paid'],
+        a: "Yes — the Opportunities board connects capable builders with freelance projects, hiring roles and collaborations from real businesses. Recent postings range from ₦150k–₦400k for automation work." },
+      { k: ['arena','challenge','compete','competition'],
+        a: "The Automation Arena is where you build under real constraints and earn XP. Right now there's a featured challenge, 'The 7-Day Sales Machine' — build a lead-qualifying, FAQ-answering, sales-alerting system using n8n, WhatsApp, OpenAI and Supabase, for a ₦500 XP reward." },
+      { k: ['credential','certificate','proof','badge'],
+        a: "Every graded Arena challenge can become a Verifiable Builder Credential — tied to a real graded submission, shareable on LinkedIn or your portfolio, showing your score, the tools used and the actual work behind it." },
+      { k: ['tutor','instructor','teach','who teaches','mentor'],
+        a: "Your tutors are working builders, not just lecturers: Oginni Oluwafemi (n8n & AI Agents), Oluwabunmi Josephine (Automation & Integrations), Abdulhafeez Adebayo (Client Work & Deployment), Ogechukwu Okochukwu (Automations & Integrations) and Linda Okike (Backend & Automations)." },
+      { k: ['whatsapp','discord','community chat','join community','group'],
+        a: "Join the free Automate Naija WhatsApp community — it's the fastest way to get help, find collaborators and hear about new challenges first. You'll find the link in the Community section of this page." },
+      { k: ['sign up','signup','register','join','login','log in','how do i start','get started'],
+        a: "Head to the Pricing section and pick Learn or Automate to get started, or hit 'Join Automate Naija' at the top of the page. Already have an account? Use the 'Log in' button in the nav." },
+      { k: ['hosted n8n','hosting','instance'],
+        a: "An optional hosted n8n instance is available for ₦2,000/month if you'd rather not self-host while you build." },
+      { k: ['contact','support','help','reach you','email'],
+        a: "Best way to reach the team is through the Automate Naija WhatsApp community — someone will point you in the right direction fast." },
+      { k: ['thank','thanks','thank you','appreciate'],
+        a: "Anytime! If anything else comes to mind, just ask." },
+      { k: ['bye','goodbye','see you'],
+        a: "Catch you later — happy building! 👋" }
+    ];
+
+    var JUNE_FALLBACK = "I don't have a direct answer for that yet — I'm running on a fixed script for now, but I'll soon be upgraded with full AI so I can answer absolutely anything. In the meantime, try asking about pricing, the Learn/Automate tracks, the Arena, credentials, tutors or opportunities.";
+
+    var JUNE_SUGGESTIONS = [
+      "What's the pricing?",
+      "Do I need coding experience?",
+      "Can I find paid work here?",
+      "What tools will I learn?"
+    ];
+
+    function normalize(s){
+      return (s || '').toLowerCase().replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function getJuneAnswer(rawText){
+      var text = normalize(rawText);
+      if(!text) return "Ask me anything about Automate Naija — pricing, tracks, the Arena, community or opportunities.";
+      var best = null, bestScore = 0;
+      for(var i = 0; i < JUNE_KB.length; i++){
+        var entry = JUNE_KB[i];
+        var score = 0;
+        for(var j = 0; j < entry.k.length; j++){
+          if(text.indexOf(entry.k[j]) !== -1) score += entry.k[j].length;
+        }
+        if(score > bestScore){ bestScore = score; best = entry; }
+      }
+      return best ? best.a : JUNE_FALLBACK;
+    }
+
+    var launcher = document.getElementById('juneLauncher');
+    var panel = document.getElementById('junePanel');
+    var closeBtn = document.getElementById('juneClose');
+    var body = document.getElementById('juneBody');
+    var suggestWrap = document.getElementById('juneSuggest');
+    var form = document.getElementById('juneForm');
+    var input = document.getElementById('juneInput');
+    if(!launcher || !panel || !form || !input || !body) return;
+
+    function scrollToBottom(){ body.scrollTop = body.scrollHeight; }
+
+    function addMessage(text, who){
+      var el = document.createElement('div');
+      el.className = 'june-msg ' + who;
+      el.textContent = text;
+      body.appendChild(el);
+      scrollToBottom();
+    }
+
+    function renderSuggestions(){
+      suggestWrap.innerHTML = '';
+      JUNE_SUGGESTIONS.forEach(function(q){
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'june-chip';
+        chip.textContent = q;
+        chip.addEventListener('click', function(){ sendMessage(q); });
+        suggestWrap.appendChild(chip);
+      });
+    }
+
+    function sendMessage(text){
+      text = (text || '').trim();
+      if(!text) return;
+      addMessage(text, 'user');
+      input.value = '';
+
+      var typing = document.createElement('div');
+      typing.className = 'june-typing';
+      typing.innerHTML = '<span></span><span></span><span></span>';
+      body.appendChild(typing);
+      scrollToBottom();
+
+      var delay = 380 + Math.random() * 420;
+      setTimeout(function(){
+        typing.remove();
+        addMessage(getJuneAnswer(text), 'bot');
+      }, delay);
+    }
+
+    var started = false;
+    function openPanel(){
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
+      launcher.classList.add('hide');
+      if(!started){
+        started = true;
+        addMessage("Hi, I'm June! I'm Automate Naija's assistant — ask me about pricing, the Learn/Automate tracks, the Arena, credentials, tutors or opportunities.", 'bot');
+        renderSuggestions();
+      }
+      setTimeout(function(){ input.focus(); }, 50);
+    }
+    function closePanel(){
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+      launcher.classList.remove('hide');
+    }
+
+    launcher.addEventListener('click', openPanel);
+    closeBtn.addEventListener('click', closePanel);
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      sendMessage(input.value);
+    });
   })();
 </script>
 </body>
