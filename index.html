@@ -1241,7 +1241,12 @@
     var size = rig.getBoundingClientRect().width || 200;
     var unit = size / 3;
     var cubie = unit - 3;
+    var half = size / 2;
     scene.style.setProperty('--cubie', cubie + 'px');
+    // cubies are built centered on cube-scene's own (0,0) origin; shift the whole scene
+    // by half the box so that point lands on cube-rig's rotation pivot (its own 50% 50% center) -
+    // otherwise the cube spins off-axis, like it's hanging from a rope tied to one side.
+    scene.style.transform = 'translate3d(' + half + 'px,' + half + 'px,0)';
 
     function vecKey(v){
       for(var i=0;i<FACES.length;i++){
