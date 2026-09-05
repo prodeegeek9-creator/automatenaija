@@ -1360,13 +1360,15 @@
       if(url){ el.href = url; el.style.display = ''; }
       else { el.style.display = 'none'; }
     }
+    var swapTimer = null;
     function show(i){
       if(i === current) return;
       current = i;
       var t = IMAGES.tutors[i];
       if(!t) return;
       frame.style.opacity = 0;
-      setTimeout(function(){
+      clearTimeout(swapTimer);   // never let two cross-fades overlap
+      swapTimer = setTimeout(function(){
         frame.src = t.photo;
         nameEl.textContent = t.name;
         roleEl.textContent = t.role;
@@ -1380,20 +1382,64 @@
       items.forEach(function(el){ el.classList.toggle('active', Number(el.dataset.idx) === i); });
     }
 
-    // click / tap a name to jump straight to that tutor
-    items.forEach(function(el){
-      el.addEventListener('click', function(){ show(Number(el.dataset.idx)); });
-    });
+    /* Advance on a dwell timer that only runs while the section is properly framed.
+       It used to advance off each list item's own scroll position, which started
+       swapping the portrait while the section was barely half on screen, so it had
+       already run through most of the tutors by the time you could see it. There is
+       also no room to drive this from scroll: the section is nearly as tall as the
+       viewport, so only a few dozen pixels of scrolling separate "just framed" from
+       "leaving again". */
+    var section  = document.getElementById('tutors');
+    var rotation = null;
+    var held     = false;   // pointer is over the section, so hold the current tutor
+    var reduce   = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var DWELL_MS = 4000;
 
-    // auto-advance as the section scrolls through view
-    if('IntersectionObserver' in window){
-      var io2 = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){ if(e.isIntersecting) show(Number(e.target.dataset.idx)); });
-      }, { threshold: 0.6 });
-      items.forEach(function(el){ io2.observe(el); });
+    function framed(){
+      if(!section) return true;
+      var r = section.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+      return visible >= Math.min(r.height, vh) * 0.9;
+    }
+    function stopRotation(){
+      if(rotation){ clearInterval(rotation); rotation = null; }
+    }
+    function startRotation(){
+      if(rotation || held || reduce) return;
+      rotation = setInterval(function(){
+        show((current + 1) % IMAGES.tutors.length);
+      }, DWELL_MS);
+    }
+    function sync(){ framed() ? startRotation() : stopRotation(); }
+
+    var ticking = false;
+    function onScroll(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){ ticking = false; sync(); });
+    }
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', onScroll, { passive:true });
+
+    /* mouse events rather than pointer events: on touch there is no reliable leave
+       event, and a tap must not park the rotation permanently */
+    if(section){
+      section.addEventListener('mouseenter', function(){ held = true; stopRotation(); });
+      section.addEventListener('mouseleave', function(){ held = false; sync(); });
     }
 
+    // click / tap a name to jump straight to that tutor, and give it a full dwell
+    items.forEach(function(el){
+      el.addEventListener('click', function(){
+        show(Number(el.dataset.idx));
+        stopRotation();
+        startRotation();
+      });
+    });
+
     show(0);
+    sync();
   })();
 
   /* hero heading typewriter animation */
