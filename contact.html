@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Automate Naija</title>
+<meta name="description" content="Reach the Automate Naija team - community chat, email, partnerships and support for builders on the platform.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
+        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
+      </svg>
+      <span class="brand-name">AUTOMATE NAIJA</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html#ecosystem">Learn</a>
+      <a href="index.html#arena">Build</a>
+      <a href="index.html#community">Community</a>
+      <a href="index.html#opportunities">Opportunities</a>
+      <a href="blog/index.html">Blog</a>
+      <a href="about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="index.html#pricing" class="btn btn-solid">Join Automate Naija</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#ecosystem">Learn</a>
+    <a href="index.html#arena">Build</a>
+    <a href="index.html#community">Community</a>
+    <a href="index.html#opportunities">Opportunities</a>
+    <a href="blog/index.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="careers.html">Careers</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Contact</span>
+    <h1>Talk to a human.</h1>
+    <p class="lede">Questions about the build track, an opportunity you want posted, or something broken on the platform &mdash; here is how to reach us.</p>
+  </div>
+</div>
+
+<section style="padding-top:20px;">
+  <div class="wrap">
+    <div class="grid g3 rv">
+      <a class="card" href="index.html#community">
+        <div class="card-ic"><i data-lucide="message-circle" style="width:19px;height:19px"></i></div>
+        <h3>Community (fastest)</h3>
+        <p>Join the free WhatsApp community. Someone from the team or another builder usually answers within the hour.</p>
+        <span class="post more">Join the community &rarr;</span>
+      </a>
+      <a class="card" href="#" data-link="email">
+        <div class="card-ic"><i data-lucide="mail" style="width:19px;height:19px"></i></div>
+        <h3>Email</h3>
+        <p>For partnerships, invoices, press and anything that needs a paper trail.</p>
+        <span class="post more" data-link="email" data-fill>Email us &rarr;</span>
+      </a>
+      <a class="card" href="index.html#faq">
+        <div class="card-ic"><i data-lucide="help-circle" style="width:19px;height:19px"></i></div>
+        <h3>Check the FAQ first</h3>
+        <p>Pricing, the first-100 discount, what tools we teach and whether you need coding experience are all answered there.</p>
+        <span class="post more">Read the FAQ &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <div class="section-head rv">
+      <h2>Send a message</h2>
+      <p class="sub">Tell us what you need and we will get back to you.</p>
+    </div>
+    <form class="form rv" id="contactForm">
+      <div class="field"><label for="c-name">Your name</label><input id="c-name" type="text" placeholder="Full name" required></div>
+      <div class="field"><label for="c-email">Email</label><input id="c-email" type="email" placeholder="you@example.com" required></div>
+      <div class="field">
+        <label for="c-topic">What is this about?</label>
+        <select id="c-topic">
+          <option>Joining a build track</option>
+          <option>Posting an opportunity</option>
+          <option>Partnership or sponsorship</option>
+          <option>Payments and invoices</option>
+          <option>Something is broken</option>
+          <option>Something else</option>
+        </select>
+      </div>
+      <div class="field"><label for="c-msg">Message</label><textarea id="c-msg" placeholder="A couple of sentences is plenty." required></textarea></div>
+      <button type="submit" class="btn btn-solid btn-lg">Send message</button>
+      <p class="form-note">This opens your email app with everything filled in. Prefer chat? The community is faster.</p>
+    </form>
+  </div>
+</section>
+
+<script>
+  (function(){
+    var f = document.getElementById('contactForm');
+    if(!f) return;
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var v = function(id){ return (document.getElementById(id).value || '').trim(); };
+      var body = 'Name: ' + v('c-name') + '\nEmail: ' + v('c-email') + '\n\n' + v('c-msg');
+      window.location.href = 'mailto:' + SITE.email +
+        '?subject=' + encodeURIComponent(document.getElementById('c-topic').value) +
+        '&body=' + encodeURIComponent(body);
+    });
+  })();
+</script>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="index.html" class="brand" style="margin-bottom:6px;">
+          <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
+        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
+      </svg>
+          <span class="brand-name">AUTOMATE NAIJA</span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <div><h5>Platform</h5><div class="fcol"><a href="index.html#ecosystem">Learn</a><a href="index.html#arena">Build</a><a href="index.html#community">Community</a><a href="index.html#opportunities">Opportunities</a><a href="index.html#pricing">Pricing</a></div></div>
+      <div><h5>Resources</h5><div class="fcol"><a href="blog/index.html">Blog</a><a href="index.html#faq">FAQ</a><a href="index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></div>
+      <div><h5>Company</h5><div class="fcol"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div></div>
+      <div>
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

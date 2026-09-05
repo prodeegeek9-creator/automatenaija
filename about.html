@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Automate Naija: builders, not spectators</title>
+<meta name="description" content="Automate Naija is a builder hub for Nigerian AI and automation builders - learn by shipping, build in public, and turn finished work into paid opportunities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
+        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
+      </svg>
+      <span class="brand-name">AUTOMATE NAIJA</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="index.html#ecosystem">Learn</a>
+      <a href="index.html#arena">Build</a>
+      <a href="index.html#community">Community</a>
+      <a href="index.html#opportunities">Opportunities</a>
+      <a href="blog/index.html">Blog</a>
+      <a href="about.html" class="active">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="index.html#pricing" class="btn btn-solid">Join Automate Naija</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html#ecosystem">Learn</a>
+    <a href="index.html#arena">Build</a>
+    <a href="index.html#community">Community</a>
+    <a href="index.html#opportunities">Opportunities</a>
+    <a href="blog/index.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="careers.html">Careers</a>
+    <a href="contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">About us</span>
+    <h1>We are building the place Nigerian automation builders were missing.</h1>
+    <p class="lede">Automate Naija is a builder hub, not a course library. Learning, building, community and paid work sit in one place, because that is the order in which people actually grow.</p>
+    <div class="hero-actions">
+      <a href="index.html#pricing" class="btn btn-solid btn-lg">Start building</a>
+      <a href="index.html#community" class="btn btn-line btn-lg">Explore the community</a>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:20px;">
+  <div class="wrap">
+    <div class="prose rv">
+      <h2>Why we exist</h2>
+      <p>Plenty of people in Nigeria finish an automation course and still cannot answer the only question a client asks: <strong>show me something you built</strong>. The gap is never the tutorials. It is everything that is supposed to come after them &mdash; a real problem to solve, someone to ask when you get stuck, and a way to turn a finished workflow into work that pays.</p>
+      <p>Automate Naija closes that gap. You learn a tool by shipping something with it, you build in public alongside people doing the same, and the work you finish becomes portfolio proof that the opportunities board can point at.</p>
+
+      <h2>How the hub fits together</h2>
+      <p>Four layers, each one feeding the next:</p>
+      <ul>
+        <li><strong>Learn</strong> &mdash; a structured path through AI, automation and no-code tools, taught through builds rather than isolated lessons.</li>
+        <li><strong>Build</strong> &mdash; the Automation Arena, where challenges are written around problems businesses actually have, under real constraints and a real deadline.</li>
+        <li><strong>Community</strong> &mdash; builders who debug with you, share budgets and rates, and team up on things none of you would ship alone.</li>
+        <li><strong>Opportunities</strong> &mdash; freelance projects, roles and collaborations posted by businesses that need automation built.</li>
+      </ul>
+
+      <h2>What we believe</h2>
+      <blockquote>Learn something. Build something. Meet someone. Ship something.</blockquote>
+      <p>That sentence is the whole product strategy. Every feature we add has to serve one of those four verbs, or it does not get built.</p>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="grid g4 rv">
+      <div class="card">
+        <div class="card-ic"><i data-lucide="hammer" style="width:19px;height:19px"></i></div>
+        <h3>Proof over certificates</h3>
+        <p>A working system you can demo beats a PDF nobody asked for. Everything here ends in something you can show.</p>
+      </div>
+      <div class="card">
+        <div class="card-ic"><i data-lucide="users" style="width:19px;height:19px"></i></div>
+        <h3>Nobody builds alone</h3>
+        <p>The community layer is free on purpose. Getting unstuck fast is the difference between finishing and quitting.</p>
+      </div>
+      <div class="card">
+        <div class="card-ic"><i data-lucide="banknote" style="width:19px;height:19px"></i></div>
+        <h3>Skills should pay</h3>
+        <p>We measure ourselves by the projects, roles and clients our builders land, not by how many videos got watched.</p>
+      </div>
+      <div class="card">
+        <div class="card-ic"><i data-lucide="map-pin" style="width:19px;height:19px"></i></div>
+        <h3>Built for here</h3>
+        <p>Nigerian tools, Nigerian pricing, Nigerian clients. WhatsApp-first automations, naira budgets, local realities.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:20px;">
+  <div class="wrap">
+    <div class="section-head rv">
+      <h2>The people behind it</h2>
+      <p class="sub">Practising builders who teach live every week, not a faceless content team.</p>
+    </div>
+    <div class="team rv">
+      <div class="member"><img src="https://media.prodeegee.com/fm.png" alt="Oginni Oluwafemi" loading="lazy"><div class="who"><b>Oginni Oluwafemi</b><span>Lead Instructor &middot; n8n &amp; AI Agents</span></div></div>
+      <div class="member"><img src="https://media.prodeegee.com/jo.png" alt="Oluwabunmi Josephine" loading="lazy"><div class="who"><b>Oluwabunmi Josephine</b><span>Automation &amp; Integrations</span></div></div>
+      <div class="member"><img src="https://media.prodeegee.com/bayou.png" alt="Abdulhafeez Adebayo" loading="lazy"><div class="who"><b>Abdulhafeez Adebayo</b><span>Client Work &amp; Deployment</span></div></div>
+      <div class="member"><img src="https://media.prodeegee.com/bfa8e3e4-12c6-4ba7-8ba4-5f6672c0c1a4.png" alt="Linda Okike" loading="lazy"><div class="who"><b>Linda Okike</b><span>Backend &amp; Automations</span></div></div>
+    </div>
+    <p class="form-note" style="margin-top:18px;">Meet the full teaching team on the <a href="index.html#tutors" style="color:var(--lime);font-weight:600;">home page</a>.</p>
+  </div>
+</section>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <div class="band rv">
+      <h2>Want in?</h2>
+      <p>The community is free. The build track opens with a first-100 discount. Both start on the same page.</p>
+      <div class="hero-actions">
+        <a href="index.html#pricing" class="btn btn-solid btn-lg">See pricing</a>
+        <a href="contact.html" class="btn btn-line btn-lg">Talk to us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="index.html" class="brand" style="margin-bottom:6px;">
+          <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
+        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
+      </svg>
+          <span class="brand-name">AUTOMATE NAIJA</span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <div><h5>Platform</h5><div class="fcol"><a href="index.html#ecosystem">Learn</a><a href="index.html#arena">Build</a><a href="index.html#community">Community</a><a href="index.html#opportunities">Opportunities</a><a href="index.html#pricing">Pricing</a></div></div>
+      <div><h5>Resources</h5><div class="fcol"><a href="blog/index.html">Blog</a><a href="index.html#faq">FAQ</a><a href="index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></div>
+      <div><h5>Company</h5><div class="fcol"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div></div>
+      <div>
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
