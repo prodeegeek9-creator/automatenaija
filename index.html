@@ -1191,7 +1191,7 @@
     host: "https://i.pravatar.cc/60?img=12",
     showcase: "https://picsum.photos/seed/an-showcase/800/500",
     tutors: [
-      { name: "Abdulhafeez Adebayo", role: "Lead Instructor · n8n & AI Agents", photo: "https://media.prodeegee.com/fm.png",
+      { name: "Oginni Oluwafemi",    role: "Lead Instructor · n8n & AI Agents", photo: "https://media.prodeegee.com/fm.png",
         social: { linkedin: "https://linkedin.com/in/prodeegee", instagram: "https://instagram.com/prodeegee", twitter: "https://twitter.com/abdulhafeez" } },
       { name: "Oluwabunmi Josephine",      role: "Automation & Integrations",         photo: "https://media.prodeegee.com/jo.png",
         social: { linkedin: "https://www.linkedin.com/in/josephine-oluwabunmi-b484253a8/", instagram: "https://instagram.com/oluwabunmi", twitter: "https://twitter.com/oluwabunmi" } },
@@ -1337,6 +1337,21 @@
     var roleEl = document.getElementById('tutorRole');
     var items = document.querySelectorAll('.tutor-item');
     if(!frame || !items.length) return;
+
+    /* Drive the sidebar labels from the same data the portrait caption uses. The markup
+       keeps its own copy as a no-JS fallback, but at runtime the two can no longer drift
+       apart the way they had (the list and the caption were naming different people). */
+    items.forEach(function(el){
+      var i = Number(el.dataset.idx);
+      var t = IMAGES.tutors[i];
+      if(!t) return;
+      var num  = el.querySelector('.tutor-item-num');
+      var name = el.querySelector('b');
+      var role = el.querySelector('b + span');
+      if(num)  num.textContent  = String(i+1).padStart(2,'0');
+      if(name) name.textContent = t.name;
+      if(role) role.textContent = t.role;
+    });
 
     var current = -1;
     function setSocial(id, url){
