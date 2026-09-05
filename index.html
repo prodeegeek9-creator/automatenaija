@@ -235,9 +235,6 @@
   .stack-mini img{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--bg-2);margin-left:-7px;object-fit:cover;background:var(--bg-3);}
   .stack-mini img:first-child{margin-left:0;}
   .plus-mini{width:22px;height:22px;border-radius:50%;background:var(--bg-3);border:1.5px solid var(--bg-2);margin-left:-7px;display:grid;place-items:center;font-size:.6rem;color:var(--muted);font-weight:700;}
-  .live-tag{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;color:var(--lime);font-weight:700;margin-left:10px;}
-  .live-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--lime);animation:blip 1.6s infinite;}
-  @keyframes blip{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
 
   .stage{
     position:relative;padding:34px 20px 26px;min-height:300px;
@@ -522,21 +519,6 @@
     .tutor-frame{aspect-ratio:4/3;}
   }
 
-  /* ---------- LIVE ACTIVITY TICKER ---------- */
-  .ticker-wrap{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg-2);overflow:hidden;padding:16px 0;}
-  .ticker-head{display:flex;align-items:center;gap:10px;padding:0 22px 12px;max-width:1200px;margin:0 auto;flex-wrap:wrap;}
-  .ticker-head .live-tag{margin-left:0;}
-  .ticker-caption{font-size:.72rem;color:var(--muted);margin-left:auto;font-family:'IBM Plex Mono',monospace;}
-  .ticker-caption a{color:var(--lime);}
-  .ticker-mask{-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);}
-  .ticker-track{display:flex;width:max-content;animation:tickerScroll 34s linear infinite;}
-  .ticker-track:hover{animation-play-state:paused;}
-  .ticker-item{display:flex;align-items:center;gap:9px;padding:0 28px;font-size:.82rem;color:var(--text-2);white-space:nowrap;border-right:1px solid var(--line);}
-  .ticker-item svg{color:var(--lime);flex-shrink:0;width:15px;height:15px;}
-  .ticker-item b{color:var(--text);font-weight:700;}
-  @keyframes tickerScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-  @media(max-width:640px){.ticker-caption{display:none;}}
-
   /* ---------- VERIFIABLE CREDENTIAL ---------- */
   .cred-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;margin-top:10px;}
   .cred-copy h2,.cred-copy>p{text-align:left;margin-left:0;}
@@ -770,19 +752,6 @@
       <div class="cube-rig" id="cubeRig">
         <div class="cube-scene" id="cubeScene"></div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ LIVE ACTIVITY TICKER ============ -->
-<div class="ticker-wrap">
-  <div class="ticker-head">
-    <span class="live-tag"><span class="dot"></span>LIVE ACTIVITY</span>
-    <span class="ticker-caption">Real builders, right now, <a href="#community">join the community →</a></span>
-  </div>
-  <div class="ticker-mask">
-    <div class="ticker-track" id="tickerTrack">
-      <!-- items are duplicated by JS for a seamless loop -->
     </div>
   </div>
 </div>
@@ -1345,28 +1314,6 @@
       apply(next);
       try { localStorage.setItem('an-theme', next); } catch(e){}
     });
-  })();
-
-  /* ---- 2c. LIVE ACTIVITY TICKER ---- */
-  (function(){
-    var track = document.getElementById('tickerTrack');
-    if(!track) return;
-    var items = [
-      { icon:'trophy', html:'<b>David A.</b> completed The 7-Day Sales Machine' },
-      { icon:'user-plus', html:'<b>Amaka</b> just joined the Arena' },
-      { icon:'sparkles', html:'<b>Tobi</b> shipped an AI Content Repurposing Workflow' },
-      { icon:'message-circle', html:'<b>Emeka</b> answered a question in #n8n' },
-      { icon:'briefcase', html:'New opportunity posted: <b>WhatsApp Sales Automation</b>' },
-      { icon:'award', html:'<b>Linda</b> earned the Verified Builder credential' },
-      { icon:'rocket', html:'<b>Ogechukwu</b> deployed a client workflow to production' },
-      { icon:'users', html:'<b>247 builders</b> online right now' }
-    ];
-    function itemHTML(it){
-      return '<span class="ticker-item"><i data-lucide="'+it.icon+'"></i>'+it.html+'</span>';
-    }
-    var html = items.map(itemHTML).join('') + items.map(itemHTML).join('');
-    track.innerHTML = html;
-    drawIcons();
   })();
 
   /* ---- 2d. SHARE CREDENTIAL ---- */
