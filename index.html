@@ -426,6 +426,40 @@
   @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr;}}
   @media(max-width:520px){.fgrid{grid-template-columns:1fr;}}
 
+  /* ---------- WHAT YOU DO HERE ---------- */
+  /* Five tinted cards. Each one carries its own accent as --path-c and its own
+     surface as --path-bg, so the row is one rule plus a colour per card, and both
+     themes are a matter of restating those two values. */
+  .paths{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));}
+  .path{
+    position:relative;overflow:hidden;border-radius:18px;
+    padding:24px 22px 78px;
+    background:var(--path-bg);border:1px solid var(--path-line);
+  }
+  .path h3{
+    font-family:'IBM Plex Sans',sans-serif;font-size:1.04rem;font-weight:700;
+    letter-spacing:-.01em;color:var(--path-c);margin-bottom:11px;
+  }
+  .path p{font-size:.89rem;line-height:1.55;color:var(--text-2);font-weight:500;}
+  .path-ic{position:absolute;right:18px;bottom:16px;color:var(--path-c);opacity:.9;pointer-events:none;}
+  .path-ic svg{width:36px;height:36px;stroke-width:1.5;}
+  .path-progress{margin-top:16px;max-width:150px;}
+  .path-progress b{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:.8rem;
+    font-weight:600;color:var(--path-c);margin-bottom:7px;
+  }
+  .path-track{display:block;height:7px;border-radius:999px;background:var(--path-line);overflow:hidden;}
+  .path-track i{display:block;height:100%;width:79%;border-radius:999px;background:var(--path-c);}
+
+  .path.p-green {--path-c:#4ADE80;--path-bg:rgba(74,222,128,.07); --path-line:rgba(74,222,128,.20);}
+  .path.p-purple{--path-c:#A78BFA;--path-bg:rgba(167,139,250,.08);--path-line:rgba(167,139,250,.22);}
+  .path.p-blue  {--path-c:#60A5FA;--path-bg:rgba(96,165,250,.08); --path-line:rgba(96,165,250,.22);}
+  .path.p-orange{--path-c:#FB923C;--path-bg:rgba(251,146,60,.08); --path-line:rgba(251,146,60,.22);}
+  html[data-theme="light"] .path.p-green {--path-c:#15803D;--path-bg:#EDF7EF;--path-line:rgba(21,128,61,.16);}
+  html[data-theme="light"] .path.p-purple{--path-c:#6D28D9;--path-bg:#F4F0FD;--path-line:rgba(109,40,217,.16);}
+  html[data-theme="light"] .path.p-blue  {--path-c:#1D4ED8;--path-bg:#EDF3FD;--path-line:rgba(29,78,216,.16);}
+  html[data-theme="light"] .path.p-orange{--path-c:#C2410C;--path-bg:#FDF1E8;--path-line:rgba(194,65,12,.16);}
+
   /* ---------- MEET YOUR TUTORS ---------- */
   .tutors-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;margin-top:36px;}
   .tutor-frame{
@@ -467,7 +501,7 @@
      tutor count in JS so the track always has room for every one of them. */
   .tutors-track{position:relative;}
   @media(min-width:821px){
-    .tutors-track{height:calc(100vh + var(--tutor-steps, 4) * 52vh);}
+    .tutors-track{height:calc(100vh + var(--tutor-steps, 4) * 40vh);}
     .tutors-sticky{
       position:sticky;top:0;min-height:100vh;
       display:flex;flex-direction:column;justify-content:center;
@@ -752,6 +786,43 @@
     </div>
   </div>
 </div>
+
+<!-- ============ WHAT YOU DO HERE ============ -->
+<section class="paths-sec">
+  <div class="wrap">
+    <div class="paths">
+      <article class="path p-green rv">
+        <h3>Build Workflows</h3>
+        <p>Drag, drop and connect apps to automate your world.</p>
+        <span class="path-ic"><i data-lucide="workflow"></i></span>
+      </article>
+      <article class="path p-purple rv">
+        <h3>Learn Automation</h3>
+        <p>Step-by-step lessons, real world projects and challenges.</p>
+        <div class="path-progress">
+          <b>79%</b>
+          <span class="path-track" role="img" aria-label="79 percent complete"><i></i></span>
+        </div>
+        <span class="path-ic"><i data-lucide="graduation-cap"></i></span>
+      </article>
+      <article class="path p-blue rv">
+        <h3>Explore &amp; Fork</h3>
+        <p>Browse community workflows and fork what inspires you.</p>
+        <span class="path-ic"><i data-lucide="git-fork"></i></span>
+      </article>
+      <article class="path p-orange rv">
+        <h3>Share &amp; Grow</h3>
+        <p>Share your work, get feedback and grow your brand.</p>
+        <span class="path-ic"><i data-lucide="users"></i></span>
+      </article>
+      <article class="path p-green rv">
+        <h3>Earn &amp; Scale</h3>
+        <p>Monetize your skills and automations. Build your business.</p>
+        <span class="path-ic"><i data-lucide="trending-up"></i></span>
+      </article>
+    </div>
+  </div>
+</section>
 
 <!-- ============ MEET YOUR TUTORS ============ -->
 <section id="tutors">
