@@ -296,13 +296,6 @@
   .link-arrow:hover{gap:9px;transition:gap .15s;}
 
   /* ---------- BENTO LAYOUT (ecosystem / arena / opportunities / community / cta) ---------- */
-  .newstats{padding:18px 0 30px;}
-  .statbar{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);}
-  .statbar>div{padding:20px;border-right:1px solid var(--line);}
-  .statbar>div:last-child{border:0;}
-  .statbar b{display:block;color:var(--text);font-size:18px;}
-  .statbar span{font-size:12px;color:var(--muted);}
-
   .section-head{text-align:center;max-width:720px;margin:0 auto 40px;}
   .section-head h2{font-size:clamp(32px,4vw,50px);letter-spacing:-.045em;margin:12px 0;}
   .section-head p{color:var(--muted);}
@@ -381,15 +374,11 @@
     .newcard.large{grid-column:span 2;grid-row:auto;}
     .oppgrid{grid-template-columns:1fr 1fr;}
     .arena-new,.community-new{grid-template-columns:1fr;}
-    .statbar{grid-template-columns:1fr 1fr;}
   }
   @media(max-width:650px){
     .bento,.oppgrid,.pricegrid{grid-template-columns:1fr;}
     .newcard.large{grid-column:auto;}
     .whynew{grid-template-columns:1fr;}
-    .statbar{grid-template-columns:1fr;}
-    .statbar>div{border-right:0;border-bottom:1px solid var(--line);}
-    .statbar>div:last-child{border-bottom:0;}
     .cta-new .wrap{flex-direction:column;align-items:flex-start;}
     .cta-new h2{font-size:29px;}
   }
@@ -518,37 +507,6 @@
     .tutors-grid{grid-template-columns:1fr;}
     .tutor-frame{aspect-ratio:4/3;}
   }
-
-  /* ---------- VERIFIABLE CREDENTIAL ---------- */
-  .cred-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center;margin-top:10px;}
-  .cred-copy h2,.cred-copy>p{text-align:left;margin-left:0;}
-  .cred-list{display:flex;flex-direction:column;gap:14px;margin-top:24px;}
-  .cred-list li{display:flex;gap:12px;align-items:flex-start;font-size:.88rem;color:var(--text-2);line-height:1.5;}
-  .cred-list svg{color:var(--lime);flex-shrink:0;margin-top:2px;}
-  .cred-card{border:1px solid var(--line-2);border-radius:18px;background:linear-gradient(160deg,var(--bg-2),var(--bg-3));padding:30px;position:relative;box-shadow:var(--shadow-lg);}
-  .cred-card::before{content:"";position:absolute;inset:10px;border:1px dashed var(--line-2);border-radius:12px;pointer-events:none;}
-  .cred-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px;}
-  .cred-mark span{display:block;font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:6px;}
-  .cred-badge{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(204,85,0,.28), var(--bg-3) 70%);border:1px solid rgba(204,85,0,.4);display:grid;place-items:center;color:var(--lime);flex-shrink:0;}
-  .cred-name{font-family:'Lora',Georgia,serif;font-size:1.3rem;color:var(--text);margin-bottom:4px;}
-  .cred-for{font-size:.8rem;color:var(--muted);margin-bottom:22px;}
-  .cred-stats{display:flex;gap:24px;border-top:1px solid var(--line);padding-top:16px;margin-bottom:20px;}
-  .cred-stat b{display:block;font-family:'Lora',Georgia,serif;font-size:1.1rem;color:var(--lime);}
-  .cred-stat span{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-family:'IBM Plex Mono',monospace;}
-  .cred-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;}
-  @media(max-width:900px){.cred-grid{grid-template-columns:1fr;}.cred-copy h2,.cred-copy>p{text-align:center;margin:0 auto;}.cred-copy .cred-list{text-align:left;}}
-
-  /* ---------- BUSINESS PROOF ---------- */
-  .biz-proof{margin-top:26px;border:1px solid var(--line);border-radius:16px;background:var(--bg-2);padding:26px 30px;display:flex;align-items:center;gap:30px;flex-wrap:wrap;}
-  .biz-stat{text-align:center;flex-shrink:0;}
-  .biz-stat b{display:block;font-family:'Lora',Georgia,serif;font-size:2rem;color:var(--lime);line-height:1;}
-  .biz-stat span{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-family:'IBM Plex Mono',monospace;}
-  .biz-quote{flex:1;min-width:240px;}
-  .biz-quote p{font-size:.92rem;color:var(--text-2);line-height:1.6;font-style:italic;margin-bottom:8px;}
-  .biz-quote footer{font-size:.78rem;color:var(--muted);font-style:normal;}
-  .biz-quote footer b{color:var(--text);}
-  .biz-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(204,85,0,.1);color:var(--lime);border:1px solid rgba(204,85,0,.28);border-radius:999px;padding:6px 12px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-family:'IBM Plex Mono',monospace;flex-shrink:0;}
-  @media(max-width:700px){.biz-proof{flex-direction:column;text-align:center;}}
 
   /* ---------- WHATSAPP COMMUNITY CTA ---------- */
   .wa-cta{grid-column:1/-1;margin-top:6px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(120deg, rgba(204,85,0,.08), var(--bg-2) 60%);padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
@@ -850,18 +808,6 @@
   </div>
 </section>
 
-<!-- ============ QUICK STATS ============ -->
-<section class="newstats">
-  <div class="wrap">
-    <div class="statbar rv">
-      <div><b>Learn</b><span>Practical, project-led</span></div>
-      <div><b>Build</b><span>Real-world challenges</span></div>
-      <div><b>Collaborate</b><span>Find your people</span></div>
-      <div><b>Get Paid</b><span>Projects &amp; opportunities</span></div>
-    </div>
-  </div>
-</section>
-
 <!-- ============ ECOSYSTEM ============ -->
 <section id="ecosystem">
   <div class="wrap">
@@ -898,7 +844,7 @@
         <span class="newicon">★</span>
         <h3>Showcase</h3>
         <p>Turn finished projects into portfolio proof and reputation.</p>
-        <a href="#credential">See credentials →</a>
+        <a href="#arena">See the showcase →</a>
       </article>
       <article class="newcard rv">
         <span class="newicon">▣</span>
@@ -936,57 +882,6 @@
         <h3>AI-Powered Customer Support Agent</h3>
         <p>Built by <b>David A.</b> · 128 likes · 24 comments</p>
       </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ VERIFIABLE CREDENTIAL ============ -->
-<section id="credential">
-  <div class="wrap cred-grid">
-    <div class="cred-copy rv">
-      <span class="kicker">Proof, not promises</span>
-      <h2>Don't just learn it. <em>Prove it.</em></h2>
-      <p class="sub" style="margin:0;">Every graded challenge in the Arena can become a verifiable builder credential that shows exactly what you built.</p>
-      <ul class="cred-list">
-        <li><i data-lucide="check-circle-2" class="i" style="width:16px;height:16px"></i> Tied to a real, graded submission, not a quiz.</li>
-        <li><i data-lucide="check-circle-2" class="i" style="width:16px;height:16px"></i> Shareable verification link for LinkedIn and portfolios.</li>
-        <li><i data-lucide="check-circle-2" class="i" style="width:16px;height:16px"></i> Shows your score, the tools used, and the actual work behind it.</li>
-      </ul>
-    </div>
-    <div class="cred-card rv">
-      <div class="cred-top">
-        <span class="cred-mark mono">
-          <svg viewBox="0 0 40 40" fill="none" width="26" height="26" aria-hidden="true">
-            <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="var(--lime)"/>
-            <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="var(--bg-2)"/>
-          </svg>
-          <span>Verified Builder Credential</span>
-        </span>
-        <span class="cred-badge"><i data-lucide="shield-check" style="width:24px;height:24px"></i></span>
-      </div>
-      <h3 class="cred-name">The 7-Day Sales Machine</h3>
-      <p class="cred-for">Awarded to <b style="color:var(--text)">David A.</b> · n8n · WhatsApp · Supabase</p>
-      <div class="cred-stats">
-        <div class="cred-stat"><b>96/100</b><span>Score</span></div>
-        <div class="cred-stat"><b>500</b><span>XP Earned</span></div>
-        <div class="cred-stat"><b>#0142</b><span>Credential ID</span></div>
-      </div>
-      <button class="btn btn-line cred-share" id="shareCredential"><i data-lucide="share-2" style="width:15px;height:15px"></i> Share credential</button>
-    </div>
-  </div>
-</section>
-
-<!-- ============ BUSINESS PROOF ============ -->
-<section style="padding-top:0;">
-  <div class="wrap">
-    <div class="biz-proof rv">
-      <div class="biz-stat"><b>40+</b><span>Businesses automated</span></div>
-      <div class="biz-stat"><b>120+</b><span>Workflows shipped</span></div>
-      <div class="biz-quote">
-        <p>"We posted the job, got matched with a builder from the Arena, and had a working WhatsApp lead system in under a week."</p>
-        <footer><b>Ifeoma K.</b>, Operations Lead, E-commerce, Lagos</footer>
-      </div>
-      <span class="biz-badge"><i data-lucide="briefcase" style="width:13px;height:13px"></i> Hiring builders</span>
     </div>
   </div>
 </section>
@@ -1190,7 +1085,7 @@
         </span>
         <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
       </div>
-      <div><h5>Platform</h5><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#credential">Showcase</a><a href="#pricing">Pricing</a></div></div>
+      <div><h5>Platform</h5><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#arena">Showcase</a><a href="#pricing">Pricing</a></div></div>
       <div><h5>Resources</h5><div class="fcol"><a href="#">Blog</a><a href="#">Guides</a><a href="#">Templates</a><a href="#">Tools</a><a href="#faq">FAQ</a></div></div>
       <div><h5>Company</h5><div class="fcol"><a href="#">About Us</a><a href="#">Careers</a><a href="#">Partner With Us</a><a href="#">Contact</a></div></div>
       <div>
@@ -1313,25 +1208,6 @@
       var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
       apply(next);
       try { localStorage.setItem('an-theme', next); } catch(e){}
-    });
-  })();
-
-  /* ---- 2d. SHARE CREDENTIAL ---- */
-  (function(){
-    var btn = document.getElementById('shareCredential');
-    if(!btn) return;
-    var label = btn.innerHTML;
-    btn.addEventListener('click', function(){
-      var text = 'Verified Builder Credential: The 7-Day Sales Machine | Automate Naija';
-      function done(msg){
-        btn.textContent = msg;
-        setTimeout(function(){ btn.innerHTML = label; drawIcons(); }, 1800);
-      }
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(text).then(function(){ done('Copied ✓'); }, function(){ done('Credential ready to share'); });
-      } else {
-        done('Credential ready to share');
-      }
     });
   })();
 
