@@ -306,6 +306,24 @@
   .pricegrid ul{list-style:none;display:grid;gap:10px;color:var(--soft);font-size:13px;}
   .price-note{text-align:center;color:var(--muted);font-size:12px;margin-top:15px;}
 
+  .promo-bar{max-width:900px;margin:30px auto 0;padding:14px 20px;border-radius:14px;text-align:center;
+    border:1px dashed rgba(var(--accent-rgb),.45);background:rgba(var(--accent-rgb),.07);
+    display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;}
+  .promo-bar b{color:var(--accent);font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.09em;}
+  .promo-bar span{color:var(--soft);font-size:13px;font-weight:600;}
+  .price-from{display:block;font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:var(--muted);margin-top:18px;}
+  .price-from + .price{margin-top:4px;}
+  .price.soon{font-size:30px;color:var(--muted);}
+  .price-sub{color:var(--good);font-size:12px;font-weight:700;margin:-8px 0 0;}
+  .pricegrid .tierlist{display:grid;gap:8px;margin:18px 0 20px;font-size:13px;}
+  .pricegrid .tierlist li{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);}
+  .tier-name{font-weight:700;color:var(--text);}
+  .tier-price{white-space:nowrap;}
+  .tier-price s{color:var(--muted);font-size:12px;margin-right:7px;}
+  .tier-price b{color:var(--accent);font-size:15px;}
+  .newbtn.disabled{background:transparent;border:1px dashed var(--line2);color:var(--muted)!important;cursor:not-allowed;}
+
   .cta-new{padding:25px 0 70px;}
   .cta-new .wrap{background:var(--accent);padding:30px;border-radius:25px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
   .cta-new h2{color:#fff;font-size:36px;}
@@ -942,36 +960,48 @@
     <div class="section-head rv">
       <span class="kicker">SIMPLE PRICING</span>
       <h2>Choose your starting point.</h2>
-      <p>Community is free. Pay once to unlock a learning track.</p>
+      <p>Community is free. Pay once for a build track, and the first 100 subscribers pay a lot less.</p>
+    </div>
+    <div class="promo-bar rv">
+      <b>LIMITED-TIME DISCOUNT</b>
+      <span>Open now for the first 100 subscribers. Prices go back to normal once the 100 spots are gone.</span>
     </div>
     <div class="pricegrid">
       <article class="newcard rv">
+        <span class="badge">COMING SOON</span>
         <h3>Learn</h3>
         <p>3-month structured syllabus for starting from zero.</p>
-        <div class="price">₦10,000</div>
+        <div class="price soon">Coming soon</div>
         <ul>
           <li>✓ Structured curriculum</li>
           <li>✓ Weekly guided lessons</li>
           <li>✓ Tutors and community</li>
           <li>✓ Graduate into Automate</li>
         </ul>
-        <a class="newbtn outline" href="https://app.automatenaija.com/login">Start learning</a>
+        <span class="newbtn outline disabled" aria-disabled="true">Coming soon</span>
       </article>
       <article class="newcard featured rv">
-        <span class="badge">SKIP STRAIGHT IN</span>
+        <span class="badge">FIRST 100 SUBSCRIBERS</span>
         <h3>Automate</h3>
-        <p>6-week build cycle for people who already know a tool.</p>
-        <div class="price">₦5,000</div>
+        <p>6-week build cycle. Pick the level that matches where you are.</p>
+        <span class="price-from">STARTS FROM</span>
+        <div class="price">₦8,000</div>
+        <p class="price-sub">Discounted to ₦5,000 for the first 100 subscribers.</p>
+        <ul class="tierlist">
+          <li><span class="tier-name">Beginner</span><span class="tier-price"><s>₦20,000</s><b>₦10,000</b></span></li>
+          <li><span class="tier-name">Intermediate</span><span class="tier-price"><s>₦12,000</s><b>₦8,000</b></span></li>
+          <li><span class="tier-name">Expert</span><span class="tier-price"><s>₦8,000</s><b>₦5,000</b></span></li>
+        </ul>
         <ul>
           <li>✓ 6-week build cycle</li>
           <li>✓ Automation Arena challenges</li>
           <li>✓ Portfolio &amp; credentials</li>
           <li>✓ Opportunity board</li>
         </ul>
-        <a class="newbtn" href="https://app.automatenaija.com/login">Start automating</a>
+        <a class="newbtn" href="https://app.automatenaija.com/login">Claim the discount</a>
       </article>
     </div>
-    <p class="price-note">Optional hosted n8n instance: <b>₦2,000/month</b></p>
+    <p class="price-note">Discounted prices apply to the first 100 subscribers only · Optional hosted n8n instance: <b>₦2,000/month</b></p>
   </div>
 </section>
 
@@ -986,11 +1016,11 @@
     <div class="faq-list">
       <details class="faq-item rv">
         <summary>Is the community free? <i data-lucide="plus" class="i faq-ic"></i></summary>
-        <p>Yes. The community layer is completely free to join. Paid options only unlock the structured Learn syllabus or the Automate build track.</p>
+        <p>Yes. The community layer is completely free to join. You only pay to unlock the Automate build track. The structured Learn syllabus is coming soon.</p>
       </details>
       <details class="faq-item rv">
         <summary>Do I need coding experience? <i data-lucide="plus" class="i faq-ic"></i></summary>
-        <p>No. Learn is designed for complete beginners; Automate is for people who already know a tool (like n8n or Make) and are ready to build.</p>
+        <p>No. Automate has a Beginner level built for people starting out, plus Intermediate and Expert levels for people who already know a tool like n8n or Make. The dedicated Learn syllabus for starting from zero is coming soon.</p>
       </details>
       <details class="faq-item rv">
         <summary>What tools will I work with? <i data-lucide="plus" class="i faq-ic"></i></summary>
@@ -999,6 +1029,14 @@
       <details class="faq-item rv">
         <summary>Can I find paid work here? <i data-lucide="plus" class="i faq-ic"></i></summary>
         <p>Yes. The Opportunities board connects capable builders with freelance projects, hiring roles and collaborations from real businesses.</p>
+      </details>
+      <details class="faq-item rv">
+        <summary>How does the first-100 discount work? <i data-lucide="plus" class="i faq-ic"></i></summary>
+        <p>It's a limited-time discount, open right now to the first 100 subscribers on the Automate track. Beginner is ₦10,000 instead of ₦20,000, Intermediate ₦8,000 instead of ₦12,000 and Expert ₦5,000 instead of ₦8,000. Once the 100 spots are taken, prices return to normal.</p>
+      </details>
+      <details class="faq-item rv">
+        <summary>When does the Learn track open? <i data-lucide="plus" class="i faq-ic"></i></summary>
+        <p>Learn is coming soon. Until it opens, start on the Automate Beginner level, and join the free WhatsApp community to hear the moment Learn goes live.</p>
       </details>
     </div>
   </div>
@@ -1557,13 +1595,17 @@
       { k: ['what is automate naija','about automate naija','what do you do','what is this','who are you','your name','what are you'],
         a: "Automate Naija is a hub for AI & automation builders in Nigeria. It's where you learn practical automation skills, build real projects in the Automation Arena, collaborate with other builders, and connect with paid opportunities." },
       { k: ['price','pricing','cost','how much','fee','fees'],
-        a: "Pricing is simple:\n• Learn: ₦10,000 for a 3-month structured syllabus (great for beginners)\n• Automate: ₦5,000 for a 6-week build cycle (if you already know a tool like n8n or Make)\n• Optional hosted n8n instance: ₦2,000/month\nThe community itself is completely free to join." },
+        a: "Pricing is simple:\n• Learn: coming soon\n• Automate: starts from ₦8,000, and there's a limited-time discount open for the first 100 subscribers:\n   – Beginner: ₦20,000 → ₦10,000\n   – Intermediate: ₦12,000 → ₦8,000\n   – Expert: ₦8,000 → ₦5,000\n• Optional hosted n8n instance: ₦2,000/month\nThe community itself is completely free to join." },
       { k: ['free','community free','is it free','cost to join'],
-        a: "Yes, joining the community is 100% free. You only pay if you want the structured Learn syllabus (₦10,000) or the Automate build track (₦5,000)." },
-      { k: ['learn track','learn program','beginner','no experience','no code','never coded','new to this'],
-        a: "The Learn track (₦10,000) is a 3-month structured curriculum built for complete beginners, with weekly guided lessons, tutors, community support, and it graduates you into the Automate track." },
+        a: "Yes, joining the community is 100% free. You only pay for the Automate build track, which starts from ₦8,000 — and the first 100 subscribers get discounted prices as low as ₦5,000." },
+      { k: ['learn track','learn program','coming soon','when does learn','launch','no experience','no code','never coded','new to this'],
+        a: "The Learn track is coming soon: a 3-month structured curriculum for complete beginners, with weekly guided lessons, tutors and community support, graduating you into Automate. While you wait, the Automate Beginner level is open at ₦10,000 (normally ₦20,000) for the first 100 subscribers." },
       { k: ['automate track','automate program','6-week','6 week','already know'],
-        a: "The Automate track (₦5,000) is a 6-week build cycle for people who already know a tool like n8n or Make. You get Automation Arena challenges, a portfolio, verified credentials, and access to the opportunity board." },
+        a: "The Automate track is a 6-week build cycle with three levels, starting from ₦8,000: Beginner, Intermediate and Expert. You get Automation Arena challenges, a portfolio, verified credentials, and access to the opportunity board. Right now the first 100 subscribers get Beginner at ₦10,000, Intermediate at ₦8,000 and Expert at ₦5,000." },
+      { k: ['discount','promo','offer','first 100','limited time','deal','cheaper','level','levels','tier','beginner','intermediate','expert'],
+        a: "There's a limited-time discount open for the first 100 subscribers on the Automate track:\n• Beginner: ₦20,000 → ₦10,000\n• Intermediate: ₦12,000 → ₦8,000\n• Expert: ₦8,000 → ₦5,000\nOnce the 100 spots are gone, prices go back to normal." },
+      { k: ['coding experience','need to code','need coding','experience','complete beginner','from scratch','starting out'],
+        a: "No coding experience needed. The Automate track has a Beginner level built for people starting out — ₦10,000 for the first 100 subscribers, normally ₦20,000 — plus Intermediate and Expert levels for people who already know a tool like n8n or Make. A dedicated Learn syllabus for starting from zero is coming soon." },
       { k: ['tool','tools','tech stack','stack','what will i learn','n8n','make.com','whatsapp api','openai','supabase'],
         a: "You'll work with real automation tools: n8n, WhatsApp APIs, OpenAI, Supabase and Make, all taught through actual builds, not isolated tutorials." },
       { k: ['job','jobs','paid work','hire','hiring','opportunit','freelance','money','income','get paid'],
@@ -1577,7 +1619,7 @@
       { k: ['whatsapp','discord','community chat','join community','group'],
         a: "Join the free Automate Naija WhatsApp community: it's the fastest way to get help, find collaborators and hear about new challenges first. You'll find the link in the Community section of this page." },
       { k: ['sign up','signup','register','join','login','log in','how do i start','get started'],
-        a: "Head to the Pricing section and pick Learn or Automate to get started, or hit 'Join Automate Naija' at the top of the page. Already have an account? Use the 'Log in' button in the nav." },
+        a: "Head to the Pricing section and pick your Automate level (Beginner, Intermediate or Expert) to get started, or hit 'Join Automate Naija' at the top of the page. Learn is coming soon. Already have an account? Use the 'Log in' button in the nav." },
       { k: ['hosted n8n','hosting','instance'],
         a: "An optional hosted n8n instance is available for ₦2,000/month if you'd rather not self-host while you build." },
       { k: ['contact','support','help','reach you','email'],
@@ -1592,6 +1634,7 @@
 
     var JUNE_SUGGESTIONS = [
       "What's the pricing?",
+      "Is there a discount?",
       "Do I need coding experience?",
       "Can I find paid work here?",
       "What tools will I learn?"
