@@ -333,9 +333,13 @@
   .community-new{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;}
   /* Holds a screenshot of the real community rather than mocked-up messages.
      The image is absolutely positioned and cropped with object-fit, so whatever
-     its own dimensions are it fills the card exactly and is trimmed to fit. */
+     its own dimensions are it fills the card exactly and is trimmed to fit.
+     Anchored top left rather than centred: the screenshot is wider than the card,
+     so a centred crop shaves both edges and cuts the app's sidebar down the middle,
+     which reads as a mistake. Anchoring left keeps the sidebar and the start of the
+     thread whole and takes the trim off the empty right-hand side instead. */
   .chat{padding:0;min-height:270px;}
-  .chat-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;}
+  .chat-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;}
   .chat-fallback{
     position:absolute;inset:0;display:grid;place-items:center;text-align:center;
     padding:24px;font-size:.82rem;color:var(--muted);line-height:1.5;
@@ -1149,7 +1153,7 @@
     // Screenshot of the real community, a channel or a single thread. Any shape
     // works, it is cropped from the top to fill the card. Leave it empty and the
     // card shows a placeholder instead of a broken image.
-    communityShot: "",
+    communityShot: "https://okvpssmufcqmpglgehak.supabase.co/storage/v1/object/public/thread-media/ca8f5f57-ffdb-458c-9228-bb7b964bb648/oghxgilthvr/image-1788639415843.png",
     host: "https://i.pravatar.cc/60?img=12",
     showcase: "https://picsum.photos/seed/an-showcase/800/500",
     tutors: [
