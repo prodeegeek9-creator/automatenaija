@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Automate Naija">
+  <defs>
+    <linearGradient id="anA" x1="12" y1="58" x2="40" y2="4" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0D9648"/>
+      <stop offset=".5" stop-color="#22C466"/>
+      <stop offset="1" stop-color="#57ED96"/>
+    </linearGradient>
+    <linearGradient id="anB" x1="35" y1="9" x2="53" y2="57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#16A855"/>
+      <stop offset="1" stop-color="#04642F"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34.4 13.2C39.4 26.4 45.6 40.8 51.2 54.4" stroke="url(#anB)" stroke-width="10.4"/>
+    <path d="M12.8 54.4C18.6 38.2 24.6 23 31.2 10.6" stroke="url(#anA)" stroke-width="13.4"/>
+    <path d="M14 46.2 50 40.4" stroke="#0B8C45" stroke-width="6.6"/>
+    <path d="M14 46.2 50 40.4" stroke="#FFFFFF" stroke-width="2.9"/>
+  </g>
+  <g>
+    <circle cx="14" cy="46.2" r="5" fill="#0B8C45"/>
+    <circle cx="14" cy="46.2" r="3.3" fill="#FFFFFF"/>
+    <circle cx="50" cy="40.4" r="5" fill="#0B8C45"/>
+    <circle cx="50" cy="40.4" r="3.3" fill="#FFFFFF"/>
+    <circle cx="32" cy="43.3" r="4.5" fill="#0B8C45"/>
+    <circle cx="32" cy="43.3" r="3.1" fill="#FFFFFF"/>
+  </g>
+</svg>
