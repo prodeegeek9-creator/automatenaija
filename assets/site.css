@@ -57,9 +57,13 @@ header{
 }
 html[data-theme="light"] header{background:rgba(247,248,245,.88);}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:70px;}
-.brand{display:flex;align-items:center;gap:10px;min-width:0;}
-.mark{width:30px;height:30px;flex-shrink:0;}
-.brand-name{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--text);white-space:nowrap;}
+/* The mark is the A of "Automate", so the lockup is sized as one piece: the
+   type size on .brand and the mark in em off it, a shade over cap height the
+   way a logotype initial sits. The <a> carries the name for assistive tech
+   because the letters on their own read "utomate Naija". */
+.brand{display:inline-flex;align-items:baseline;gap:.02em;font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:1.06rem;letter-spacing:-.02em;color:var(--text);}
+.mark{width:1.45em;height:1.45em;flex-shrink:0;align-self:baseline;transform:translateY(.04em);}
+.brand-name{color:inherit;white-space:nowrap;}
 /* the green of the logo mark, not the site accent - it belongs to the lockup */
 .brand-name-accent{color:#17C964;}
 html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
@@ -105,10 +109,8 @@ html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
 @media(max-width:400px){
   .nav-act .btn-solid{padding:8px 10px;font-size:.76rem;}
 }
-@media(max-width:360px){
-  .brand-name{font-size:.86rem;}
-  .mark{width:26px;height:26px;}
-}
+/* the mark is sized in em off .brand, so shrinking the lockup is one line */
+@media(max-width:360px){.brand{font-size:.92rem;}}
 /* "Login/SignUp" holds down to about 360px once the button tightens up. On
    320px-class screens the brand, the button and the menu icon stop fitting on
    one line, so the button falls back to the short label. */
