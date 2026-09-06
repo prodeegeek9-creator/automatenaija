@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How the Automation Arena works</title>
+<meta name="description" content="Inside the Automate Naija Automation Arena - how build challenges are written, how a six-week cycle runs, how XP works and what you walk away with.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
+        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
+      </svg>
+      <span class="brand-name">AUTOMATE NAIJA</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="../index.html#pricing" class="btn btn-solid">Join Automate Naija</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Product</p>
+    <span class="eyebrow">Product</span>
+    <h1>How the Automation Arena works</h1>
+    <p class="lede">Every challenge starts as a problem a real business is losing money to. Here is how one becomes a brief, and what a six-week cycle looks like from the inside.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span>August 2026</span><span>&middot;</span><span>5 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+      <h2>A challenge starts with someone else's problem</h2>
+      <p>We do not invent challenges. They come from businesses in the community and from partners: a store drowning in order updates, a sales team losing leads overnight, a clinic booking appointments by hand. We turn that into a brief with a scope, a stack and a deadline, and drop it into the Arena.</p>
+      <p>The current featured challenge is a good example &mdash; <strong>The 7-Day Sales Machine</strong>: build an end-to-end system that qualifies leads, answers FAQs, records customer information and alerts the sales team automatically, using n8n, WhatsApp, OpenAI and Supabase.</p>
+
+      <h2>What a cycle looks like</h2>
+      <ol>
+        <li><strong>Brief drop.</strong> The problem, the constraints and the definition of done, in plain language. No hidden requirements.</li>
+        <li><strong>Build.</strong> You work in the open. Questions go to the community, and tutors run live sessions each week to unblock people.</li>
+        <li><strong>Checkpoint.</strong> Mid-cycle you show what is working. Half-finished is fine; invisible is not.</li>
+        <li><strong>Ship.</strong> A working system, a short demo and a written note on the decisions you made.</li>
+        <li><strong>Review.</strong> Tutors and other builders review the submissions, and the strongest ones go into the showcase.</li>
+      </ol>
+
+      <h2>Constraints are the point</h2>
+      <p>Every brief carries limits &mdash; a deadline, a fixed stack, sometimes a budget cap on API calls. Constraints are what separate a tutorial from a job. They force the decisions clients actually pay for: what to automate, what to leave manual, and what to do when the API you planned around does not do what the docs promised.</p>
+
+      <h2>XP, and what it is not</h2>
+      <p>Finishing a challenge earns XP, and XP is visible on your profile. It is a record of what you have shipped, not a score you can grind. Nobody has ever been hired for a number, so XP exists to make the work behind it easy to find.</p>
+
+      <h2>What you leave with</h2>
+      <ul>
+        <li>A working system you can demo on a call.</li>
+        <li>A write-up of the problem and how you solved it &mdash; the thing clients actually read.</li>
+        <li>Feedback from people who have deployed this stuff for money.</li>
+        <li>A place in the showcase, which the opportunities board points at.</li>
+      </ul>
+
+      <h2>Who it is for</h2>
+      <p>Beginner, Intermediate and Expert entries run in parallel, so the same challenge is scoped differently depending on where you are starting. If you have never built a workflow, start at Beginner. If you deploy n8n for clients already, Expert is where the constraints get uncomfortable.</p>
+     
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track opens with a first-100 discount &mdash; <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>New to n8n? Start with the smallest automation that still earns money.</p>
+      <div class="hero-actions">
+        <a href="your-first-n8n-workflow.html" class="btn btn-solid btn-lg">Build your first workflow</a>
+        <a href="index.html" class="btn btn-line btn-lg">All posts</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" style="margin-bottom:6px;">
+          <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
+        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
+      </svg>
+          <span class="brand-name">AUTOMATE NAIJA</span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <div><h5>Platform</h5><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></div>
+      <div><h5>Resources</h5><div class="fcol"><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></div>
+      <div><h5>Company</h5><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></div>
+      <div>
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

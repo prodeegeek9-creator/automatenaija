@@ -62,6 +62,7 @@
     backdrop-filter:blur(14px);
     border-bottom:1px solid var(--line);
   }
+  html[data-theme="light"] header{background:rgba(247,248,245,.88);}
   .nav{display:flex;align-items:center;justify-content:space-between;height:70px;}
   .brand{display:flex;align-items:center;gap:10px;}
   .mark{width:30px;height:30px;flex-shrink:0;}
@@ -628,7 +629,7 @@
 <!-- ============ NAV ============ -->
 <header>
   <div class="wrap nav">
-    <a href="#" class="brand">
+    <a href="index.html" class="brand">
       <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
         <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
         <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
@@ -637,12 +638,12 @@
     </a>
 
     <nav class="nav-links">
-      <a href="#" class="active">Home</a>
       <a href="#ecosystem">Learn</a>
       <a href="#arena">Build</a>
       <a href="#community">Community</a>
       <a href="#opportunities">Opportunities</a>
-      <a href="#faq">FAQ</a>
+      <a href="blog/index.html">Blog</a>
+      <a href="about.html">About</a>
     </nav>
 
     <div class="nav-act">
@@ -659,12 +660,20 @@
     <a href="#arena">Build</a>
     <a href="#community">Community</a>
     <a href="#opportunities">Opportunities</a>
-    <a href="#faq">FAQ</a>
+    <a href="blog/index.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="careers.html">Careers</a>
+    <a href="contact.html">Contact</a>
     <a href="https://app.automatenaija.com/login" id="loginMob" class="btn btn-line">Log in</a>
   </div>
 
-  <button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
 </header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
 
 <!-- ============ JUNE CHAT WIDGET ============ -->
 <button class="june-launcher" id="juneLauncher" aria-label="Chat with June">
@@ -973,7 +982,7 @@
           <p>Fastest way to get help, find collaborators and hear about new challenges first.</p>
         </div>
       </div>
-      <a href="https://chat.whatsapp.com/" target="_blank" rel="noopener" class="btn btn-solid">Join on WhatsApp</a>
+      <a href="https://chat.whatsapp.com/" data-link="whatsapp" target="_blank" rel="noopener" class="btn btn-solid">Join on WhatsApp</a>
     </div>
   </div>
 </section>
@@ -1082,34 +1091,34 @@
   <div class="wrap">
     <div class="fgrid">
       <div class="fbrand">
-        <span class="brand" style="margin-bottom:6px;">
+        <a href="index.html" class="brand" style="margin-bottom:6px;">
           <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
             <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
             <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
           </svg>
           <span class="brand-name">AUTOMATE NAIJA</span>
-        </span>
+        </a>
         <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
       </div>
-      <div><h5>Platform</h5><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#arena">Showcase</a><a href="#pricing">Pricing</a></div></div>
-      <div><h5>Resources</h5><div class="fcol"><a href="#">Blog</a><a href="#">Guides</a><a href="#">Templates</a><a href="#">Tools</a><a href="#faq">FAQ</a></div></div>
-      <div><h5>Company</h5><div class="fcol"><a href="#">About Us</a><a href="#">Careers</a><a href="#">Partner With Us</a><a href="#">Contact</a></div></div>
+      <div><h5>Platform</h5><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#pricing">Pricing</a></div></div>
+      <div><h5>Resources</h5><div class="fcol"><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></div>
+      <div><h5>Company</h5><div class="fcol"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div></div>
       <div>
         <h5>Stay in the loop</h5>
         <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
-        <form class="signup" onsubmit="return false;">
-          <input type="email" placeholder="Enter your email" aria-label="Email address">
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
           <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
         </form>
       </div>
     </div>
     <div class="fbot">
-      <span>© 2026 Automate Naija. All rights reserved.</span>
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span>
       <span class="fsocial">
-        <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
       </span>
       <span class="mono">Built in Naija. For the world. 🇳🇬</span>
     </div>
@@ -1120,11 +1129,13 @@
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
         onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){drawIcons();};document.head.appendChild(s);"></script>
+<script src="assets/site.js"></script>
 <script>
   /* =================================================================
      EDIT EVERYTHING HERE. Nothing else needs touching.
      ================================================================= */
-  var N8N_URL = "https://app.automatenaija.com/login";
+  /* Links live in assets/site.js so every page shares one source of truth. */
+  var N8N_URL = (window.SITE && SITE.app) || "https://app.automatenaija.com/login";
 
   var IMAGES = {
     // Replace each with your own image URL, or "./filename.jpg" if the
@@ -1171,22 +1182,8 @@
   };
   /* ================================================================= */
 
-  /* ---- 1. SCROLL REVEAL - runs first so nothing can block it ---- */
-  (function(){
-    var els = document.querySelectorAll('.rv');
-    function showAll(){ els.forEach(function(el){ el.classList.add('in'); }); }
-    if (!('IntersectionObserver' in window)) { showAll(); return; }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-    els.forEach(function(el, i){
-      el.style.transitionDelay = (Math.min(i % 5, 4) * 60) + 'ms';
-      io.observe(el);
-    });
-    setTimeout(showAll, 2000); // safety net
-  })();
+  /* ---- 1. SCROLL REVEAL, THEME TOGGLE and MOBILE MENU now live in assets/site.js,
+     shared by every page. ---- */
 
   /* ---- 2. ICONS - guarded, never fatal ---- */
   function drawIcons(){
@@ -1195,25 +1192,7 @@
   drawIcons();
   window.addEventListener('load', drawIcons);
 
-  /* ---- 2b. THEME TOGGLE (light/dark, persisted) ---- */
-  (function(){
-    var root = document.documentElement;
-    var btn = document.getElementById('themeToggle');
-    var glyph = document.getElementById('themeGlyph');
-    if(!btn || !glyph) return;
-    function apply(theme){
-      if(theme === 'light'){ root.setAttribute('data-theme','light'); glyph.textContent = '☾'; }
-      else { root.removeAttribute('data-theme'); glyph.textContent = '☼'; }
-    }
-    var saved = null;
-    try { saved = localStorage.getItem('an-theme'); } catch(e){}
-    apply(saved === 'light' ? 'light' : 'dark');
-    btn.addEventListener('click', function(){
-      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      apply(next);
-      try { localStorage.setItem('an-theme', next); } catch(e){}
-    });
-  })();
+
 
   /* ---- 3. IMAGES + LOGIN LINK ---- */
   (function(){
@@ -1230,27 +1209,7 @@
     set('loginMob','href',N8N_URL);
   })();
 
-  /* ---- 4. MOBILE MENU ---- */
-  (function(){
-    var mb = document.getElementById('menuBtn'), mm = document.getElementById('mobileMenu');
-    if(!mb || !mm) return;
-    function setIcon(name){
-      mb.innerHTML = '<i data-lucide="'+name+'" style="width:24px;height:24px"></i>';
-      drawIcons();
-    }
-    mb.addEventListener('click', function(){
-      var open = mm.classList.toggle('open');
-      mb.setAttribute('aria-expanded', open);
-      setIcon(open ? 'x' : 'menu');
-    });
-    mm.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        mm.classList.remove('open');
-        mb.setAttribute('aria-expanded', false);
-        setIcon('menu');
-      });
-    });
-  })();
+
 
   /* ---- 4b. COMMUNITY SCREENSHOT ---- */
   (function(){

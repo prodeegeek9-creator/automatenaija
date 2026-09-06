@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your first n8n workflow: answering WhatsApp leads automatically</title>
+<meta name="description" content="A step-by-step walk-through of a lead-capture automation in n8n - capture the WhatsApp message, qualify it with AI, store it, and alert a human when it matters.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
+        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
+      </svg>
+      <span class="brand-name">AUTOMATE NAIJA</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="../index.html#pricing" class="btn btn-solid">Join Automate Naija</a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Tutorial</p>
+    <span class="eyebrow">Tutorial</span>
+    <h1>Your first n8n workflow: answering WhatsApp leads automatically</h1>
+    <p class="lede">The smallest automation that still earns money: capture the lead, qualify it, store it, and pull a human in only when it is worth their time.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span>September 2026</span><span>&middot;</span><span>8 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+      <p>Most first workflows are toys. This one is not &mdash; some version of it is the single most requested automation from Nigerian businesses, because every one of them is losing leads in a WhatsApp inbox somebody forgets to open.</p>
+      <p>We will build it in four moves. You need an n8n instance (hosted or your own), a WhatsApp Business API number, an OpenAI key and a Supabase project.</p>
+
+      <h2>1. Capture the message</h2>
+      <p>Start with a <code>Webhook</code> node and point your WhatsApp Business webhook at its production URL. Every inbound message arrives as JSON with the sender, the text and a timestamp.</p>
+      <p>Two things people get wrong here:</p>
+      <ul>
+        <li><strong>Test URL versus production URL.</strong> The test URL only listens while the editor is open. Ship with the production one.</li>
+        <li><strong>Duplicate deliveries.</strong> WhatsApp retries if you are slow to acknowledge. Respond immediately, then do the work &mdash; or you will process the same lead twice.</li>
+      </ul>
+
+      <h2>2. Qualify with AI, not with keywords</h2>
+      <p>Add an AI node and give it one job: turn a free-text message into structured fields. Ask it to return JSON &mdash; something like intent, budget signal, urgency and a one-line summary &mdash; and tell it explicitly what to output when the message says nothing useful.</p>
+      <p>Keep the prompt narrow. A model asked to classify one message does that reliably; a model asked to classify, reply, upsell and book a meeting in one call does none of it reliably. Add a <code>Code</code> node right after to parse the JSON and fail loudly if it is malformed, so a bad response never silently poisons your database.</p>
+
+      <h2>3. Store every lead</h2>
+      <p>Write the raw message and the structured fields to Supabase. Store the raw text even when parsing fails &mdash; the failures are where you learn what your prompt is missing.</p>
+      <p>Use the sender's phone number as a natural key and upsert rather than insert, so a returning customer updates their record instead of creating a second one.</p>
+
+      <h2>4. Reply fast, escalate rarely</h2>
+      <p>Branch with an <code>IF</code> node on the qualification result:</p>
+      <ul>
+        <li><strong>Hot lead</strong> &rarr; send an acknowledgement on WhatsApp and alert the sales team with the summary attached.</li>
+        <li><strong>Common question</strong> &rarr; answer it from your FAQ content and log it.</li>
+        <li><strong>Anything unclear</strong> &rarr; hand it to a human, unedited.</li>
+      </ul>
+      <p>That last branch is the one people delete to look clever. Leave it in. A business will forgive a bot that says "let me get someone" far sooner than one that confidently invents a price.</p>
+
+      <h2>Before you call it done</h2>
+      <ul>
+        <li>Send yourself ten messages, including two deliberately confusing ones.</li>
+        <li>Turn off your OpenAI key and check the workflow degrades to "a human will reply" instead of crashing.</li>
+        <li>Add an error workflow so failures reach you, not a log nobody reads.</li>
+        <li>Time it. If a reply takes more than a few seconds, the business will notice before you do.</li>
+      </ul>
+
+      <h2>What to charge for it</h2>
+      <p>Priced as a project, this shape of build sits comfortably in the range you see on the opportunities board for WhatsApp sales automation. What moves the number is not the node count &mdash; it is whether you handle the failure cases, hand over documentation, and stay reachable for the first two weeks after launch.</p>
+
+      <h2>Now make it yours</h2>
+      <p>Swap WhatsApp for Instagram DMs, or Supabase for Google Sheets, or the FAQ branch for a booking link. The skeleton &mdash; capture, structure, store, escalate &mdash; is the same in almost every automation a business will ever pay you for.</p>
+     
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track opens with a first-100 discount &mdash; <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>Then take it into the Arena and build one under a real deadline.</p>
+      <div class="hero-actions">
+        <a href="how-the-automation-arena-works.html" class="btn btn-solid btn-lg">How the Arena works</a>
+        <a href="index.html" class="btn btn-line btn-lg">All posts</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" style="margin-bottom:6px;">
+          <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
+        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
+      </svg>
+          <span class="brand-name">AUTOMATE NAIJA</span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <div><h5>Platform</h5><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></div>
+      <div><h5>Resources</h5><div class="fcol"><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></div>
+      <div><h5>Company</h5><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></div>
+      <div>
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
