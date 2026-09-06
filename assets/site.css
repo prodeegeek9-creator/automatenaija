@@ -9,8 +9,8 @@
   --bg-3:#161B15;
   --line:rgba(255,255,255,.09);
   --line-2:rgba(255,255,255,.16);
-  --lime:#17C964;
-  --lime-dim:#12A653;
+  --lime:#CC5500;
+  --lime-dim:#A64100;
   --ink:#0A0D0B;
   --text:#F4F7F1;
   --text-2:#C7D2C7;
@@ -21,14 +21,14 @@
 }
 html[data-theme="light"]{
   --bg:#f7f8f5;--bg-2:#ffffff;--bg-3:#edf0eb;--line:rgba(10,13,11,.10);--line-2:rgba(10,13,11,.17);
-  --lime:#0E9F4C;--lime-dim:#0B7F3D;--ink:#111510;--text:#111510;--text-2:#3f4941;--muted:#69736b;
+  --lime:#E45E00;--lime-dim:#B94B00;--ink:#111510;--text:#111510;--text-2:#3f4941;--muted:#69736b;
   --shadow-md:0 12px 32px rgba(20,30,22,.10);--shadow-lg:0 24px 64px rgba(20,30,22,.14);
   --accent-rgb:228,94,0;--good:#178A43;
 }
 :root{
   /* aliases so the bento layout below reads from the same tokens as the rest of the site */
   --surface:var(--bg-2);--surface2:var(--bg-3);--line2:var(--line-2);
-  --accent:var(--lime);--accent-rgb:23,201,100;--good:#4ADE80;--soft:var(--text-2);--shadow:var(--shadow-md);
+  --accent:var(--lime);--accent-rgb:204,85,0;--good:#4ADE80;--soft:var(--text-2);--shadow:var(--shadow-md);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -59,8 +59,10 @@ html[data-theme="light"] header{background:rgba(247,248,245,.88);}
 .nav{display:flex;align-items:center;justify-content:space-between;height:70px;}
 .brand{display:flex;align-items:center;gap:10px;}
 .mark{width:30px;height:30px;flex-shrink:0;}
-.brand-name{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:1.04rem;letter-spacing:-.02em;color:var(--text);}
-.brand-name-accent{color:var(--lime);}
+.brand-name{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--text);}
+/* the green of the logo mark, not the site accent - it belongs to the lockup */
+.brand-name-accent{color:#17C964;}
+html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
 .nav-links{display:flex;gap:30px;font-size:.88rem;font-weight:600;color:var(--muted);}
 .nav-links a{position:relative;padding:6px 0;transition:color .18s;}
 .nav-links a:hover{color:var(--text);}
@@ -80,8 +82,8 @@ html[data-theme="light"] header{background:rgba(247,248,245,.88);}
 .btn-ghost:hover{color:var(--text);}
 .btn-line{border-color:var(--line-2);background:transparent;color:var(--text);}
 .btn-line:hover{border-color:var(--lime);}
-.btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(23,201,100,.18);}
-.btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(23,201,100,.28);}
+.btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(204,85,0,.18);}
+.btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(204,85,0,.28);}
 .btn-lg{padding:14px 24px;font-size:.94rem;border-radius:11px;}
 .menu-btn{display:none;background:none;border:none;padding:6px;cursor:pointer;color:var(--text);}
 

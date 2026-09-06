@@ -25,14 +25,16 @@ scrapers request `/favicon.ico` directly.
 
 ## Colours
 
+These belong to the mark and the icons only. The site's accent colour - buttons,
+links, highlights - stays the burnt orange `--lime` in `assets/site.css`.
+
 ```
 #57ED96  green light    gradient highlight on the mark
 #22C466  green          the brand green
-#17C964  accent         --lime in dark mode (buttons, links, highlights)
-#0E9F4C  accent light   --lime in light mode
-#0B8C45  green deep     the connector node ring
+#17C964  green bright   "Naija" in the wordmark, dark theme
+#0B8C45  green deep     the connector node ring, and "Naija" on light theme
 #046B33  green dark     bottom of the mark's right stroke
-#0A0D0B  ink            icon tile, page background, text on green buttons
+#0A0D0B  ink            the icon tile, matching the site background
 ```
 
 ## Re-exporting the PNGs

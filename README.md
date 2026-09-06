@@ -59,9 +59,10 @@ The nav and footer lockup on every page is the mark plus the wordmark:
 </a>
 ```
 
-The accent colour is the `--lime` variable in `assets/site.css` (and in the
-inline `:root` block at the top of `index.html`, which index keeps its own copy
-of). Both files carry a dark value and a light-theme value.
+The green in the mark and in "Naija" belongs to the logo alone. The site's
+accent colour is unchanged and still burnt orange: the `--lime` variable in
+`assets/site.css`, and in the inline `:root` block at the top of `index.html`,
+which index keeps its own copy of.
 
 ## Link previews (WhatsApp, X, LinkedIn, Facebook, Slack)
 
