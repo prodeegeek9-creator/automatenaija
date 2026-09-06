@@ -62,6 +62,7 @@
     backdrop-filter:blur(14px);
     border-bottom:1px solid var(--line);
   }
+  html[data-theme="light"] header{background:rgba(247,248,245,.88);}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:70px;}
   .brand{display:flex;align-items:center;gap:10px;min-width:0;}
   .mark{width:30px;height:30px;flex-shrink:0;}
@@ -88,6 +89,69 @@
   .btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(204,85,0,.18);}
   .btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(204,85,0,.28);}
   .btn-lg{padding:14px 24px;font-size:.94rem;border-radius:11px;}
+
+  /* ---------- HERO CTA: a button with a jigsaw piece missing ----------
+     Two shapes, not one. The lime slab has a socket bitten out of its right
+     edge (a mask, so the hero glow shows through the hole), and the end cap is
+     a separate piece with the matching knob. The piece sits loose and drifting
+     until you hover, focus or tap it, then it snaps home and the button reads
+     as one solid pill. --pz-r is the socket radius; --pz-gap is how far the
+     loose piece parks from home. */
+  .btn-puzzle{
+    display:inline-flex;align-items:stretch;position:relative;
+    font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.94rem;
+    color:var(--ink);cursor:pointer;
+    filter:drop-shadow(0 8px 20px rgba(204,85,0,.20));
+    transition:filter .2s ease, transform .16s ease;
+    --pz-r:11px;
+    --pz-gap:19px;
+    /* the loose piece drifts past the button's own box, so hold the next
+       CTA off by roughly that much or the two overlap */
+    margin-right:22px;
+  }
+  .btn-puzzle:hover{filter:drop-shadow(0 12px 28px rgba(204,85,0,.32));transform:translateY(-2px);}
+  .btn-puzzle:active{transform:translateY(0);}
+  .pz-body{
+    display:flex;align-items:center;white-space:nowrap;
+    padding:14px 22px;background:var(--lime);border-radius:11px 0 0 11px;
+    transition:background .18s;
+    -webkit-mask-image:radial-gradient(circle var(--pz-r) at 100% 50%,transparent calc(var(--pz-r) - .8px),#000 var(--pz-r));
+            mask-image:radial-gradient(circle var(--pz-r) at 100% 50%,transparent calc(var(--pz-r) - .8px),#000 var(--pz-r));
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  }
+  .pz-slot{display:flex;align-items:stretch;}
+  .pz-piece{
+    position:relative;display:flex;align-items:center;justify-content:center;
+    width:40px;background:var(--lime);border-radius:0 11px 11px 0;
+    translate:var(--pz-gap) -5px;rotate:-12deg;
+    animation:pzDrift 3.4s ease-in-out infinite;
+    transition:translate .34s cubic-bezier(.32,1.5,.52,1),
+               rotate .34s cubic-bezier(.32,1.5,.52,1),
+               background .18s;
+  }
+  /* the knob that fills the socket - 1.2px narrower than the hole so a hairline
+     of background stays visible as a seam once the piece is seated */
+  .pz-piece::before{
+    content:"";position:absolute;left:calc(1.2px - var(--pz-r));top:50%;
+    width:calc(var(--pz-r) * 2 - 2.4px);height:calc(var(--pz-r) * 2 - 2.4px);
+    transform:translateY(-50%);border-radius:50%;background:var(--lime);
+    transition:background .18s;
+  }
+  .pz-piece svg{position:relative;z-index:1;}
+  .btn-puzzle:hover .pz-body,
+  .btn-puzzle:hover .pz-piece,
+  .btn-puzzle:hover .pz-piece::before{background:var(--lime-dim);}
+  .btn-puzzle:hover .pz-piece,
+  .btn-puzzle:focus-visible .pz-piece,
+  .btn-puzzle:active .pz-piece{translate:0 0;rotate:0deg;animation:none;}
+  @keyframes pzDrift{
+    0%,100%{transform:translate(0,0) rotate(0deg);}
+    50%{transform:translate(3px,-4px) rotate(4deg);}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .btn-puzzle,.pz-piece{transition:none;}
+    .pz-piece{animation:none;}
+  }
   .menu-btn{display:none;background:none;border:none;padding:6px;cursor:pointer;color:var(--text);flex-shrink:0;}
   .nav-act .btn{white-space:nowrap;}
   /* the nav button carries the full wording where there is room and a short one on phones */
@@ -218,6 +282,11 @@
   @media(max-width:600px){
     .hero-cta{margin-top:4px;}
     .hero-cta .btn-lg{flex:1 1 130px;padding:12px 12px;font-size:.82rem;border-radius:10px;}
+    /* the puzzle CTA shrinks with the row: smaller socket, shorter drift, and a
+       narrower end cap so both buttons still sit side by side on a phone */
+    .hero-cta .btn-puzzle{font-size:.82rem;--pz-r:9px;--pz-gap:13px;margin-right:18px;}
+    .hero-cta .pz-body{padding:12px 14px;}
+    .hero-cta .pz-piece{width:30px;}
   }
 
   .avatar-row{display:flex;align-items:center;gap:12px;justify-content:center;}
@@ -385,10 +454,20 @@
   .oppgrid small{display:block;color:var(--muted);font-size:10px;margin-top:10px;}
 
   .community-new{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;}
-  .chat>b{color:var(--text);}
-  .chat>span{float:right;color:var(--good);font-size:11px;}
-  .messages{border-top:1px solid var(--line);margin-top:20px;padding-top:20px;display:grid;gap:15px;}
-  .messages p{font-size:12px;}
+  /* Holds a screenshot of the real community rather than mocked-up messages.
+     The image is absolutely positioned and cropped with object-fit, so whatever
+     its own dimensions are it fills the card exactly and is trimmed to fit.
+     Anchored top left rather than centred: the screenshot is wider than the card,
+     so a centred crop shaves both edges and cuts the app's sidebar down the middle,
+     which reads as a mistake. Anchoring left keeps the sidebar and the start of the
+     thread whole and takes the trim off the empty right-hand side instead. */
+  .chat{padding:0;min-height:270px;}
+  .chat-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;}
+  .chat-fallback{
+    position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+    padding:24px;font-size:.82rem;color:var(--muted);line-height:1.5;
+    background:repeating-linear-gradient(45deg,var(--bg-3),var(--bg-3) 10px,var(--bg-2) 10px,var(--bg-2) 20px);
+  }
   .whynew{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
   .whynew .newcard{padding:20px;}
   .whynew h3{font-size:16px;}
@@ -408,13 +487,45 @@
   .price-from + .price{margin-top:4px;}
   .price.soon{font-size:30px;color:var(--muted);}
   .price-sub{color:var(--good);font-size:12px;font-weight:700;margin:-8px 0 0;}
-  .pricegrid .tierlist{display:grid;gap:8px;margin:18px 0 20px;font-size:13px;}
-  .pricegrid .tierlist li{display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);}
-  .tier-name{font-weight:700;color:var(--text);}
-  .tier-price{white-space:nowrap;}
+  .pricegrid .tierlist{display:grid;gap:8px;margin:0;font-size:13px;}
+  .pricegrid .tierlist li{list-style:none;}
+  .tierpick{border:0;margin:18px 0 20px;}
+  .tierpick legend{
+    font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);padding:0;margin-bottom:9px;
+  }
+  /* the whole row is the control - the radio itself is only there for
+     keyboard and screen-reader users */
+  .pricegrid .tier{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);
+    cursor:pointer;transition:border-color .18s,background .18s,box-shadow .18s;}
+  .pricegrid .tier:hover{border-color:var(--line2);}
+  /* visually hidden, but still focusable and announced */
+  .tier input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;
+    overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;}
+  .tier input:focus-visible{outline:none;}
+  .tier-name{font-weight:700;color:var(--text);display:flex;flex-direction:column;gap:1px;}
+  .tier-name small{font-weight:500;font-size:11px;color:var(--muted);}
+  .tier-price{white-space:nowrap;margin-left:auto;}
   .tier-price s{color:var(--muted);font-size:12px;margin-right:7px;}
   .tier-price b{color:var(--accent);font-size:15px;}
+  .tier-tick{
+    flex:none;width:17px;height:17px;border-radius:50%;border:1.5px solid var(--line2);
+    position:relative;transition:border-color .18s,background .18s;
+  }
+  .tier-tick::after{
+    content:"";position:absolute;inset:3.5px;border-radius:50%;background:#fff;
+    transform:scale(0);transition:transform .18s cubic-bezier(.32,1.5,.52,1);
+  }
+  .tier input:checked ~ .tier-tick{border-color:var(--accent);background:var(--accent);}
+  .tier input:checked ~ .tier-tick::after{transform:scale(1);}
+  .pricegrid .tier.is-picked,
+  .pricegrid .tier:has(input:checked){
+    border-color:rgba(var(--accent-rgb),.6);background:rgba(var(--accent-rgb),.10);
+    box-shadow:0 0 0 1px rgba(var(--accent-rgb),.28) inset;
+  }
+  .tier input:focus-visible ~ .tier-tick{outline:2.5px solid var(--lime);outline-offset:3px;}
+  .newcard .tier-hint{color:var(--muted);font-size:11.5px;text-align:center;margin-top:10px;}
   .newbtn.disabled{background:transparent;border:1px dashed var(--line2);color:var(--muted)!important;cursor:not-allowed;}
 
   .cta-new{padding:25px 0 70px;}
@@ -672,7 +783,7 @@
 <!-- ============ NAV ============ -->
 <header>
   <div class="wrap nav">
-    <a href="#" class="brand">
+    <a href="index.html" class="brand">
       <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
         <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
         <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
@@ -681,12 +792,12 @@
     </a>
 
     <nav class="nav-links">
-      <a href="#" class="active">Home</a>
       <a href="#ecosystem">Learn</a>
       <a href="#arena">Build</a>
       <a href="#community">Community</a>
       <a href="#opportunities">Opportunities</a>
-      <a href="#faq">FAQ</a>
+      <a href="blog/index.html">Blog</a>
+      <a href="about.html">About</a>
     </nav>
 
     <div class="nav-act">
@@ -703,15 +814,20 @@
     <a href="#arena">Build</a>
     <a href="#community">Community</a>
     <a href="#opportunities">Opportunities</a>
-    <a href="#faq">FAQ</a>
+    <a href="blog/index.html">Blog</a>
+    <a href="about.html">About</a>
+    <a href="careers.html">Careers</a>
+    <a href="contact.html">Contact</a>
     <a href="https://app.automatenaija.com/login" id="loginMob" class="btn btn-line">Log in</a>
   </div>
 
 </header>
 
-<!-- outside <header>: the header's backdrop-filter would otherwise act as the containing
-     block for this fixed button and pin it inside the nav bar, over the menu button -->
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
 <button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
 
 <!-- ============ JUNE CHAT WIDGET ============ -->
 <button class="june-launcher" id="juneLauncher" aria-label="Chat with June">
@@ -758,7 +874,14 @@
       <p class="lede rv">Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.</p>
 
       <div class="hero-cta rv">
-        <a href="#pricing" class="btn btn-solid btn-lg">Start Building</a>
+        <a href="#pricing" class="btn-puzzle">
+          <span class="pz-body">Start Building</span>
+          <span class="pz-slot" aria-hidden="true">
+            <span class="pz-piece">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+            </span>
+          </span>
+        </a>
         <a href="#community" class="btn btn-line btn-lg">Explore Community</a>
       </div>
     </div>
@@ -993,16 +1116,12 @@
       <p>Ask builders. Share budgets. Debug together. Find collaborators.</p>
     </div>
     <div class="community-new">
-      <div class="newcard chat rv">
-        <b>AUTOMATE NAIJA / #general</b>
-        <span>247 online</span>
-        <div class="messages">
-          <p><b>David A.</b>: Finally got the webhook working 🎉</p>
-          <p><b>Amaka</b>: Drop the workflow, I want to see how you handled retries.</p>
-          <p><b>Tobi</b>: Anyone here good with Supabase?</p>
-          <p><b>Emeka</b>: I'm free, send it over.</p>
-        </div>
-      </div>
+      <figure class="newcard chat rv">
+        <img class="chat-shot" id="communityShot" alt="A conversation in the Automate Naija community" loading="lazy">
+        <figcaption class="chat-fallback" id="communityShotFallback">
+          Drop a community screenshot into <b>IMAGES.communityShot</b> and it will be cropped to fill this card.
+        </figcaption>
+      </figure>
       <div class="whynew">
         <div class="newcard rv"><h3>Practical learning</h3><p>No fluff. Learn by shipping.</p></div>
         <div class="newcard rv"><h3>Active community</h3><p>Get help from people building too.</p></div>
@@ -1024,7 +1143,7 @@
           <p>Fastest way to get help, find collaborators and hear about new challenges first.</p>
         </div>
       </div>
-      <a href="https://chat.whatsapp.com/" target="_blank" rel="noopener" class="btn btn-solid">Join on WhatsApp</a>
+      <a href="https://chat.whatsapp.com/" data-link="whatsapp" target="_blank" rel="noopener" class="btn btn-solid">Join on WhatsApp</a>
     </div>
   </div>
 </section>
@@ -1059,24 +1178,43 @@
         <span class="badge">FIRST 100 SUBSCRIBERS</span>
         <h3>Automate</h3>
         <p>6-week build cycle. Pick the level that matches where you are.</p>
-        <span class="price-from">STARTS FROM</span>
-        <div class="price">₦8,000</div>
-        <p class="price-sub">Discounted to ₦5,000 for the first 100 subscribers.</p>
-        <ul class="tierlist">
-          <li><span class="tier-name">Beginner</span><span class="tier-price"><s>₦20,000</s><b>₦10,000</b></span></li>
-          <li><span class="tier-name">Intermediate</span><span class="tier-price"><s>₦12,000</s><b>₦8,000</b></span></li>
-          <li><span class="tier-name">Expert</span><span class="tier-price"><s>₦8,000</s><b>₦5,000</b></span></li>
-        </ul>
+        <span class="price-from" id="automateLead">STARTS FROM</span>
+        <div class="price" id="automatePrice">₦8,000</div>
+        <p class="price-sub" id="automateSub">Discounted to ₦5,000 for the first 100 subscribers.</p>
+        <fieldset class="tierpick">
+          <legend>Choose your level</legend>
+          <ul class="tierlist">
+            <li><label class="tier">
+              <input type="radio" name="automate-level" value="beginner" data-was="₦20,000" data-now="₦10,000" data-label="Beginner">
+              <span class="tier-name">Beginner<small>New to automation</small></span>
+              <span class="tier-price"><s>₦20,000</s><b>₦10,000</b></span>
+              <span class="tier-tick" aria-hidden="true"></span>
+            </label></li>
+            <li><label class="tier">
+              <input type="radio" name="automate-level" value="intermediate" data-was="₦12,000" data-now="₦8,000" data-label="Intermediate">
+              <span class="tier-name">Intermediate<small>Built a few automations</small></span>
+              <span class="tier-price"><s>₦12,000</s><b>₦8,000</b></span>
+              <span class="tier-tick" aria-hidden="true"></span>
+            </label></li>
+            <li><label class="tier">
+              <input type="radio" name="automate-level" value="expert" data-was="₦8,000" data-now="₦5,000" data-label="Expert">
+              <span class="tier-name">Expert<small>Shipping for clients already</small></span>
+              <span class="tier-price"><s>₦8,000</s><b>₦5,000</b></span>
+              <span class="tier-tick" aria-hidden="true"></span>
+            </label></li>
+          </ul>
+        </fieldset>
         <ul>
           <li>✓ 6-week build cycle</li>
           <li>✓ Automation Arena challenges</li>
           <li>✓ Portfolio &amp; credentials</li>
           <li>✓ Opportunity board</li>
         </ul>
-        <a class="newbtn" href="https://app.automatenaija.com/login">Claim the discount</a>
+        <a class="newbtn" id="automateCta" href="https://app.automatenaija.com/login">Claim the discount</a>
+        <p class="tier-hint" id="automateHint">Pick a level above and we’ll carry it through to checkout.</p>
       </article>
     </div>
-    <p class="price-note">Discounted prices apply to the first 100 subscribers only · Optional hosted n8n instance: <b>₦2,000/month</b></p>
+    <p class="price-note">Discounted prices apply to the first 100 subscribers only · Optional hosted n8n instance: <b>₦3,000/month</b></p>
   </div>
 </section>
 
@@ -1133,34 +1271,34 @@
   <div class="wrap">
     <div class="fgrid">
       <div class="fbrand">
-        <span class="brand" style="margin-bottom:6px;">
+        <a href="index.html" class="brand" style="margin-bottom:6px;">
           <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
             <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
             <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
           </svg>
           <span class="brand-name">AUTOMATE NAIJA</span>
-        </span>
+        </a>
         <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
       </div>
-      <div><h5>Platform</h5><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#arena">Showcase</a><a href="#pricing">Pricing</a></div></div>
-      <div><h5>Resources</h5><div class="fcol"><a href="#">Blog</a><a href="#">Guides</a><a href="#">Templates</a><a href="#">Tools</a><a href="#faq">FAQ</a></div></div>
-      <div><h5>Company</h5><div class="fcol"><a href="#">About Us</a><a href="#">Careers</a><a href="#">Partner With Us</a><a href="#">Contact</a></div></div>
+      <div><h5>Platform</h5><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#pricing">Pricing</a></div></div>
+      <div><h5>Resources</h5><div class="fcol"><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></div>
+      <div><h5>Company</h5><div class="fcol"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div></div>
       <div>
         <h5>Stay in the loop</h5>
         <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
-        <form class="signup" onsubmit="return false;">
-          <input type="email" placeholder="Enter your email" aria-label="Email address">
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
           <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
         </form>
       </div>
     </div>
     <div class="fbot">
-      <span>© 2026 Automate Naija. All rights reserved.</span>
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span>
       <span class="fsocial">
-        <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
-        <a href="#" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
       </span>
       <span class="mono">Built in Naija. For the world. 🇳🇬</span>
     </div>
@@ -1171,11 +1309,13 @@
 
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
         onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){drawIcons();};document.head.appendChild(s);"></script>
+<script src="assets/site.js"></script>
 <script>
   /* =================================================================
      EDIT EVERYTHING HERE. Nothing else needs touching.
      ================================================================= */
-  var N8N_URL = "https://app.automatenaija.com/login";
+  /* Links live in assets/site.js so every page shares one source of truth. */
+  var N8N_URL = (window.SITE && SITE.app) || "https://app.automatenaija.com/login";
 
   var IMAGES = {
     // Replace each with your own image URL, or "./filename.jpg" if the
@@ -1201,12 +1341,10 @@
       "https://i.pravatar.cc/60?img=9",
       "https://i.pravatar.cc/60?img=19"
     ],
-    chatFaces: {
-      david: "https://i.pravatar.cc/60?img=12",
-      amaka: "https://i.pravatar.cc/60?img=32",
-      tobi:  "https://i.pravatar.cc/60?img=51",
-      emeka: "https://i.pravatar.cc/60?img=13"
-    },
+    // Screenshot of the real community, a channel or a single thread. Any shape
+    // works, it is cropped from the top to fill the card. Leave it empty and the
+    // card shows a placeholder instead of a broken image.
+    communityShot: "https://okvpssmufcqmpglgehak.supabase.co/storage/v1/object/public/thread-media/ca8f5f57-ffdb-458c-9228-bb7b964bb648/oghxgilthvr/image-1788639415843.png",
     host: "https://i.pravatar.cc/60?img=12",
     showcase: "https://picsum.photos/seed/an-showcase/800/500",
     tutors: [
@@ -1224,22 +1362,8 @@
   };
   /* ================================================================= */
 
-  /* ---- 1. SCROLL REVEAL - runs first so nothing can block it ---- */
-  (function(){
-    var els = document.querySelectorAll('.rv');
-    function showAll(){ els.forEach(function(el){ el.classList.add('in'); }); }
-    if (!('IntersectionObserver' in window)) { showAll(); return; }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-    els.forEach(function(el, i){
-      el.style.transitionDelay = (Math.min(i % 5, 4) * 60) + 'ms';
-      io.observe(el);
-    });
-    setTimeout(showAll, 2000); // safety net
-  })();
+  /* ---- 1. SCROLL REVEAL, THEME TOGGLE and MOBILE MENU now live in assets/site.js,
+     shared by every page. ---- */
 
   /* ---- 2. ICONS - guarded, never fatal ---- */
   function drawIcons(){
@@ -1248,25 +1372,7 @@
   drawIcons();
   window.addEventListener('load', drawIcons);
 
-  /* ---- 2b. THEME TOGGLE (light/dark, persisted) ---- */
-  (function(){
-    var root = document.documentElement;
-    var btn = document.getElementById('themeToggle');
-    var glyph = document.getElementById('themeGlyph');
-    if(!btn || !glyph) return;
-    function apply(theme){
-      if(theme === 'light'){ root.setAttribute('data-theme','light'); glyph.textContent = '☾'; }
-      else { root.removeAttribute('data-theme'); glyph.textContent = '☼'; }
-    }
-    var saved = null;
-    try { saved = localStorage.getItem('an-theme'); } catch(e){}
-    apply(saved === 'light' ? 'light' : 'dark');
-    btn.addEventListener('click', function(){
-      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-      apply(next);
-      try { localStorage.setItem('an-theme', next); } catch(e){}
-    });
-  })();
+
 
   /* ---- 3. IMAGES + LOGIN LINK ---- */
   (function(){
@@ -1276,8 +1382,6 @@
     set('ncA','src',IMAGES.canvasFaces[0]); set('ncB','src',IMAGES.canvasFaces[1]); set('ncC','src',IMAGES.canvasFaces[2]);
     set('chA','src',IMAGES.challengeFaces[0]); set('chB','src',IMAGES.challengeFaces[1]); set('chC','src',IMAGES.challengeFaces[2]);
     set('onA','src',IMAGES.onlineFaces[0]); set('onB','src',IMAGES.onlineFaces[1]); set('onC','src',IMAGES.onlineFaces[2]);
-    set('msA','src',IMAGES.chatFaces.david); set('msB','src',IMAGES.chatFaces.amaka);
-    set('msC','src',IMAGES.chatFaces.tobi); set('msD','src',IMAGES.chatFaces.emeka);
     set('imgHost','src',IMAGES.host);
     set('imgShowcase','src',IMAGES.showcase);
     set('tutorShot','src',IMAGES.tutors[0].photo);
@@ -1285,26 +1389,106 @@
     set('loginMob','href',N8N_URL);
   })();
 
-  /* ---- 4. MOBILE MENU ---- */
-  (function(){
-    var mb = document.getElementById('menuBtn'), mm = document.getElementById('mobileMenu');
-    if(!mb || !mm) return;
-    function setIcon(name){
-      mb.innerHTML = '<i data-lucide="'+name+'" style="width:24px;height:24px"></i>';
-      drawIcons();
+
+
+
+  /* ---- 3b. PRICING: pick an Automate level, carry it to checkout ----
+
+     Nothing on this page can take money on its own: it is a static site with
+     no server, so the level a visitor picks has to travel to whatever does the
+     charging.
+
+       - Leave a level's paystack entry empty and the picker sends people to
+         the app with the level in the query string (?plan=automate&level=...),
+         so app.automatenaija.com opens on the right plan.
+       - Paste a Paystack payment link (Dashboard > Payment Pages > copy link)
+         into a level and that level checks out on Paystack directly, no app
+         round trip. Set that page's redirect/callback URL to the app signup so
+         people land back in their account after paying, and confirm the
+         payment with a Paystack webhook once there is a backend to receive it.
+
+     Do NOT put a Paystack secret key on this page. Payment links and the
+     public key are safe in a browser; the secret key is not.                */
+  var CHECKOUT = {
+    paystack: {
+      beginner:     "",
+      intermediate: "",
+      expert:       ""
     }
-    mb.addEventListener('click', function(){
-      var open = mm.classList.toggle('open');
-      mb.setAttribute('aria-expanded', open);
-      setIcon(open ? 'x' : 'menu');
-    });
-    mm.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){
-        mm.classList.remove('open');
-        mb.setAttribute('aria-expanded', false);
-        setIcon('menu');
+  };
+
+  (function(){
+    var cta   = document.getElementById('automateCta');
+    var lead  = document.getElementById('automateLead');
+    var price = document.getElementById('automatePrice');
+    var sub   = document.getElementById('automateSub');
+    var hint  = document.getElementById('automateHint');
+    var inputs = document.querySelectorAll('input[name="automate-level"]');
+    if(!cta || !inputs.length) return;
+
+    function checkoutUrl(level){
+      var link = CHECKOUT.paystack[level];
+      if(link) return link;
+      return N8N_URL + (N8N_URL.indexOf('?') === -1 ? '?' : '&') +
+             'plan=automate&level=' + encodeURIComponent(level);
+    }
+
+    function pick(input){
+      Array.prototype.forEach.call(inputs, function(other){
+        other.closest('.tier').classList.toggle('is-picked', other === input);
       });
+      var label = input.getAttribute('data-label');
+      lead.textContent  = label.toUpperCase() + ' · FIRST 100 PRICE';
+      price.textContent = input.getAttribute('data-now');
+      sub.textContent   = 'Normally ' + input.getAttribute('data-was') +
+                          '. You save the difference while the first 100 spots last.';
+      cta.textContent   = 'Continue with ' + label + ' →';
+      cta.href          = checkoutUrl(input.value);
+      hint.textContent  = CHECKOUT.paystack[input.value]
+        ? 'Secure checkout on Paystack.'
+        : 'You will finish signing up for ' + label + ' in the app.';
+    }
+
+    Array.prototype.forEach.call(inputs, function(input){
+      input.addEventListener('change', function(){ pick(input); });
     });
+
+    // Deep links like index.html#pricing?level=expert, and the browser
+    // restoring a checked radio on a back/forward navigation.
+    var preset = Array.prototype.filter.call(inputs, function(i){ return i.checked; })[0];
+    if(!preset){
+      var wanted = (location.search + location.hash).match(/level=([a-z]+)/i);
+      if(wanted){
+        preset = Array.prototype.filter.call(inputs, function(i){
+          return i.value === wanted[1].toLowerCase();
+        })[0];
+        if(preset) preset.checked = true;
+      }
+    }
+    if(preset) pick(preset);
+    // no level picked yet: still send people to the app rather than to the
+    // URL hardcoded in the markup, so SITE.app stays the single source
+    else cta.href = N8N_URL + (N8N_URL.indexOf('?') === -1 ? '?' : '&') + 'plan=automate';
+  })();
+
+
+  /* ---- 4b. COMMUNITY SCREENSHOT ---- */
+  (function(){
+    var img = document.getElementById('communityShot');
+    var fallback = document.getElementById('communityShotFallback');
+    if(!img) return;
+    function showFallback(){
+      if(img.parentNode) img.parentNode.removeChild(img);
+    }
+    if(IMAGES.communityShot){
+      img.addEventListener('error', showFallback);   // bad path should not leave a broken image
+      img.addEventListener('load', function(){
+        if(fallback && fallback.parentNode) fallback.parentNode.removeChild(fallback);
+      });
+      img.src = IMAGES.communityShot;
+    } else {
+      showFallback();
+    }
   })();
 
   /* ---- 5. MEET YOUR TUTORS - image swaps as you scroll ---- */
@@ -1772,9 +1956,9 @@
       { k: ['what is automate naija','about automate naija','what do you do','what is this','who are you','your name','what are you'],
         a: "Automate Naija is a hub for AI & automation builders in Nigeria. It's where you learn practical automation skills, build real projects in the Automation Arena, collaborate with other builders, and connect with paid opportunities." },
       { k: ['price','pricing','cost','how much','fee','fees'],
-        a: "Pricing is simple:\n• Learn: coming soon\n• Automate: starts from ₦8,000, and there's a limited-time discount open for the first 100 subscribers:\n   – Beginner: ₦20,000 → ₦10,000\n   – Intermediate: ₦12,000 → ₦8,000\n   – Expert: ₦8,000 → ₦5,000\n• Optional hosted n8n instance: ₦2,000/month\nThe community itself is completely free to join." },
+        a: "Pricing is simple:\n• Learn: coming soon\n• Automate: starts from ₦8,000, and there's a limited-time discount open for the first 100 subscribers:\n   – Beginner: ₦20,000 → ₦10,000\n   – Intermediate: ₦12,000 → ₦8,000\n   – Expert: ₦8,000 → ₦5,000\n• Optional hosted n8n instance: ₦3,000/month\nThe community itself is completely free to join." },
       { k: ['free','community free','is it free','cost to join'],
-        a: "Yes, joining the community is 100% free. You only pay for the Automate build track, which starts from ₦8,000 — and the first 100 subscribers get discounted prices as low as ₦5,000." },
+        a: "Yes, joining the community is 100% free. You only pay for the Automate build track, which starts from ₦8,000, and the first 100 subscribers get discounted prices as low as ₦5,000." },
       { k: ['learn track','learn program','coming soon','when does learn','launch','no experience','no code','never coded','new to this'],
         a: "The Learn track is coming soon: a 3-month structured curriculum for complete beginners, with weekly guided lessons, tutors and community support, graduating you into Automate. While you wait, the Automate Beginner level is open at ₦10,000 (normally ₦20,000) for the first 100 subscribers." },
       { k: ['automate track','automate program','6-week','6 week','already know'],
@@ -1782,7 +1966,7 @@
       { k: ['discount','promo','offer','first 100','limited time','deal','cheaper','level','levels','tier','beginner','intermediate','expert'],
         a: "There's a limited-time discount open for the first 100 subscribers on the Automate track:\n• Beginner: ₦20,000 → ₦10,000\n• Intermediate: ₦12,000 → ₦8,000\n• Expert: ₦8,000 → ₦5,000\nOnce the 100 spots are gone, prices go back to normal." },
       { k: ['coding experience','need to code','need coding','experience','complete beginner','from scratch','starting out'],
-        a: "No coding experience needed. The Automate track has a Beginner level built for people starting out — ₦10,000 for the first 100 subscribers, normally ₦20,000 — plus Intermediate and Expert levels for people who already know a tool like n8n or Make. A dedicated Learn syllabus for starting from zero is coming soon." },
+        a: "No coding experience needed. The Automate track has a Beginner level built for people starting out at ₦10,000 for the first 100 subscribers (normally ₦20,000), plus Intermediate and Expert levels for people who already know a tool like n8n or Make. A dedicated Learn syllabus for starting from zero is coming soon." },
       { k: ['tool','tools','tech stack','stack','what will i learn','n8n','make.com','whatsapp api','openai','supabase'],
         a: "You'll work with real automation tools: n8n, WhatsApp APIs, OpenAI, Supabase and Make, all taught through actual builds, not isolated tutorials." },
       { k: ['job','jobs','paid work','hire','hiring','opportunit','freelance','money','income','get paid'],
@@ -1798,7 +1982,7 @@
       { k: ['sign up','signup','register','join','login','log in','how do i start','get started'],
         a: "Head to the Pricing section and pick your Automate level (Beginner, Intermediate or Expert) to get started, or hit 'Join Automate Naija' at the top of the page. Learn is coming soon. Already have an account? Use the 'Log in' button in the nav." },
       { k: ['hosted n8n','hosting','instance'],
-        a: "An optional hosted n8n instance is available for ₦2,000/month if you'd rather not self-host while you build." },
+        a: "An optional hosted n8n instance is available for ₦3,000/month if you'd rather not self-host while you build." },
       { k: ['contact','support','help','reach you','email'],
         a: "Best way to reach the team is through the Automate Naija WhatsApp community: someone will point you in the right direction fast." },
       { k: ['thank','thanks','thank you','appreciate'],
