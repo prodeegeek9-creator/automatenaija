@@ -138,6 +138,20 @@ var SITE = {
     if(!row.querySelector('a')) row.parentNode.removeChild(row);
   })();
 
+  /* ---- footer link groups: accordions on a phone, open columns above that.
+     The groups are <details>, whose open state cannot be driven by CSS, so the
+     breakpoint is mirrored here. A page whose footer has no .fgroup is left
+     alone. ---- */
+  (function(){
+    var groups = document.querySelectorAll('footer details.fgroup');
+    if(!groups.length || !window.matchMedia) return;
+    var wide = window.matchMedia('(min-width: 768px)');
+    function sync(){ each('footer details.fgroup', function(d){ d.open = wide.matches; }); }
+    sync();
+    if(wide.addEventListener) wide.addEventListener('change', sync);
+    else if(wide.addListener) wide.addListener(sync);
+  })();
+
   /* ---- current year in the footer ---- */
   each('[data-year]', function(el){ el.textContent = new Date().getFullYear(); });
 

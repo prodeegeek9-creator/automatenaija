@@ -289,6 +289,32 @@
     .hero-cta .pz-piece{width:30px;}
   }
 
+  /* ---------- PHONES (<=767px) ----------
+     The homepage sheds what does not earn its place on a small screen: the 3D
+     cube goes, so the copy gets the full width back, and the opportunities
+     section is dropped along with the links that point at it. */
+  @media(max-width:767px){
+    /* two classes deep so it beats the .hero-visual{display:flex} base rule
+       further down the sheet, whatever the source order */
+    .hero-grid .hero-visual{display:none;}
+    .hero-grid{
+      grid-template-columns:minmax(0,1fr);
+      grid-template-areas:
+        "seal"
+        "head"
+        "lede"
+        "cta";
+    }
+    .seal{width:clamp(70px,20vw,96px);}
+    h1{font-size:clamp(2rem,9vw,3rem);}
+    .lede{font-size:.95rem;}
+    /* the section goes, and with it every link that would scroll to nothing */
+    #opportunities,
+    .opp-card,
+    .mobile-menu a[href="#opportunities"],
+    .fcol a[href="#opportunities"]{display:none;}
+  }
+
   .avatar-row{display:flex;align-items:center;gap:12px;justify-content:center;}
   .avatars{display:flex;}
   .avatars img{
@@ -577,6 +603,40 @@
   @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr;}}
   @media(max-width:520px){.fgrid{grid-template-columns:1fr;}}
 
+  /* Footer link groups are <details>: accordions on a phone, plain columns
+     above 767px, where site.js forces them open and the summary stops
+     behaving like a control. */
+  .fgroup summary{list-style:none;}
+  .fgroup summary::-webkit-details-marker{display:none;}
+  @media(min-width:768px){
+    .fgroup summary{pointer-events:none;}
+  }
+  @media(max-width:767px){
+    /* the floating June and theme buttons sit over the bottom of the page,
+       so the footer keeps enough room below its last line to clear them */
+    footer{padding:36px 0 84px;}
+    .fgrid{gap:0;margin-bottom:26px;text-align:left;}
+    .fgrid .brand{justify-content:flex-start;}
+    .fbrand{margin-bottom:8px;}
+    .fbrand p{margin:12px 0 0;max-width:none;}
+    .fgroup{border-top:1px solid var(--line);}
+    .fgroup summary{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:15px 0;cursor:pointer;
+    }
+    .fgroup summary h5{margin-bottom:0;}
+    .fgroup summary::after{
+      content:"";width:9px;height:9px;flex-shrink:0;
+      border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+      transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s ease;
+    }
+    .fgroup[open] summary::after{transform:rotate(-135deg) translate(-3px,-3px);}
+    .fgroup .fcol{align-items:flex-start;padding:2px 0 16px;}
+    .fnews{border-top:1px solid var(--line);padding-top:16px;}
+    .signup{margin:6px 0 0;max-width:none;}
+    .fbot{justify-content:center;text-align:center;}
+  }
+
   /* ---------- WHAT YOU DO HERE ---------- */
   /* Five tinted cards. Each one carries its own accent as --path-c and its own
      surface as --path-bg, so the row is one rule plus a colour per card, and both
@@ -802,7 +862,7 @@
 
     <div class="nav-act">
       <a href="https://app.automatenaija.com/login" id="loginTop" class="btn btn-ghost">Log in</a>
-      <a href="#pricing" class="btn btn-solid"><span class="join-long">Join Automate Naija</span><span class="join-short">Join</span></a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Join Automate Naija</span><span class="join-short">Join</span></a>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
         <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
       </button>
@@ -1026,7 +1086,7 @@
         <p>Turn finished projects into portfolio proof and reputation.</p>
         <a href="#arena">See the showcase →</a>
       </article>
-      <article class="newcard rv">
+      <article class="newcard rv opp-card">
         <span class="newicon">▣</span>
         <h3>Get opportunities</h3>
         <p>Discover freelance projects, roles and paid automation work.</p>
@@ -1280,10 +1340,10 @@
         </a>
         <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
       </div>
-      <div><h5>Platform</h5><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#pricing">Pricing</a></div></div>
-      <div><h5>Resources</h5><div class="fcol"><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></div>
-      <div><h5>Company</h5><div class="fcol"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div></div>
-      <div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div></details>
+      <div class="fnews">
         <h5>Stay in the loop</h5>
         <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
         <form class="signup">
@@ -1744,7 +1804,10 @@
     // whenever the viewport changes size or orientation.
     var size = 0, unit = 0, cubie = 0;
     function measure(){
-      size = rig.getBoundingClientRect().width || 200;
+      // the rig is display:none on phones, where it measures 0 - that is the
+      // signal to leave the cube alone until the viewport gets wide enough
+      size = rig.getBoundingClientRect().width;
+      if(!size) return;
       unit = size / 3;
       cubie = unit - Math.max(1.5, unit * 0.045); // keep the seam between cubies proportional
       scene.style.setProperty('--cubie', cubie + 'px');
@@ -1836,8 +1899,9 @@
     }
     applyRigTransform();
 
-    var lastFrameT = null;
+    var lastFrameT = null, rafId = null;
     function tick(t){
+      if(!size){ lastFrameT = null; rafId = null; return; } // hidden: stop burning frames
       if(lastFrameT == null) lastFrameT = t;
       var dt = Math.min(t - lastFrameT, 50);
       lastFrameT = t;
@@ -1846,9 +1910,10 @@
         rotY += (baseVelocity + flingVelocity) * dt;
         applyRigTransform();
       }
-      requestAnimationFrame(tick);
+      rafId = requestAnimationFrame(tick);
     }
-    requestAnimationFrame(tick);
+    function startTick(){ if(rafId == null && size) rafId = requestAnimationFrame(tick); }
+    startTick();
 
     function pointerDown(e){
       dragging = true;
@@ -1884,7 +1949,7 @@
 
     var turning = false;
     function shuffleMove(){
-      if(turning) return;
+      if(turning || !size) return; // nothing to shuffle while the cube is hidden
       var axes = ['x','y','z'];
       var axis = axes[Math.floor(Math.random()*3)];
       var layer = AXES[Math.floor(Math.random()*3)];
@@ -1936,10 +2001,14 @@
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(function(){
         var w = rig.getBoundingClientRect().width;
-        if(!w || Math.abs(w - lastSize) < 1) return;
+        if(Math.abs(w - lastSize) < 1) return;
         lastSize = w;
+        size = w;
+        if(!w) return;          // just went hidden - tick stops on its own
         measure();
         cubies.forEach(applyTransform);
+        applyRigTransform();
+        startTick();            // back on screen after a rotate or a resize
       }, 140);
     });
   })();
@@ -1980,7 +2049,7 @@
       { k: ['whatsapp','discord','community chat','join community','group'],
         a: "Join the free Automate Naija WhatsApp community: it's the fastest way to get help, find collaborators and hear about new challenges first. You'll find the link in the Community section of this page." },
       { k: ['sign up','signup','register','join','login','log in','how do i start','get started'],
-        a: "Head to the Pricing section and pick your Automate level (Beginner, Intermediate or Expert) to get started, or hit 'Join Automate Naija' at the top of the page. Learn is coming soon. Already have an account? Use the 'Log in' button in the nav." },
+        a: "Head to the Pricing section and pick your Automate level (Beginner, Intermediate or Expert) to get started. 'Join Automate Naija' at the top of the page takes you straight to the app to create your account. Learn is coming soon. Already have an account? Use the 'Log in' button in the nav." },
       { k: ['hosted n8n','hosting','instance'],
         a: "An optional hosted n8n instance is available for ₦3,000/month if you'd rather not self-host while you build." },
       { k: ['contact','support','help','reach you','email'],
