@@ -95,9 +95,13 @@
   }
   html[data-theme="light"] header{background:rgba(247,248,245,.88);}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:70px;}
-  .brand{display:flex;align-items:center;gap:10px;min-width:0;}
-  .mark{width:30px;height:30px;flex-shrink:0;}
-  .brand-name{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--text);white-space:nowrap;}
+  /* The mark is the A of "Automate", so the lockup is sized as one piece: the
+     type size on .brand and the mark in em off it, a shade over cap height the
+     way a logotype initial sits. The <a> carries the name for assistive tech
+     because the letters on their own read "utomate Naija". */
+  .brand{display:inline-flex;align-items:baseline;gap:.02em;min-width:0;font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:1.06rem;letter-spacing:-.02em;color:var(--text);}
+  .mark{width:1.45em;height:1.45em;flex-shrink:0;align-self:baseline;transform:translateY(.04em);}
+  .brand-name{color:inherit;white-space:nowrap;}
   /* the green of the logo mark, not the site accent - it belongs to the lockup */
   .brand-name-accent{color:#17C964;}
   html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
@@ -205,7 +209,7 @@
     .join-long{display:none;}
     .join-short{display:inline;}
   }
-  @media(max-width:360px){.brand-name{font-size:.86rem;}.mark{width:26px;height:26px;}}
+  @media(max-width:360px){.brand{font-size:.92rem;}}
 
   /* ---------- HERO ---------- */
   .hero{padding:clamp(42px,9vw,88px) 0 clamp(38px,7vw,68px);position:relative;overflow:hidden;}
@@ -817,9 +821,9 @@
 <!-- ============ NAV ============ -->
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="brand">
-      <img class="mark" src="assets/brand/logo-mark.svg" alt="" width="30" height="30" decoding="async">
-      <span class="brand-name">Automate<span class="brand-name-accent">Naija</span></span>
+    <a href="index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
     </a>
 
     <nav class="nav-links">
@@ -1302,9 +1306,9 @@
   <div class="wrap">
     <div class="fgrid">
       <div class="fbrand">
-        <a href="index.html" class="brand" style="margin-bottom:6px;">
-          <img class="mark" src="assets/brand/logo-mark.svg" alt="" width="30" height="30" decoding="async">
-          <span class="brand-name">Automate<span class="brand-name-accent">Naija</span></span>
+        <a href="index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
         </a>
         <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
       </div>
