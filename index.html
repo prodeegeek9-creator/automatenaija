@@ -89,6 +89,69 @@
   .btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(204,85,0,.18);}
   .btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(204,85,0,.28);}
   .btn-lg{padding:14px 24px;font-size:.94rem;border-radius:11px;}
+
+  /* ---------- HERO CTA: a button with a jigsaw piece missing ----------
+     Two shapes, not one. The lime slab has a socket bitten out of its right
+     edge (a mask, so the hero glow shows through the hole), and the end cap is
+     a separate piece with the matching knob. The piece sits loose and drifting
+     until you hover, focus or tap it, then it snaps home and the button reads
+     as one solid pill. --pz-r is the socket radius; --pz-gap is how far the
+     loose piece parks from home. */
+  .btn-puzzle{
+    display:inline-flex;align-items:stretch;position:relative;
+    font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.94rem;
+    color:var(--ink);cursor:pointer;
+    filter:drop-shadow(0 8px 20px rgba(204,85,0,.20));
+    transition:filter .2s ease, transform .16s ease;
+    --pz-r:11px;
+    --pz-gap:19px;
+    /* the loose piece drifts past the button's own box, so hold the next
+       CTA off by roughly that much or the two overlap */
+    margin-right:22px;
+  }
+  .btn-puzzle:hover{filter:drop-shadow(0 12px 28px rgba(204,85,0,.32));transform:translateY(-2px);}
+  .btn-puzzle:active{transform:translateY(0);}
+  .pz-body{
+    display:flex;align-items:center;white-space:nowrap;
+    padding:14px 22px;background:var(--lime);border-radius:11px 0 0 11px;
+    transition:background .18s;
+    -webkit-mask-image:radial-gradient(circle var(--pz-r) at 100% 50%,transparent calc(var(--pz-r) - .8px),#000 var(--pz-r));
+            mask-image:radial-gradient(circle var(--pz-r) at 100% 50%,transparent calc(var(--pz-r) - .8px),#000 var(--pz-r));
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  }
+  .pz-slot{display:flex;align-items:stretch;}
+  .pz-piece{
+    position:relative;display:flex;align-items:center;justify-content:center;
+    width:40px;background:var(--lime);border-radius:0 11px 11px 0;
+    translate:var(--pz-gap) -5px;rotate:-12deg;
+    animation:pzDrift 3.4s ease-in-out infinite;
+    transition:translate .34s cubic-bezier(.32,1.5,.52,1),
+               rotate .34s cubic-bezier(.32,1.5,.52,1),
+               background .18s;
+  }
+  /* the knob that fills the socket - 1.2px narrower than the hole so a hairline
+     of background stays visible as a seam once the piece is seated */
+  .pz-piece::before{
+    content:"";position:absolute;left:calc(1.2px - var(--pz-r));top:50%;
+    width:calc(var(--pz-r) * 2 - 2.4px);height:calc(var(--pz-r) * 2 - 2.4px);
+    transform:translateY(-50%);border-radius:50%;background:var(--lime);
+    transition:background .18s;
+  }
+  .pz-piece svg{position:relative;z-index:1;}
+  .btn-puzzle:hover .pz-body,
+  .btn-puzzle:hover .pz-piece,
+  .btn-puzzle:hover .pz-piece::before{background:var(--lime-dim);}
+  .btn-puzzle:hover .pz-piece,
+  .btn-puzzle:focus-visible .pz-piece,
+  .btn-puzzle:active .pz-piece{translate:0 0;rotate:0deg;animation:none;}
+  @keyframes pzDrift{
+    0%,100%{transform:translate(0,0) rotate(0deg);}
+    50%{transform:translate(3px,-4px) rotate(4deg);}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .btn-puzzle,.pz-piece{transition:none;}
+    .pz-piece{animation:none;}
+  }
   .menu-btn{display:none;background:none;border:none;padding:6px;cursor:pointer;color:var(--text);}
 
   .mobile-menu{display:none;flex-direction:column;gap:2px;padding:8px 22px 20px;border-bottom:1px solid var(--line);background:var(--bg);}
@@ -365,13 +428,45 @@
   .price-from + .price{margin-top:4px;}
   .price.soon{font-size:30px;color:var(--muted);}
   .price-sub{color:var(--good);font-size:12px;font-weight:700;margin:-8px 0 0;}
-  .pricegrid .tierlist{display:grid;gap:8px;margin:18px 0 20px;font-size:13px;}
-  .pricegrid .tierlist li{display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);}
-  .tier-name{font-weight:700;color:var(--text);}
-  .tier-price{white-space:nowrap;}
+  .pricegrid .tierlist{display:grid;gap:8px;margin:0;font-size:13px;}
+  .pricegrid .tierlist li{list-style:none;}
+  .tierpick{border:0;margin:18px 0 20px;}
+  .tierpick legend{
+    font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--muted);padding:0;margin-bottom:9px;
+  }
+  /* the whole row is the control - the radio itself is only there for
+     keyboard and screen-reader users */
+  .pricegrid .tier{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);
+    cursor:pointer;transition:border-color .18s,background .18s,box-shadow .18s;}
+  .pricegrid .tier:hover{border-color:var(--line2);}
+  /* visually hidden, but still focusable and announced */
+  .tier input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;
+    overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;}
+  .tier input:focus-visible{outline:none;}
+  .tier-name{font-weight:700;color:var(--text);display:flex;flex-direction:column;gap:1px;}
+  .tier-name small{font-weight:500;font-size:11px;color:var(--muted);}
+  .tier-price{white-space:nowrap;margin-left:auto;}
   .tier-price s{color:var(--muted);font-size:12px;margin-right:7px;}
   .tier-price b{color:var(--accent);font-size:15px;}
+  .tier-tick{
+    flex:none;width:17px;height:17px;border-radius:50%;border:1.5px solid var(--line2);
+    position:relative;transition:border-color .18s,background .18s;
+  }
+  .tier-tick::after{
+    content:"";position:absolute;inset:3.5px;border-radius:50%;background:#fff;
+    transform:scale(0);transition:transform .18s cubic-bezier(.32,1.5,.52,1);
+  }
+  .tier input:checked ~ .tier-tick{border-color:var(--accent);background:var(--accent);}
+  .tier input:checked ~ .tier-tick::after{transform:scale(1);}
+  .pricegrid .tier.is-picked,
+  .pricegrid .tier:has(input:checked){
+    border-color:rgba(var(--accent-rgb),.6);background:rgba(var(--accent-rgb),.10);
+    box-shadow:0 0 0 1px rgba(var(--accent-rgb),.28) inset;
+  }
+  .tier input:focus-visible ~ .tier-tick{outline:2.5px solid var(--lime);outline-offset:3px;}
+  .newcard .tier-hint{color:var(--muted);font-size:11.5px;text-align:center;margin-top:10px;}
   .newbtn.disabled{background:transparent;border:1px dashed var(--line2);color:var(--muted)!important;cursor:not-allowed;}
 
   .cta-new{padding:25px 0 70px;}
@@ -720,7 +815,14 @@
       <p class="lede rv">Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.</p>
 
       <div class="hero-cta rv">
-        <a href="#pricing" class="btn btn-solid btn-lg">Start Building</a>
+        <a href="#pricing" class="btn-puzzle">
+          <span class="pz-body">Start Building</span>
+          <span class="pz-slot" aria-hidden="true">
+            <span class="pz-piece">
+              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+            </span>
+          </span>
+        </a>
         <a href="#community" class="btn btn-line btn-lg">Explore Community</a>
       </div>
     </div>
@@ -1017,21 +1119,40 @@
         <span class="badge">FIRST 100 SUBSCRIBERS</span>
         <h3>Automate</h3>
         <p>6-week build cycle. Pick the level that matches where you are.</p>
-        <span class="price-from">STARTS FROM</span>
-        <div class="price">₦8,000</div>
-        <p class="price-sub">Discounted to ₦5,000 for the first 100 subscribers.</p>
-        <ul class="tierlist">
-          <li><span class="tier-name">Beginner</span><span class="tier-price"><s>₦20,000</s><b>₦10,000</b></span></li>
-          <li><span class="tier-name">Intermediate</span><span class="tier-price"><s>₦12,000</s><b>₦8,000</b></span></li>
-          <li><span class="tier-name">Expert</span><span class="tier-price"><s>₦8,000</s><b>₦5,000</b></span></li>
-        </ul>
+        <span class="price-from" id="automateLead">STARTS FROM</span>
+        <div class="price" id="automatePrice">₦8,000</div>
+        <p class="price-sub" id="automateSub">Discounted to ₦5,000 for the first 100 subscribers.</p>
+        <fieldset class="tierpick">
+          <legend>Choose your level</legend>
+          <ul class="tierlist">
+            <li><label class="tier">
+              <input type="radio" name="automate-level" value="beginner" data-was="₦20,000" data-now="₦10,000" data-label="Beginner">
+              <span class="tier-name">Beginner<small>New to automation</small></span>
+              <span class="tier-price"><s>₦20,000</s><b>₦10,000</b></span>
+              <span class="tier-tick" aria-hidden="true"></span>
+            </label></li>
+            <li><label class="tier">
+              <input type="radio" name="automate-level" value="intermediate" data-was="₦12,000" data-now="₦8,000" data-label="Intermediate">
+              <span class="tier-name">Intermediate<small>Built a few automations</small></span>
+              <span class="tier-price"><s>₦12,000</s><b>₦8,000</b></span>
+              <span class="tier-tick" aria-hidden="true"></span>
+            </label></li>
+            <li><label class="tier">
+              <input type="radio" name="automate-level" value="expert" data-was="₦8,000" data-now="₦5,000" data-label="Expert">
+              <span class="tier-name">Expert<small>Shipping for clients already</small></span>
+              <span class="tier-price"><s>₦8,000</s><b>₦5,000</b></span>
+              <span class="tier-tick" aria-hidden="true"></span>
+            </label></li>
+          </ul>
+        </fieldset>
         <ul>
           <li>✓ 6-week build cycle</li>
           <li>✓ Automation Arena challenges</li>
           <li>✓ Portfolio &amp; credentials</li>
           <li>✓ Opportunity board</li>
         </ul>
-        <a class="newbtn" href="https://app.automatenaija.com/login">Claim the discount</a>
+        <a class="newbtn" id="automateCta" href="https://app.automatenaija.com/login">Claim the discount</a>
+        <p class="tier-hint" id="automateHint">Pick a level above and we’ll carry it through to checkout.</p>
       </article>
     </div>
     <p class="price-note">Discounted prices apply to the first 100 subscribers only · Optional hosted n8n instance: <b>₦2,000/month</b></p>
@@ -1209,6 +1330,87 @@
     set('loginMob','href',N8N_URL);
   })();
 
+
+
+
+  /* ---- 3b. PRICING: pick an Automate level, carry it to checkout ----
+
+     Nothing on this page can take money on its own: it is a static site with
+     no server, so the level a visitor picks has to travel to whatever does the
+     charging.
+
+       - Leave a level's paystack entry empty and the picker sends people to
+         the app with the level in the query string (?plan=automate&level=...),
+         so app.automatenaija.com opens on the right plan.
+       - Paste a Paystack payment link (Dashboard > Payment Pages > copy link)
+         into a level and that level checks out on Paystack directly, no app
+         round trip. Set that page's redirect/callback URL to the app signup so
+         people land back in their account after paying, and confirm the
+         payment with a Paystack webhook once there is a backend to receive it.
+
+     Do NOT put a Paystack secret key on this page. Payment links and the
+     public key are safe in a browser; the secret key is not.                */
+  var CHECKOUT = {
+    paystack: {
+      beginner:     "",
+      intermediate: "",
+      expert:       ""
+    }
+  };
+
+  (function(){
+    var cta   = document.getElementById('automateCta');
+    var lead  = document.getElementById('automateLead');
+    var price = document.getElementById('automatePrice');
+    var sub   = document.getElementById('automateSub');
+    var hint  = document.getElementById('automateHint');
+    var inputs = document.querySelectorAll('input[name="automate-level"]');
+    if(!cta || !inputs.length) return;
+
+    function checkoutUrl(level){
+      var link = CHECKOUT.paystack[level];
+      if(link) return link;
+      return N8N_URL + (N8N_URL.indexOf('?') === -1 ? '?' : '&') +
+             'plan=automate&level=' + encodeURIComponent(level);
+    }
+
+    function pick(input){
+      Array.prototype.forEach.call(inputs, function(other){
+        other.closest('.tier').classList.toggle('is-picked', other === input);
+      });
+      var label = input.getAttribute('data-label');
+      lead.textContent  = label.toUpperCase() + ' · FIRST 100 PRICE';
+      price.textContent = input.getAttribute('data-now');
+      sub.textContent   = 'Normally ' + input.getAttribute('data-was') +
+                          '. You save the difference while the first 100 spots last.';
+      cta.textContent   = 'Continue with ' + label + ' →';
+      cta.href          = checkoutUrl(input.value);
+      hint.textContent  = CHECKOUT.paystack[input.value]
+        ? 'Secure checkout on Paystack.'
+        : 'You will finish signing up for ' + label + ' in the app.';
+    }
+
+    Array.prototype.forEach.call(inputs, function(input){
+      input.addEventListener('change', function(){ pick(input); });
+    });
+
+    // Deep links like index.html#pricing?level=expert, and the browser
+    // restoring a checked radio on a back/forward navigation.
+    var preset = Array.prototype.filter.call(inputs, function(i){ return i.checked; })[0];
+    if(!preset){
+      var wanted = (location.search + location.hash).match(/level=([a-z]+)/i);
+      if(wanted){
+        preset = Array.prototype.filter.call(inputs, function(i){
+          return i.value === wanted[1].toLowerCase();
+        })[0];
+        if(preset) preset.checked = true;
+      }
+    }
+    if(preset) pick(preset);
+    // no level picked yet: still send people to the app rather than to the
+    // URL hardcoded in the markup, so SITE.app stays the single source
+    else cta.href = N8N_URL + (N8N_URL.indexOf('?') === -1 ? '?' : '&') + 'plan=automate';
+  })();
 
 
   /* ---- 4b. COMMUNITY SCREENSHOT ---- */
