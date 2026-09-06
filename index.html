@@ -206,10 +206,19 @@
   }
   @media(max-width:480px){
     .nav-act .btn-solid{padding:9px 13px;font-size:.8rem;}
+  }
+  @media(max-width:400px){
+    .nav-act .btn-solid{padding:8px 10px;font-size:.76rem;}
+  }
+  /* the mark is sized in em off .brand, so shrinking the lockup is one line */
+  @media(max-width:360px){.brand{font-size:.92rem;}}
+  /* "Login/SignUp" holds down to about 360px once the button tightens up. On
+     320px-class screens the brand, the button and the menu icon stop fitting on
+     one line, so the button falls back to the short label. */
+  @media(max-width:340px){
     .join-long{display:none;}
     .join-short{display:inline;}
   }
-  @media(max-width:360px){.brand{font-size:.92rem;}}
 
   /* ---------- HERO ---------- */
   .hero{padding:clamp(42px,9vw,88px) 0 clamp(38px,7vw,68px);position:relative;overflow:hidden;}
@@ -897,7 +906,7 @@
 
     <div class="nav-act">
       <a href="https://app.automatenaija.com/login" id="loginTop" class="btn btn-ghost">Log in</a>
-      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Join Automate Naija</span><span class="join-short">Join</span></a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
         <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
       </button>
@@ -1357,7 +1366,7 @@
       <h2>Your next build starts here.</h2>
       <p>Learn something. Build something. Meet someone. Ship something.</p>
     </div>
-    <a class="newbtn dark rv" href="https://app.automatenaija.com/login">Join Automate Naija →</a>
+    <a class="newbtn dark rv" href="https://app.automatenaija.com/login" data-link="app">Join Automate Naija →</a>
   </div>
 </section>
 
@@ -2081,7 +2090,7 @@
       { k: ['whatsapp','discord','community chat','join community','group'],
         a: "Join the free Automate Naija WhatsApp community: it's the fastest way to get help, find collaborators and hear about new challenges first. You'll find the link in the Community section of this page." },
       { k: ['sign up','signup','register','join','login','log in','how do i start','get started'],
-        a: "Head to the Pricing section and pick your Automate level (Beginner, Intermediate or Expert) to get started. 'Join Automate Naija' at the top of the page takes you straight to the app to create your account. Learn is coming soon. Already have an account? Use the 'Log in' button in the nav." },
+        a: "Head to the Pricing section and pick your Automate level (Beginner, Intermediate or Expert) to get started. 'Login/SignUp' at the top of the page takes you straight to the app to create your account. Learn is coming soon. Already have an account? Use the 'Log in' button in the nav." },
       { k: ['hosted n8n','hosting','instance'],
         a: "An optional hosted n8n instance is available for ₦3,000/month if you'd rather not self-host while you build." },
       { k: ['contact','support','help','reach you','email'],

@@ -56,7 +56,7 @@ header{
   border-bottom:1px solid var(--line);
 }
 html[data-theme="light"] header{background:rgba(247,248,245,.88);}
-.nav{display:flex;align-items:center;justify-content:space-between;height:70px;}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:70px;}
 /* The mark is the A of "Automate", so the lockup is sized as one piece: the
    type size on .brand and the mark in em off it, a shade over cap height the
    way a logotype initial sits. The <a> carries the name for assistive tech
@@ -67,7 +67,7 @@ html[data-theme="light"] header{background:rgba(247,248,245,.88);}
 /* the green of the logo mark, not the site accent - it belongs to the lockup */
 .brand-name-accent{color:#17C964;}
 html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
-.nav-links{display:flex;gap:30px;font-size:.88rem;font-weight:600;color:var(--muted);}
+.nav-links{display:flex;gap:clamp(16px,2.4vw,30px);font-size:.88rem;font-weight:600;color:var(--muted);}
 .nav-links a{position:relative;padding:6px 0;transition:color .18s;}
 .nav-links a:hover{color:var(--text);}
 .nav-links a.active{color:var(--text);}
@@ -89,18 +89,35 @@ html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
 .btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(204,85,0,.18);}
 .btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(204,85,0,.28);}
 .btn-lg{padding:14px 24px;font-size:.94rem;border-radius:11px;}
-.menu-btn{display:none;background:none;border:none;padding:6px;cursor:pointer;color:var(--text);}
+.menu-btn{display:none;background:none;border:none;padding:6px;cursor:pointer;color:var(--text);flex-shrink:0;}
+.nav-act .btn{white-space:nowrap;}
+/* the nav button carries the full wording where there is room and a short one on phones */
+.join-short{display:none;}
 
 .mobile-menu{display:none;flex-direction:column;gap:2px;padding:8px 22px 20px;border-bottom:1px solid var(--line);background:var(--bg);}
 .mobile-menu.open{display:flex;}
 .mobile-menu a{padding:12px 0;font-weight:600;color:var(--text-2);border-bottom:1px solid var(--line);}
 .mobile-menu .btn{margin-top:14px;width:100%;}
-@media(max-width:980px){
+@media(max-width:1100px){
   .nav-links{display:none;}
   .nav-act .btn-ghost{display:none;}
   .menu-btn{display:block;}
 }
-@media(max-width:420px){.nav-act .btn-solid{padding:9px 13px;font-size:.8rem;}}
+@media(max-width:480px){
+  .nav-act .btn-solid{padding:9px 13px;font-size:.8rem;}
+}
+@media(max-width:400px){
+  .nav-act .btn-solid{padding:8px 10px;font-size:.76rem;}
+}
+/* the mark is sized in em off .brand, so shrinking the lockup is one line */
+@media(max-width:360px){.brand{font-size:.92rem;}}
+/* "Login/SignUp" holds down to about 360px once the button tightens up. On
+   320px-class screens the brand, the button and the menu icon stop fitting on
+   one line, so the button falls back to the short label. */
+@media(max-width:340px){
+  .join-long{display:none;}
+  .join-short{display:inline;}
+}
 
 /* ---------- SECTIONS ---------- */
 section{padding:70px 0;}
@@ -139,6 +156,40 @@ footer h5{color:var(--text);font-size:.74rem;letter-spacing:.08em;text-transform
 .fsocial a:hover{color:var(--lime);}
 @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr;}}
 @media(max-width:520px){.fgrid{grid-template-columns:1fr;}}
+
+/* Footer link groups are <details>: accordions on a phone, plain columns
+   above 767px, where site.js forces them open and the summary stops
+   behaving like a control. */
+.fgroup summary{list-style:none;}
+.fgroup summary::-webkit-details-marker{display:none;}
+@media(min-width:768px){
+  .fgroup summary{pointer-events:none;}
+}
+@media(max-width:767px){
+  /* the floating June and theme buttons sit over the bottom of the page,
+     so the footer keeps enough room below its last line to clear them */
+  footer{padding:36px 0 84px;}
+  .fgrid{gap:0;margin-bottom:26px;text-align:left;}
+  .fgrid .brand{justify-content:flex-start;}
+  .fbrand{margin-bottom:8px;}
+  .fbrand p{margin:12px 0 0;max-width:none;}
+  .fgroup{border-top:1px solid var(--line);}
+  .fgroup summary{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:15px 0;cursor:pointer;
+  }
+  .fgroup summary h5{margin-bottom:0;}
+  .fgroup summary::after{
+    content:"";width:9px;height:9px;flex-shrink:0;
+    border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
+    transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s ease;
+  }
+  .fgroup[open] summary::after{transform:rotate(-135deg) translate(-3px,-3px);}
+  .fgroup .fcol{align-items:flex-start;padding:2px 0 16px;}
+  .fnews{border-top:1px solid var(--line);padding-top:16px;}
+  .signup{margin:6px 0 0;max-width:none;}
+  .fbot{justify-content:center;text-align:center;}
+}
 
 
 .theme-toggle{position:fixed;right:20px;bottom:20px;z-index:999;width:48px;height:48px;border-radius:50%;border:1px solid var(--line-2);background:var(--bg-2);color:var(--text);box-shadow:var(--shadow-md);cursor:pointer;font-size:20px;display:grid;place-items:center;transition:.2s}
