@@ -77,7 +77,7 @@
   <div class="wrap">
     <article class="prose rv">
 
-      <p>Most first workflows are toys. This one is not &mdash; some version of it is the single most requested automation from Nigerian businesses, because every one of them is losing leads in a WhatsApp inbox somebody forgets to open.</p>
+      <p>Most first workflows are toys. This one is not. Some version of it is the single most requested automation from Nigerian businesses, because every one of them is losing leads in a WhatsApp inbox somebody forgets to open.</p>
       <p>We will build it in four moves. You need an n8n instance (hosted or your own), a WhatsApp Business API number, an OpenAI key and a Supabase project.</p>
 
       <h2>1. Capture the message</h2>
@@ -85,15 +85,15 @@
       <p>Two things people get wrong here:</p>
       <ul>
         <li><strong>Test URL versus production URL.</strong> The test URL only listens while the editor is open. Ship with the production one.</li>
-        <li><strong>Duplicate deliveries.</strong> WhatsApp retries if you are slow to acknowledge. Respond immediately, then do the work &mdash; or you will process the same lead twice.</li>
+        <li><strong>Duplicate deliveries.</strong> WhatsApp retries if you are slow to acknowledge. Respond immediately, then do the work, or you will process the same lead twice.</li>
       </ul>
 
       <h2>2. Qualify with AI, not with keywords</h2>
-      <p>Add an AI node and give it one job: turn a free-text message into structured fields. Ask it to return JSON &mdash; something like intent, budget signal, urgency and a one-line summary &mdash; and tell it explicitly what to output when the message says nothing useful.</p>
+      <p>Add an AI node and give it one job: turn a free-text message into structured fields. Ask it to return JSON with fields like intent, budget signal, urgency and a one-line summary, and tell it explicitly what to output when the message says nothing useful.</p>
       <p>Keep the prompt narrow. A model asked to classify one message does that reliably; a model asked to classify, reply, upsell and book a meeting in one call does none of it reliably. Add a <code>Code</code> node right after to parse the JSON and fail loudly if it is malformed, so a bad response never silently poisons your database.</p>
 
       <h2>3. Store every lead</h2>
-      <p>Write the raw message and the structured fields to Supabase. Store the raw text even when parsing fails &mdash; the failures are where you learn what your prompt is missing.</p>
+      <p>Write the raw message and the structured fields to Supabase. Store the raw text even when parsing fails, because the failures are where you learn what your prompt is missing.</p>
       <p>Use the sender's phone number as a natural key and upsert rather than insert, so a returning customer updates their record instead of creating a second one.</p>
 
       <h2>4. Reply fast, escalate rarely</h2>
@@ -114,13 +114,13 @@
       </ul>
 
       <h2>What to charge for it</h2>
-      <p>Priced as a project, this shape of build sits comfortably in the range you see on the opportunities board for WhatsApp sales automation. What moves the number is not the node count &mdash; it is whether you handle the failure cases, hand over documentation, and stay reachable for the first two weeks after launch.</p>
+      <p>Priced as a project, this shape of build sits comfortably in the range you see on the opportunities board for WhatsApp sales automation. What moves the number is not the node count. It is whether you handle the failure cases, hand over documentation, and stay reachable for the first two weeks after launch.</p>
 
       <h2>Now make it yours</h2>
-      <p>Swap WhatsApp for Instagram DMs, or Supabase for Google Sheets, or the FAQ branch for a booking link. The skeleton &mdash; capture, structure, store, escalate &mdash; is the same in almost every automation a business will ever pay you for.</p>
+      <p>Swap WhatsApp for Instagram DMs, or Supabase for Google Sheets, or the FAQ branch for a booking link. The skeleton (capture, structure, store, escalate) is the same in almost every automation a business will ever pay you for.</p>
      
       <hr>
-      <p><strong>Build it with us.</strong> The community is free and the build track opens with a first-100 discount &mdash; <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+      <p><strong>Build it with us.</strong> The community is free and the build track opens with a first-100 discount: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
     </article>
 
     <div class="band rv" style="margin-top:40px;">
