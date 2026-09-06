@@ -4,7 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Automate Naija: Where Builders Ship</title>
-<meta name="description" content="Automate Naija is where AI & automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.">
+<meta name="description" content="Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.">
+<link rel="canonical" href="https://automatenaija.com/">
+
+<!-- Brand icons -->
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://automatenaija.com/">
+<meta property="og:title" content="Automate Naija: Where Builders Ship">
+<meta property="og:description" content="Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Automate Naija: Where Builders Ship">
+<meta name="twitter:description" content="Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -67,6 +98,9 @@
   .brand{display:flex;align-items:center;gap:10px;min-width:0;}
   .mark{width:30px;height:30px;flex-shrink:0;}
   .brand-name{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--text);white-space:nowrap;}
+  /* the green of the logo mark, not the site accent - it belongs to the lockup */
+  .brand-name-accent{color:#17C964;}
+  html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
   .nav-links{display:flex;gap:clamp(16px,2.4vw,30px);font-size:.88rem;font-weight:600;color:var(--muted);}
   .nav-links a{position:relative;padding:6px 0;transition:color .18s;}
   .nav-links a:hover{color:var(--text);}
@@ -784,11 +818,8 @@
 <header>
   <div class="wrap nav">
     <a href="index.html" class="brand">
-      <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-        <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
-        <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
-      </svg>
-      <span class="brand-name">AUTOMATE NAIJA</span>
+      <img class="mark" src="assets/brand/logo-mark.svg" alt="" width="30" height="30" decoding="async">
+      <span class="brand-name">Automate<span class="brand-name-accent">Naija</span></span>
     </a>
 
     <nav class="nav-links">
@@ -1272,11 +1303,8 @@
     <div class="fgrid">
       <div class="fbrand">
         <a href="index.html" class="brand" style="margin-bottom:6px;">
-          <svg class="mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-            <path d="M20 3 4 34h9.5L20 21.5 26.5 34H36L20 3Z" fill="#CC5500"/>
-            <path d="M20 12.5 12 28h5l3-6.2 3 6.2h5l-8-15.5Z" fill="#0A0D0B"/>
-          </svg>
-          <span class="brand-name">AUTOMATE NAIJA</span>
+          <img class="mark" src="assets/brand/logo-mark.svg" alt="" width="30" height="30" decoding="async">
+          <span class="brand-name">Automate<span class="brand-name-accent">Naija</span></span>
         </a>
         <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
       </div>
