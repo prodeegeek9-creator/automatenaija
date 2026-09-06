@@ -1052,7 +1052,7 @@
 
     <div class="tutors-grid">
       <div class="tutor-frame rv">
-        <img class="tutor-shot" id="tutorShot" alt="Automate Naija tutor" loading="lazy" decoding="async" width="900" height="1000">
+        <img class="tutor-shot" id="tutorShot" alt="Automate Naija tutor" loading="lazy" decoding="async" fetchpriority="high" width="900" height="1000">
         <div class="tutor-caption">
           <span class="tutor-idx mono" id="tutorIdx">01 / 05</span>
           <h4 id="tutorName">Oginni Oluwafemi</h4>
@@ -1499,17 +1499,34 @@
     // The tutor portrait is one <img> whose src gets swapped as you scroll
     // (see section 5 below). Left alone, each swap is a fresh network
     // fetch that stalls the cross-fade. Warming the browser cache for
-    // tutors 2-5 in the background, once the page has settled, means
-    // those swaps resolve instantly from cache instead.
+    // tutors 2-5 means those swaps resolve instantly from cache instead -
+    // fired low-priority so it never competes with the current tutor shot
+    // or anything else still loading above the fold.
+    var prefetched = false;
     function prefetchTutorPhotos(){
+      if(prefetched) return;
+      prefetched = true;
       IMAGES.tutors.slice(1).forEach(function(t){
         if(!t.photo) return;
         var img = new Image();
+        img.fetchPriority = 'low';   // Chrome/Edge; harmless no-op elsewhere
         img.src = t.photo;
       });
     }
-    if('requestIdleCallback' in window) requestIdleCallback(prefetchTutorPhotos, {timeout: 3000});
-    else setTimeout(prefetchTutorPhotos, 1500);
+    // Start the warm-up as soon as the tutors section is getting close,
+    // rather than guessing a fixed delay - on a fast scroll it's already
+    // cached by the time you arrive, on a slow one it costs nothing extra.
+    var tutorsSection = document.getElementById('tutors');
+    if(tutorsSection && 'IntersectionObserver' in window){
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting) prefetchTutorPhotos(); });
+      }, { rootMargin: '600px 0px' });
+      io.observe(tutorsSection);
+    } else if('requestIdleCallback' in window){
+      requestIdleCallback(prefetchTutorPhotos, {timeout: 3000});
+    } else {
+      setTimeout(prefetchTutorPhotos, 1500);
+    }
   })();
 
 
