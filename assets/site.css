@@ -60,6 +60,9 @@ html[data-theme="light"] header{background:rgba(247,248,245,.88);}
 .brand{display:flex;align-items:center;gap:10px;}
 .mark{width:30px;height:30px;flex-shrink:0;}
 .brand-name{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.98rem;letter-spacing:-.01em;color:var(--text);}
+/* the green of the logo mark, not the site accent - it belongs to the lockup */
+.brand-name-accent{color:#17C964;}
+html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
 .nav-links{display:flex;gap:30px;font-size:.88rem;font-weight:600;color:var(--muted);}
 .nav-links a{position:relative;padding:6px 0;transition:color .18s;}
 .nav-links a:hover{color:var(--text);}
