@@ -528,6 +528,26 @@
   .workflow-preview{height:230px;border-radius:15px;margin-bottom:20px;background:radial-gradient(circle at center,rgba(var(--accent-rgb),.15),transparent 45%),repeating-linear-gradient(0deg,transparent 0 25px,var(--line) 26px),repeating-linear-gradient(90deg,transparent 0 25px,var(--line) 26px);display:flex;align-items:center;justify-content:space-around;}
   .workflow-preview i{font-style:normal;border:1px solid var(--line2);background:var(--surface2);padding:12px;border-radius:10px;color:var(--accent);font:800 10px 'IBM Plex Mono',monospace;}
 
+  /* n8n-hosting notice: a workflow-canvas background (nodes + connectors, in
+     n8n's own coral) stands in for a screenshot so the "n8n" association reads
+     at a glance without shipping an image asset. */
+  .n8n-notice{position:relative;overflow:hidden;margin-top:15px;border:1px solid var(--line);border-radius:20px;
+    padding:34px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;background:var(--bg-2);}
+  .n8n-notice::before{content:'';position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='300' viewBox='0 0 800 300'%3E%3Cg fill='none' stroke='%23FF6D5A' stroke-opacity='.4' stroke-width='2'%3E%3Cpath d='M20,150 C90,150 90,70 160,70'/%3E%3Cpath d='M160,70 C230,70 230,150 300,150'/%3E%3Cpath d='M300,150 C370,150 370,230 440,230'/%3E%3Cpath d='M300,150 C370,150 370,70 440,70'/%3E%3Cpath d='M440,70 C510,70 510,150 580,150'/%3E%3Cpath d='M440,230 C510,230 510,150 580,150'/%3E%3Cpath d='M580,150 C650,150 650,90 720,90'/%3E%3C/g%3E%3Cg fill='%23FF6D5A'%3E%3Ccircle cx='20' cy='150' r='8' fill-opacity='.85'/%3E%3Ccircle cx='160' cy='70' r='8' fill-opacity='.6'/%3E%3Ccircle cx='300' cy='150' r='8' fill-opacity='.75'/%3E%3Ccircle cx='440' cy='70' r='8' fill-opacity='.55'/%3E%3Ccircle cx='440' cy='230' r='8' fill-opacity='.55'/%3E%3Ccircle cx='580' cy='150' r='8' fill-opacity='.8'/%3E%3Ccircle cx='720' cy='90' r='8' fill-opacity='.9'/%3E%3C/g%3E%3C/svg%3E"),
+      repeating-linear-gradient(0deg,transparent 0 25px,var(--line) 26px),repeating-linear-gradient(90deg,transparent 0 25px,var(--line) 26px);
+    background-size:cover,26px 26px,26px 26px;background-position:center,0 0,0 0;opacity:.9;}
+  .n8n-notice::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,var(--bg-2) 8%,rgba(16,20,15,.5) 45%,rgba(255,109,90,.14));}
+  html[data-theme="light"] .n8n-notice::after{background:linear-gradient(100deg,var(--bg-2) 8%,rgba(255,255,255,.72) 45%,rgba(255,109,90,.14));}
+  .n8n-notice>*{position:relative;z-index:1;}
+  .n8n-notice-copy{max-width:540px;}
+  .n8n-notice-copy .badge{margin-bottom:12px;}
+  .n8n-notice-copy h3{font-size:1.5rem;margin:0 0 9px;line-height:1.25;}
+  .n8n-notice-copy p{color:var(--soft);font-size:.88rem;line-height:1.55;}
+  .n8n-notice-copy p b{color:var(--accent);}
+  .n8n-notice .newbtn{width:auto;margin-top:0!important;padding:14px 24px;flex-shrink:0;white-space:nowrap;}
+  @media(max-width:640px){.n8n-notice{padding:26px 22px;}.n8n-notice .newbtn{width:100%;}}
+
   .oppgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;}
   .oppgrid .newcard h3{font-size:18px;margin-top:18px;}
   .oppgrid .newcard>b{display:block;color:var(--accent);margin-top:15px;}
@@ -1173,6 +1193,14 @@
         <h3>AI-Powered Customer Support Agent</h3>
         <p>Built by <b>David A.</b> · 128 likes · 24 comments</p>
       </article>
+    </div>
+    <div class="n8n-notice rv">
+      <div class="n8n-notice-copy">
+        <span class="badge">HOSTED N8N</span>
+        <h3>Tired of changing n8n every 2 weeks?</h3>
+        <p>Skip the version-hopping and self-host headaches. Get your own managed instance for as low as <b>₦3,000/month</b> — always up to date, always online.</p>
+      </div>
+      <a class="newbtn" href="#pricing">Get your instance →</a>
     </div>
   </div>
 </section>
