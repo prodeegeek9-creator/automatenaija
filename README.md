@@ -89,3 +89,24 @@ hit "Scrape Again" - WhatsApp reads the same cache.
 A new page needs the same block copied into its `<head>`, with `og:url`,
 `og:title` and `og:description` pointed at that page. Blog posts use
 `og:type="article"`; everything else uses `website`.
+
+## Visit counting
+
+`assets/site.js` also reports each page view to the Automate Naija app, so the
+admin console (Activity > Visitors) shows who visits this site and where from,
+next to the app's own visitors. There is no extra file to add to a new page:
+anything that loads `assets/site.js` is counted.
+
+- No cookie and nothing stored in the browser. A visitor is told apart for one
+  day only, by a hash the server makes from their address and a salt that
+  changes at midnight. The address is never kept.
+- Sent: the page path, the referring site (host name only), any `utm_source`,
+  `utm_medium` and `utm_campaign` on the link, and a window size class. Country
+  and city come from the connection, on the server.
+- Do Not Track and Global Privacy Control switch it off. It only reports from
+  automatenaija.com, so a local copy or a preview deploy counts nothing.
+- To tell WhatsApp visits from "Direct", put `?utm_source=whatsapp` on links you
+  share there.
+- The receiving end is `functions/hit.js` in the app repo. It accepts this site
+  by its `Origin` header and ignores everyone else.
+
