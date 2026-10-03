@@ -23,6 +23,73 @@ var SITE = {
   }
 };
 
+/* =========================================================================
+   Visit counting
+
+   Tells the Automate Naija app that a page was opened, so the admin console
+   can show who visits this site and where from, next to the app's own
+   visitors. It runs on every page because this file does.
+
+   What is and is not collected:
+   - No cookie and nothing stored in the browser. The server tells a visitor
+     apart for one day only, by hashing their address with a salt that changes
+     at midnight; the address itself is never kept.
+   - Sent: the page path, the site that referred the visitor (host name only),
+     any utm_source / utm_medium / utm_campaign on the link, and the window
+     size class. The country and city come from the connection, server side.
+   - Do Not Track and Global Privacy Control switch it off.
+   - It only reports from automatenaija.com, so a local copy or a preview
+     deploy counts nothing.
+
+   It is a plain POST with a text/plain body, which browsers send without a
+   preflight, and the reply is never read. The receiving end is
+   functions/hit.js in the app's repo, which reads which site it came from off
+   the request's Origin header. It sits before everything else in this file so
+   that nothing below it can stop it running, and it is wrapped so that it can
+   never break the page.
+   ========================================================================= */
+(function(){
+  try {
+    var host = location.hostname;
+    if(!/(^|\.)automatenaija\.com$/.test(host)) return;
+    if(navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.globalPrivacyControl) return;
+
+    var own = host.replace(/^www\./, '');
+    var from = '';
+    try { if(document.referrer) from = new URL(document.referrer).hostname.replace(/^www\./, ''); } catch(e){}
+
+    /* A page reached from another page of this site is the same visit; one
+       reached from anywhere else (or from nowhere) starts a new one, and only
+       that one says how the visitor found us. */
+    var sameVisit = from === own;
+    var width = window.innerWidth || 1024;
+    var body = {
+      path: location.pathname,
+      entry: !sameVisit,
+      device: width < 640 ? 'mobile' : (width < 1024 ? 'tablet' : 'desktop')
+    };
+    if(!sameVisit){
+      if(from) body.ref = from;
+      if(window.URLSearchParams){
+        var q = new URLSearchParams(location.search);
+        body.utm_source = q.get('utm_source') || q.get('ref') || undefined;
+        body.utm_medium = q.get('utm_medium') || undefined;
+        body.utm_campaign = q.get('utm_campaign') || undefined;
+      }
+    }
+
+    var url = 'https://app.automatenaija.com/hit';
+    var json = JSON.stringify(body);
+    var sent = false;
+    if(navigator.sendBeacon){
+      sent = navigator.sendBeacon(url, new Blob([json], { type: 'text/plain;charset=UTF-8' }));
+    }
+    if(!sent && window.fetch){
+      fetch(url, { method: 'POST', body: json, mode: 'no-cors', keepalive: true }).catch(function(){});
+    }
+  } catch(e){ /* a lost count is a gap in a chart, never a broken page */ }
+})();
+
 (function(){
   "use strict";
 
