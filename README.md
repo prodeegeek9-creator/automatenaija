@@ -42,7 +42,30 @@ contact page rather than at a broken invite.
 ## Adding a blog post
 
 Copy an existing file in `blog/`, change the content, then add a card for it at
-the top of the list in `blog/index.html`.
+the top of the list in `blog/index.html`, just below the `NEW POSTS` marker.
+
+## Daily posts
+
+One post a day is written automatically. The "Automate Naija — Daily Blog Post"
+n8n workflow reads the last 24 hours of AI and automation questions (forums,
+Stack Overflow, Reddit, Hacker News, Google Trends, Google autocomplete), picks
+the most-asked problem no earlier post covers, writes a 1,000+ word post and
+saves it to the Supabase table `blog_posts`.
+
+`.github/workflows/publish-blog.yml` then runs `.github/blog/publish.mjs` every
+morning. For each new post it renders `blog/<slug>.html` from
+`.github/blog/post-template.html`, adds a card under the `NEW POSTS` marker in
+`blog/index.html`, rebuilds `sitemap.xml`, and commits. Cloudflare Pages deploys
+the commit. Run it by hand from the Actions tab ("Publish blog posts", Run
+workflow).
+
+- An existing page is never overwritten, so editing a published post by hand is
+  safe.
+- To change how every new post looks, edit `post-template.html`. Pages already
+  published keep their HTML.
+- To take a post down, set its row's `origin` to `manual` in `blog_posts` (the
+  action only publishes `auto` rows, and the topic stays recorded so it is never
+  written again), then delete its file and its card.
 
 ## Branding
 
