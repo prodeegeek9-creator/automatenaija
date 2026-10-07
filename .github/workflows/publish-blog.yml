@@ -1,0 +1,46 @@
+name: Publish blog posts
+
+# The "Automate Naija — Daily Blog Post" n8n workflow writes one post a day to
+# Supabase at 06:30 WAT. This turns any new post into a page and commits it;
+# Cloudflare Pages deploys the commit. The second run each morning is a
+# catch-up in case the first ran before the post was ready or GitHub delayed
+# the schedule. Runs are idempotent: an existing page is never rewritten.
+
+on:
+  schedule:
+    - cron: '15 6 * * *'   # 07:15 WAT
+    - cron: '15 9 * * *'   # 10:15 WAT
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-blog
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Render new posts
+        run: node .github/blog/publish.mjs
+
+      - name: Commit and push
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git config user.name "Automate Naija Blog"
+          git config user.email "hello@automatenaija.com"
+          git add blog sitemap.xml
+          git commit -m "Publish daily blog post"
+          git push

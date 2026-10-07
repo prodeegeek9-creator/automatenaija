@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automate Naija Blog</title>
-<meta name="description" content="Automation tutorials, product notes and build lessons from the Automate Naija team - written by the people running the build cycles.">
-<link rel="canonical" href="https://automatenaija.com/blog">
+<title>%%TITLE%%</title>
+<meta name="description" content="%%DESCRIPTION%%">
+<link rel="canonical" href="%%CANONICAL%%">
 
 <!-- Brand icons -->
 <link rel="icon" href="../favicon.ico" sizes="32x32">
@@ -17,10 +17,10 @@
 
 <!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
 <meta property="og:site_name" content="Automate Naija">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://automatenaija.com/blog">
-<meta property="og:title" content="Automate Naija Blog">
-<meta property="og:description" content="Automation tutorials, product notes and build lessons from the Automate Naija team - written by the people running the build cycles.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="%%CANONICAL%%">
+<meta property="og:title" content="%%TITLE%%">
+<meta property="og:description" content="%%DESCRIPTION%%">
 <meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
 <meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
 <meta property="og:image:type" content="image/png">
@@ -28,11 +28,12 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
 <meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="%%ISODATE%%">
 
 <!-- Link preview: X -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Automate Naija Blog">
-<meta name="twitter:description" content="Automation tutorials, product notes and build lessons from the Automate Naija team - written by the people running the build cycles.">
+<meta name="twitter:title" content="%%TITLE%%">
+<meta name="twitter:description" content="%%DESCRIPTION%%">
 <meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
 <meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
 
@@ -41,6 +42,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
 <script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">%%JSONLD%%</script>
 </head>
 <body>
 
@@ -93,47 +95,33 @@
 
 <div class="page-hero">
   <div class="wrap">
-    <span class="eyebrow">Blog</span>
-    <h1>Notes from the workshop floor.</h1>
-    <p class="lede">How we teach, what we are building, and the automation patterns that keep earning money for builders in Nigeria. Written by the people running the cycles.</p>
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / %%KICKER%%</p>
+    <span class="eyebrow">%%KICKER%%</span>
+    <h1>%%TITLE%%</h1>
+    <p class="lede">%%LEDE%%</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="%%ISODATE%%">%%DATE%%</time></span><span>&middot;</span><span>%%READ%% min read</span>
+    </div>
   </div>
 </div>
 
-<section style="padding-top:20px;">
+<section style="padding-top:10px;">
   <div class="wrap">
-    <div class="posts rv">
+    <article class="prose rv">
 
-      <!-- NEW POSTS: the Publish blog posts action adds each new card directly below this line. -->
+%%BODY%%
 
-      <a class="card post" href="why-we-built-automate-naija.html">
-        <div class="ptop"><span class="kicker">Inside AN</span><span>&middot;</span><span>6 min read</span></div>
-        <h3>Why we built Automate Naija</h3>
-        <p>Nigeria does not have an automation skills problem. It has a proof problem, an isolation problem and a distribution problem. Here is what we decided to build about it.</p>
-        <span class="more">Read the post &rarr;</span>
-      </a>
+%%FAQ%%
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
 
-      <a class="card post" href="how-the-automation-arena-works.html">
-        <div class="ptop"><span class="kicker">Product</span><span>&middot;</span><span>5 min read</span></div>
-        <h3>How the Automation Arena works</h3>
-        <p>Every challenge is a real business problem on a real deadline. What a cycle looks like from the inside, how XP works, and what you walk away with.</p>
-        <span class="more">Read the post &rarr;</span>
-      </a>
-
-      <a class="card post" href="your-first-n8n-workflow.html">
-        <div class="ptop"><span class="kicker">Tutorial</span><span>&middot;</span><span>8 min read</span></div>
-        <h3>Your first n8n workflow: answering WhatsApp leads automatically</h3>
-        <p>A walk-through of the smallest automation that still earns money: capture the lead, qualify it with AI, store it, and alert a human when it matters.</p>
-        <span class="more">Read the post &rarr;</span>
-      </a>
-
-    </div>
-
-    <div class="band rv" style="margin-top:34px;">
-      <h2>New posts land in the community first</h2>
-      <p>Join the free community to get the drafts, the workflow files and the challenge announcements before they show up here.</p>
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
       <div class="hero-actions">
-        <a href="../index.html#community" class="btn btn-solid btn-lg">Join the community</a>
-        <a href="../index.html#pricing" class="btn btn-line btn-lg">See pricing</a>
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
       </div>
     </div>
   </div>
