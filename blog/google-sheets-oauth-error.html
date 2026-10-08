@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix google sheets oauth error in n8n</title>
+<meta name="description" content="Fix google sheets oauth error by creating the correct Google OAuth client, adding exact redirect URIs, enabling Sheets and Drive APIs, and refreshing tokens...">
+<link rel="canonical" href="https://automatenaija.com/blog/google-sheets-oauth-error">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/google-sheets-oauth-error">
+<meta property="og:title" content="Fix google sheets oauth error in n8n">
+<meta property="og:description" content="Fix google sheets oauth error by creating the correct Google OAuth client, adding exact redirect URIs, enabling Sheets and Drive APIs, and refreshing tokens...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-08T04:32:11.599975+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fix google sheets oauth error in n8n">
+<meta name="twitter:description" content="Fix google sheets oauth error by creating the correct Google OAuth client, adding exact redirect URIs, enabling Sheets and Drive APIs, and refreshing tokens...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Fix google sheets oauth error in n8n","description":"Fix google sheets oauth error by creating the correct Google OAuth client, adding exact redirect URIs, enabling Sheets and Drive APIs, and refreshing tokens...","datePublished":"2026-10-08T04:32:11.599975+00:00","dateModified":"2026-10-08T04:32:11.599975+00:00","inLanguage":"en-NG","keywords":"google sheets oauth error, the oauth client was not found error, google sheets oauth 401 invalid client, n8n google sheets oauth","wordCount":1240,"mainEntityOfPage":"https://automatenaija.com/blog/google-sheets-oauth-error","url":"https://automatenaija.com/blog/google-sheets-oauth-error","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What exactly causes the oauth client was not found error with Google Sheets?","acceptedAnswer":{"@type":"Answer","text":"That error means Google cannot find a matching OAuth client for the request. Usually the Client ID or Authorized redirect URI in the Google Cloud Console does not match the values used by n8n. It can also happen if you enabled the API in a different project or used a service account instead of an OAuth client ID."}},{"@type":"Question","name":"What redirect URI should I add for a local n8n install?","acceptedAnswer":{"@type":"Answer","text":"For a default local n8n install add this redirect URI exactly: http://localhost:5678/rest/oauth2-credential/callback. If you run n8n on a different port or a reverse proxy, use the external URL users open, not the internal container address."}},{"@type":"Question","name":"Do I need the Google Drive API as well as Sheets?","acceptedAnswer":{"@type":"Answer","text":"If your workflow only accesses cell data you can use the Sheets scope. If your workflow opens, lists, or creates files on Drive, enable the Google Drive API and include the Drive scope: https://www.googleapis.com/auth/drive. Enabling both avoids permission errors when n8n needs to open spreadsheets stored in Drive."}},{"@type":"Question","name":"After fixing the redirect URI I still get invalid_client, what else should I check?","acceptedAnswer":{"@type":"Answer","text":"Verify the Client ID and Client secret in n8n match the JSON from Google, re-authenticate to get a new refresh token, ensure the OAuth consent screen has your account as a test user if unpublished, and confirm the OAuth client is in the same Google Cloud project where Sheets API is enabled."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Fix google sheets oauth error in n8n</h1>
+    <p class="lede">A tested checklist that fixes the google sheets oauth error by creating a proper Google Cloud OAuth client, adding the exact redirect URI that n8n expects, enabling Sheets and Drive APIs, and re-authenticating to get a refresh token.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-08T04:32:11.599975+00:00">8 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If your n8n workflow returns <code>The OAuth client was not found</code> or <code>Error 401: invalid_client</code> when using Google Sheets, the fix is usually a single mismatch: the Google OAuth client does not match the redirect URI or project where you enabled APIs. Correct the OAuth client, add the exact redirect URI n8n shows, enable the Sheets and Drive APIs, then re-authenticate.</p>
+
+<h2>Why this google sheets oauth error happens</h2>
+<p>Google rejects OAuth flows when the client ID or redirect URI do not match the values registered in the Google Cloud project. Common causes are:</p>
+<ul>
+  <li>Using credentials from the wrong Google Cloud project, or from a deleted project.</li>
+  <li>Redirect URI mismatch, including http vs https, missing or extra trailing slash, or wrong hostname or port.</li>
+  <li>Not enabling the <code>Google Sheets API</code> and, when needed, the <code>Google Drive API</code> in the same project as the OAuth client.</li>
+  <li>Using an API key or service account where OAuth client ID is required.</li>
+</ul>
+
+<h2>Step by step fix (tested checklist)</h2>
+<ol>
+  <li>Open Google Cloud Console, create or pick a project, then enable APIs: search for and enable <strong>Google Sheets API</strong> and <strong>Google Drive API</strong> (if your flows read or write spreadsheets stored on Drive).</li>
+  <li>Go to <strong>APIs &amp; Services &gt; OAuth consent screen</strong>. Choose External for public automation or Internal for G Suite accounts, add your app name and support email, and add these test scopes if asked: <code>https://www.googleapis.com/auth/spreadsheets</code> and <code>https://www.googleapis.com/auth/drive</code>. Save.</li>
+  <li>Go to <strong>APIs &amp; Services &gt; Credentials</strong> and create an <strong>OAuth 2.0 Client ID</strong>. For <em>Application type</em> choose <strong>Web application</strong>.</li>
+  <li>Add the exact redirect URI n8n needs. For self hosted n8n running at your domain copy this exact pattern, replacing <code>YOUR_DOMAIN</code>:
+    <pre><code>https://YOUR_DOMAIN/rest/oauth2-credential/callback</code></pre>
+    For local testing with the default n8n port use:
+    <pre><code>http://localhost:5678/rest/oauth2-credential/callback</code></pre>
+    If you use n8n Cloud or a managed workspace, copy the redirect URI shown in your n8n credential creation screen. Do not guess. Exact values matter.</li>
+  <li>After creating the client, click the download icon to get the JSON, or copy the <code>Client ID</code> and <code>Client secret</code>.</li>
+  <li>In n8n open Credentials and create a new Google Sheets OAuth2 credential. Paste the <code>Client ID</code> and <code>Client secret</code> into the credential fields. For the Redirect URI field in Google Cloud, ensure it exactly matches what n8n told you to use earlier.</li>
+  <li>Back in n8n click the button to connect or authenticate. When prompted, sign in with the Google account that has access to your sheets, approve the scopes. If you need long running access, grant offline access so a refresh token is issued.</li>
+  <li>If you saw <code>Error 401: invalid_client</code> or the oauth client was not found error again, re-check that the client ID in n8n matches the JSON and that the redirect URI in the Google Cloud console is byte for byte identical to the URI n8n provided. Common gotchas are missing trailing slashes, http vs https, or wrong port.</li>
+</ol>
+
+<h2>n8n specific notes for the Google Sheets OAuth flow</h2>
+<p>n8n shows the exact redirect URI to use when you create an OAuth2 credential. In the Credentials screen pick the Google Sheets credential type, then look for any helper text or a copy button that gives the Redirect URI. Use that exact string in Google Cloud Console under your OAuth client Authorized redirect URIs.</p>
+<p>Typical values you can copy and adapt:</p>
+<ul>
+  <li>Self hosted production: <code>https://mydomain.com/rest/oauth2-credential/callback</code></li>
+  <li>Local n8n: <code>http://localhost:5678/rest/oauth2-credential/callback</code></li>
+</ul>
+<p>If your n8n instance is behind a proxy or load balancer, ensure the external URL that users open is the same host used in the redirect URI. If you still have problems, the n8n community thread about this error contains real user reports and fixes, see this <a href="https://community.n8n.io/t/google-sheets-oauth-error-the-oauth-client-was-not-found-error-401-invalid-client/319354" target="_blank" rel="noopener noreferrer">n8n forum thread on The OAuth client was not found</a>.</p>
+
+<h2>Troubleshoot tokens, permissions and common pitfalls</h2>
+<ul>
+  <li>If the consent screen is not published, test accounts are limited. Add your Google account to the test users list under OAuth consent screen, or publish the app if ready.</li>
+  <li>Confirm the OAuth client belongs to the same project where you enabled the Sheets and Drive APIs. Enabling APIs in a different project will not help.</li>
+  <li>Check that the n8n Google Sheets credential requests the correct scopes. At minimum use <code>https://www.googleapis.com/auth/spreadsheets</code>. If you need to open files on Drive also include <code>https://www.googleapis.com/auth/drive</code>.</li>
+  <li>When you update redirect URIs or client secrets, you must re-authenticate from n8n to obtain a fresh access token and refresh token. Old tokens may be invalid after changes.</li>
+  <li>If you see <code>invalid_client</code> while using a Client ID that looks correct, verify there are no hidden characters or line breaks when copying. Paste into a plain text editor to confirm.</li>
+</ul>
+
+<h2>How to stop this recurring problem</h2>
+<ul>
+  <li>Document the Google Cloud project name, Client ID and the exact redirect URI used for each n8n workspace.</li>
+  <li>Use environment variables or secrets to store client ID and secret securely, and avoid recreating credentials unnecessarily.</li>
+  <li>When moving n8n between hosts, update the redirect URI first, then re-authenticate. Test on a single spreadsheet before deploying widely.</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>If you followed the checklist and still get <code>The OAuth client was not found</code> or <code>Error 401: invalid_client</code>, collect these items before asking for help: exact error text, the redirect URI you registered, the client ID shown in Google Cloud, and whether the Google Sheets and Drive APIs are enabled in the same project. Post them on the n8n community or consult a developer who manages your n8n host. For related thread discussion see this additional post about credential types and triggers <a href="https://community.n8n.io/t/hubspot-trigger-requires-a-different-credential-from-the-hubspot-oauth-credential/319479" target="_blank" rel="noopener noreferrer">about HubSpot credential differences</a>, which highlights how triggers and actions sometimes need separate credentials.</p>
+
+<p>If you want examples and a walkthrough of other n8n troubleshooting steps, see our post on webhooks <a href="https://automatenaija.com/blog/n8n-webhook-not-receiving-data">Fix n8n webhook not receiving data</a>.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>, where we teach practical n8n and AI automation skills.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What exactly causes the oauth client was not found error with Google Sheets?</h3>
+      <p>That error means Google cannot find a matching OAuth client for the request. Usually the Client ID or Authorized redirect URI in the Google Cloud Console does not match the values used by n8n. It can also happen if you enabled the API in a different project or used a service account instead of an OAuth client ID.</p>
+      <h3>What redirect URI should I add for a local n8n install?</h3>
+      <p>For a default local n8n install add this redirect URI exactly: http://localhost:5678/rest/oauth2-credential/callback. If you run n8n on a different port or a reverse proxy, use the external URL users open, not the internal container address.</p>
+      <h3>Do I need the Google Drive API as well as Sheets?</h3>
+      <p>If your workflow only accesses cell data you can use the Sheets scope. If your workflow opens, lists, or creates files on Drive, enable the Google Drive API and include the Drive scope: https://www.googleapis.com/auth/drive. Enabling both avoids permission errors when n8n needs to open spreadsheets stored in Drive.</p>
+      <h3>After fixing the redirect URI I still get invalid_client, what else should I check?</h3>
+      <p>Verify the Client ID and Client secret in n8n match the JSON from Google, re-authenticate to get a new refresh token, ensure the OAuth consent screen has your account as a test user if unpublished, and confirm the OAuth client is in the same Google Cloud project where Sheets API is enabled.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

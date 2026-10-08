@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://automatenaija.com/about</loc></url>
+  <url><loc>https://automatenaija.com/blog/google-sheets-oauth-error</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://automatenaija.com/blog/how-the-automation-arena-works</loc></url>
   <url><loc>https://automatenaija.com/blog</loc></url>
   <url><loc>https://automatenaija.com/blog/n8n-webhook-not-receiving-data</loc><lastmod>2026-10-07</lastmod></url>
