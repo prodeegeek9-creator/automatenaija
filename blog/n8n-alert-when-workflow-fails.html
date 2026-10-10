@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N8n alert when workflow fails</title>
+<meta name="description" content="n8n alert when workflow fails: get a ready-to-import 3-node workflow that sends error notifications, plus scaling tips to aggregate alerts and avoid alert...">
+<link rel="canonical" href="https://automatenaija.com/blog/n8n-alert-when-workflow-fails">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/n8n-alert-when-workflow-fails">
+<meta property="og:title" content="N8n alert when workflow fails">
+<meta property="og:description" content="n8n alert when workflow fails: get a ready-to-import 3-node workflow that sends error notifications, plus scaling tips to aggregate alerts and avoid alert...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-10T04:32:05.860187+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="N8n alert when workflow fails">
+<meta name="twitter:description" content="n8n alert when workflow fails: get a ready-to-import 3-node workflow that sends error notifications, plus scaling tips to aggregate alerts and avoid alert...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"N8n alert when workflow fails","description":"n8n alert when workflow fails: get a ready-to-import 3-node workflow that sends error notifications, plus scaling tips to aggregate alerts and avoid alert...","datePublished":"2026-10-10T04:32:05.860187+00:00","dateModified":"2026-10-10T04:32:05.860187+00:00","inLanguage":"en-NG","keywords":"n8n alert when workflow fails, n8n error notification, n8n workflow failed alert, get alerted when n8n workflow fails, n8n error handler","wordCount":1189,"mainEntityOfPage":"https://automatenaija.com/blog/n8n-alert-when-workflow-fails","url":"https://automatenaija.com/blog/n8n-alert-when-workflow-fails","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can this 3-node collector work on n8n Cloud and self-hosted?","acceptedAnswer":{"@type":"Answer","text":"Yes. The pattern uses a Webhook node to receive POSTs, a Code node to normalise the payload, and an HTTP Request node to forward notifications. Both n8n Cloud and self-hosted support these nodes. Ensure the webhook URL is reachable from the workflows that will send errors."}},{"@type":"Question","name":"How do I make all my workflows send errors to the collector without editing each one?","acceptedAnswer":{"@type":"Answer","text":"If your n8n version supports a global Error Workflow or an Error Trigger node, point that to the collector. If not, add a small error branch in each workflow that POSTs the error JSON to the collector webhook, or use an external monitor to poll the Executions API and forward failures."}},{"@type":"Question","name":"How do I avoid duplicate alerts for the same issue?","acceptedAnswer":{"@type":"Answer","text":"Deduplicate at the collector by hashing the workflow name plus a core part of the error text, then suppress identical hashes for a time window (for example 10 minutes). Alternatively batch similar errors and send a grouped summary every few minutes."}},{"@type":"Question","name":"What if the collector itself fails or gets overwhelmed?","acceptedAnswer":{"@type":"Answer","text":"Run the collector on a dedicated n8n worker, add basic retry and exponential backoff in the sending node, and implement batching to reduce throughput. Also add health checks or an external uptime monitor so you know when the aggregator is down."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>N8n alert when workflow fails</h1>
+    <p class="lede">A simple 3-node n8n workflow collects error webhooks and sends a notification. This guide gives the no-credentials workflow, setup steps for self-hosted and cloud, and scaling tips to stop alert storms.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-10T04:32:05.860187+00:00">10 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If you need an n8n alert when workflow fails, use a small 3-node collector workflow that accepts a POST from any failed workflow, normalises the error, and forwards a single notification. The workflow uses only the Webhook, Code and HTTP Request nodes, so it works in both self-hosted and n8n Cloud without stored credentials.</p>
+
+<h2>Why this happens</h2>
+<p>n8n runs many workflows, and each one can fail for different reasons: API errors, timeouts, rate limits, bad input, Google Sheets oauth breaks, or transient network issues. When every failing workflow sends its own instant notification you quickly get an alert storm. Also, different instances or containers have no central alarm channel by default, so you need a small aggregator that deduplicates and groups errors.</p>
+
+<h2>n8n alert when workflow fails: the 3-node workflow</h2>
+<p>Below is the exporter you can import or recreate. It uses three nodes, and you do not need to save credentials in n8n. The workflow receives an error POST, formats a single short message, and posts to any HTTP webhook like Slack, Microsoft Teams, or a custom receiver.</p>
+
+<ol>
+  <li>
+    <strong>Webhook (trigger)</strong>
+    <p>Add a <code>Webhook</code> node. Set <code>HTTP Method</code> to <code>POST</code>. Set <code>Path</code> to something like <code>n8n-error-collector</code>. This node is the public endpoint your other workflows will POST to when they fail.</p>
+  </li>
+  <li>
+    <strong>Code (transform)</strong>
+    <p>Add a <code>Code</code> node connected to the Webhook. Use JavaScript to normalise incoming body shapes and produce a concise JSON object. Example code to put in the Code node:</p>
+    <pre><code>const p = items[0].json;
+return [{ json: {
+  instance: p.instance || p.host || 'unknown',
+  workflowName: p.workflowName || p.workflowId || p.name || 'workflow',
+  executionId: p.executionId || p.id || null,
+  error: (p.error && (p.error.message || p.error)) || p.message || JSON.stringify(p).slice(0,1000),
+  ts: new Date().toISOString()
+}}];</code></pre>
+    <p>This keeps messages small and consistent, and produces keys used by later nodes.</p>
+  </li>
+  <li>
+    <strong>HTTP Request (notify)</strong>
+    <p>Add an <code>HTTP Request</code> node to post the formatted JSON to your notification endpoint. Set <code>Method</code> to <code>POST</code>, <code>URL</code> to an incoming webhook URL such as a Slack Incoming Webhook (<code>https://hooks.slack.com/services/XXX</code>) or a simple HTTP receiver you control. Set the body type to <code>JSON</code> and in the body use the transformed fields, for example:</p>
+    <pre><code>{
+  "text": "[{{ $json.ts }}] n8n error: {{ $json.workflowName }} on {{ $json.instance }}\n{{ $json.error }}\nExecution: {{ $json.executionId }}"
+}</code></pre>
+    <p>No credential entry is needed in n8n if you paste the full webhook URL into the <code>URL</code> field. For sensitive targets, keep the URL secret and use n8n credentials instead.</p>
+  </li>
+</ol>
+
+<h2>Step-by-step: sending failures from many workflows</h2>
+<ol>
+  <li>Deploy the collector workflow above and enable it. Note the full webhook URL shown by the Webhook node, for example <code>https://your-n8n-host/webhook/n8n-error-collector</code>.</li>
+  <li>In each workflow you want monitored, add a final error handler that POSTS a small JSON to that collector URL when the workflow fails. There are three ways to do this depending on your n8n setup:
+    <ul>
+      <li>If your n8n version has an Error Trigger or per-workflow Error Workflow option, point that to the collector workflow.</li>
+      <li>If not, add an HTTP Request node in the failure branch of your workflow and POST the error details to the collector URL.</li>
+      <li>As a fallback, have an external monitor poll the n8n Executions API and POST failures to the collector. This requires API access.</li>
+    </ul>
+  </li>
+  <li>Test by causing a known failure, confirm the collector receives the POST and that the HTTP Request sends a concise notification to your target channel.</li>
+</ol>
+
+<h2>Tool-specific notes and links</h2>
+<ul>
+  <li>n8n Cloud and self-hosted: The Webhook node is available on both. Use the same workflow on either. If your instance is behind a load balancer, ensure the webhook path is reachable from the workflows that will POST errors.</li>
+  <li>Slack and Teams: use incoming webhook URLs. Paste the full URL into the HTTP Request node, Method POST, Content Type application/json. For Slack keep messages under 4000 chars to avoid truncation.</li>
+  <li>Make.com and Zapier users: the same central webhook pattern applies. In Make.com build a scenario that posts to the n8n collector webhook. In Zapier use a Webhooks by Zapier action to POST JSON to the collector.</li>
+  <li>If you see Google Sheets oauth errors often, consider our guide to fixing that specific issue: <a href="https://automatenaija.com/blog/google-sheets-oauth-error">Fix google sheets oauth error in n8n</a>.</li>
+</ul>
+
+<h2>How to stop alert storms and scale across instances</h2>
+<ul>
+  <li><strong>Deduplicate:</strong> In the Code node calculate a short signature hash from <code>workflowName</code> and the first 200 characters of <code>error</code>. Store recent hashes in a small cache or in-memory map in a separate workflow and suppress repeats for a window (eg 10 minutes).</li>
+  <li><strong>Group and batch:</strong> Instead of one message per failure, buffer errors for 1 to 5 minutes and send grouped summaries. This reduces notifications when a dependent API is down.</li>
+  <li><strong>Severity and thresholds:</strong> Only forward errors that include specific keywords or HTTP status codes you care about. For transient 429 or 502 errors count and only alert after N occurrences.</li>
+  <li><strong>Central aggregator per organisation:</strong> Run one collector per organisation or team, and point all instances there. For multi-instance setups use a DNS name that rounds to the right collector. If you need higher throughput run the collector on a dedicated n8n worker.</li>
+  <li><strong>Backoff and silence windows:</strong> Add silence windows in working hours or during maintenance. Provide a manual mute switch in your aggregator workflow.</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>If a single workflow keeps failing and your collector shows repeated errors, debug that workflow first, look for failing API responses and check credentials. If you prefer community help, see the free thread with an example collector workflow on the n8n forum: <a href="https://community.n8n.io/t/free-workflow-get-alerted-when-any-n8n-workflow-fails-3-nodes-no-credentials/319981" target="_blank" rel="noopener noreferrer">Free workflow: get alerted when ANY n8n workflow fails</a>. For paid diagnostics people also post offers such as this thread: <a href="https://community.n8n.io/t/for-hire-150-diagnosis-for-one-failing-n8n-workflow/319971" target="_blank" rel="noopener noreferrer">For hire: diagnosis for one failing n8n workflow</a>.</p>
+
+<p>If you need a hand building the collector or setting dedupe and batching rules, reach out to a consultant or bring the issue to our Automate Naija community for practical help.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Can this 3-node collector work on n8n Cloud and self-hosted?</h3>
+      <p>Yes. The pattern uses a Webhook node to receive POSTs, a Code node to normalise the payload, and an HTTP Request node to forward notifications. Both n8n Cloud and self-hosted support these nodes. Ensure the webhook URL is reachable from the workflows that will send errors.</p>
+      <h3>How do I make all my workflows send errors to the collector without editing each one?</h3>
+      <p>If your n8n version supports a global Error Workflow or an Error Trigger node, point that to the collector. If not, add a small error branch in each workflow that POSTs the error JSON to the collector webhook, or use an external monitor to poll the Executions API and forward failures.</p>
+      <h3>How do I avoid duplicate alerts for the same issue?</h3>
+      <p>Deduplicate at the collector by hashing the workflow name plus a core part of the error text, then suppress identical hashes for a time window (for example 10 minutes). Alternatively batch similar errors and send a grouped summary every few minutes.</p>
+      <h3>What if the collector itself fails or gets overwhelmed?</h3>
+      <p>Run the collector on a dedicated n8n worker, add basic retry and exponential backoff in the sending node, and implement batching to reduce throughput. Also add health checks or an external uptime monitor so you know when the aggregator is down.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
