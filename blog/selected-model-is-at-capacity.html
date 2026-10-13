@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selected model is at capacity: developer fixes</title>
+<meta name="description" content="Fix the selected model is at capacity error, detect it programmatically, add exponential backoff with jitter, route to fallback models or endpoints, and add...">
+<link rel="canonical" href="https://automatenaija.com/blog/selected-model-is-at-capacity">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/selected-model-is-at-capacity">
+<meta property="og:title" content="Selected model is at capacity: developer fixes">
+<meta property="og:description" content="Fix the selected model is at capacity error, detect it programmatically, add exponential backoff with jitter, route to fallback models or endpoints, and add...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-13T04:31:48.443942+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Selected model is at capacity: developer fixes">
+<meta name="twitter:description" content="Fix the selected model is at capacity error, detect it programmatically, add exponential backoff with jitter, route to fallback models or endpoints, and add...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Selected model is at capacity: developer fixes","description":"Fix the selected model is at capacity error, detect it programmatically, add exponential backoff with jitter, route to fallback models or endpoints, and add...","datePublished":"2026-10-13T04:31:48.443942+00:00","dateModified":"2026-10-13T04:31:48.443942+00:00","inLanguage":"en-NG","keywords":"selected model is at capacity, selected model is at capacity openai, chatgpt model at capacity, openai model capacity error, model at capacity api","wordCount":1292,"mainEntityOfPage":"https://automatenaija.com/blog/selected-model-is-at-capacity","url":"https://automatenaija.com/blog/selected-model-is-at-capacity","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What exactly triggers selected model is at capacity?","acceptedAnswer":{"@type":"Answer","text":"This error appears when OpenAI has temporarily exhausted capacity for a specific model. The API often returns HTTP 429 or a transient 5xx with an error message containing that phrase. It is usually transient and not caused by an invalid key. Detect both status and the error text to classify it properly."}},{"@type":"Question","name":"How many retries should I perform after a model at capacity error?","acceptedAnswer":{"@type":"Answer","text":"Keep retries small, typically 3 to 5 attempts. Use exponential backoff with jitter, for example 500ms, 1s, 2s, 4s with +/-20 percent jitter. Stop retries when you hit the max attempts or if the server returns a non-transient error."}},{"@type":"Question","name":"Can I automatically switch models when the primary is at capacity?","acceptedAnswer":{"@type":"Answer","text":"Yes, maintain a tested fallback model in your configuration. On detecting capacity errors, route the request to the fallback and mark the original model as degraded in a short-term cache. Ensure the fallback produces acceptable results for your use case before switching automatically."}},{"@type":"Question","name":"How do I implement a circuit-breaker for my automations?","acceptedAnswer":{"@type":"Answer","text":"Track recent transient failures per model or endpoint. If failures exceed a threshold, open the circuit for a set window, return a graceful UX response or queue the job, and poll the API periodically. Use Redis or platform storage to maintain counters across processes, and close the circuit only after a successful health check."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Selected model is at capacity: developer fixes</h1>
+    <p class="lede">A developer guide to detect and recover when OpenAI returns Selected model is at capacity, including backoff code, circuit-breaker rules and no-code snippets for n8n, Make.com and Zapier.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-13T04:31:48.443942+00:00">13 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If you see the error message selected model is at capacity, detect it by checking for HTTP 429 or an error.message containing that phrase, then retry with exponential backoff and jitter, route requests to a fallback model or regional endpoint, and open a circuit-breaker after repeated failures so automations keep running without blocking users.</p>
+
+<h2>Why you see selected model is at capacity</h2>
+<p>OpenAI limits concurrent capacity for popular ChatGPT models to keep the system stable. Heavy global demand can make a particular model temporarily unavailable, producing the selected model is at capacity openai message. That is different from API keys being invalid. The server typically returns a 429 rate limit or a 503/5xx when capacity is exhausted, and the response body often contains a human readable error like "Selected model is at capacity. Please try a different model." See recent reports on the OpenAI developer forum with similar symptoms for confirmation.</p>
+
+<h2>Step by step fix, developer workflow</h2>
+<ol>
+  <li>Detect the error programmatically. Treat HTTP 429 and 503 responses as transient. Also parse JSON error text for phrases like "selected model is at capacity" or "model at capacity" so you can classify the failure.</li>
+  <li>Implement exponential backoff with jitter. Start with a small base delay, double on each retry, add random jitter, and cap retries. A typical pattern: 500ms, 1s, 2s, 4s with +/- 20 percent jitter, then stop after 4 attempts.</li>
+  <li>Route to fallback models or regional endpoints. If the primary model is overloaded, retry the same request against a fallback model such as a smaller GPT variant you have tested, or a different regional endpoint if your plan supports it.</li>
+  <li>Read standard rate limit headers where available, and respect the Retry-After header. If the server returns Retry-After, use that value instead of your backoff calculation.</li>
+  <li>Use a circuit-breaker. Track recent failures, and when failures exceed a threshold within a window, open the circuit for a minute or more, return a graceful response, and poll the API to close the circuit when healthy.</li>
+  <li>Add UX fallbacks. For synchronous flows, show a friendly message like "We are experiencing temporary capacity limits. Please try again in a minute" and allow queuing. For background tasks, enqueue the job and process with exponential backoff until success or maximum retries.</li>
+</ol>
+
+<h2>Code: exponential backoff with jitter (JavaScript)</h2>
+<p>Use this in server code, n8n Code node, or any JS-enabled step to retry OpenAI calls.</p>
+<pre><code>async function retryWithBackoff(fn, maxAttempts = 4, baseMs = 500) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      const isTransient = err.status === 429 || err.status === 503 || /selected model is at capacity/i.test(err.message || "");
+      if (!isTransient || attempt === maxAttempts) throw err;
+      const backoff = Math.min(baseMs * 2 ** (attempt - 1), 8000);
+      const jitter = Math.random() * (backoff * 0.4) - backoff * 0.2; // +/-20%
+      const wait = Math.round(backoff + jitter);
+      await new Promise(r => setTimeout(r, wait));
+    }
+  }
+}
+</code></pre>
+
+<h2>Tool-specific notes: n8n, Make.com and Zapier</h2>
+<p>n8n</p>
+<ul>
+  <li>Use the HTTP Request node to call OpenAI if you need custom control. Set Method to <code>POST</code>, add your <code>Authorization: Bearer YOUR_KEY</code> header, and set Body Parameters with <code>model</code> and <code>messages</code>.</li>
+  <li>Put retry logic inside a Code node. Call the HTTP Request node using an Execute Workflow or use Code node + fetch and implement the JavaScript retryWithBackoff function shown above. Keep retries limited to avoid long-running workflow executions.</li>
+  <li>For alerting, combine with the n8n node that sends emails or Slack messages on repeated failures, see our guide on getting alerted when workflows fail.</li>
+</ul>
+<p>Make.com</p>
+<ul>
+  <li>In a scenario use the HTTP module to call OpenAI. After the call, inspect the HTTP status. If it is 429 or the response body contains the capacity text, use a Router to route to a flow that sleeps and retries.</li>
+  <li>Use the Sleep module to implement backoff. Increase the Sleep duration on each retry using variables stored in Data Store or an iterator count.</li>
+  <li>For fallbacks, create a parallel path to call the API with a smaller model name or to enqueue the request into a queue (Google Sheets, Airtable) to retry later.</li>
+</ul>
+<p>Zapier</p>
+<ul>
+  <li>Use Webhooks by Zapier or the OpenAI app step. Wrap the call with a Zap that uses Paths or Storage to count retries.</li>
+  <li>On 429 or error text containing capacity, branch to a Delay by Zapier step, then a second attempt. Keep attempts small because Zap runs have limits.</li>
+  <li>For UX, use a follow-up email step to tell users their request is queued and will be processed shortly.</li>
+</ul>
+
+<h2>How to stop it happening again</h2>
+<ul>
+  <li>Spread load: avoid bursty traffic. Throttle user-facing requests client-side, aggregate prompts server-side, and batch where possible.</li>
+  <li>Use fallback models: keep a tested secondary model in your config and switch automatically when you detect capacity problems.</li>
+  <li>Implement caching for identical prompts to reduce repeated calls.</li>
+  <li>Monitor usage: add logging and metrics for 429 rates and error messages so you can spot trends early and contact OpenAI support for upticks tied to your key.</li>
+  <li>Consider rate limits: design UIs that do not encourage repeated immediate retries by users. Show progress states and queue items.</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>If retries and fallback models do not recover the situation after several minutes, and many users are affected, open a support ticket with OpenAI and include timestamps, request ids if present, and sample error responses. Also check the OpenAI developer forum threads where others report the same issue, for example this thread about Selected model is at capacity and a related thread describing wide outages. If the problem is specific to your account, OpenAI support can investigate. If it is global, use fallbacks and circuit-breakers to keep your product usable while the provider resolves capacity.</p>
+
+<h2>Example circuit-breaker rules</h2>
+<p>Simple rule to protect your automation: if you see 5 capacity errors within 60 seconds for a given endpoint or model, open the circuit for 60 seconds. While open, return a cached result or a queued-acknowledgement to the user and poll the API every 15 seconds for a successful response to close the circuit. Implement counters in Redis, in-memory store for small setups, or your platform storage.</p>
+
+<p>For debugging tips, capture the full response body and headers when you get 429 or capacity errors, so you can see if a <code>Retry-After</code> header is supplied. For more on developers reporting the same message, see the OpenAI community thread about selected model is at capacity and another thread about model-wide capacity issues.</p>
+
+<p>Keep retries conservative, prefer graceful degradation for users, and route to tested fallback models or background queues. If you use n8n workflows, combine the Code node backoff with the HTTP Request node to avoid workflow timeouts and add alerts so you know when the circuit opens. See our post on n8n alerts for workflow failures for implementation ideas.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What exactly triggers selected model is at capacity?</h3>
+      <p>This error appears when OpenAI has temporarily exhausted capacity for a specific model. The API often returns HTTP 429 or a transient 5xx with an error message containing that phrase. It is usually transient and not caused by an invalid key. Detect both status and the error text to classify it properly.</p>
+      <h3>How many retries should I perform after a model at capacity error?</h3>
+      <p>Keep retries small, typically 3 to 5 attempts. Use exponential backoff with jitter, for example 500ms, 1s, 2s, 4s with +/-20 percent jitter. Stop retries when you hit the max attempts or if the server returns a non-transient error.</p>
+      <h3>Can I automatically switch models when the primary is at capacity?</h3>
+      <p>Yes, maintain a tested fallback model in your configuration. On detecting capacity errors, route the request to the fallback and mark the original model as degraded in a short-term cache. Ensure the fallback produces acceptable results for your use case before switching automatically.</p>
+      <h3>How do I implement a circuit-breaker for my automations?</h3>
+      <p>Track recent transient failures per model or endpoint. If failures exceed a threshold, open the circuit for a set window, return a graceful UX response or queue the job, and poll the API periodically. Use Redis or platform storage to maintain counters across processes, and close the circuit only after a successful health check.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
