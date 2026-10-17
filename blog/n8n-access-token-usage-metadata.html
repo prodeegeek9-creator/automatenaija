@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N8n access token usage metadata: extract &amp; log</title>
+<meta name="description" content="n8n access token usage metadata explained, so you can extract per-request tokens, calculate cost and log usage for each LLM call in n8n workflows.">
+<link rel="canonical" href="https://automatenaija.com/blog/n8n-access-token-usage-metadata">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/n8n-access-token-usage-metadata">
+<meta property="og:title" content="N8n access token usage metadata: extract &amp; log">
+<meta property="og:description" content="n8n access token usage metadata explained, so you can extract per-request tokens, calculate cost and log usage for each LLM call in n8n workflows.">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-17T04:32:19.063362+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="N8n access token usage metadata: extract &amp; log">
+<meta name="twitter:description" content="n8n access token usage metadata explained, so you can extract per-request tokens, calculate cost and log usage for each LLM call in n8n workflows.">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"N8n access token usage metadata: extract & log","description":"n8n access token usage metadata explained, so you can extract per-request tokens, calculate cost and log usage for each LLM call in n8n workflows.","datePublished":"2026-10-17T04:32:19.063362+00:00","dateModified":"2026-10-17T04:32:19.063362+00:00","inLanguage":"en-NG","keywords":"n8n access token usage metadata, n8n llm token usage, llm token usage metadata n8n, n8n track llm tokens, n8n calculate llm costs","wordCount":1243,"mainEntityOfPage":"https://automatenaija.com/blog/n8n-access-token-usage-metadata","url":"https://automatenaija.com/blog/n8n-access-token-usage-metadata","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Where exactly do I find token usage in an n8n LLM node output?","acceptedAnswer":{"@type":"Answer","text":"Look for a JSON object called usage in the node output. With OpenAI style responses it is usually at items[0].json.usage and contains prompt_tokens , completion_tokens and total_tokens . Some integrations nest it under data so inspect the raw JSON in the Execution view."}},{"@type":"Question","name":"How do I pass token counts to downstream nodes in n8n?","acceptedAnswer":{"@type":"Answer","text":"Normalize the usage fields immediately after the LLM call using a Code node or a Set node. Return top level keys like llm_total_tokens . Subsequent nodes can read them with expressions like {{$json[\"llm_total_tokens\"]}} ."}},{"@type":"Question","name":"How do I calculate per-request cost for different models?","acceptedAnswer":{"@type":"Answer","text":"Store a price per 1000 tokens map for the models you use, then compute cost as (total_tokens / 1000) * pricePerThousand[model] . Put this logic in a reusable Code node so all workflows use the same rates and output a consistent llm_cost field."}},{"@type":"Question","name":"What if the usage metadata is missing or suddenly spikes?","acceptedAnswer":{"@type":"Answer","text":"If usage is missing, confirm you are using an endpoint that returns it. If you see spikes, check for accidental loops, duplicated requests, or streaming settings that cause retries. If you cannot resolve it, share a redacted example in the n8n community thread for help."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>N8n access token usage metadata: extract &amp; log</h1>
+    <p class="lede">Extract the token usage object from LLM responses, normalise prompt, completion and total tokens, compute per-request cost, and pass the fields downstream in n8n.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-17T04:32:19.063362+00:00">17 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If your n8n workflow is calling an LLM and you want to track tokens and costs, extract the token usage object from the node output (usually at <code> {{$json["usage"]}}</code> for OpenAI style responses), normalise fields into top level JSON, then calculate cost using a price per 1k tokens and pass the result to subsequent nodes.</p>
+
+<h2>Why token usage arrives the way it does</h2>
+<p>Most LLM APIs return token metadata in a response field called <code>usage</code> containing <code>prompt_tokens</code>, <code>completion_tokens</code> and <code>total_tokens</code>. When you call a model via n8n the raw response becomes the node output. If you used the HTTP Request node to call OpenAI Chat Completions or the built in OpenAI integration, you will usually find the usage object at <code>items[0].json.usage</code>. Other integrations or vendors sometimes nest it under <code>data</code> or change names, which is why you must normalise before logging or costing.</p>
+
+<h2>n8n access token usage metadata: quick reference</h2>
+<p>Common JSON paths you will use in n8n expressions or the Code node:</p>
+<ul>
+  <li>OpenAI / HTTP Request node standard response: <code>{{$json["usage"]["total_tokens"]}}</code>, <code>{{$json["usage"]["prompt_tokens"]}}</code></li>
+  <li>If API returned an outer <code>data</code> object: <code>{{$json["data"]["usage"]["total_tokens"]}}</code></li>
+  <li>n8n OpenAI integration sometimes returns the full API JSON at <code>items[0].json</code>, so use the same paths above</li>
+</ul>
+<p>Use these expressions in a Set node to expose token fields as top level properties so subsequent nodes can read <code>{{$json["llm_total_tokens"]}}</code> or similar.</p>
+
+<h2>Step by step fix: extract, normalise, calculate, log</h2>
+<ol>
+  <li>Make the LLM call with the node you use, for example <code>HTTP Request</code> or your OpenAI/LLM node. Confirm a successful run and open the Execution view to inspect the raw JSON output.</li>
+  <li>Locate the token usage object. Look for <code>usage</code> at the root or under <code>data</code>. The usual OpenAI shape is: <pre>{
+  "usage": {"prompt_tokens": 10, "completion_tokens": 40, "total_tokens": 50}
+}</pre></li>
+  <li>Add a <code>Code</code> node directly after the LLM node to normalise all possible shapes and compute cost. This keeps logic in one place and is reusable. See the sample Code node below.</li>
+  <li>Return a top level object with fields like <code>llm_model</code>, <code>llm_prompt_tokens</code>, <code>llm_completion_tokens</code>, <code>llm_total_tokens</code>, <code>llm_cost</code> and <code>llm_currency</code>. Subsequent nodes can reference them with expressions like <code>{{$json["llm_total_tokens"]}}</code>.</li>
+  <li>Use a Set node or a database write step to append the object to your usage log. Store the model, timestamp and cost per request to enable aggregation and monthly billing alerts.</li>
+</ol>
+
+<h2>Reusable subworkflow pattern and Code node snippet</h2>
+<p>Create a subworkflow or reusable workflow that takes the LLM node output and returns a single normalized item. Drop a <code>Code</code> node in and paste this snippet. It handles common shapes and calculates cost using a price-per-1000-tokens map you control.</p>
+<pre>// Code node (JavaScript)
+const pricePerThousand = {
+  "gpt-3.5-turbo": 0.002, // set your own values
+  "gpt-4": 0.03,
+  "default": 0.01
+};
+
+function safeGet(obj, path) {
+  return path.reduce((o, k) => (o && o[k] !== undefined) ? o[k] : undefined, obj);
+}
+
+const out = [];
+for (const item of items) {
+  const json = item.json;
+
+  // Try common places for usage and model
+  const usage = json.usage || safeGet(json, ["data", "usage"]) || safeGet(json, ["response", "usage"]); 
+  const model = json.model || safeGet(json, ["data", "model"]) || safeGet(json, ["model"]) || "unknown";
+
+  const prompt_tokens = usage && usage.prompt_tokens ? usage.prompt_tokens : null;
+  const completion_tokens = usage && usage.completion_tokens ? usage.completion_tokens : null;
+  const total_tokens = usage && usage.total_tokens ? usage.total_tokens : null;
+
+  const priceKey = model in pricePerThousand ? model : "default";
+  const rate = pricePerThousand[priceKey];
+  const cost = (total_tokens && rate) ? (total_tokens / 1000) * rate : null;
+
+  out.push({
+    json: {
+      llm_model: model,
+      llm_prompt_tokens: prompt_tokens,
+      llm_completion_tokens: completion_tokens,
+      llm_total_tokens: total_tokens,
+      llm_cost: cost,
+      llm_currency: "USD"
+    }
+  });
+}
+
+return out;</pre>
+<p>Adjust <code>pricePerThousand</code> to current rates you want to use. This Code node returns a clean object other nodes can use directly.</p>
+
+<h2>Tool specific notes: n8n expressions and Set node wiring</h2>
+<p>In a Set node you can copy the values created by the Code node into fields you want to persist. For example add a field <code>total_tokens</code> with value <code>{{$json["llm_total_tokens"]}}</code>. If you call the LLM with the HTTP Request node and do not want JavaScript, map <code>{{$json["usage"]["total_tokens"]}}</code> directly in the Set node but be aware of nested shapes.</p>
+<p>If you use Make.com or Zapier instead, the same principles apply: locate the usage object in the API response, normalise it to well named fields, compute cost using a small multiplier, and write to storage. In Make.com build a module to parse JSON and in Zapier use a Code by Zapier step with similar JS logic.</p>
+
+<h2>How to stop surprises and n8n track llm tokens reliably</h2>
+<p>1) Always normalise the usage data immediately after the LLM call. 2) Store each request row with model name, tokens and computed cost, so you can reconcile totals. 3) Add a weekly or daily aggregation workflow that sums <code>llm_total_tokens</code> and alerts when thresholds are reached. 4) Add a fallback in your Code node so if <code>usage</code> is missing you flag the row for manual review.</p>
+<p>Use the Automation execution view to inspect raw responses for any vendor. If you see sudden token spikes, check for loops that re-send prompts or incorrect streaming behaviour. Community threads discuss sudden usage drops and spikes, see the n8n forum thread on extracting usage for context and the AI assistant spike thread for examples of unexpected billing changes.</p>
+
+<h2>When to get help</h2>
+<p>If the response JSON does not contain any usage object, check the API docs for your model or the integration you used. For OpenAI calls made through the HTTP Request node, verify you hit the Chat Completions or Responses endpoint that returns usage. If you still cannot find the metadata, post the trimmed JSON (hide keys) to the n8n community or the OpenAI developer forum with a clear question. Useful threads include the n8n forum request about accessing token usage metadata and the community discussion about sudden usage spikes.</p>
+
+<p>Want a starter template? Save the Code node snippet above as a reusable workflow and reference it from new projects. That pattern makes it trivial to n8n calculate llm costs across multiple models and keep a simple ledger of spend.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Where exactly do I find token usage in an n8n LLM node output?</h3>
+      <p>Look for a JSON object called usage in the node output. With OpenAI style responses it is usually at items[0].json.usage and contains prompt_tokens , completion_tokens and total_tokens . Some integrations nest it under data so inspect the raw JSON in the Execution view.</p>
+      <h3>How do I pass token counts to downstream nodes in n8n?</h3>
+      <p>Normalize the usage fields immediately after the LLM call using a Code node or a Set node. Return top level keys like llm_total_tokens . Subsequent nodes can read them with expressions like {{$json[&quot;llm_total_tokens&quot;]}} .</p>
+      <h3>How do I calculate per-request cost for different models?</h3>
+      <p>Store a price per 1000 tokens map for the models you use, then compute cost as (total_tokens / 1000) * pricePerThousand[model] . Put this logic in a reusable Code node so all workflows use the same rates and output a consistent llm_cost field.</p>
+      <h3>What if the usage metadata is missing or suddenly spikes?</h3>
+      <p>If usage is missing, confirm you are using an endpoint that returns it. If you see spikes, check for accidental loops, duplicated requests, or streaming settings that cause retries. If you cannot resolve it, share a redacted example in the n8n community thread for help.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
