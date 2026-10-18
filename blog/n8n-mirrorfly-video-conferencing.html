@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N8n MirrorFly video conferencing guide</title>
+<meta name="description" content="Solve n8n MirrorFly video conferencing integration: importable workflow, auth and webhook setup, media token refresh, NAT and reconnection strategies in n8n...">
+<link rel="canonical" href="https://automatenaija.com/blog/n8n-mirrorfly-video-conferencing">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/n8n-mirrorfly-video-conferencing">
+<meta property="og:title" content="N8n MirrorFly video conferencing guide">
+<meta property="og:description" content="Solve n8n MirrorFly video conferencing integration: importable workflow, auth and webhook setup, media token refresh, NAT and reconnection strategies in n8n...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-18T04:32:24.728428+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="N8n MirrorFly video conferencing guide">
+<meta name="twitter:description" content="Solve n8n MirrorFly video conferencing integration: importable workflow, auth and webhook setup, media token refresh, NAT and reconnection strategies in n8n...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"N8n MirrorFly video conferencing guide","description":"Solve n8n MirrorFly video conferencing integration: importable workflow, auth and webhook setup, media token refresh, NAT and reconnection strategies in n8n...","datePublished":"2026-10-18T04:32:24.728428+00:00","dateModified":"2026-10-18T04:32:24.728428+00:00","inLanguage":"en-NG","keywords":"n8n mirrorfly video conferencing, n8n mirrorfly integration, mirrorfly n8n webhook, n8n video conferencing automation, n8n realtime video integration","wordCount":1137,"mainEntityOfPage":"https://automatenaija.com/blog/n8n-mirrorfly-video-conferencing","url":"https://automatenaija.com/blog/n8n-mirrorfly-video-conferencing","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I need a public domain and TLS for MirrorFly webhooks to reach n8n?","acceptedAnswer":{"@type":"Answer","text":"Yes. MirrorFly requires a reachable HTTPS endpoint. Use a valid TLS certificate and a stable domain or a production tunnel. Self signed certificates and private IPs will usually be rejected, causing webhook delivery failures."}},{"@type":"Question","name":"How do I handle short lived media tokens in n8n?","acceptedAnswer":{"@type":"Answer","text":"Request tokens via an HTTP Request node and cache them with a Code node or external store. Refresh tokens 30 seconds before expiry, or run a Cron workflow to renew tokens for active rooms."}},{"@type":"Question","name":"What NAT or firewall rules cause one way audio or no video?","acceptedAnswer":{"@type":"Answer","text":"Symmetric NATs and blocked UDP ports break WebRTC. Ensure your TURN/STUN servers are reachable, open the ports your TURN uses (commonly UDP/TCP 3478), or use a hosted TURN service to relay media reliably."}},{"@type":"Question","name":"How do I keep a MirrorFly websocket connection stable in n8n?","acceptedAnswer":{"@type":"Answer","text":"Use client side ping/pong, implement exponential backoff reconnection, and re-establish auth tokens before reconnect. On the server side, accept reconnections and reattach participant state by room ID rather than socket ID."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>N8n MirrorFly video conferencing guide</h1>
+    <p class="lede">A practical, importable n8n workflow plus tested MirrorFly auth, webhook and reconnection steps to get audio and video conferencing working reliably.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-18T04:32:24.728428+00:00">18 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If your n8n MirrorFly video conferencing setup fails, get a working integration by using an n8n <code>Webhook</code> trigger, an <code>HTTP Request</code> node for auth and media tokens, a small <code>Code</code> node to cache/refresh tokens, and a reliable public webhook URL or tunnel. This post gives an importable workflow and reconnection tips.</p>
+
+<h2>Why it fails</h2>
+<p>Three things break most MirrorFly integrations in n8n: authentication and short lived media tokens, webhooks or websocket connections not reaching your n8n server, and NAT or TURN problems for real time media. MirrorFly often issues transient media tokens that expire, and WebRTC needs STUN/TURN to traverse home or office NATs. If your webhook registration points to a private IP or uses an invalid certificate, MirrorFly cannot deliver events.</p>
+
+<h2>Step-by-step fix and importable n8n workflow</h2>
+<ol>
+  <li>Expose n8n publicly. If n8n is self hosted, use a stable domain and HTTPS. Use a reverse proxy with a real certificate, or a tunnel like Cloudflare Tunnel or ngrok for testing. Ensure the webhook URL is reachable from the internet at a persistent address.</li>
+  <li>Create the webhook trigger node. In n8n add a <code>Webhook</code> node, set Method to <code>POST</code>, and set a clear path, for example <code>/mirrorfly-events</code>. For Response Mode choose to respond immediately so MirrorFly does not wait for a long processing chain.</li>
+  <li>Register the webhook in MirrorFly. Use the MirrorFly dashboard or their webhook registration API to point to your full webhook URL, for example <code>https://yourdomain.com/webhook/mirrorfly-events</code>. If the API requires a secret, configure it and add it as a header in the webhook node verification step.</li>
+  <li>Obtain API credentials. From the MirrorFly developer console get the API key and API secret or service account token. Store these securely in n8n credentials or environment variables, not in workflow nodes.</li>
+  <li>Get media tokens on demand. Add an <code>HTTP Request</code> node named <code>Get Media Token</code> that calls MirrorFly token endpoint (check your MirrorFly docs for exact path). Use method POST, include your API key in headers, and ask for a token tied to the participant or room. Save response fields <code>token</code> and <code>expires_in</code> into the output.</li>
+  <li>Cache and refresh tokens. Add a <code>Code</code> node that inspects the cached token expiry, and only calls <code>Get Media Token</code> when the token is missing or will expire in the next 30 seconds. Example logic is in the code block below.</li>
+  <li>Forward events to your business logic. Chain the webhook to nodes that update room state, notify participants, or call MirrorFly APIs via <code>HTTP Request</code>. If MirrorFly sends websocket events, convert them in MirrorFly to REST webhook callbacks or use a WebSocket client that reconnects.</li>
+  <li>Activate and test. Enable workflow and simulate events. Watch n8n executions and MirrorFly logs. Use the webhook test tool in MirrorFly or use curl to POST to your webhook URL and confirm 200 responses.</li>
+</ol>
+
+<pre><code>// Example Code node snippet to refresh and cache token in workflow context
+const key = 'mirrorfly_media_token';
+const meta = await $workflowStatic.getWorkflowStaticData('global');
+const now = Date.now();
+if (!meta[key] || meta[key].expiresAt - 30000 < now) {
+  // call the HTTP Request node named Get Media Token
+  const res = await $node['Get Media Token'].run();
+  const token = res[0].json.token;
+  const expiresIn = res[0].json.expires_in * 1000; // ms
+  meta[key] = { token, expiresAt: now + expiresIn };
+  await $workflowStatic.setWorkflowStaticData('global', meta);
+}
+return [{ json: { token: meta[key].token } }];
+</code></pre>
+
+<h2>n8n MirrorFly video conferencing: node and credential notes</h2>
+<p>Use the <code>Webhook</code> trigger node for inbound MirrorFly events. Use <code>HTTP Request</code> to call MirrorFly REST endpoints for auth, room creation and token issuance. Use the <code>Code</code> node for small JS checks like token TTL, exponential backoff counters and websocket reconnect metadata. Put API keys in n8n Credentials so you never paste them in the workflow JSON.</p>
+<p>When you activate the workflow, n8n gives each webhook a permanent URL. If you change paths or domain, re-register the webhook in MirrorFly. If you see <code>401</code> or <code>403</code> errors, check the header name MirrorFly expects for the API key and whether a signature header is required.</p>
+
+<h2>NAT, firewall, STUN, TURN and media path troubleshooting</h2>
+<p>WebRTC needs direct UDP or TCP connections. If participants report one-way audio, packet loss or no video, configure TURN servers and ensure UDP port 3478 or the ports your TURN server uses are allowed. For Nigerian home or cheap office networks, symmetric NATs break peer to peer without a TURN. Run a coturn server or use MirrorFly hosted TURN if provided.</p>
+<p>Also confirm:</p>
+<ul>
+  <li>Your webhook URL is HTTPS with a valid certificate, browsers and MirrorFly will reject self signed certs.</li>
+  <li>Any corporate firewall allows outgoing connections to MirrorFly and to your TURN/STUN server.</li>
+  <li>If n8n is behind NAT, forward ports for the tunnel or use Cloudflare Tunnel to avoid intermittent IP changes.</li>
+</ul>
+
+<h2>Reconnection strategies and monitoring</h2>
+<p>Design for token expiry and connection drops. Practical steps:</p>
+<ul>
+  <li>Refresh media tokens 30 seconds before expiry. Use a scheduled n8n Cron node that runs a token refresh workflow for long running rooms.</li>
+  <li>For websockets, implement client side ping/pong and exponential backoff reconnects. On server side, accept reconnections and reassign participant state by room ID rather than by socket ID.</li>
+  <li>Use a small health-check HTTP endpoint and an n8n workflow to alert you if MirrorFly webhooks stop arriving for a room (see our post on <a href="https://automatenaija.com/blog/n8n-webhook-not-receiving-data">fix n8n webhook not receiving data</a>).</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>If after following this guide you still have <code>401</code>, <code>403</code> or persistent websocket disconnects, check the MirrorFly developer console for webhook delivery logs. Search or post your exact error and request/response headers to the n8n forum; see threads like <a href="https://community.n8n.io/t/n8n-mirrorfly-developer-for-video-conferencing-automation/322016" target="_blank" rel="noopener noreferrer">n8n MirrorFly Developer for Video Conferencing Automation</a> and general n8n production advice at <a href="https://community.n8n.io/t/best-tutorial-to-learn-n8n-for-production/322128" target="_blank" rel="noopener noreferrer">Best tutorial to learn n8n for production</a>. If the issue is NAT or TURN, a systems admin who can configure coturn and firewall rules will save time.</p>
+
+<p>Build the workflow pieces above and test one part at a time: webhook delivery, auth token exchange, then media paths. That isolates where MirrorFly cannot reach your service or where tokens expire prematurely.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Do I need a public domain and TLS for MirrorFly webhooks to reach n8n?</h3>
+      <p>Yes. MirrorFly requires a reachable HTTPS endpoint. Use a valid TLS certificate and a stable domain or a production tunnel. Self signed certificates and private IPs will usually be rejected, causing webhook delivery failures.</p>
+      <h3>How do I handle short lived media tokens in n8n?</h3>
+      <p>Request tokens via an HTTP Request node and cache them with a Code node or external store. Refresh tokens 30 seconds before expiry, or run a Cron workflow to renew tokens for active rooms.</p>
+      <h3>What NAT or firewall rules cause one way audio or no video?</h3>
+      <p>Symmetric NATs and blocked UDP ports break WebRTC. Ensure your TURN/STUN servers are reachable, open the ports your TURN uses (commonly UDP/TCP 3478), or use a hosted TURN service to relay media reliably.</p>
+      <h3>How do I keep a MirrorFly websocket connection stable in n8n?</h3>
+      <p>Use client side ping/pong, implement exponential backoff reconnection, and re-establish auth tokens before reconnect. On the server side, accept reconnections and reattach participant state by room ID rather than socket ID.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
