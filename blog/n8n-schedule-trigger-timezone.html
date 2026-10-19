@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix n8n schedule trigger timezone issues</title>
+<meta name="description" content="Fix n8n schedule trigger timezone problems and make workflows fire at the right local time. Step by step checks and fixes for n8n.cloud, Docker, desktop and...">
+<link rel="canonical" href="https://automatenaija.com/blog/n8n-schedule-trigger-timezone">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/n8n-schedule-trigger-timezone">
+<meta property="og:title" content="Fix n8n schedule trigger timezone issues">
+<meta property="og:description" content="Fix n8n schedule trigger timezone problems and make workflows fire at the right local time. Step by step checks and fixes for n8n.cloud, Docker, desktop and...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-19T04:32:23.901416+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fix n8n schedule trigger timezone issues">
+<meta name="twitter:description" content="Fix n8n schedule trigger timezone problems and make workflows fire at the right local time. Step by step checks and fixes for n8n.cloud, Docker, desktop and...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Fix n8n schedule trigger timezone issues","description":"Fix n8n schedule trigger timezone problems and make workflows fire at the right local time. Step by step checks and fixes for n8n.cloud, Docker, desktop and...","datePublished":"2026-10-19T04:32:23.901416+00:00","dateModified":"2026-10-19T04:32:23.901416+00:00","inLanguage":"en-NG","keywords":"n8n schedule trigger timezone, n8n timezone schedule fix, n8n workflow wrong time, n8n cron timezone, n8n cloud timezone","wordCount":1191,"mainEntityOfPage":"https://automatenaija.com/blog/n8n-schedule-trigger-timezone","url":"https://automatenaija.com/blog/n8n-schedule-trigger-timezone","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why did my 9 AM n8n workflow run at 1 AM?","acceptedAnswer":{"@type":"Answer","text":"Most likely your server or container was on UTC while you expected Africa/Lagos. The Schedule Trigger node uses the process time unless you set a timezone in the node. Check the node timezone, then check host and container clocks with date -R or timedatectl ."}},{"@type":"Question","name":"How do I check the timezone inside my Docker n8n container?","acceptedAnswer":{"@type":"Answer","text":"Run docker exec -it container date -R to see the container clock. Also run docker exec -it container printenv TZ to see if a TZ env var is set. If it shows UTC, add TZ=Africa/Lagos to your docker-compose environment and restart."}},{"@type":"Question","name":"Does n8n.cloud use my local timezone?","acceptedAnswer":{"@type":"Answer","text":"n8n.cloud infrastructure runs on UTC, so you must set the timezone in each workflow's Schedule Trigger node if you want local times. For many workflows set the timezone in the node to avoid surprises."}},{"@type":"Question","name":"What is the quickest fix for many wrong-time schedules?","acceptedAnswer":{"@type":"Answer","text":"Open each affected workflow and set the Schedule Trigger node timezone explicitly to your desired zone. For a long term fix standardize the TZ env in your deployment or bind host time files into containers so new workflows inherit the correct time."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Fix n8n schedule trigger timezone issues</h1>
+    <p class="lede">A clear, practical guide to get your n8n Schedule Trigger firing at the right local time across all deployment types.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-19T04:32:23.901416+00:00">19 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If your workflows are firing at the wrong hour, the most common cause is a timezone mismatch between the host, container and the Schedule Trigger node. This n8n schedule trigger timezone guide shows how to check host time, container env vars, the node timezone, and fix n8n.cloud, Docker, desktop and self hosted installs so schedules run at the expected local time.</p>
+
+<h2>Why this happens</h2>
+<p>n8n evaluates cron and scheduled triggers using the server process time. That time can come from the host operating system, the container environment, or the Schedule Trigger node's explicit timezone setting. If any layer is set to UTC while you expect Africa/Lagos, your 9 AM job will run at UTC 9 AM. Many Docker containers run in UTC by default, and n8n.cloud infrastructure also uses UTC, so the node or environment needs to be aligned.</p>
+
+<h2>Step-by-step fix</h2>
+<ol>
+  <li>Confirm the expected time and timezone you want, for example Africa/Lagos.</li>
+  <li>Check the Schedule Trigger node first. Open the node, find the timezone or timezone selector and set it to your zone. If you enter a Cron expression, also set the timezone there. This is the simplest fix for single workflow problems.</li>
+  <li>Check the process time inside n8n. Run a quick workflow or use a node that returns the server date, for example a Schedule Trigger linked to an HTTP Request to a logging endpoint, or a Set node with an expression <code>{{$now.toISOString()}}</code>. Compare that to your local clock.</li>
+  <li>Verify host and container times. On the host run <code>timedatectl</code> or <code>date -R</code>. For Docker run <code>docker exec -it &lt;container&gt; date -R</code> or <code>docker-compose exec n8n date -R</code>. For Kubernetes use <code>kubectl exec -n &lt;ns&gt; &lt;pod&gt; -- date -R</code>.</li>
+  <li>If the container is wrong, set the TZ environment or map time files. For Docker Compose add <code>TZ=Africa/Lagos</code> under <code>environment</code>, or bind-mount <code>/etc/timezone</code> and <code>/etc/localtime</code> into the container. Then restart the container.</li>
+  <li>For n8n.cloud, set the timezone in the Schedule Trigger node for each workflow or use timezone-aware cron expressions. Note that n8n.cloud infrastructure runs on UTC, so node-level timezone selection is required for local times.</li>
+  <li>Re-test using a simple workflow that logs <code>{{$now}}</code> on the scheduled run to confirm times are correct.</li>
+</ol>
+
+<h2>n8n schedule trigger timezone: tool specific notes</h2>
+<p>Different deployments require different actions. Use the checklist below based on your host.</p>
+
+<h3>n8n.cloud</h3>
+<ul>
+  <li>n8n.cloud infrastructure typically runs in UTC. The fastest fix is to open each workflow's <code>Schedule Trigger</code> node and set the timezone field to your local zone (for example <code>Africa/Lagos</code>).</li>
+  <li>If you have many workflows, include an explicit timezone in the Cron field or a metadata tag so you can find and update them fast. See the community thread where someone fixed 9 AM running at 1 AM for the same reason: <a href="https://community.n8n.io/t/my-9-am-workflow-fired-at-1-am-the-schedule-trigger-timezone-gotcha-and-the-fix/322339" target="_blank" rel="noopener noreferrer">My 9 AM workflow fired at 1 AM</a>.</li>
+</ul>
+
+<h3>Docker and Docker Compose</h3>
+<ul>
+  <li>Containers default to UTC unless configured. Edit your <code>docker-compose.yml</code> and under the n8n service add:</li>
+</ul>
+<pre><code>services:
+  n8n:
+    image: n8nio/n8n:latest
+    environment:
+      - TZ=Africa/Lagos
+    volumes:
+      - ~/.n8n:/root/.n8n
+</code></pre>
+<ul>
+  <li>Alternatively, bind mount <code>/etc/localtime</code> and <code>/etc/timezone</code> from the host into the container to match host timezone.</li>
+  <li>Restart the container with <code>docker-compose up -d</code> and verify with <code>docker exec -it &lt;container&gt; date -R</code>.</li>
+</ul>
+
+<h3>Self hosted on Linux or VM</h3>
+<ul>
+  <li>Set the server timezone with <code>sudo timedatectl set-timezone Africa/Lagos</code>. Confirm with <code>timedatectl</code>.</li>
+  <li>Restart the n8n service or process so Node.js picks up the change.</li>
+</ul>
+
+<h3>Desktop</h3>
+<ul>
+  <li>n8n desktop uses your OS timezone. Confirm your machine clock and timezone settings in Windows or macOS and restart the desktop app if needed.</li>
+</ul>
+
+<h2>Reusable test workflow and remediation script</h2>
+<p>Create this quick test workflow to confirm behavior before and after fixes. In n8n build:</p>
+<ul>
+  <li>A <code>Schedule Trigger</code> node with Mode set to Cron and expression <code>*/1 * * * *</code> and timezone set to the zone you want to test.</li>
+  <li>A <code>Set</code> node that stores <code>serverTime</code> with value <code>{{$now.toISOString()}}</code>.</li>
+  <li>An <code>HTTP Request</code> or logging endpoint that receives the payload for your central log, or just view executions in n8n.</li>
+</ul>
+<pre><code>// Cron expression example when testing one minute runs
+Cron: */1 * * * *
+Timezone: Africa/Lagos
+</code></pre>
+<p>Remediation script example to show container time and suggest fixes:</p>
+<pre><code>#!/bin/bash
+CONTAINER_NAME=n8n
+echo "Host time: $(date -R)"
+docker exec -it $CONTAINER_NAME date -R || echo "Container not running or docker missing"
+
+echo "If container shows UTC, add TZ=Africa/Lagos to your docker-compose and restart with:"
+echo "  docker-compose down && docker-compose up -d"
+
+echo "On a Linux host, set system timezone with: sudo timedatectl set-timezone Africa/Lagos"
+</code></pre>
+<p>This script does not edit files for you. It collects evidence and gives the precise commands to run based on your setup.</p>
+
+<h2>How to stop it happening again</h2>
+<ul>
+  <li>Standardize on one source of truth for time. For teams in Nigeria, choose <code>Africa/Lagos</code> as the canonical timezone and document it.</li>
+  <li>Add a checklist item to workflow delivery: always set the Schedule Trigger timezone or include a timezone comment in the workflow description.</li>
+  <li>For Docker images add <code>TZ</code> to the environment in a central Compose file or Helm values so new deployments inherit the correct timezone.</li>
+  <li>Use the small test workflow above in your CI or deployment smoke tests to verify schedule behavior after updates.</li>
+  <li>If you run n8n.cloud, treat timezone as a per-workflow setting because infrastructure is UTC.</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>If you have confirmed host, container and node timezone settings are aligned but a workflow still runs at the wrong time, gather execution logs and reach out. Post evidence showing host time, container time (<code>date -R</code>), the Schedule Trigger node screenshot and the Cron expression. The n8n community thread above helped others diagnose a 9 AM versus 1 AM problem, and if you see database connection or other errors after changes, that may be separate and need different troubleshooting.</p>
+
+<p>If you want a walkthrough for your specific deployment, Automate Naija helps builders and freelancers in Nigeria set these up and verify schedules are correct. Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Why did my 9 AM n8n workflow run at 1 AM?</h3>
+      <p>Most likely your server or container was on UTC while you expected Africa/Lagos. The Schedule Trigger node uses the process time unless you set a timezone in the node. Check the node timezone, then check host and container clocks with date -R or timedatectl .</p>
+      <h3>How do I check the timezone inside my Docker n8n container?</h3>
+      <p>Run docker exec -it container date -R to see the container clock. Also run docker exec -it container printenv TZ to see if a TZ env var is set. If it shows UTC, add TZ=Africa/Lagos to your docker-compose environment and restart.</p>
+      <h3>Does n8n.cloud use my local timezone?</h3>
+      <p>n8n.cloud infrastructure runs on UTC, so you must set the timezone in each workflow's Schedule Trigger node if you want local times. For many workflows set the timezone in the node to avoid surprises.</p>
+      <h3>What is the quickest fix for many wrong-time schedules?</h3>
+      <p>Open each affected workflow and set the Schedule Trigger node timezone explicitly to your desired zone. For a long term fix standardize the TZ env in your deployment or bind host time files into containers so new workflows inherit the correct time.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
