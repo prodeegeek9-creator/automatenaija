@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Make.com outreach automation debug checklist</title>
+<meta name="description" content="make com outreach automation debug: step by step checklist to find webhook, iterator and mapping silence, test requests to copy, and a freelancer handoff...">
+<link rel="canonical" href="https://automatenaija.com/blog/make-com-outreach-automation-debug">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/make-com-outreach-automation-debug">
+<meta property="og:title" content="Make.com outreach automation debug checklist">
+<meta property="og:description" content="make com outreach automation debug: step by step checklist to find webhook, iterator and mapping silence, test requests to copy, and a freelancer handoff...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-20T04:32:27.578076+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Make.com outreach automation debug checklist">
+<meta name="twitter:description" content="make com outreach automation debug: step by step checklist to find webhook, iterator and mapping silence, test requests to copy, and a freelancer handoff...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Make.com outreach automation debug checklist","description":"make com outreach automation debug: step by step checklist to find webhook, iterator and mapping silence, test requests to copy, and a freelancer handoff...","datePublished":"2026-10-20T04:32:27.578076+00:00","dateModified":"2026-10-20T04:32:27.578076+00:00","inLanguage":"en-NG","keywords":"make com outreach automation debug, debug make com scenario, make com webhook not firing, make com iterate module error, make com prevent empty mapping","wordCount":1373,"mainEntityOfPage":"https://automatenaija.com/blog/make-com-outreach-automation-debug","url":"https://automatenaija.com/blog/make-com-outreach-automation-debug","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does my Make webhook not fire when I send requests?","acceptedAnswer":{"@type":"Answer","text":"Common causes are the scenario is not Active, you copied an old webhook URL, the HTTP method or Content-Type does not match what the webhook expects, or the request is blocked by a firewall or proxy. Re-copy the Custom Webhook URL, activate the scenario, and test with a simple curl POST including Content-Type: application/json."}},{"@type":"Question","name":"How do I fix an Iterator module error in Make.com?","acceptedAnswer":{"@type":"Answer","text":"The Iterator expects an array. If your incoming payload sometimes includes a single object, normalise it first using a Set module or JSON step so the field is always an array. Test with both an array and a single-item payload to confirm the Iterator runs the expected times."}},{"@type":"Question","name":"What stops my CRM from getting data even though Make shows success?","acceptedAnswer":{"@type":"Answer","text":"CRMs often ignore empty required fields or silently discard records if keys do not match. Add a Filter before the CRM to ensure required fields like email are not empty. Inspect the module output for the exact keys you mapped and compare them to the CRM API field names."}},{"@type":"Question","name":"How can I prevent empty values being mapped and causing silent failures?","acceptedAnswer":{"@type":"Answer","text":"Use a Filter or conditional check before the mapping to the CRM. In the Filter, require email or another key to be not empty. Alternatively, add a Set step to construct only the keys that have values so you do not send empty fields to the CRM."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Make.com outreach automation debug checklist</h1>
+    <p class="lede">A practical checklist to debug Make.com outreach funnels that fail silently between webhook, Iterator and CRM modules.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-20T04:32:27.578076+00:00">20 October 2026</time></span><span>&middot;</span><span>7 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>When your outreach funnel in Make.com will not trigger or fails silently, start with a focused make com outreach automation debug checklist: verify the <code>Custom Webhook</code> URL and scenario is active, send a simple test payload, inspect the scenario execution history, check the <code>Iterator</code> input is an array, and add filters to prevent empty mapping into CRM.</p>
+
+<h2>Why Make.com outreach automation debug is needed</h2>
+<p>Silent failures happen when data never reaches the part of the scenario that logs errors. Common blind spots are inactive scenarios, uninitialized webhooks, format mismatch for the <code>Iterator</code> module, or downstream CRM modules skipping or rejecting empty fields. You need a repeatable process to surface the actual error so you can fix it quickly.</p>
+
+<h2>Step by step fix (copy these tests and checks)</h2>
+<ol>
+  <li><strong>Confirm scenario is active and webhook initialized</strong>. Open the scenario, make sure it is marked Active. Open the <code>Custom Webhook</code> module, then click the webhook to copy the URL again. If you edit the scenario after creating a webhook, always re-copy and re-register the URL where needed.</li>
+
+  <li><strong>Send a minimal test request</strong>. Use curl or Postman to remove client variables. A simple POST with JSON is best. Copy and run:
+    <pre><code>curl -X POST 'https://hook.make.com/your-webhook-id' -H 'Content-Type: application/json' -d '{"email":"test@example.com","items":[{"id":1}]}'</code></pre>
+    If you expect GET, send GET. If the request fails, check network, proxy, or URL errors first.</li>
+
+  <li><strong>Inspect Execution history and run details</strong>. Open the scenario, find Execution history or Scenario Runs. Look for the latest run created by your test request. Expand module logs to see incoming payload, status codes and any module-level error text. If there is no run, the webhook did not reach Make.</li>
+
+  <li><strong>Fix the webhook not firing</strong>. If there is no run: verify URL, method, and Content-Type. Confirm the external sender is not blocked by a firewall or incorrect DNS. If you use a custom domain or proxy, test direct to the Make webhook URL. Also check that you are not hitting a cached or old URL in your outreach tool.</li>
+
+  <li><strong>Validate the Iterator input</strong>. The <code>Iterator</code> module requires an array. If you see errors like an iterator complaint or no iterations, inspect the incoming JSON path you map. Use a <code>Set</code> or <code>JSON</code> module to normalise the field into an array before <code>Iterator</code>. Example, if your payload has <code>items</code> but sometimes it is a single object, wrap it like this in a <code>Set</code> step: map <code>items</code> to an array containing the item when not already an array.</li>
+
+  <li><strong>Prevent empty mapping into CRM</strong>. Add a Filter between the value source and the CRM module to block runs where required fields like <code>email</code> are empty. In the Filter, use the condition <code>email</code> is not empty. This prevents silent successes where the CRM returns 200 but ignores empty fields.</li>
+
+  <li><strong>Re-run and watch module logs</strong>. After changes, run the same curl test and watch each module input and output. Look for HTTP 4xx or 5xx responses in HTTP/CRM modules and correct payload or authentication issues.</li>
+</ol>
+
+<h2>Common silent-failure causes and quick fixes</h2>
+<ul>
+  <li><strong>No scenario run created</strong>, cause: inactive scenario, wrong webhook. Fix: activate scenario, re-copy webhook, test again.</li>
+  <li><strong>Make com webhook not firing</strong>, cause: wrong method or Content-Type. Fix: match the method and add <code>Content-Type: application/json</code> when sending JSON.</li>
+  <li><strong>Iterator module error</strong>, cause: not an array. Fix: add a <code>Set</code> or <code>JSON</code> normalisation step, or change mapping to the correct array path like <code>items</code> instead of <code>item</code>.</li>
+  <li><strong>CRM module accepts but data not present</strong>, cause: empty fields or wrong key names. Fix: add Filters to prevent empty mapping, confirm field keys match CRM API names.</li>
+  <li><strong>Silent retry or ignored errors</strong>, cause: module configured to continue on error or a custom error handler that swallows errors. Fix: check module settings and remove any error-handling routes that hide failures.</li>
+</ul>
+
+<h2>Test scenarios you can copy</h2>
+<p>Run these tests from a terminal or Postman to reproduce common problems quickly.</p>
+<ul>
+  <li>Basic webhook POST
+    <pre><code>curl -X POST 'https://hook.make.com/your-webhook-id' -H 'Content-Type: application/json' -d '{"email":"test@example.com","items":[{"id":1}]}'</code></pre>
+  </li>
+  <li>Missing field test to check Filters
+    <pre><code>curl -X POST 'https://hook.make.com/your-webhook-id' -H 'Content-Type: application/json' -d '{"items":[]}'</code></pre>
+    This shows whether your Filter blocks the run before the CRM module.</li>
+  <li>Single item vs array test for Iterator
+    <pre><code>curl -X POST 'https://hook.make.com/your-webhook-id' -H 'Content-Type: application/json' -d '{"items":{"id":1}}'</code></pre>
+    If <code>Iterator</code> fails here, you need to normalise <code>items</code> into an array.</li>
+</ul>
+
+<h2>Tool-specific notes (Make.com, n8n, Zapier)</h2>
+<p>Make.com: use <code>Custom Webhook</code>, <code>Iterator</code>, <code>Set</code>, Filters and Execution history. Activate scenarios and re-copy webhook URLs when you edit them. For preventing empty mappings, add a Filter with condition <code>field is not empty</code> before CRM modules. See community threads like <a href="https://community.make.com/t/need-make-com-expert-to-debug-launch-existing-outreach-existing-outreach-automation/117567" target="_blank" rel="noopener noreferrer">Need Make.com Expert to Debug & Launch Existing Outreach Automation</a> and <a href="https://community.make.com/t/preventing-an-empty-field-being-mapped/117644" target="_blank" rel="noopener noreferrer">Preventing an empty field being mapped</a> for real reports and fixes.</p>
+
+<p>n8n: similar issues appear with webhooks and iterators. n8n calls custom code nodes <code>Code</code> and HTTP calls <code>HTTP Request</code>. If you move between n8n and Make.com, remember node names and error views differ. For alerts on failures in n8n, see our post on <a href="https://automatenaija.com/blog/n8n-alert-when-workflow-fails">n8n alert when workflow fails</a>.</p>
+
+<p>Zapier: Zaps and steps use triggers and actions that also silence errors when fields are empty. Use paths and filters to stop empty records from passing into CRMs.</p>
+
+<h2>How to stop it happening again</h2>
+<ul>
+  <li>Add a staging webhook URL and a single test scenario to validate every payload format before pushing to production.</li>
+  <li>Use <code>Set</code> modules to normalise input shapes. Always make arrays explicit before using <code>Iterator</code>.</li>
+  <li>Place Filters that enforce required fields such as <code>email</code> or <code>phone</code> and log filtered out records to a debug sheet or Slack channel.</li>
+  <li>Enable clear logging and alerting, either via built in Execution history or a notification step that triggers on module error.</li>
+</ul>
+
+<h2>Quick checklist to hand a freelancer</h2>
+<ol>
+  <li>Open scenario, confirm Active, copy webhook URL and paste a working curl test result.</li>
+  <li>Provide a screenshot of Execution history showing the last run and module inputs/outputs.</li>
+  <li>Show <code>Iterator</code> input path and confirm it maps to an array in at least one successful run.</li>
+  <li>Add Filters for required CRM fields and show a test where missing fields are filtered out.</li>
+  <li>Deliver a short report listing any API 4xx/5xx responses and suggested payload fixes.</li>
+</ol>
+
+<h2>When to get help</h2>
+<p>If your webhook receives no runs after verifying URL and network, or if a CRM returns opaque 200 responses without creating records, get help. Share Execution history snapshots and the raw request you used to test. Community threads often help, for example the Make.com forum question requesting an expert to debug [link above]. If you need regular support, hire someone who will add alerting, staging tests and robust Filters so the funnel fails loud, not silent.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Why does my Make webhook not fire when I send requests?</h3>
+      <p>Common causes are the scenario is not Active, you copied an old webhook URL, the HTTP method or Content-Type does not match what the webhook expects, or the request is blocked by a firewall or proxy. Re-copy the Custom Webhook URL, activate the scenario, and test with a simple curl POST including Content-Type: application/json.</p>
+      <h3>How do I fix an Iterator module error in Make.com?</h3>
+      <p>The Iterator expects an array. If your incoming payload sometimes includes a single object, normalise it first using a Set module or JSON step so the field is always an array. Test with both an array and a single-item payload to confirm the Iterator runs the expected times.</p>
+      <h3>What stops my CRM from getting data even though Make shows success?</h3>
+      <p>CRMs often ignore empty required fields or silently discard records if keys do not match. Add a Filter before the CRM to ensure required fields like email are not empty. Inspect the module output for the exact keys you mapped and compare them to the CRM API field names.</p>
+      <h3>How can I prevent empty values being mapped and causing silent failures?</h3>
+      <p>Use a Filter or conditional check before the mapping to the CRM. In the Filter, require email or another key to be not empty. Alternatively, add a Set step to construct only the keys that have values so you do not send empty fields to the CRM.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
