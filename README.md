@@ -14,6 +14,7 @@ blog/index.html            blog index
 blog/*.html                posts
 assets/site.css            shared shell styles for every page except index.html
 assets/site.js             shared links config + theme toggle, mobile menu, reveal
+assets/live.js             the homepage's live builds, showcase, leaderboard, quiz and squads
 assets/brand/              logo, icons and the link preview image (see its README)
 favicon.ico                root favicon, requested directly by browsers and scrapers
 site.webmanifest           name, theme colour and icons for installed/home screen
@@ -38,6 +39,20 @@ A social handle left empty is dropped from the footer instead of rendering a
 dead link, so fill in only the accounts that actually exist. Until
 `SITE.whatsapp` has an invite code, the "Join on WhatsApp" buttons point at the
 contact page rather than at a broken invite.
+
+## Live data on the homepage
+
+The Arena cards (this week's build, the builder showcase) and the "Live from
+the app" section (leaderboard, weekly quiz, squads, the numbers under the
+heading) are filled by `assets/live.js` from one call to the app,
+`SITE.live` (`https://app.automatenaija.com/api/home`, which is
+`functions/api/home.js` in the app's repo, cached for two minutes).
+
+The app decides what a visitor sees. Ranked students show as first name and
+last initial, with a photo and a link only when their portfolio is public; the
+showcase is only builds from public portfolios; squads show by name. If the
+call fails, the Arena keeps the plain copy written in `index.html` and the
+live section stays hidden, along with the menu links to it.
 
 ## Adding a blog post
 

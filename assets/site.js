@@ -15,6 +15,9 @@ var SITE = {
   whatsapp: "https://chat.whatsapp.com/",
   // Change this if the team reads a different inbox.
   email:    "hello@automatenaija.com",
+  // The homepage's live builds, showcase, leaderboard, quiz and squads
+  // (assets/live.js). Served by the app: functions/api/home.js there.
+  live:     "https://app.automatenaija.com/api/home",
   socials: {
     twitter:   "",   // e.g. "https://x.com/automatenaija"
     linkedin:  "",   // e.g. "https://www.linkedin.com/company/automatenaija"
