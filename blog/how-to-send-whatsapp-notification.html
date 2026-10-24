@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Send WhatsApp Notification from Make.com or n8n</title>
+<meta name="description" content="Learn how to send whatsapp notification from Make.com or n8n, with WhatsApp Cloud API and Twilio fallbacks, exact module settings, templates, and a delivery...">
+<link rel="canonical" href="https://automatenaija.com/blog/how-to-send-whatsapp-notification">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/how-to-send-whatsapp-notification">
+<meta property="og:title" content="How to Send WhatsApp Notification from Make.com or n8n">
+<meta property="og:description" content="Learn how to send whatsapp notification from Make.com or n8n, with WhatsApp Cloud API and Twilio fallbacks, exact module settings, templates, and a delivery...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-24T04:33:17.417538+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Send WhatsApp Notification from Make.com or n8n">
+<meta name="twitter:description" content="Learn how to send whatsapp notification from Make.com or n8n, with WhatsApp Cloud API and Twilio fallbacks, exact module settings, templates, and a delivery...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"How to Send WhatsApp Notification from Make.com or n8n","description":"Learn how to send whatsapp notification from Make.com or n8n, with WhatsApp Cloud API and Twilio fallbacks, exact module settings, templates, and a delivery...","datePublished":"2026-10-24T04:33:17.417538+00:00","dateModified":"2026-10-24T04:33:17.417538+00:00","inLanguage":"en-NG","keywords":"how to send whatsapp notification, how to automate whatsapp messages, whatsapp notification make com, make whatsapp order notification, n8n whatsapp support agent","wordCount":1278,"mainEntityOfPage":"https://automatenaija.com/blog/how-to-send-whatsapp-notification","url":"https://automatenaija.com/blog/how-to-send-whatsapp-notification","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I send WhatsApp messages from Make.com without business verification?","acceptedAnswer":{"@type":"Answer","text":"You can send messages in the 24-hour conversation window for user-initiated chats without templates, but for proactive notifications you need approved message templates and usually a verified Meta Business. For full production reliability get your business verified and templates approved."}},{"@type":"Question","name":"Should I use WhatsApp Cloud API or Twilio for notifications?","acceptedAnswer":{"@type":"Answer","text":"Use WhatsApp Cloud API for direct access and lower cost, use Twilio if you want Twilio features like managed number handling and easier fallbacks. Many teams implement Cloud API first and keep Twilio as a fallback when delivery or provisioning issues occur."}},{"@type":"Question","name":"Why do messages show 403 or template errors?","acceptedAnswer":{"@type":"Answer","text":"403 often means the access token, phone number ID or business verification is incorrect. Template errors occur when you use a template that is not approved or has misformatted components. Check the API response body, and confirm template approval in Meta Business Manager."}},{"@type":"Question","name":"How do I test WhatsApp notifications safely?","acceptedAnswer":{"@type":"Answer","text":"Use a small pool of test numbers, send only approved templates, and log every API response. Add retries for transient errors and a fallback route to Twilio or SMS for critical notifications. Record request payloads and response bodies for debugging."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>How to Send WhatsApp Notification from Make.com or n8n</h1>
+    <p class="lede">Step by step guide to send WhatsApp notifications reliably from Make.com or n8n using WhatsApp Cloud API or Twilio, with settings, templates and troubleshooting.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-24T04:33:17.417538+00:00">24 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If you need to send WhatsApp messages from an automation, the fastest reliable route is to use the WhatsApp Business Cloud API or Twilio as a fallback, call it from Make.com or n8n via an HTTP request, and use approved message templates for notifications. This article explains how to send whatsapp notification end to end.</p>
+
+<h2>Why this happens: common roadblocks</h2>
+<p>People get blocked by three things: API choice and credentials, template approval and business verification, and implementation mistakes that produce delivery failures. Meta requires a verified business and approved message templates to send notifications outside the 24-hour user message window. Tokens expire or lack required scopes, and automation steps sometimes send wrong payloads or wrong headers, producing 401 or 403 responses.</p>
+
+<h2>how to send whatsapp notification: step-by-step fix</h2>
+<ol>
+  <li><strong>Pick API</strong>. Start with WhatsApp Business Cloud API if you want the cheapest path and full feature set, use Twilio Programmable Messaging if you prefer managed phone number handling and easier fallbacks.</li>
+  <li><strong>Prepare business assets</strong>. In Meta Business Manager confirm your Business Manager ID, verify your business, add a WhatsApp Business Account, and register a phone number or use a phone number ID from your Cloud account. In Twilio verify your WhatsApp sender profile and sandbox or paid number.</li>
+  <li><strong>Create and get templates approved</strong>. In Meta Business Manager open Message Templates and submit the template text, language and optional header. Only approved templates can be used for proactive notifications. For order notifications include variables like customer name and order id in the template.</li>
+  <li><strong>Build the automation</strong>. In Make.com create a scenario, add your trigger module (webhook, Shopify, ClickUp), then add an HTTP module to call the chosen API. In n8n use a trigger node, transform data with the Code node if needed, then use the HTTP Request node to POST the message payload.</li>
+  <li><strong>Set headers and body</strong>. Use an Authorization header with a Bearer token, and Content-Type application/json. For WhatsApp Cloud API call the messages edge for your phone number ID. For Twilio set the From value to the WhatsApp-enabled Twilio number like <code>whatsapp:+</code> and the To value similarly.</li>
+  <li><strong>Test in small batches</strong>. Send to test numbers first, then move to live. Monitor the response body and message status to detect template rejections, 403s, or rate limits.</li>
+  <li><strong>Add retries and fallback</strong>. If WhatsApp Cloud API returns an auth or delivery error, route the scenario to a Twilio HTTP call or an SMS fallback, and log failures to a sheet or ticket system.</li>
+</ol>
+
+<h2>Make.com and module settings for WhatsApp</h2>
+<p>In Make.com build a scenario with these practical steps:</p>
+<ul>
+  <li>Create a Scenario and add your incoming trigger, for example a webhook or a Shopify module.</li>
+  <li>Add an HTTP module. Set <code>Method</code> to <code>POST</code>, URL to your chosen API messages edge. Under <code>Headers</code> add <code>Authorization</code> as <code>Bearer YOUR_ACCESS_TOKEN</code> and <code>Content-Type</code> as <code>application/json</code>.</li>
+  <li>In the HTTP module body use raw JSON and map fields from the trigger. Use Make.com tools like the <code>JSON</code> functions to build the template components safely.</li>
+  <li>Enable error handling on the HTTP module: right click the module, choose <code>Error handlers</code>, add a route to retry on 5xx and send a fallback via Twilio or SMS on persistent 4xx.</li>
+</ul>
+<p>There are community threads showing Make.com implementations and patterns, for example this post about sending WhatsApp notifications from a restaurant site and another about building order updates from ClickUp, which are useful reference patterns.</p>
+<p><a href="https://community.make.com/t/how-to-send-whatsapp-notification-to-my-personal-whatsapp-when-a-new-order-is-placed-on-my-restaurant-website/117948" target="_blank" rel="noopener noreferrer">Make community: send WhatsApp notification for orders</a></p>
+
+<h2>n8n notes for a WhatsApp support agent and notifications</h2>
+<p>n8n is useful for AI support agents and multilingual flows. Use the following nodes and settings:</p>
+<ul>
+  <li>Trigger with <code>Webhook</code> or scheduler.</li>
+  <li>Transform data with the <code>Code</code> node when you need to build complex JSON components for template placeholders.</li>
+  <li>Send the request with the <code>HTTP Request</code> node, set <code>Method</code> to <code>POST</code>, <code>Authentication</code> to <code>None</code> if you use header auth, and add the <code>Authorization: Bearer TOKEN</code> header and <code>Content-Type: application/json</code>.</li>
+  <li>For AI replies use an OpenAI or ChatGPT node to generate text, then feed that into the template or into a session-based conversational flow. For multilingual agents include language detection before selecting template language.</li>
+</ul>
+<p>For n8n implementations where users ask for an AI WhatsApp support agent, see the community request that outlines the use case and language needs.</p>
+<p><a href="https://community.n8n.io/t/n8n-expert-needed-ai-whatsapp-support-agent-hindi-english/323862" target="_blank" rel="noopener noreferrer">n8n community: AI WhatsApp support agent request</a></p>
+
+<h2>Troubleshooting checklist most answers miss</h2>
+<ul>
+  <li><strong>403 Forbidden</strong>: usually a token or access scope problem, or Business Manager verification is incomplete. Check that the token belongs to the WhatsApp Business Account phone number and that your Business Manager is verified.</li>
+  <li><strong>401 Unauthorized</strong>: token expired or wrong header format. Confirm header uses <code>Authorization: Bearer YOUR_TOKEN</code>.</li>
+  <li><strong>Template not approved</strong>: response will indicate template errors. Use only approved templates for proactive messages.</li>
+  <li><strong>24-hour window rules</strong>: user-initiated messages can be replied to within 24 hours without templates. Proactive notifications need templates and approval.</li>
+  <li><strong>Delivery failures</strong>: inspect message status in the API response or Webhook callbacks. Common states are <code>sent</code>, <code>delivered</code>, and <code>failed</code>. Log failures and add a retry with exponential backoff.</li>
+  <li><strong>Signatures and security</strong>: if you use webhooks set up app secret verification so you only accept callbacks you can verify; in n8n/Make.com validate signatures before processing.</li>
+  <li><strong>Rate limits</strong>: build graceful 429 handling and backoff. Log each rate limit event and notify an operator after multiple events.</li>
+</ul>
+
+<h2>When to get help and what to include</h2>
+<p>If you hit persistent 403 or template rejection after verification, raise a support ticket with Meta or Twilio. When asking for help include:</p>
+<ul>
+  <li>Exact response body and HTTP status code.</li>
+  <li>Screenshot or copy of the message template and its approval status.</li>
+  <li>Automation logs showing the exact request payload and headers with the token redacted.</li>
+  <li>Steps you took in Meta Business Manager or Twilio console and the phone numbers involved.</li>
+</ul>
+
+<h2>Small example headers and payload pattern</h2>
+<pre><code>Authorization: Bearer YOUR_ACCESS_TOKEN
+Content-Type: application/json
+
+{
+  "messaging_product": "whatsapp",
+  "to": "whatsapp:+2348012345678",
+  "type": "template",
+  "template": { "name": "order_update", "language": { "code": "en_US" }, "components": [] }
+}
+</code></pre>
+
+<p>Replace the phone number and template name with your values. Use the HTTP Request node in n8n or the HTTP module in Make.com to send this payload. If the API rejects the template, the response will indicate the reason.</p>
+
+<p>Want a practical checklist to debug your Make.com outreach flows? See our Make.com outreach automation debug checklist for related troubleshooting patterns and logging tips.</p>
+<p><a href="https://automatenaija.com/blog/make-com-outreach-automation-debug">Make.com outreach automation debug checklist</a></p>
+
+<p>Automate Naija teaches hands-on automations with Make.com, n8n and AI. Learn to build reliable WhatsApp notification automations and fallbacks with us at <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Can I send WhatsApp messages from Make.com without business verification?</h3>
+      <p>You can send messages in the 24-hour conversation window for user-initiated chats without templates, but for proactive notifications you need approved message templates and usually a verified Meta Business. For full production reliability get your business verified and templates approved.</p>
+      <h3>Should I use WhatsApp Cloud API or Twilio for notifications?</h3>
+      <p>Use WhatsApp Cloud API for direct access and lower cost, use Twilio if you want Twilio features like managed number handling and easier fallbacks. Many teams implement Cloud API first and keep Twilio as a fallback when delivery or provisioning issues occur.</p>
+      <h3>Why do messages show 403 or template errors?</h3>
+      <p>403 often means the access token, phone number ID or business verification is incorrect. Template errors occur when you use a template that is not approved or has misformatted components. Check the API response body, and confirm template approval in Meta Business Manager.</p>
+      <h3>How do I test WhatsApp notifications safely?</h3>
+      <p>Use a small pool of test numbers, send only approved templates, and log every API response. Add retries for transient errors and a fallback route to Twilio or SMS for critical notifications. Record request payloads and response bodies for debugging.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
