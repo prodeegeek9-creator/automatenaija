@@ -568,9 +568,11 @@
   .newcard .live-starter a{margin-top:0;font-size:13px;}
   /* The cut-outs are made to stand on a dark card, so the stage stays dark in
      both themes. */
-  .showcase-stage{position:relative;height:250px;border-radius:15px;margin-bottom:18px;overflow:hidden;background:radial-gradient(circle at 50% 85%,rgba(204,85,0,.38),transparent 62%),#0a0d0b;}
-  .showcase-cut{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:94%;max-width:92%;object-fit:contain;object-position:bottom;}
-  .showcase-ava{position:absolute;inset:0;margin:auto;width:112px;height:112px;border-radius:50%;object-fit:cover;background:#161b15;border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font:700 30px/1 'IBM Plex Mono',monospace;color:#cc5500;}
+  /* A round frame, like a profile photo: the cut-out rises from its bottom
+     edge; without one, the photo (or initials) fills the circle. */
+  .showcase-stage{position:relative;width:min(240px,100%);aspect-ratio:1;border-radius:50%;margin:0 auto 20px;overflow:hidden;background:radial-gradient(circle at 50% 80%,rgba(204,85,0,.42),transparent 64%),#0a0d0b;border:1px solid rgba(255,255,255,.1);box-shadow:0 0 0 6px rgba(var(--accent-rgb),.08);}
+  .showcase-cut{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:90%;max-width:100%;object-fit:contain;object-position:bottom;}
+  .showcase-ava{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#161b15;display:grid;place-items:center;font:700 52px/1 'IBM Plex Mono',monospace;color:#cc5500;}
   .showcase-meta{font-size:14px;}
   .newcard .showcase-meta a{margin-top:0;font-size:14px;}
   .showcase-dots{display:flex;gap:6px;margin-top:16px;}
