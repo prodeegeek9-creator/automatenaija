@@ -345,8 +345,7 @@
 
   /* ---------- PHONES (<=767px) ----------
      The homepage sheds what does not earn its place on a small screen: the 3D
-     cube goes, so the copy gets the full width back, and the opportunities
-     section is dropped along with the links that point at it. */
+     cube goes, so the copy gets the full width back. */
   @media(max-width:767px){
     /* two classes deep so it beats the .hero-visual{display:flex} base rule
        further down the sheet, whatever the source order */
@@ -362,11 +361,6 @@
     .seal{width:clamp(70px,20vw,96px);}
     h1{font-size:clamp(2rem,9vw,3rem);}
     .lede{font-size:.95rem;}
-    /* the section goes, and with it every link that would scroll to nothing */
-    #opportunities,
-    .opp-card,
-    .mobile-menu a[href="#opportunities"],
-    .fcol a[href="#opportunities"]{display:none;}
   }
 
   .avatar-row{display:flex;align-items:center;gap:12px;justify-content:center;}
@@ -548,10 +542,40 @@
   .n8n-notice .newbtn{width:auto;margin-top:0!important;padding:14px 24px;flex-shrink:0;white-space:nowrap;}
   @media(max-width:640px){.n8n-notice{padding:26px 22px;}.n8n-notice .newbtn{width:100%;}}
 
-  .oppgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;}
-  .oppgrid .newcard h3{font-size:18px;margin-top:18px;}
-  .oppgrid .newcard>b{display:block;color:var(--accent);margin-top:15px;}
-  .oppgrid small{display:block;color:var(--muted);font-size:10px;margin-top:10px;}
+  /* ---------- LIVE FROM THE APP (assets/live.js) ---------- */
+  .livegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;}
+  .live-label{font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--accent);}
+  .feed-card h3{font-size:21px;margin:10px 0 6px;}
+  .live-rows{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:9px;}
+  .live-row{display:flex;align-items:center;gap:10px;font-size:14px;min-width:0;}
+  .live-rank{width:26px;flex-shrink:0;font:700 12px 'IBM Plex Mono',monospace;color:var(--muted);}
+  .live-ava{width:32px;height:32px;flex-shrink:0;border-radius:50%;object-fit:cover;background:var(--surface2);border:1px solid var(--line);display:grid;place-items:center;font:700 11px/1 'IBM Plex Mono',monospace;color:var(--accent);}
+  .live-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);}
+  .newcard a.live-name{display:block;margin:0;font-size:14px;font-weight:600;color:var(--text);}
+  .newcard a.live-name:hover{color:var(--accent);}
+  .live-val{font:700 12px 'IBM Plex Mono',monospace;color:var(--accent);white-space:nowrap;}
+  .live-seats{display:flex;gap:4px;flex-shrink:0;}
+  .live-seats i{width:8px;height:8px;border-radius:50%;background:var(--line2);}
+  .live-seats i.on{background:var(--accent);}
+  .live-empty{margin-top:14px;}
+  .live-more{margin-top:18px;border-top:1px solid var(--line);padding-top:14px;}
+  .live-more b{font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--muted);}
+  .live-more ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:7px;}
+  .live-more li{display:flex;justify-content:space-between;gap:12px;font-size:13px;}
+  .live-more-title{color:var(--text-2);min-width:0;}
+  .live-more-tag{color:var(--muted);font:600 11px 'IBM Plex Mono',monospace;white-space:nowrap;}
+  .live-starter{margin-top:14px;font-size:13px!important;}
+  .newcard .live-starter a{margin-top:0;font-size:13px;}
+  /* The cut-outs are made to stand on a dark card, so the stage stays dark in
+     both themes. */
+  .showcase-stage{position:relative;height:250px;border-radius:15px;margin-bottom:18px;overflow:hidden;background:radial-gradient(circle at 50% 85%,rgba(204,85,0,.38),transparent 62%),#0a0d0b;}
+  .showcase-cut{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:94%;max-width:92%;object-fit:contain;object-position:bottom;}
+  .showcase-ava{position:absolute;inset:0;margin:auto;width:112px;height:112px;border-radius:50%;object-fit:cover;background:#161b15;border:1px solid rgba(255,255,255,.12);display:grid;place-items:center;font:700 30px/1 'IBM Plex Mono',monospace;color:#cc5500;}
+  .showcase-meta{font-size:14px;}
+  .newcard .showcase-meta a{margin-top:0;font-size:14px;}
+  .showcase-dots{display:flex;gap:6px;margin-top:16px;}
+  .showcase-dots .dot{width:8px;height:8px;padding:0;border:0;border-radius:99px;background:var(--line2);cursor:pointer;transition:width .25s,background .25s;}
+  .showcase-dots .dot.on{width:22px;background:var(--accent);}
 
   .community-new{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;}
   /* Holds a screenshot of the real community rather than mocked-up messages.
@@ -637,11 +661,11 @@
   @media(max-width:1000px){
     .bento{grid-template-columns:1fr 1fr;}
     .newcard.large{grid-column:span 2;grid-row:auto;}
-    .oppgrid{grid-template-columns:1fr 1fr;}
+    .livegrid{grid-template-columns:1fr 1fr;}
     .arena-new,.community-new{grid-template-columns:1fr;}
   }
   @media(max-width:650px){
-    .bento,.oppgrid,.pricegrid{grid-template-columns:1fr;}
+    .bento,.livegrid,.pricegrid{grid-template-columns:1fr;}
     .newcard.large{grid-column:auto;}
     .whynew{grid-template-columns:1fr;}
     .cta-new .wrap{flex-direction:column;align-items:flex-start;}
@@ -926,7 +950,7 @@
       <a href="#ecosystem">Learn</a>
       <a href="#arena">Build</a>
       <a href="#community">Community</a>
-      <a href="#opportunities">Opportunities</a>
+      <a href="#live">Leaderboard</a>
       <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
       <a href="blog/index.html">Blog</a>
       <a href="about.html">About</a>
@@ -945,7 +969,7 @@
     <a href="#ecosystem">Learn</a>
     <a href="#arena">Build</a>
     <a href="#community">Community</a>
-    <a href="#opportunities">Opportunities</a>
+    <a href="#live">Leaderboard</a>
     <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
     <a href="blog/index.html">Blog</a>
     <a href="about.html">About</a>
@@ -1159,11 +1183,11 @@
         <p>Turn finished projects into portfolio proof and reputation.</p>
         <a href="#arena">See the showcase →</a>
       </article>
-      <article class="newcard rv opp-card">
+      <article class="newcard rv">
         <span class="newicon">▣</span>
-        <h3>Get opportunities</h3>
-        <p>Discover freelance projects, roles and paid automation work.</p>
-        <a href="#opportunities">View opportunities →</a>
+        <h3>Get verified</h3>
+        <p>Every graded build earns a credential anyone can check, so a client sees proof, not promises.</p>
+        <a href="#arena">See verified builds →</a>
       </article>
     </div>
   </div>
@@ -1175,27 +1199,25 @@
     <div class="section-head rv">
       <span class="kicker">AUTOMATION ARENA</span>
       <h2>Real problems. Real builders. Real impact.</h2>
-      <p>Build under constraints, earn XP and leave with work you can actually show.</p>
+      <p>Build under constraints, earn stacks and leave with work you can actually show.</p>
     </div>
     <div class="arena-new">
-      <article class="newcard challenge rv">
-        <span class="badge">FEATURED CHALLENGE</span>
-        <small>6 days left</small>
-        <h3>The 7-Day Sales Machine</h3>
-        <p>Build an end-to-end system that qualifies leads, answers FAQs, records customer information and alerts the sales team automatically.</p>
-        <div class="tags">
-          <span>Intermediate</span><span>n8n</span><span>WhatsApp</span><span>OpenAI</span><span>Supabase</span>
-        </div>
-        <div class="challenge-foot"><b>₦500 XP reward</b><span>+32 builders</span></div>
-        <a class="newbtn" href="#pricing">Join challenge</a>
+      <!-- Filled from the app by assets/live.js; this copy stays if it can't be reached. -->
+      <article class="newcard challenge rv" id="liveBuild">
+        <span class="badge">THIS WEEK'S BUILDS</span>
+        <h3>A new business problem every Monday.</h3>
+        <p>Each week drops real builds for Beginner, Intermediate and Expert, in n8n, Make and Zapier. Ship one, get it graded against a rubric, earn stacks and a verified credential.</p>
+        <a class="newbtn" href="https://app.automatenaija.com/login" data-link="app">See this week's builds</a>
       </article>
-      <article class="newcard showcase rv">
-        <div class="workflow-preview"><i>LEAD</i><i>AI AGENT</i><i>CRM</i></div>
+
+      <article class="newcard showcase rv" id="liveShowcase">
         <span class="kicker">BUILDER SHOWCASE</span>
-        <h3>AI-Powered Customer Support Agent</h3>
-        <p>Built by <b>David A.</b> · 128 likes · 24 comments</p>
+        <h3>Real builds, graded and verified.</h3>
+        <p>Every finished build is marked against a rubric, and every pass earns a credential anyone can check.</p>
+        <a href="https://app.automatenaija.com/verify">Check a credential →</a>
       </article>
     </div>
+
     <div class="n8n-notice rv">
       <div class="n8n-notice-copy">
         <span class="badge">HOSTED N8N</span>
@@ -1207,43 +1229,20 @@
   </div>
 </section>
 
-<!-- ============ OPPORTUNITIES ============ -->
-<section id="opportunities">
+<!-- ============ LIVE FROM THE APP ============ -->
+<!-- Hidden until assets/live.js has real data for it. -->
+<section id="live" hidden>
   <div class="wrap">
     <div class="section-head rv">
-      <span class="kicker">OPPORTUNITIES</span>
-      <h2>Build skills that can pay you.</h2>
-      <p>Projects, hiring and collaboration opportunities.</p>
+      <span class="kicker">LIVE FROM THE APP</span>
+      <h2>Who's building right now.</h2>
+      <p id="liveStats">Leaderboards, the weekly quiz and the squads, straight from the app.</p>
     </div>
-    <div class="oppgrid">
-      <article class="newcard rv">
-        <span class="badge">PROJECT</span>
-        <h3>WhatsApp Sales Automation</h3>
-        <p>Qualify leads and automate follow-up for a growing business.</p>
-        <b>₦250k – ₦400k</b>
-        <small>Lagos · n8n · WhatsApp API · CRM</small>
-      </article>
-      <article class="newcard rv">
-        <span class="badge">HIRING</span>
-        <h3>AI Automation Builder</h3>
-        <p>Join a team working on long-term automation projects.</p>
-        <b>₦150k – ₦300k / month</b>
-        <small>Remote · n8n · Make · OpenAI</small>
-      </article>
-      <article class="newcard rv">
-        <span class="badge">PROJECT</span>
-        <h3>E-commerce Order Automation</h3>
-        <p>Automate orders, inventory, notifications and reporting.</p>
-        <b>₦200k – ₦350k</b>
-        <small>Remote · Make · Shopify · Sheets</small>
-      </article>
-      <article class="newcard rv">
-        <span class="badge">COLLABORATION</span>
-        <h3>AI Cold Email Agent</h3>
-        <p>Find leads, write personalised emails and automate follow-ups.</p>
-        <b>Negotiable</b>
-        <small>Remote · AI · n8n · Email APIs</small>
-      </article>
+
+    <div class="livegrid">
+      <article class="newcard feed-card" id="liveLeaders"></article>
+      <article class="newcard feed-card" id="liveQuiz"></article>
+      <article class="newcard feed-card" id="liveSquads"></article>
     </div>
   </div>
 </section>
@@ -1418,7 +1417,7 @@
         </a>
         <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
       </div>
-      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#opportunities">Opportunities</a><a href="#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#live">Leaderboard</a><a href="#pricing">Pricing</a></div></details>
       <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
       <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div></details>
       <div class="fnews">
@@ -1448,6 +1447,7 @@
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
         onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){drawIcons();};document.head.appendChild(s);"></script>
 <script src="assets/site.js"></script>
+<script src="assets/live.js" defer></script>
 <script>
   /* =================================================================
      EDIT EVERYTHING HERE. Nothing else needs touching.
