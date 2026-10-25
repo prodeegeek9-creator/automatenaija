@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" data-default-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automate Naija: Learn automation by shipping it</title>
+<meta name="description" content="Every Monday a real problem from a Nigerian business. Build the workflow in n8n, Make or Zapier, get it graded in about a minute, and earn a credential anyone can check.">
+<!-- The "Canvas" homepage template. index.html is the "Classic" one and the
+     live homepage; this page stays out of search until it takes its place
+     (see README: Homepage templates). -->
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://automatenaija.com/">
+
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark">
+
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Automate Naija: Learn automation by shipping it">
+<meta property="og:description" content="A real build for a Nigerian business every week, graded in about a minute, with a credential anyone can check.">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://app.automatenaija.com" crossorigin>
+<link rel="preconnect" href="https://media.prodeegee.com" crossorigin>
+<!-- Before the first paint, so a light-first page never flashes dark: the
+     same rule site.js applies later (a saved choice wins, else the default). -->
+<script>(function(){var t=null;try{t=localStorage.getItem('an-theme');}catch(e){}if(t!=='dark')document.documentElement.setAttribute('data-theme','light');})();</script>
+<link rel="stylesheet" href="assets/canvas.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="s-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></symbol>
+  <symbol id="s-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.4"/></g><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="s-x" viewBox="0 0 24 24"><path fill="currentColor" d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24H16.2l-5.2-6.8-5.95 6.8H1.74l7.73-8.84L1.32 2.25H8.6l4.7 6.22 4.94-6.22Zm-1.16 17.52h1.83L7.02 4.13H5.05l12.03 15.64Z"/></symbol>
+</svg>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="canvas.html" aria-label="Automate Naija"><img src="assets/brand/logo-mark.svg" alt="" width="64" height="64">utomate<b>Naija</b></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#week">This week</a>
+      <a href="#live">Live</a>
+      <a href="#proof">Credentials</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#tutors">Tutors</a>
+      <a href="blog/index.html">Blog</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme"><i data-lucide="sun" class="t-sun"></i><i data-lucide="moon" class="t-moon"></i></button>
+      <a class="nav-login" href="https://app.automatenaija.com/login" data-link="app">Log in</a>
+      <a class="btn btn-run js-start" href="https://app.automatenaija.com/login?mode=signup">Start free</a>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false"><i data-lucide="menu" style="width:22px;height:22px"></i></button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#week">This week's builds</a>
+    <a href="#live">Live from the app</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#tutors">Tutors</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="blog/index.html">Blog</a>
+    <a href="about.html">About</a>
+    <a class="btn btn-ghost" href="https://app.automatenaija.com/login" data-link="app">Log in</a>
+  </div>
+</header>
+
+<main>
+<!-- ================= HERO: a member's path as a workflow ================= -->
+<div class="hero dots" id="top">
+  <div class="floaters" id="heroTiles" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <span class="live-chip"><i class="pulse" aria-hidden="true"></i><span id="heroChip">New builds every Monday</span></span>
+        <h1>Learn automation<br> by <span class="u">shipping<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M2 14 C 40 2, 80 2, 100 10 S 160 18, 198 6" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span> it.</h1>
+      </div>
+      <div class="hero-side">
+        <p class="lead">Every Monday a real problem from a Nigerian business lands here. You build the workflow in n8n, Make or Zapier, a grader marks it in about a minute, and a pass becomes a credential anyone can check.</p>
+        <div class="ctas">
+          <a class="btn btn-run js-start" href="https://app.automatenaija.com/login?mode=signup"><span class="play"><i data-lucide="play"></i></span>Start your free build</a>
+          <a class="btn btn-ghost" href="#week">See this week's builds</a>
+        </div>
+      </div>
+    </div>
+
+    <ol class="flow" id="flow" aria-label="How it works">
+      <li class="node trigger">
+        <span class="ic ink"><i data-lucide="zap"></i></span>
+        <div><span class="type">Trigger</span><b>You sign up</b><small>Free. No card needed.</small></div>
+        <span class="port out"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="node lo" style="--c:#2F6FDB">
+        <span class="ic"><i data-lucide="book-open"></i></span>
+        <div><span class="type">Learn · optional</span><b>13-week course</b><small>Zapier, Make, then n8n. <span class="live">₦10,000 once.</span></small></div>
+        <span class="port in"></span><span class="port out"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="node" style="--c:var(--n8n)">
+        <span class="ic"><i data-lucide="wrench"></i></span>
+        <div><span class="type">Build · this week</span><b id="flowBuild">A new real build every week</b><small class="live" id="flowClose">At your level, in your tool</small></div>
+        <span class="port in"></span><span class="port out"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="node lo" style="--c:#7A5AF8">
+        <span class="ic"><i data-lucide="clipboard-check"></i></span>
+        <div><span class="type">Grade</span><b>Marked against a rubric</b><small>Score and feedback in about a minute.</small></div>
+        <span class="port in"></span><span class="port out"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="node" style="--c:var(--ok)">
+        <span class="ic"><i data-lucide="badge-check"></i></span>
+        <div><span class="type">Output</span><b>Verified credential</b><small>On your portfolio and LinkedIn.</small></div>
+        <span class="port in"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="sticky" aria-label="Note"><b>Note:</b> the first build is free and never closes. Most people finish it in under an hour.</li>
+    </ol>
+    <p class="runbar" id="runbar" hidden><span class="okpill"><i data-lucide="check"></i>Last successful run</span><span id="lastRun"></span></p>
+  </div>
+</div>
+
+<!-- ================= THIS WEEK ================= -->
+<section id="week">
+  <div class="bgi" data-set="week" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">This week</span>
+        <h2 id="weekH">Real business problems. Pick one and ship it.</h2>
+        <p class="lead">One brief per level and tool. Each is a problem a real business here would pay to have automated, with a starter kit to get you moving.</p>
+      </div>
+      <div class="countdown" id="countdown" hidden><div class="t" id="cd"></div><span>left to submit<br>this week's builds</span></div>
+    </div>
+    <a class="starter" id="starter" href="https://app.automatenaija.com/login?mode=signup">
+      <span class="tag">START HERE · FREE</span>
+      <span><b id="starterTitle">Your first build is free</b><small>About an hour · never closes · no plan needed</small></span>
+      <span class="go">Open the free build <i data-lucide="arrow-right" class="i"></i></span>
+    </a>
+    <div class="lanes" id="lanes"></div>
+    <div class="week-empty" id="weekEmpty" hidden>
+      <span>A new set of builds drops every Monday, one per level and tool. See this week's in the app.</span>
+      <a class="btn btn-ghost" href="https://app.automatenaija.com/login" data-link="app">Open the app</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXECUTIONS (live from the app) ================= -->
+<section id="live" class="dots" hidden>
+  <div class="bgi" data-set="live" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Live from the app</span>
+        <h2>Executions, not testimonials.</h2>
+        <p class="lead">Every row below is a real build that passed the grader, from a builder who made their portfolio public.</p>
+      </div>
+    </div>
+    <div class="summary" id="summary"></div>
+    <div class="exec-grid">
+      <div class="panel">
+        <div class="panel-h"><span>Recent executions</span><a href="https://app.automatenaija.com/verify">Check a credential →</a></div>
+        <table class="log"><thead><tr><th>Status</th><th>Builder</th><th>Workflow</th><th>Score</th><th>Graded</th></tr></thead><tbody id="log"></tbody></table>
+      </div>
+      <div class="side">
+        <div class="panel">
+          <div class="panel-h"><span>Leaderboard</span><span class="tabs" role="group" aria-label="Leaderboard range"><button type="button" data-range="week" aria-pressed="false">This week</button><button type="button" data-range="all_time" aria-pressed="true">All time</button></span></div>
+          <ol class="rows" id="leaders"></ol>
+        </div>
+        <div class="panel" id="quizPanel">
+          <div class="panel-h"><span id="quizH">Weekly quiz</span><a id="quizGo" href="https://app.automatenaija.com/game">Play →</a></div>
+          <ol class="rows" id="quiz"></ol>
+          <p class="panel-f" id="quizF"></p>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><span>Squads</span><a id="partnerGo" href="https://app.automatenaija.com/partner">Find a partner →</a></div>
+          <ol class="rows" id="squads"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CREDENTIAL ================= -->
+<section id="proof">
+  <div class="wrap cred-wrap">
+    <div class="cred" id="cred" hidden>
+      <span class="stamp"><i data-lucide="shield-check"></i>VERIFIED</span>
+      <div class="photo" id="credPhoto"></div>
+      <div>
+        <span class="k">BUILDER CREDENTIAL · AUTOMATE NAIJA</span>
+        <h3 id="credName"></h3>
+        <p class="t" id="credTitle"></p>
+        <dl>
+          <div><dt>Score</dt><dd id="credScore"></dd></div>
+          <div><dt>Level</dt><dd id="credLevel"></dd></div>
+          <div><dt>Tool</dt><dd id="credTool"></dd></div>
+          <div><dt>Graded</dt><dd id="credDate"></dd></div>
+        </dl>
+        <a class="view" id="credGo" href="https://app.automatenaija.com/verify">See the build <i data-lucide="external-link"></i></a>
+      </div>
+    </div>
+    <div>
+      <span class="kicker">What a pass gets you</span>
+      <h2 style="margin-top:14px">A credential anyone can check.</h2>
+      <div class="points">
+        <div><span class="n"><i data-lucide="clipboard-check" class="i"></i></span><div><b>Graded against a published rubric</b><p>The score is the grader's, and the feedback says what to fix.</p></div></div>
+        <div><span class="n"><i data-lucide="shield-check" class="i"></i></span><div><b>Checkable in one click</b><p>Every credential has its own page at app.automatenaija.com/verify, with the real build behind it.</p></div></div>
+        <div><span class="n"><i data-lucide="share-2" class="i"></i></span><div><b>Made to be shared</b><p>A share card with your photo and score, sized for LinkedIn and WhatsApp status.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section id="pricing" class="dots">
+  <div class="bgi" data-set="pricing" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head"><div><span class="kicker">Pricing</span><h2>Two ways in.</h2><p class="lead">The community and the first build are free. Pay when you want the course or the weekly builds.</p></div></div>
+    <div class="tracks">
+      <article class="track">
+        <div class="hd"><span class="ic" style="background:#2F6FDB"><i data-lucide="book-open"></i></span><div><b>Learn</b><span>Start from zero</span></div></div>
+        <div class="price"><b>₦10,000</b><span>once, yours to keep</span></div>
+        <ul class="checks">
+          <li><i data-lucide="check"></i>13 weeks, beginner to intermediate</li>
+          <li><i data-lucide="check"></i>Zapier, Make and n8n, one tool at a time</li>
+          <li><i data-lucide="check"></i>Notes, resources and a practice task in every class</li>
+          <li><i data-lucide="check"></i>Live classes with your cohort, and a capstone for a real business</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://app.automatenaija.com/login?next=%2Flearn">Start learning</a>
+        <p class="hint">See the whole course outline in the app, then pay once on Paystack.</p>
+      </article>
+      <article class="track feat">
+        <span class="ribbon">FIRST 100 SUBSCRIBERS</span>
+        <div class="hd"><span class="ic" style="background:var(--accent)"><i data-lucide="wrench"></i></span><div><b>Automate</b><span>6-week build cycle</span></div></div>
+        <fieldset class="tiers" id="tiers">
+          <legend>Choose your level</legend>
+          <label><input type="radio" name="automate-level" value="beginner" data-was="₦8,000" data-now="₦5,000" data-label="Beginner" checked><b>Beginner</b><span>New to automation</span><em>₦5,000 <s>₦8,000</s></em></label>
+          <label><input type="radio" name="automate-level" value="intermediate" data-was="₦12,000" data-now="₦8,000" data-label="Intermediate"><b>Intermediate</b><span>Built a few</span><em>₦8,000 <s>₦12,000</s></em></label>
+          <label><input type="radio" name="automate-level" value="expert" data-was="₦20,000" data-now="₦10,000" data-label="Expert"><b>Expert</b><span>Shipping for clients</span><em>₦10,000 <s>₦20,000</s></em></label>
+        </fieldset>
+        <div class="price"><b id="automateNow">₦5,000</b><s id="automateWas">₦8,000</s><span id="automateNote">Beginner, first-100 price</span></div>
+        <ul class="checks">
+          <li><i data-lucide="check"></i>A new real build every week at your level</li>
+          <li><i data-lucide="check"></i>Graded in minutes, with a credential for every pass</li>
+          <li><i data-lucide="check"></i>Squads, the leaderboard and the weekly quiz</li>
+        </ul>
+        <a class="btn btn-run" id="automateCta" href="https://app.automatenaija.com/login?plan=automate&amp;level=beginner"><span class="play"><i data-lucide="play"></i></span><span id="automateCtaText">Continue with Beginner</span></a>
+        <p class="hint">Prices go back to normal once the first 100 spots are gone.</p>
+      </article>
+      <div class="addon"><b>Add-on: hosted n8n.</b> Your own instance, always up to date. ₦3,000 a month, first 30 days free.<a href="https://app.automatenaija.com/n8n">See hosted n8n →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TUTORS ================= -->
+<section id="tutors">
+  <div class="bgi" data-set="tutors" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head"><div><span class="kicker">Tutors</span><h2>Taught and graded by people who ship.</h2></div></div>
+    <div class="people">
+      <div class="person"><div class="ph">OO<img src="https://media.prodeegee.com/fm.png" alt="Oginni Oluwafemi" loading="lazy" decoding="async"></div><b>Oginni Oluwafemi</b><span>Lead Instructor · n8n &amp; AI Agents</span>
+        <div class="socials"><a href="https://linkedin.com/in/prodeegee" target="_blank" rel="noopener" aria-label="Oginni Oluwafemi on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/prodeegee" target="_blank" rel="noopener" aria-label="Oginni Oluwafemi on Instagram"><svg><use href="#s-instagram"/></svg></a></div></div>
+      <div class="person"><div class="ph">OJ<img src="https://media.prodeegee.com/jo.png" alt="Oluwabunmi Josephine" loading="lazy" decoding="async"></div><b>Oluwabunmi Josephine</b><span>Automation &amp; Integrations</span>
+        <div class="socials"><a href="https://www.linkedin.com/in/josephine-oluwabunmi-b484253a8/" target="_blank" rel="noopener" aria-label="Oluwabunmi Josephine on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/oluwabunmi" target="_blank" rel="noopener" aria-label="Oluwabunmi Josephine on Instagram"><svg><use href="#s-instagram"/></svg></a><a href="https://twitter.com/oluwabunmi" target="_blank" rel="noopener" aria-label="Oluwabunmi Josephine on X"><svg><use href="#s-x"/></svg></a></div></div>
+      <div class="person"><div class="ph">AA<img src="https://media.prodeegee.com/bayou.png" alt="Abdulhafeez Adebayo" loading="lazy" decoding="async"></div><b>Abdulhafeez Adebayo</b><span>Client Work &amp; Deployment</span>
+        <div class="socials"><a href="https://www.linkedin.com/in/abdulhafeez-adebayo-298636135/" target="_blank" rel="noopener" aria-label="Abdulhafeez Adebayo on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/abdulhafeez" target="_blank" rel="noopener" aria-label="Abdulhafeez Adebayo on Instagram"><svg><use href="#s-instagram"/></svg></a><a href="https://twitter.com/abdulhafeez" target="_blank" rel="noopener" aria-label="Abdulhafeez Adebayo on X"><svg><use href="#s-x"/></svg></a></div></div>
+      <div class="person"><div class="ph">OO<img src="https://okvpssmufcqmpglgehak.supabase.co/storage/v1/object/public/portfolio-media/ca8f5f57-ffdb-458c-9228-bb7b964bb648/655cabc1-4c9f-490c-8094-e4c2d2f5f038/E4F24323-5B95-4DF9-8032-8B7F0851B788.png" alt="Ogechukwu Okochukwu" loading="lazy" decoding="async"></div><b>Ogechukwu Okochukwu</b><span>Automations &amp; Integrations</span>
+        <div class="socials"><a href="https://linkedin.com/in/ogechukwu-okochukwu" target="_blank" rel="noopener" aria-label="Ogechukwu Okochukwu on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/ogechukwu" target="_blank" rel="noopener" aria-label="Ogechukwu Okochukwu on Instagram"><svg><use href="#s-instagram"/></svg></a><a href="https://twitter.com/ogechukwu" target="_blank" rel="noopener" aria-label="Ogechukwu Okochukwu on X"><svg><use href="#s-x"/></svg></a></div></div>
+      <div class="person"><div class="ph">LO<img src="https://media.prodeegee.com/bfa8e3e4-12c6-4ba7-8ba4-5f6672c0c1a4.png" alt="Linda Okike" loading="lazy" decoding="async"></div><b>Linda Okike</b><span>Backend &amp; Automations</span>
+        <div class="socials"><a href="https://linkedin.com/in/linda-okiken" target="_blank" rel="noopener" aria-label="Linda Okike on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/lindaokike" target="_blank" rel="noopener" aria-label="Linda Okike on Instagram"><svg><use href="#s-instagram"/></svg></a><a href="https://twitter.com/lindaokike" target="_blank" rel="noopener" aria-label="Linda Okike on X"><svg><use href="#s-x"/></svg></a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMMUNITY ================= -->
+<section id="community" class="dots">
+  <div class="wrap comm">
+    <div class="comm-copy">
+      <span class="kicker">Community</span>
+      <h2>Nobody debugs alone.</h2>
+      <p class="lead">The WhatsApp community is where builders post the error, share what a client paid, and find someone to build with. It's free.</p>
+      <div class="ctas"><a class="btn btn-wa" href="https://chat.whatsapp.com/" data-link="whatsapp" target="_blank" rel="noopener"><i data-lucide="users" class="i"></i>Join the WhatsApp community</a></div>
+    </div>
+    <figure class="shot">
+      <img id="commShot" src="https://okvpssmufcqmpglgehak.supabase.co/storage/v1/object/public/thread-media/ca8f5f57-ffdb-458c-9228-bb7b964bb648/oghxgilthvr/image-1788639415843.png" alt="A conversation in the Automate Naija community" loading="lazy" decoding="async">
+      <div class="chat" id="commChat" hidden>
+        <div class="msg"><small>A BUILDER</small>My webhook gets the form but the WhatsApp node says <code>401</code>. Anyone?</div>
+        <div class="msg"><small>A TUTOR</small>Your API token expired. Make a new one, update the credential, then re-run.</div>
+        <div class="msg me"><small>A BUILDER</small>That was it. Submitted and passed.</div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="bgi" data-set="faq" aria-hidden="true"></div>
+  <div class="wrap faq">
+    <div class="faq-copy">
+      <span class="kicker">FAQ</span>
+      <h2>Before you start.</h2>
+      <p class="lead">Anything else, ask June. She knows the prices, the tracks and the Arena.</p>
+      <button class="btn btn-ghost ask" type="button" onclick="document.getElementById('juneLauncher').click()"><i data-lucide="message-circle" class="i"></i>Ask June</button>
+    </div>
+    <div>
+      <details open><summary>Is the community free?</summary><p>Yes. The community layer is completely free to join. You only pay for a course: Learn, a one-time ₦10,000, or the Automate build track.</p></details>
+      <details><summary>Do I need coding experience?</summary><p>No. Learn starts from zero: 13 weeks that take you from your first automation to a capstone for a real business. Automate has a Beginner level too, plus Intermediate and Expert levels for people who already know a tool like n8n or Make.</p></details>
+      <details><summary>What tools will I work with?</summary><p>n8n, WhatsApp APIs, OpenAI, Supabase, Make and related automation integrations, taught through real builds rather than isolated tutorials.</p></details>
+      <details><summary>Can I find paid work here?</summary><p>We don't run a job board, so we won't promise you postings. What you build here is the proof that wins work: every graded build goes on your public portfolio, and each one can become a verified credential that a client or employer checks for themselves, with your score and the real work behind it. The community is where builders find collaborators.</p></details>
+      <details><summary>How does the first-100 discount work?</summary><p>It's a limited-time discount, open right now to the first 100 subscribers on the Automate track. Beginner is ₦5,000 instead of ₦8,000, Intermediate ₦8,000 instead of ₦12,000 and Expert ₦10,000 instead of ₦20,000. Once the 100 spots are taken, prices return to normal.</p></details>
+      <details><summary>What's in the Learn track?</summary><p>Learn AI Automation is open now: 13 weeks covering Zapier, Make and n8n one tool at a time, then APIs, payments, AI and building for clients, ending in a capstone for a real business. Every class has notes, resources and a practice task, with live classes alongside your cohort. It's ₦10,000, paid once, and the course is yours to keep. Sign up and you can see the whole outline before you pay. Join mid-cohort and the weeks it has already covered open straight away, so you can catch up.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section class="final dots">
+  <div class="floaters" id="finalTiles" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="kicker">Ready when you are</span>
+    <h2>Your first run is free.</h2>
+    <a class="node trigger js-start" href="https://app.automatenaija.com/login?mode=signup">
+      <span class="ic" style="background:var(--accent)"><i data-lucide="zap"></i></span>
+      <span><span class="type">Execute workflow</span><b style="font-size:1.25rem">Start your free build</b><small>Under an hour. Graded in about a minute.</small></span>
+      <i data-lucide="arrow-right" class="go"></i>
+    </a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><a class="brand" href="canvas.html" aria-label="Automate Naija"><img src="assets/brand/logo-mark.svg" alt="" width="64" height="64">utomate<b>Naija</b></a><p style="margin-top:14px;max-width:32ch">Where Nigerian builders learn AI automation by shipping real work.</p></div>
+      <div><h3>Platform</h3><a href="#week">This week's builds</a><a href="#live">Leaderboard</a><a href="#pricing">Pricing</a><a href="https://app.automatenaija.com/n8n">Hosted n8n</a></div>
+      <div><h3>Resources</h3><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="https://app.automatenaija.com/verify">Verify a credential</a><a href="https://app.automatenaija.com/login" data-link="app">Log in</a></div>
+      <div><h3>Company</h3><a href="about.html">About</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div>
+    </div>
+    <div class="fine"><span>© <span data-year>2026</span> Automate Naija · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span><span>Built in Naija. For the world.</span></div>
+  </div>
+</footer>
+
+<!-- June: markup here, behaviour in assets/june.js (shared with index.html) -->
+<button class="june-launcher" id="juneLauncher" type="button" aria-label="Chat with June"><span class="jv" aria-hidden="true">J</span>Ask June</button>
+<div class="june-panel" id="junePanel" role="dialog" aria-label="Chat with June" aria-hidden="true">
+  <div class="june-head">
+    <div class="june-avatar" aria-hidden="true">J</div>
+    <div class="june-head-info"><b>June</b><span><span class="june-dot"></span> Automate Naija's assistant</span></div>
+    <button class="june-close" id="juneClose" type="button" aria-label="Close chat"><i data-lucide="x"></i></button>
+  </div>
+  <div class="june-body" id="juneBody"></div>
+  <div class="june-suggest" id="juneSuggest"></div>
+  <form class="june-input-row" id="juneForm">
+    <input type="text" id="juneInput" placeholder="Ask me anything about Automate Naija…" aria-label="Message June" autocomplete="off">
+    <button type="submit" class="june-send" aria-label="Send"><i data-lucide="send"></i></button>
+  </form>
+</div>
+
+<script src="assets/canvas-icons.js"></script>
+<script src="assets/site.js"></script>
+<script src="assets/tool-logos.js" defer></script>
+<script src="assets/canvas.js" defer></script>
+<script src="assets/june.js" defer></script>
+</body>
+</html>
