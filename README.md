@@ -4,7 +4,8 @@ The Automate Naija marketing site. Plain static HTML, no build step: open the
 files or drop the folder on any static host (Cloudflare Pages).
 
 ```
-index.html                 home page (keeps its own inline CSS)
+index.html                 home page, "Classic" template (keeps its own inline CSS)
+canvas.html                "Canvas" home page template, previewed at /canvas (see Homepage templates)
 about.html                 about us
 careers.html               careers + open application
 partners.html              partner with us
@@ -15,6 +16,12 @@ blog/*.html                posts
 assets/site.css            shared shell styles for every page except index.html
 assets/site.js             shared links config + theme toggle, mobile menu, reveal
 assets/live.js             the homepage's live builds, showcase, leaderboard, quiz and squads
+assets/june.js             June, the Q&A bot: answers and behaviour, shared by both homepage templates
+assets/canvas.css          the Canvas template's styles
+assets/canvas.js           the Canvas template's live data, workflow wires, level picker and background
+assets/canvas-icons.js     the Lucide icons the Canvas template uses, without the whole library
+assets/tool-logos.js       tool logos (Simple Icons) for the Canvas template's background tiles
+assets/fonts/              self-hosted fonts for the Canvas template, with their licences
 assets/brand/              logo, icons and the link preview image (see its README)
 favicon.ico                root favicon, requested directly by browsers and scrapers
 site.webmanifest           name, theme colour and icons for installed/home screen
@@ -53,6 +60,38 @@ last initial, with a photo and a link only when their portfolio is public; the
 showcase is only builds from public portfolios; squads show by name. If the
 call fails, the Arena keeps the plain copy written in `index.html` and the
 live section stays hidden, along with the menu links to it.
+
+## Homepage templates
+
+The homepage comes in two templates. Both read the same live feed and share
+`assets/site.js` (links, theme, visit counting) and `assets/june.js` (June).
+
+- **Classic** (`index.html`): dark-first, the Arena, the showcase and the live
+  section, with the cube in the hero. This is the homepage.
+- **Canvas** (`canvas.html`, at `/canvas`): light-first, laid out like an
+  automation canvas. The hero is a member's path drawn as workflow nodes with
+  live counts on the wires, this week's builds sit in lanes by level, graded
+  builds read as an execution log, and a recent pass is shown as a credential.
+  Automation tool logos float in the background. It is `noindex` and its
+  canonical points at the homepage until it is promoted.
+
+Canvas fills itself from `SITE.live` like Classic does (`assets/canvas.js`).
+Without the feed it keeps its static copy, points at the app for this week's
+builds and hides the execution log and the credential card.
+
+What each template writes in its own markup, so a change goes in both: the
+pricing (Learn, the Automate levels and first-100 prices, hosted n8n), the FAQ,
+and the tutors (names, roles, photos, links). June's answers live once, in
+`assets/june.js`.
+
+**Making Canvas the homepage:** rename `index.html` to `classic.html` and
+`canvas.html` to `index.html`; in the new `index.html` remove the
+`<meta name="robots" content="noindex">` line, set its `brand` and footer
+links from `canvas.html` to `index.html`, and add the link preview tags from
+the old one. Going back is the same swap the other way.
+
+The Canvas theme opens in light for a first visit (`data-default-theme="light"`
+on its `<html>`); a visitor's saved choice from either template wins.
 
 ## Adding a blog post
 

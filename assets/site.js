@@ -129,7 +129,9 @@ var SITE = {
       if(theme === 'light'){ root.setAttribute('data-theme','light'); if(glyph) glyph.textContent = '☾'; }
       else { root.removeAttribute('data-theme'); if(glyph) glyph.textContent = '☼'; }
     }
-    apply(saved === 'light' ? 'light' : 'dark');
+    // A page may open in light for a first-time visitor (canvas.html sets
+    // data-default-theme="light"); a saved choice always wins.
+    apply(saved === 'light' || saved === 'dark' ? saved : (root.getAttribute('data-default-theme') === 'light' ? 'light' : 'dark'));
     if(!btn) return;
     btn.addEventListener('click', function(){
       var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
