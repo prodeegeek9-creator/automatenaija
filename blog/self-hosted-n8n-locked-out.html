@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix self hosted n8n locked out on Railway</title>
+<meta name="description" content="Self hosted n8n locked out? This guide shows Railway-specific steps, exact Postgres SQL and SMTP workarounds to regain owner access and restore login...">
+<link rel="canonical" href="https://automatenaija.com/blog/self-hosted-n8n-locked-out">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/self-hosted-n8n-locked-out">
+<meta property="og:title" content="Fix self hosted n8n locked out on Railway">
+<meta property="og:description" content="Self hosted n8n locked out? This guide shows Railway-specific steps, exact Postgres SQL and SMTP workarounds to regain owner access and restore login...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-25T04:32:56.750949+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fix self hosted n8n locked out on Railway">
+<meta name="twitter:description" content="Self hosted n8n locked out? This guide shows Railway-specific steps, exact Postgres SQL and SMTP workarounds to regain owner access and restore login...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Fix self hosted n8n locked out on Railway","description":"Self hosted n8n locked out? This guide shows Railway-specific steps, exact Postgres SQL and SMTP workarounds to regain owner access and restore login...","datePublished":"2026-10-25T04:32:56.750949+00:00","dateModified":"2026-10-25T04:32:56.750949+00:00","inLanguage":"en-NG","keywords":"self hosted n8n locked out, n8n reset email fails, n8n owner account locked, n8n railway deployment, n8n login issue","wordCount":1123,"mainEntityOfPage":"https://automatenaija.com/blog/self-hosted-n8n-locked-out","url":"https://automatenaija.com/blog/self-hosted-n8n-locked-out","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I reset an n8n owner password without database access?","acceptedAnswer":{"@type":"Answer","text":"If you can edit environment variables, the easiest non DB option is to add SMTP settings so the built in forgot password email can be sent. Without DB or SMTP, you cannot change the owner password from the UI. Database access or temporary SMTP are the practical recovery routes."}},{"@type":"Question","name":"What exact Postgres commands will reset the owner password?","acceptedAnswer":{"@type":"Answer","text":"Use your Railway DATABASE_URL with psql. For example: psql \"$DATABASE_URL\" -c \"UPDATE public.users SET password = crypt('NewPass123!', gen_salt('bf')) WHERE email = 'owner@example.com';\" Then clear reset token fields if present and redeploy n8n."}},{"@type":"Question","name":"Are these SQL changes safe for production?","acceptedAnswer":{"@type":"Answer","text":"Yes if you run only the specific UPDATE on the users table and you know the target email. Always backup the database first, and avoid mass updates. If unsure, take a dump with pg_dump or ask a developer to perform the change."}},{"@type":"Question","name":"What Railway steps let me add SMTP quickly so reset emails work?","acceptedAnswer":{"@type":"Answer","text":"In Railway open your project, go to Settings or Environment, add variables N8N_SMTP_HOST , N8N_SMTP_PORT , N8N_SMTP_USER , N8N_SMTP_PASS and optionally N8N_SMTP_FROM . Save and redeploy the service, then use the n8n forgot password UI."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Fix self hosted n8n locked out on Railway</h1>
+    <p class="lede">Step by step recovery for a self hosted n8n locked out on Railway, using Postgres updates or quick SMTP setup to regain the owner account and restore access.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-25T04:32:56.750949+00:00">25 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If your self hosted n8n locked out after an upgrade on Railway and the password reset email never works because you have no SMTP, you can either add SMTP credentials in Railway to let n8n send the reset link, or run a small Postgres change to set a new bcrypt password for the owner account and clear any reset tokens to get back in immediately.</p>
+
+<h2>Why this happens</h2>
+<p>When you upgrade n8n, user data remains in your Postgres database, but the built in password reset flow requires SMTP to send a reset link. On Railway many projects are deployed without SMTP, so the reset email never arrives. If the owner account is locked or you cannot reset via the UI, direct database access or enabling SMTP are the two reliable recovery routes.</p>
+
+<h2>Recover from self hosted n8n locked out</h2>
+<p>This section gives the Railway specific, safe sequence to regain owner access without waiting for email. Choose option A to add SMTP quickly, or option B to reset the owner password in Postgres. You will need your Railway Postgres connection string and access to your project environment variables.</p>
+
+<h2>Step by step fix</h2>
+<ol>
+<li><strong>Grab your Railway Postgres URL</strong>. In Railway, open your project, click the Postgres plugin, then click "Connect" or "Settings" and copy the DATABASE_URL. It looks like: <code>postgres://user:pass@host:5432/dbname</code>.</li>
+<li><strong>Option A, quickest and safest: configure SMTP on Railway</strong>. In Railway go to Project Settings, click Variables, add these variables (example names n8n expects): <code>N8N_SMTP_HOST</code>, <code>N8N_SMTP_PORT</code>, <code>N8N_SMTP_USER</code>, <code>N8N_SMTP_PASS</code>, and optionally <code>N8N_SMTP_FROM</code>. Use a free Mailgun, SendGrid, or Mailtrap account for quick SMTP. Redeploy your service. Then use the n8n UI forgot password flow to send the reset email.</li>
+<li><strong>Option B, direct Postgres password reset</strong>. Use psql locally or Railway CLI to run SQL against your database. First find the owner row. Run:</li>
+</ol>
+<pre><code>psql "$DATABASE_URL" -c "SELECT id, email FROM public.users;"
+</code></pre>
+<ol>
+<li>Update the owner password with a bcrypt hash generated by Postgres pgcrypto. Many Railway Postgres instances allow the <code>crypt()</code> function. Replace <code>owner@example.com</code> and <code>NewPass123!</code> with your email and a strong password.</li>
+</ol>
+<pre><code>psql "$DATABASE_URL" -c "UPDATE public.users SET password = crypt('NewPass123!', gen_salt('bf')) WHERE email = 'owner@example.com';"
+</code></pre>
+<ol>
+<li>Clear any reset token fields if they exist so the account is not blocked. Run both in case your schema uses camelCase or snake_case names.</li>
+</ol>
+<pre><code>psql "$DATABASE_URL" -c "UPDATE public.users SET \"passwordResetToken\" = NULL, \"passwordResetTokenExpires\" = NULL WHERE email = 'owner@example.com';"
+psql "$DATABASE_URL" -c "UPDATE public.users SET password_reset_token = NULL, password_reset_expires = NULL WHERE email = 'owner@example.com';"
+</code></pre>
+<ol>
+<li>Restart your n8n Railway service or trigger a redeploy so the change is visible to the running app. Then log in at the n8n UI with the email and the new password.</li>
+<li>If you cannot use <code>crypt()</code> because pgcrypto is not available, create a bcrypt hash locally and paste it directly into the password column. Generate a bcrypt string with any bcrypt tool or a small Node script, then run:</li>
+</ol>
+<pre><code>psql "$DATABASE_URL" -c "UPDATE public.users SET password = '' WHERE email = 'owner@example.com';"
+</code></pre>
+
+<h2>n8n, Railway and login issue notes</h2>
+<ul>
+<li>n8n nodes names to remember when rebuilding flows are <code>HTTP Request</code> and <code>Code</code>. This is not needed for recovery but useful after you regain access.</li>
+<li>If your deployment uses basic web protection, you may also have these env vars: <code>N8N_BASIC_AUTH_ACTIVE</code>, <code>N8N_BASIC_AUTH_USER</code>, <code>N8N_BASIC_AUTH_PASSWORD</code>. Those protect the UI but do not reset the n8n owner user.</li>
+<li>Railway redeploys when you change environment variables. After adding SMTP vars or changing secrets, force a redeploy from the Railway project page to make the new values active.</li>
+<li>There are community reports of this exact scenario, see threads about Railway hosted upgrades causing lockouts for more context: <a href="https://community.n8n.io/t/self-hosted-n8n-on-railway-locked-out-of-owner-account-after-upgrade-reset-email-fails-no-smtp/324024" target="_blank" rel="noopener noreferrer">n8n community thread about Railway lockout</a> and <a href="https://community.n8n.io/t/queda-do-n8n/324006" target="_blank" rel="noopener noreferrer">related forum report</a>.</li>
+</ul>
+
+<h2>How to stop it happening again</h2>
+<ul>
+<li>Always set SMTP environment variables on Railway before upgrading. Add them under Project Settings, Variables, using a reliable SMTP provider and test sending from the n8n UI under Settings, User settings if available.</li>
+<li>Keep a secondary admin account in n8n that you save in a password manager. Create a second owner or admin user and store credentials securely so you are not dependent on a single account.</li>
+<li>Take a quick DB backup before upgrades. Railway has a backup/export option or you can use pg_dump with the DATABASE_URL. That lets you roll back or extract a user row if needed.</li>
+<li>Consider enabling <code>N8N_BASIC_AUTH</code> for UI protection while you handle SMTP, but remember it is separate from n8n user accounts.</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>If the Postgres schema on your instance differs and the SQL above fails, or if you cannot access the Railway database URL, stop and ask for support. Reach out on the n8n community forum with your Railway error message and a minimal description, or open Railway support if the project is inaccessible. If you are uncomfortable running SQL against your production database, get a developer to assist so you avoid accidental data loss.</p>
+
+<p>After you regain access, re-enable proper email by adding <code>N8N_SMTP_HOST</code> and related vars, test the forgot password flow, and then rotate the admin password. For deeper debugging of nodes and flows after the upgrade, see related guides like our post on <a href="https://automatenaija.com/blog/n8n-nodes-handling-data-stream">Fix n8n nodes handling data stream issues</a>.</p>
+
+<p>If you want to learn how to build automations and manage deployments like this, learn with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Can I reset an n8n owner password without database access?</h3>
+      <p>If you can edit environment variables, the easiest non DB option is to add SMTP settings so the built in forgot password email can be sent. Without DB or SMTP, you cannot change the owner password from the UI. Database access or temporary SMTP are the practical recovery routes.</p>
+      <h3>What exact Postgres commands will reset the owner password?</h3>
+      <p>Use your Railway DATABASE_URL with psql. For example: psql &quot;$DATABASE_URL&quot; -c &quot;UPDATE public.users SET password = crypt('NewPass123!', gen_salt('bf')) WHERE email = 'owner@example.com';&quot; Then clear reset token fields if present and redeploy n8n.</p>
+      <h3>Are these SQL changes safe for production?</h3>
+      <p>Yes if you run only the specific UPDATE on the users table and you know the target email. Always backup the database first, and avoid mass updates. If unsure, take a dump with pg_dump or ask a developer to perform the change.</p>
+      <h3>What Railway steps let me add SMTP quickly so reset emails work?</h3>
+      <p>In Railway open your project, go to Settings or Environment, add variables N8N_SMTP_HOST , N8N_SMTP_PORT , N8N_SMTP_USER , N8N_SMTP_PASS and optionally N8N_SMTP_FROM . Save and redeploy the service, then use the n8n forgot password UI.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
