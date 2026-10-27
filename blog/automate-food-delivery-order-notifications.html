@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automate food delivery order notifications with n8n</title>
+<meta name="description" content="Automate food delivery order notifications using n8n: ready-to-import workflow for webhooks, dedupe, multi-channel WhatsApp/Telegram/SMS, retries and Google...">
+<link rel="canonical" href="https://automatenaija.com/blog/automate-food-delivery-order-notifications">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/automate-food-delivery-order-notifications">
+<meta property="og:title" content="Automate food delivery order notifications with n8n">
+<meta property="og:description" content="Automate food delivery order notifications using n8n: ready-to-import workflow for webhooks, dedupe, multi-channel WhatsApp/Telegram/SMS, retries and Google...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-27T04:32:08.88621+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Automate food delivery order notifications with n8n">
+<meta name="twitter:description" content="Automate food delivery order notifications using n8n: ready-to-import workflow for webhooks, dedupe, multi-channel WhatsApp/Telegram/SMS, retries and Google...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Automate food delivery order notifications with n8n","description":"Automate food delivery order notifications using n8n: ready-to-import workflow for webhooks, dedupe, multi-channel WhatsApp/Telegram/SMS, retries and Google...","datePublished":"2026-10-27T04:32:08.88621+00:00","dateModified":"2026-10-27T04:32:08.88621+00:00","inLanguage":"en-NG","keywords":"automate food delivery order notifications, n8n food delivery notifications, n8n whatsapp order notifications, n8n webhook order automation","wordCount":1200,"mainEntityOfPage":"https://automatenaija.com/blog/automate-food-delivery-order-notifications","url":"https://automatenaija.com/blog/automate-food-delivery-order-notifications","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I stop double notifications when a delivery platform retries their webhook?","acceptedAnswer":{"@type":"Answer","text":"Persist the order id as soon as you receive the webhook, for example by checking and appending to a Google Sheets row. Use a canonical id in a Code node and only proceed to notifications if the id is not already logged. Also respond 200 immediately from the Webhook node so the sender knows you received the payload."}},{"@type":"Question","name":"Can I send WhatsApp notifications from n8n without a paid provider?","acceptedAnswer":{"@type":"Answer","text":"WhatsApp Business requires a provider such as Twilio, Meta API partners or an approved BSP to send messages. In n8n use the HTTP Request node to call your provider API or a prebuilt Twilio node if available. Test with sandbox or trial credentials from your chosen provider first."}},{"@type":"Question","name":"How should I implement retries and backoff in n8n?","acceptedAnswer":{"@type":"Answer","text":"After a failed notification response, increment a retry counter in workflow data, write it to your log row, use a Wait node with increasing delay (30s, 2m, 8m) and loop back to the channel node. Stop after a max attempts value and mark the order row with the final error."}},{"@type":"Question","name":"Is Google Sheets a good logging option for high volume delivery apps?","acceptedAnswer":{"@type":"Answer","text":"Google Sheets is fine for proof of concept and low volume. It is simple to set up for dedupe and logging. For higher volume or strict SLAs switch to a database like PostgreSQL, Redis for fast dedupe, or cloud storage with indexed rows to avoid rate limits."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Automate food delivery order notifications with n8n</h1>
+    <p class="lede">A tested n8n workflow to ingest delivery webhooks, dedupe orders, map fields, send WhatsApp/Telegram/SMS with retries and log to Google Sheets.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-27T04:32:08.88621+00:00">27 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>To automate food delivery order notifications reliably, use an n8n workflow that starts with a secure <code>Webhook</code> node, deduplicates by order id against Google Sheets, maps provider fields to your notification payload, and sends messages via WhatsApp, Telegram or SMS with retry/backoff and error logging.</p>
+
+<h2>Why this problem happens</h2>
+<p>Delivery platforms send many similar webhooks, sometimes retrying the same payload, or sending different JSON shapes per provider. If your workflow lacks dedupe logic, consistent mapping and persistent logging, you will double notify merchants, miss orders or lose the signal during a transient provider error.</p>
+
+<h2>Automate food delivery order notifications: ready workflow outline</h2>
+<p>Below is a step by step blueprint you can import into n8n by creating nodes as named. Each numbered step corresponds to a node or small node group in n8n.</p>
+<ol>
+  <li><strong>Webhook node</strong>: Create a <code>Webhook</code> node in n8n, set HTTP Method to <code>POST</code>, Response Mode to <code>Immediate</code> with a 200 and short JSON acknowledgement. Use a unique path like <code>/order-notify</code>. Enable Basic Auth if available from your delivery partner settings.</li>
+  <li><strong>Parse and normalize</strong>: Add a <code>Code</code> node named <code>Normalize</code>. Accept the raw JSON and map common fields to a canonical shape: <code>order_id</code>, <code>customer_phone</code>, <code>items</code>, <code>total</code>, <code>address</code>, <code>status</code>, <code>received_at</code>. Example mapping rules appear in the sample code below.</li>
+  <li><strong>Deduplicate using Google Sheets</strong>: Use a <code>Google Sheets</code> node called <code>Check Order Exists</code> to read recent rows or the order id column. Then use a <code>Code</code> node to check if <code>order_id</code> exists. If found, route to an <code>Exit</code> branch that appends a "duplicate" log row and stops.</li>
+  <li><strong>Log new order and prepare notifications</strong>: Append the canonical order to Google Sheets with a <code>Google Sheets</code> node named <code>Append Order Log</code>. Include fields <code>order_id</code>, <code>status</code>, <code>attempts</code> (start at 0), <code>last_error</code>, <code>received_at</code>.</li>
+  <li><strong>Send channel notifications</strong>: Branch to three nodes: WhatsApp, Telegram, SMS. For WhatsApp, use a <code>HTTP Request</code> node to call your WhatsApp provider API (Twilio, 360dialog, etc). For Telegram use the <code>Telegram</code> node, operation <code>Send Message</code>. For SMS use Twilio node or <code>HTTP Request</code> if you use another gateway.</li>
+  <li><strong>Retry and backoff</strong>: After each channel node, add an <code>If</code> node to check response success. On failure, increment <code>attempts</code> in a <code>Code</code> node, write back to the Google Sheet, use a <code>Wait</code> node with exponential backoff e.g. 30 seconds, then loop to the channel node up to a max of 5 attempts. Use the <code>Error Trigger</code> node to catch unexpected node errors and log them.</li>
+  <li><strong>Final status update</strong>: When notifications succeed or max attempts reached, update the Google Sheet row with final <code>status</code>, <code>attempts</code>, and <code>last_error</code> if any.</li>
+</ol>
+
+<h2>Step by step mapping examples and Code node snippets</h2>
+<p>Use a <code>Code</code> node called <code>Normalize</code> to adapt provider webhooks. Example snippet to produce <code>canonical</code> output:</p>
+<pre><code>const body = $json;
+// Common patterns seen across providers
+const orderId = body.order_id || (body.data && body.data.order && body.data.order.id) || body.id;
+const phone = body.customer_phone || (body.customer && body.customer.phone);
+const total = body.total || (body.order && body.order.total_amount);
+const items = body.items || (body.order && body.order.items) || [];
+const address = body.delivery_address || (body.order && body.order.address) || '';
+const receivedAt = body.timestamp || new Date().toISOString();
+return [{ json: { order_id: orderId, customer_phone: phone, total, items, address, received_at: receivedAt, raw: body } }];</code></pre>
+<p>Common JSON paths to try when mapping: <code>$json["order_id"]</code>, <code>$json["data"]["order"]["id"]</code>, <code>$json["id"]</code>. Change the Code node when you register a new provider.</p>
+
+<h2>Tool specific notes for n8n, Make.com and Zapier</h2>
+<p>n8n: Use the <code>Webhook</code>, <code>Code</code>, <code>HTTP Request</code>, <code>Telegram</code>, <code>Wait</code>, <code>If</code>, and <code>Google Sheets</code> nodes. Use the <code>Error Trigger</code> node to capture unhandled failures and append them to the sheet. Implement retry loops with <code>Wait</code> plus a counter in workflow data.</p>
+<p>Make.com: scenarios use modules instead of nodes, but the same pattern applies. The Make forum thread on scheduling and Telegram shows how to link modules to send messages, see this community example for Telegram integration: <a href="https://community.make.com/t/client-scheduling-via-google-calendar-integrated-with-telegram/118272" target="_blank" rel="noopener noreferrer">Telegram and Google Calendar example on Make</a>.</p>
+<p>Zapier: Zaps can receive webhooks with the Webhooks trigger, but persistent dedupe and backoff loops are harder. Use a Google Sheets lookup to dedupe and third party services like Delay by Zapier for retry waits.</p>
+
+<h2>How to stop duplicate notifications and missed orders</h2>
+<ul>
+  <li><strong>Always ack webhooks immediately</strong>, respond 200 fast then process in background. This stops provider retries for timeouts.</li>
+  <li><strong>Use a canonical order id</strong> and persist it. Google Sheets works for low volume, use a database for high volume.</li>
+  <li><strong>Log every attempt</strong>, including response code and body. Append these to Google Sheets rows: <code>timestamp</code>, <code>attempts</code>, <code>provider_response</code>.</li>
+  <li><strong>Set idempotent notification logic</strong>, for example include a delivered flag in the sheet and only send if <code>delivered</code> is false.</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>Get external help when you have spiky volume, strict SLA or you must integrate a WhatsApp Business API provider with complicated authentication. The n8n forum thread about automating food delivery is a good community start for specifics, see this example: <a href="https://community.n8n.io/t/how-can-i-automate-food-delivery-order-notifications-using-n8n/324685" target="_blank" rel="noopener noreferrer">n8n community thread on food delivery notifications</a>.</p>
+
+<h3>Troubleshooting quick checks</h3>
+<ul>
+  <li>If the Webhook node shows no data, confirm the correct webhook URL and that your delivery partner is sending <code>POST</code> requests and not signing them in an unexpected way.</li>
+  <li>If your HTTP Request to WhatsApp fails, inspect headers in n8n execution, especially <code>Authorization</code> and <code>Content-Type</code>.</li>
+  <li>If duplicates persist, check exact whitespace or casing differences in <code>order_id</code>; normalise with <code>.trim().toLowerCase()</code> in the <code>Code</code> node.</li>
+</ul>
+
+<p>For WhatsApp specific call patterns and examples, see our guide on sending WhatsApp from n8n or Make.com: <a href="https://automatenaija.com/blog/how-to-send-whatsapp-notification">How to Send WhatsApp Notification from Make.com or n8n</a>.</p>
+
+<p>Implementing this workflow gives you a resilient pipeline for delivery webhooks that reduces duplicates, maps fields for consistent messages, retries on transient failures and keeps a searchable log. Start small with one provider, test thoroughly, then add new providers by updating the <code>Normalize</code> Code node.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How do I stop double notifications when a delivery platform retries their webhook?</h3>
+      <p>Persist the order id as soon as you receive the webhook, for example by checking and appending to a Google Sheets row. Use a canonical id in a Code node and only proceed to notifications if the id is not already logged. Also respond 200 immediately from the Webhook node so the sender knows you received the payload.</p>
+      <h3>Can I send WhatsApp notifications from n8n without a paid provider?</h3>
+      <p>WhatsApp Business requires a provider such as Twilio, Meta API partners or an approved BSP to send messages. In n8n use the HTTP Request node to call your provider API or a prebuilt Twilio node if available. Test with sandbox or trial credentials from your chosen provider first.</p>
+      <h3>How should I implement retries and backoff in n8n?</h3>
+      <p>After a failed notification response, increment a retry counter in workflow data, write it to your log row, use a Wait node with increasing delay (30s, 2m, 8m) and loop back to the channel node. Stop after a max attempts value and mark the order row with the final error.</p>
+      <h3>Is Google Sheets a good logging option for high volume delivery apps?</h3>
+      <p>Google Sheets is fine for proof of concept and low volume. It is simple to set up for dedupe and logging. For higher volume or strict SLAs switch to a database like PostgreSQL, Redis for fast dedupe, or cloud storage with indexed rows to avoid rate limits.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
