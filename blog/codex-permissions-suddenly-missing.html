@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Codex permissions suddenly missing? Restore access fast</title>
+<meta name="description" content="codex permissions suddenly missing, learn how to diagnose account vs local causes, refresh scopes or tokens, and restore automations in n8n, Make.com and...">
+<link rel="canonical" href="https://automatenaija.com/blog/codex-permissions-suddenly-missing">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/codex-permissions-suddenly-missing">
+<meta property="og:title" content="Codex permissions suddenly missing? Restore access fast">
+<meta property="og:description" content="codex permissions suddenly missing, learn how to diagnose account vs local causes, refresh scopes or tokens, and restore automations in n8n, Make.com and...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-10-31T04:33:59.458226+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Codex permissions suddenly missing? Restore access fast">
+<meta name="twitter:description" content="codex permissions suddenly missing, learn how to diagnose account vs local causes, refresh scopes or tokens, and restore automations in n8n, Make.com and...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Codex permissions suddenly missing? Restore access fast","description":"codex permissions suddenly missing, learn how to diagnose account vs local causes, refresh scopes or tokens, and restore automations in n8n, Make.com and...","datePublished":"2026-10-31T04:33:59.458226+00:00","dateModified":"2026-10-31T04:33:59.458226+00:00","inLanguage":"en-NG","keywords":"codex permissions suddenly missing, codex permissions missing, codex does not have permissions, codex permission error, codex exe permissions","wordCount":1254,"mainEntityOfPage":"https://automatenaija.com/blog/codex-permissions-suddenly-missing","url":"https://automatenaija.com/blog/codex-permissions-suddenly-missing","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What exact error indicates an account side permission problem?","acceptedAnswer":{"@type":"Answer","text":"Typical account side permission problems return 401 or 403 style errors mentioning unauthorized, insufficient permission, or model not allowed. If a curl list of models using the same token fails from any host, the issue is almost certainly account side, not just your local agent."}},{"@type":"Question","name":"How do I quickly test whether my token works from the agent host?","acceptedAnswer":{"@type":"Answer","text":"Run a simple HTTP request from the same host, for example a GET to the models list with your token. If that call returns model data, your token is valid on that host and you should check the agent runtime and file permissions next."}},{"@type":"Question","name":"If Codex access is denied, can I use another model instead?","acceptedAnswer":{"@type":"Answer","text":"Yes, add a fallback to an allowed model in your code. Use a permissive and supported model such as gpt-3.5-turbo or another code-capable model available on your account. Always test outputs when falling back because behaviour may differ."}},{"@type":"Question","name":"Why would file execute permissions break a local Codex agent?","acceptedAnswer":{"@type":"Answer","text":"Deployments, CI steps, or container builds can change file ownership or strip execute bits. If your agent uses local binaries, missing execute permission or wrong user ownership prevents the agent from running tasks even when the API token is valid."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Codex permissions suddenly missing? Restore access fast</h1>
+    <p class="lede">Step by step fixes to restore Codex access and get your automations running again in n8n, Make.com and Zapier.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-10-31T04:33:59.458226+00:00">31 October 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If your Codex permissions suddenly missing and automations that used to work now return permission errors, start by checking whether the problem is account side or local. Refresh API scopes, reissue tokens, and verify local sandbox or file permissions to restore access quickly and avoid further automation failures.</p>
+
+<h2>Why your codex permissions suddenly missing</h2>
+
+<p>Several common causes make codex permissions missing without warning. Account side changes include API scope updates, policy or model access changes, billing or plan limits, or OpenAI rolling changes that restrict older models. Local causes include expired or limited API tokens, credential file corruption, environment variable changes, container sandboxing, or OS file permissions that remove execute rights for local agent executables.</p>
+
+<p>OpenAI community threads show many developers saw sudden access failures at the same time, which often point to account or policy changes first. See this <a href="https://community.openai.com/t/codex-does-not-have-permissions-for-basic-tasks-anymore/1411233" target="_blank" rel="noopener noreferrer">OpenAI dev forum report</a> and this <a href="https://stackoverflow.com/questions/80013746/codex-permissions-suddenly-missing-for-important-tasks" target="_blank" rel="noopener noreferrer">Stack Overflow thread</a> for examples of the same symptom.</p>
+
+<h2>How to diagnose account side versus local problems</h2>
+
+<ul>
+  <li>Check the API response and error text. If you see messages mentioning insufficient permission, unauthorized, or model not allowed, the account or token scope is likely the issue.</li>
+  <li>Try a direct model list call from the machine where the agent runs. Use the same token the agent uses. For OpenAI, this quick curl will show if the API accepts the token and which models are visible:</li>
+</ul>
+
+<pre><code>curl -s -H 'Authorization: Bearer YOUR_TOKEN' https://api.openai.com/v1/models</code></pre>
+
+<ul>
+  <li>If the curl fails with 401 or an error about permissions, the token or account scope is the problem. If curl succeeds from another machine but fails locally, focus on local environment.</li>
+  <li>Check the OpenAI dashboard or provider status page for outage or policy changes affecting model access. If others report the same timing, account or provider policy is likely.</li>
+  <li>Locally, verify environment variables and credential files. Confirm the token the agent runs with is the expected one, not an expired or different key. In Linux check the process environment, or the container secrets if you use Docker, Kubernetes or Railway.</li>
+  <li>If the agent runs executables, check filesystem execute bits and user ownership, for example with <code>ls -l</code>. If permission bits changed, a sandbox or deployment step may have removed execute permission.</li>
+</ul>
+
+<h2>Step-by-step fix</h2>
+
+<ol>
+  <li>Verify account access and billing. Log in to the OpenAI console and confirm your API key is active and the account is not suspended for billing.</li>
+  <li>Reissue or rotate the API key. In the OpenAI dashboard create a new key, update your environment variable or credentials, and restart the agent. Replacing the token forces fresh scopes to apply.</li>
+  <li>Refresh OAuth scopes if you use OAuth. In platforms that support OAuth, reauthorize the connection so the provider can ask for the correct scopes again.</li>
+  <li>Test with a direct curl from the same host as the agent, using the new token. If model list returns successfully, the account side is fixed.</li>
+  <li>If the agent uses local executables, check file permissions. For Unix hosts, run <code>chmod +x /path/to/agent-exe</code> and confirm ownership with <code>chown</code> if needed.</li>
+  <li>If you use containers or sandboxing, rebuild the image or redeploy so the container picks up the new token and permission changes. Restart the service after redeploy.</li>
+  <li>Add a fallback model or degrade gracefully. Update your code to try an allowed model when Codex access fails, for example attempting a permitted language model if the code model is blocked.</li>
+</ol>
+
+<h2>Tool specific notes for n8n, Make.com and Zapier</h2>
+
+<p>n8n</p>
+<ul>
+  <li>Open the Credentials section in n8n and edit the OpenAI or custom HTTP credential used by your nodes. Re-enter the API key and save.</li>
+  <li>If you set credentials via environment variables, confirm the running n8n process reads the updated values. For Docker, update the container env and restart the container. For self hosted services, check your secrets manager or <code>n8n</code> environment file.</li>
+  <li>Check nodes that call OpenAI. The node for custom JavaScript is the <code>Code</code> node, and HTTP calls use the <code>HTTP Request</code> node. Confirm these nodes reference the correct credential name.</li>
+
+  <li>If a webhook or trigger earlier in the flow lost access, test the flow step by step using the execution log and the built in play button.</li>
+</ul>
+
+<p>Make.com</p>
+<ul>
+  <li>Open the scenario and go to Connections. Reconnect the OpenAI or HTTP connection used by the modules, reauthorize OAuth if required.</li>
+  <li>Test the module run in the scenario editor. If the module shows a permission error, reissue API keys and update the connection credential, then rerun.</li>
+  <li>See our Make.com debug checklist for outreach automations if your scenario has many steps, it helps narrow down which module loses permission: <a href="https://automatenaija.com/blog/make-com-outreach-automation-debug">Make.com outreach automation debug checklist</a>.</li>
+</ul>
+
+<p>Zapier</p>
+<ul>
+  <li>Open My Apps and find the OpenAI or custom API connection. Click reconnect or remove and add the connection again with a new key.</li>
+  <li>If you use a Code by Zapier step, ensure any environment variables or hidden keys used there are updated in the connected account settings.</li>
+</ul>
+
+<h2>How to stop this happening again</h2>
+
+<ul>
+  <li>Use short lived keys with rotation automation, but automate key updates in your deployment pipeline so running agents pick up the new keys without manual steps.</li>
+  <li>Monitor for permission related errors centrally. Catch common error messages like permission or unauthorized and trigger alerts to automatically rotate credentials or pause sensitive flows.</li>
+  <li>Implement graceful degradation. When a Codex or specialized code model becomes unavailable, fall back to a permitted model and add a human review step for critical changes.</li>
+  <li>Keep a runbook. Document how to reauthorize OpenAI and how to find credentials in n8n, Make.com and Zapier so a developer can restore access in minutes.</li>
+</ul>
+
+<h2>When to get help</h2>
+
+<p>If you confirmed the token and local permissions are correct but the API still rejects requests, contact provider support. Provide the exact error text, requestId from the API response if present, timestamps and the token's creation time. If multiple team members are affected, check account role and organization settings with your admin.</p>
+
+<p>If the issue looks recent and widespread, consult the community thread linked earlier for similar reports from other developers to see if it is a provider level change. For local environment issues, consider restoring from a recent deployment snapshot while investigating container or permission changes.</p>
+
+<p>Want to learn how to build and maintain automations like this? Learn with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What exact error indicates an account side permission problem?</h3>
+      <p>Typical account side permission problems return 401 or 403 style errors mentioning unauthorized, insufficient permission, or model not allowed. If a curl list of models using the same token fails from any host, the issue is almost certainly account side, not just your local agent.</p>
+      <h3>How do I quickly test whether my token works from the agent host?</h3>
+      <p>Run a simple HTTP request from the same host, for example a GET to the models list with your token. If that call returns model data, your token is valid on that host and you should check the agent runtime and file permissions next.</p>
+      <h3>If Codex access is denied, can I use another model instead?</h3>
+      <p>Yes, add a fallback to an allowed model in your code. Use a permissive and supported model such as gpt-3.5-turbo or another code-capable model available on your account. Always test outputs when falling back because behaviour may differ.</p>
+      <h3>Why would file execute permissions break a local Codex agent?</h3>
+      <p>Deployments, CI steps, or container builds can change file ownership or strip execute bits. If your agent uses local binaries, missing execute permission or wrong user ownership prevents the agent from running tasks even when the API token is valid.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
