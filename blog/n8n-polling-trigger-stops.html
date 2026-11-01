@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N8n polling trigger stops, heartbeat and watchdog fix</title>
+<meta name="description" content="n8n polling trigger stops? Learn a production pattern with heartbeat pings, a watchdog workflow, alerts and automatic restarts so you can detect and recover...">
+<link rel="canonical" href="https://automatenaija.com/blog/n8n-polling-trigger-stops">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/n8n-polling-trigger-stops">
+<meta property="og:title" content="N8n polling trigger stops, heartbeat and watchdog fix">
+<meta property="og:description" content="n8n polling trigger stops? Learn a production pattern with heartbeat pings, a watchdog workflow, alerts and automatic restarts so you can detect and recover...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-11-01T04:32:13.718293+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="N8n polling trigger stops, heartbeat and watchdog fix">
+<meta name="twitter:description" content="n8n polling trigger stops? Learn a production pattern with heartbeat pings, a watchdog workflow, alerts and automatic restarts so you can detect and recover...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"N8n polling trigger stops, heartbeat and watchdog fix","description":"n8n polling trigger stops? Learn a production pattern with heartbeat pings, a watchdog workflow, alerts and automatic restarts so you can detect and recover...","datePublished":"2026-11-01T04:32:13.718293+00:00","dateModified":"2026-11-01T04:32:13.718293+00:00","inLanguage":"en-NG","keywords":"n8n polling trigger stops, n8n trigger stopped, n8n polling trigger not working, n8n detect stopped workflow, n8n alert when polling stops","wordCount":1178,"mainEntityOfPage":"https://automatenaija.com/blog/n8n-polling-trigger-stops","url":"https://automatenaija.com/blog/n8n-polling-trigger-stops","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can I detect an n8n polling trigger not working without logs?","acceptedAnswer":{"@type":"Answer","text":"Add a heartbeat ping to the polling workflow that posts a timestamp to an external monitor or datastore on every successful execution. A separate watchdog workflow polls that timestamp and flags when it is older than your threshold, which detects a stopped workflow even if there are no explicit logs."}},{"@type":"Question","name":"Can I automatically restart a stopped n8n workflow?","acceptedAnswer":{"@type":"Answer","text":"Yes, use a companion webhook inside the polling workflow. The watchdog calls that webhook to force the same processing path. This avoids needing internal n8n admin APIs and works across self hosted or cloud deployments."}},{"@type":"Question","name":"What nodes should I use in n8n for this pattern?","acceptedAnswer":{"@type":"Answer","text":"Use Cron for watchdog schedules, HTTP Request to ping monitors and call webhooks, Webhook to receive watchdog restarts, and Code for small timestamp logic. Use Continue On Fail for heartbeat nodes so failures do not stop pinging."}},{"@type":"Question","name":"Will external monitors like Healthchecks fix the root cause?","acceptedAnswer":{"@type":"Answer","text":"External monitors do not fix root causes, but they alert you early and provide retries. Use them with the watchdog to automate recovery, while you investigate the underlying problem such as API rate limits, credential expiry or host instability."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>N8n polling trigger stops, heartbeat and watchdog fix</h1>
+    <p class="lede">Stop silent failures: add a heartbeat ping and a watchdog workflow to detect and restart a polling trigger in n8n automatically.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-11-01T04:32:13.718293+00:00">1 November 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If your n8n polling trigger stops without errors, add a heartbeat plus watchdog pattern: have the polling workflow emit a regular ping to an external monitor and to an internal watchdog workflow, raise alerts when pings miss, and let the watchdog hit a companion webhook to restart or re-run the workflow automatically.</p>
+
+<h2>Why the n8n polling trigger stops</h2>
+<p>Polling triggers can stop silently for several reasons: transient network errors, upstream API rate limits or blocking, exhausted credentials, or a crash in a downstream node that prevents future executions. Sometimes the process manager for your n8n host restarts the service but not every workflow reactivates cleanly. The result is the same, your automation stops and no error shows in the workflow run list.</p>
+
+<h2>Production pattern: heartbeat plus watchdog when n8n polling trigger stops</h2>
+<p>Use two cooperating pieces: a heartbeat emitter inside the polling workflow, and a watchdog workflow that watches for missed heartbeats and recovers the polling workflow. Add external monitoring for alerts.</p>
+<ul>
+  <li>Heartbeat, inside the polling workflow: send a simple GET to a health check URL, or write a timestamp to a lightweight store (Google Sheets, Redis, or a small database).</li>
+  <li>External monitor: use a service like Healthchecks.io or UptimeRobot to get built in alerting and retries. The heartbeats are pings to that service.</li>
+  <li>Watchdog workflow in n8n: runs on a Cron schedule, checks the last heartbeat, alerts on misses, and if allowed, calls a companion webhook on the original workflow to force a restart.</li>
+</ul>
+
+<h2>Step by step fix</h2>
+<ol>
+  <li>Open the polling workflow that stops and add a final short branch that always runs after your main processing. Add a <code>HTTP Request</code> node to ping your health monitor. Set Method to <strong>GET</strong> or <strong>POST</strong> and the URL to your healthchecks ping URL.</li>
+  <li>Create a companion <code>Webhook</code> node in the same workflow. Set HTTP Method to <code>GET</code>, give it a path like <code>/watchdog/restart-my-poller</code>. Connect that webhook to the same downstream nodes the polling trigger uses, or to a small wrapper that calls <code>Execute Workflow</code> if you prefer isolation.</li>
+  <li>Build the watchdog workflow. Use a <code>Cron</code> node set to run every 5 minutes. After the Cron node, check the external monitor or a datastore. If you use Healthchecks.io, you can call its API or rely on the monitor to send alerts. If you used Google Sheets or a DB, use the corresponding n8n node to read the last timestamp.</li>
+  <li>If the last heartbeat is older than your threshold, send alerts then call the polling workflow companion webhook. Use <code>HTTP Request</code> node to call the webhook URL. Example simple check in a <code>Code</code> node (pseudo):</li>
+</ol>
+<pre><code>// inside a Code node after fetching last timestamp
+const last = new Date(items[0].json.lastHeartbeat);
+const diffMinutes = (Date.now() - last.getTime()) / 60000;
+if (diffMinutes &gt; 10) {
+  return [{ json: { restart: true }}];
+}
+return [{ json: { restart: false }}];
+</code></pre>
+<p>Then conditionally use an <code>HTTP Request</code> node to call your companion webhook when <code>restart</code> is true. Also send a message with <code>SMTP</code>, Telegram or <code>HTTP Request</code> to your alerting channel.</p>
+
+<h2>n8n tool notes and a sample n8n JSON snippet</h2>
+<p>Use these specific n8n nodes: <code>Cron</code> for the watchdog schedule, <code>HTTP Request</code> to ping monitors and to call the companion webhook, <code>Webhook</code> to receive watchdog-triggered restarts, and <code>Code</code> to compute age of the last heartbeat. Do not use the old Function nodes, use the <code>Code</code> node for custom JS logic.</p>
+<p>Minimal example n8n workflow JSON fragment for the heartbeat + companion webhook. Replace URLs and paths before importing:</p>
+<pre><code>{
+  "name": "poller-heartbeat-and-webhook",
+  "nodes": [
+    { "name": "My Polling Trigger", "type": "n8n-nodes-base.trigger", "parameters": { /* your polling node settings */ } },
+    { "name": "Health Ping", "type": "n8n-nodes-base.httpRequest", "parameters": { "url": "https://hc.example/ping/PUT-YOUR-CODE", "method": "GET" } },
+    { "name": "Companion Webhook", "type": "n8n-nodes-base.webhook", "parameters": { "httpMethod": "GET", "path": "watchdog/restart-my-poller" } }
+  ],
+  "connections": { /* connect trigger and webhook to your processing nodes, and attach Health Ping at the end */ }
+}
+</code></pre>
+<p>This JSON is illustrative. The key idea is the <code>Health Ping</code> node runs on every successful poll, and <code>Companion Webhook</code> lets the watchdog force the same processing path.</p>
+
+<h2>How to stop it happening again and reduce false alarms</h2>
+<ul>
+  <li>Make your heartbeat unconditional. Use a separate branch after your main logic so errors inside processing do not prevent the ping. Use the <code>Continue On Fail</code> setting on nodes that may error.</li>
+  <li>Set sensible thresholds. If your poll interval is 1 minute, consider a 5 to 10 minute alarm threshold to avoid transient network noise.</li>
+  <li>Monitor upstream limits. If an API rate limit is the root cause, add exponential backoff or reduce the poll frequency. Log error messages in a store so you can inspect them.</li>
+  <li>Host resilience. If you self host, use Docker restart policies, systemd or PM2 so the n8n service restarts on host failure. That does not replace the heartbeat but avoids downtime when the host dies.</li>
+</ul>
+
+<h2>Tool specific notes for Make.com and Zapier</h2>
+<p>Make.com and Zapier users should also send heartbeats. In Make.com create a scenario step at the end that calls a healthcheck URL. In Zapier add an action to call a webhook or post a timestamp to a Google Sheet. The watchdog can live in n8n or in a simple script that checks the sheet or monitor. The pattern is the same: emit, watch, alert, restart or re-run.</p>
+
+<h2>When to get help</h2>
+<p>If you still see silent stops after adding heartbeats and watchdogs, collect these items before asking for help: the last heartbeat timestamp, the poll interval, the workflow JSON, and any node-level errors. Share them in the n8n community thread, and link to threads like <a href="https://community.n8n.io/t/how-do-you-catch-a-polling-trigger-that-just-stops/325574" target="_blank" rel="noopener noreferrer">How do you catch a polling trigger that just stops</a> and the free alerting workflow example at <a href="https://community.n8n.io/t/free-workflow-get-alerted-on-failed-runs-and-on-workflows-that-stop-running-6-nodes/325617" target="_blank" rel="noopener noreferrer">Get alerted on failed runs and on workflows that stop running</a> for ideas you can adapt.</p>
+
+<p>Finally, if your workflow must be highly available, combine the heartbeat/watchdog pattern with an external monitor, and keep a manual override webhook so an operator can re-run processing while you investigate.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How can I detect an n8n polling trigger not working without logs?</h3>
+      <p>Add a heartbeat ping to the polling workflow that posts a timestamp to an external monitor or datastore on every successful execution. A separate watchdog workflow polls that timestamp and flags when it is older than your threshold, which detects a stopped workflow even if there are no explicit logs.</p>
+      <h3>Can I automatically restart a stopped n8n workflow?</h3>
+      <p>Yes, use a companion webhook inside the polling workflow. The watchdog calls that webhook to force the same processing path. This avoids needing internal n8n admin APIs and works across self hosted or cloud deployments.</p>
+      <h3>What nodes should I use in n8n for this pattern?</h3>
+      <p>Use Cron for watchdog schedules, HTTP Request to ping monitors and call webhooks, Webhook to receive watchdog restarts, and Code for small timestamp logic. Use Continue On Fail for heartbeat nodes so failures do not stop pinging.</p>
+      <h3>Will external monitors like Healthchecks fix the root cause?</h3>
+      <p>External monitors do not fix root causes, but they alert you early and provide retries. Use them with the watchdog to automate recovery, while you investigate the underlying problem such as API rate limits, credential expiry or host instability.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
