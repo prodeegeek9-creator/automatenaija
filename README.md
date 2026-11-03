@@ -90,6 +90,16 @@ and the tutors (names, roles, photos, links). June's answers live once, in
 links from `canvas.html` to `index.html`, and add the link preview tags from
 the old one. Going back is the same swap the other way.
 
+Canvas was brought up to date on 3 November with the app's changes: Beginner is
+free (the level picker shows "Free" and its button goes to a free signup, not a
+checkout), Intermediate and Expert keep the first-100 prices, cash bonuses and
+the weekly Top Builder prize are for plan members, a profile photo is needed
+before a first submission, the weekly quiz is 10 questions, and the new logo
+(`assets/brand/logo.png` on dark, `logo-light.png` on light) replaces the mark
+and wordmark in the nav and footer. June's answers in `assets/june.js` were
+updated too, so Classic's chat is current. **Classic (`index.html`) and the
+other pages still show the old prices and the old logo.**
+
 The Canvas theme opens in light for a first visit (`data-default-theme="light"`
 on its `<html>`); a visitor's saved choice from either template wins.
 

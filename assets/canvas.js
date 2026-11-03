@@ -171,11 +171,15 @@
     var base = (window.SITE && SITE.app) || 'https://app.automatenaija.com/login';
     function pick(input){
       var label = input.getAttribute('data-label');
+      var free = input.value === 'beginner';
       $('automateNow').textContent = input.getAttribute('data-now');
       $('automateWas').textContent = input.getAttribute('data-was');
-      $('automateNote').textContent = label + ', first-100 price';
-      $('automateCtaText').textContent = 'Continue with ' + label;
-      cta.href = base + (base.indexOf('?') === -1 ? '?' : '&') + 'plan=automate&level=' + encodeURIComponent(input.value);
+      $('automateNote').textContent = free ? 'Beginner, free for every member' : label + ', first-100 price';
+      $('automateCtaText').textContent = free ? 'Start Beginner free' : 'Continue with ' + label;
+      // Beginner has no checkout: it is a free account.
+      cta.href = free
+        ? base + (base.indexOf('?') === -1 ? '?' : '&') + 'mode=signup'
+        : base + (base.indexOf('?') === -1 ? '?' : '&') + 'plan=automate&level=' + encodeURIComponent(input.value);
     }
     Array.prototype.forEach.call(inputs, function(input){ input.addEventListener('change', function(){ pick(input); }); });
     // Deep links like canvas.html#pricing?level=expert, as on index.html.
