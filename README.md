@@ -4,8 +4,8 @@ The Automate Naija marketing site. Plain static HTML, no build step: open the
 files or drop the folder on any static host (Cloudflare Pages).
 
 ```
-index.html                 home page, "Classic" template (keeps its own inline CSS)
-canvas.html                "Canvas" home page template, previewed at /canvas (see Homepage templates)
+index.html                 home page, "Canvas" template (see Homepage templates)
+classic.html               the previous "Classic" home page, noindex, kept to swap back to
 about.html                 about us
 careers.html               careers + open application
 partners.html              partner with us
@@ -66,16 +66,18 @@ live section stays hidden, along with the menu links to it.
 The homepage comes in two templates. Both read the same live feed and share
 `assets/site.js` (links, theme, visit counting) and `assets/june.js` (June).
 
-- **Classic** (`index.html`): dark-first, the Arena, the showcase and the live
-  section, with the cube in the hero. This is the homepage.
-- **Canvas** (`canvas.html`, at `/canvas`): light-first, laid out like an
-  automation canvas. The hero is a member's path drawn as workflow nodes with
-  live counts on the wires, this week's builds sit in lanes by level, graded
+- **Canvas** (`index.html`): the homepage since 3 November. Light-first, laid out
+  like an automation canvas. The hero is a member's path drawn as workflow nodes
+  with live counts on the wires, this week's builds sit in lanes by level, graded
   builds read as an execution log, and a recent pass is shown as a credential.
-  Automation tool logos float in the background. It is `noindex` and its
-  canonical points at the homepage until it is promoted.
+  Automation tool logos float in the background. Empty `.anchor` spans keep the
+  old links (`index.html#arena`, `#ecosystem`, `#opportunities`) landing on the
+  nearest section.
+- **Classic** (`classic.html`, at `/classic`): the previous homepage. Dark-first,
+  the Arena, the showcase and the live section, with the cube in the hero. It is
+  `noindex`, and still shows the old Beginner price and the old logo.
 
-Canvas fills itself from `SITE.live` like Classic does (`assets/canvas.js`).
+Canvas fills itself from `SITE.live` (`assets/canvas.js`).
 Without the feed it keeps its static copy, points at the app for this week's
 builds and hides the execution log and the credential card.
 
@@ -84,21 +86,10 @@ pricing (Learn, the Automate levels and first-100 prices, hosted n8n), the FAQ,
 and the tutors (names, roles, photos, links). June's answers live once, in
 `assets/june.js`.
 
-**Making Canvas the homepage:** rename `index.html` to `classic.html` and
-`canvas.html` to `index.html`; in the new `index.html` remove the
-`<meta name="robots" content="noindex">` line, set its `brand` and footer
-links from `canvas.html` to `index.html`, and add the link preview tags from
-the old one. Going back is the same swap the other way.
-
-Canvas was brought up to date on 3 November with the app's changes: Beginner is
-free (the level picker shows "Free" and its button goes to a free signup, not a
-checkout), Intermediate and Expert keep the first-100 prices, cash bonuses and
-the weekly Top Builder prize are for plan members, a profile photo is needed
-before a first submission, the weekly quiz is 10 questions, and the new logo
-(`assets/brand/logo.png` on dark, `logo-light.png` on light) replaces the mark
-and wordmark in the nav and footer. June's answers in `assets/june.js` were
-updated too, so Classic's chat is current. **Classic (`index.html`) and the
-other pages still show the old prices and the old logo.**
+**Going back to Classic:** rename `index.html` to `canvas.html` and `classic.html`
+to `index.html`; in the new `index.html` remove the `noindex` meta and point its
+`brand` link back at `index.html`; in `canvas.html` add `noindex` and set its
+`brand` and footer links to `canvas.html`.
 
 The Canvas theme opens in light for a first visit (`data-default-theme="light"`
 on its `<html>`); a visitor's saved choice from either template wins.

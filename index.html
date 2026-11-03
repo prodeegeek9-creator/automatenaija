@@ -1,2135 +1,386 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-default-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Automate Naija: Where Builders Ship</title>
-<meta name="description" content="Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.">
+<title>Automate Naija: Learn automation by shipping it</title>
+<meta name="description" content="Every Monday a real problem from a Nigerian business. Build the workflow in n8n, Make or Zapier, get it graded in about a minute, and earn a credential anyone can check.">
+<!-- The "Canvas" homepage template, live as the homepage since 3 November.
+     The previous "Classic" homepage is classic.html, kept out of search to
+     swap back to (see README: Homepage templates). -->
 <link rel="canonical" href="https://automatenaija.com/">
 
-<!-- Brand icons -->
 <link rel="icon" href="favicon.ico" sizes="32x32">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#0A0D0B">
-<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark">
 
-<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
 <meta property="og:site_name" content="Automate Naija">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://automatenaija.com/">
-<meta property="og:title" content="Automate Naija: Where Builders Ship">
-<meta property="og:description" content="Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.">
-<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
-<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:title" content="Automate Naija: Learn automation by shipping it">
+<meta property="og:description" content="A real build for a Nigerian business every week, graded in about a minute, with a credential anyone can check.">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png?v=2">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png?v=2">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:image:alt" content="Automate Naija: learn automation by shipping it">
 <meta property="og:locale" content="en_NG">
 
-<!-- Link preview: X -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Automate Naija: Where Builders Ship">
-<meta name="twitter:description" content="Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.">
-<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
-<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta name="twitter:title" content="Automate Naija: Learn automation by shipping it">
+<meta name="twitter:description" content="A real build for a Nigerian business every week, graded in about a minute, with a credential anyone can check.">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png?v=2">
+<meta name="twitter:image:alt" content="Automate Naija: learn automation by shipping it">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- Warm up the connections that serve tutor/avatar photos so the first
-     request for each doesn't pay DNS+TLS handshake latency on top of the
-     image transfer itself. -->
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preconnect" href="https://app.automatenaija.com" crossorigin>
 <link rel="preconnect" href="https://media.prodeegee.com" crossorigin>
-<link rel="preconnect" href="https://okvpssmufcqmpglgehak.supabase.co" crossorigin>
-<link rel="preconnect" href="https://i.pravatar.cc" crossorigin>
-<link rel="preconnect" href="https://picsum.photos" crossorigin>
-<script>document.documentElement.className+=' js';</script>
-<style>
-  :root{
-    --bg:#0A0D0B;
-    --bg-2:#10140F;
-    --bg-3:#161B15;
-    --line:rgba(255,255,255,.09);
-    --line-2:rgba(255,255,255,.16);
-    --lime:#CC5500;
-    --lime-dim:#A64100;
-    --ink:#0A0D0B;
-    --text:#F4F7F1;
-    --text-2:#C7D2C7;
-    --muted:#8A968E;
-    --radius:16px;
-    --shadow-md:0 12px 32px rgba(0,0,0,.35);
-    --shadow-lg:0 24px 64px rgba(0,0,0,.5);
-  }
-  html[data-theme="light"]{
-    --bg:#f7f8f5;--bg-2:#ffffff;--bg-3:#edf0eb;--line:rgba(10,13,11,.10);--line-2:rgba(10,13,11,.17);
-    --lime:#E45E00;--lime-dim:#B94B00;--ink:#111510;--text:#111510;--text-2:#3f4941;--muted:#69736b;
-    --shadow-md:0 12px 32px rgba(20,30,22,.10);--shadow-lg:0 24px 64px rgba(20,30,22,.14);
-    --accent-rgb:228,94,0;--good:#178A43;
-  }
-  :root{
-    /* aliases so the bento layout below reads from the same tokens as the rest of the site */
-    --surface:var(--bg-2);--surface2:var(--bg-3);--line2:var(--line-2);
-    --accent:var(--lime);--accent-rgb:204,85,0;--good:#4ADE80;--soft:var(--text-2);--shadow:var(--shadow-md);
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:'IBM Plex Sans',system-ui,sans-serif;
-    background:var(--bg);
-    color:var(--text-2);
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  a{color:inherit;text-decoration:none;}
-  img{max-width:100%;display:block;}
-  .mono{font-family:'IBM Plex Mono',monospace;}
-  h1,h2,h3{font-family:'Lora',Georgia,serif;font-weight:700;color:var(--text);}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 22px;}
-  :focus-visible{outline:2.5px solid var(--lime);outline-offset:3px;border-radius:6px;}
-  .i{width:18px;height:18px;stroke-width:2;}
-
-  /* ---------- NAV ---------- */
-  header{
-    position:sticky;top:0;z-index:100;
-    background:rgba(10,13,11,.86);
-    backdrop-filter:blur(14px);
-    border-bottom:1px solid var(--line);
-  }
-  html[data-theme="light"] header{background:rgba(247,248,245,.88);}
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:70px;}
-  /* The mark is the A of "Automate", so the lockup is sized as one piece: the
-     type size on .brand and the mark in em off it, a shade over cap height the
-     way a logotype initial sits. The <a> carries the name for assistive tech
-     because the letters on their own read "utomate Naija". */
-  .brand{display:inline-flex;align-items:baseline;gap:.02em;min-width:0;font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:1.06rem;letter-spacing:-.02em;color:var(--text);}
-  .mark{width:1.45em;height:1.45em;flex-shrink:0;align-self:baseline;transform:translateY(.04em);}
-  .brand-name{color:inherit;white-space:nowrap;}
-  /* the green of the logo mark, not the site accent - it belongs to the lockup */
-  .brand-name-accent{color:#17C964;}
-  html[data-theme="light"] .brand-name-accent{color:#0B8C45;}
-  .nav-links{display:flex;gap:clamp(16px,2.4vw,30px);font-size:.88rem;font-weight:600;color:var(--muted);}
-  .nav-links a{position:relative;padding:6px 0;transition:color .18s;}
-  .nav-links a:hover{color:var(--text);}
-  .nav-links a.active{color:var(--text);}
-  .nav-links a.active::after{
-    content:"";position:absolute;left:0;right:0;bottom:-4px;height:2px;background:var(--lime);border-radius:2px;
-  }
-  .nav-act{display:flex;align-items:center;gap:10px;}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    font-weight:700;font-size:.87rem;border-radius:10px;
-    padding:10px 18px;border:1.5px solid transparent;cursor:pointer;
-    transition:transform .16s ease, box-shadow .2s ease, background .18s, border-color .18s;
-    font-family:'IBM Plex Sans',sans-serif;
-  }
-  .btn-ghost{color:var(--text-2);}
-  .btn-ghost:hover{color:var(--text);}
-  .btn-line{border-color:var(--line-2);background:transparent;color:var(--text);}
-  .btn-line:hover{border-color:var(--lime);}
-  .btn-solid{background:var(--lime);color:var(--ink);box-shadow:0 8px 20px rgba(204,85,0,.18);}
-  .btn-solid:hover{background:var(--lime-dim);transform:translateY(-2px);box-shadow:0 12px 28px rgba(204,85,0,.28);}
-  .btn-lg{padding:14px 24px;font-size:.94rem;border-radius:11px;}
-
-  /* ---------- HERO CTA: a button with a jigsaw piece missing ----------
-     Two shapes, not one. The lime slab has a socket bitten out of its right
-     edge (a mask, so the hero glow shows through the hole), and the end cap is
-     a separate piece with the matching knob. The piece sits loose and drifting
-     until you hover, focus or tap it, then it snaps home and the button reads
-     as one solid pill. --pz-r is the socket radius; --pz-gap is how far the
-     loose piece parks from home. */
-  .btn-puzzle{
-    display:inline-flex;align-items:stretch;position:relative;
-    font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.94rem;
-    color:var(--ink);cursor:pointer;
-    filter:drop-shadow(0 8px 20px rgba(204,85,0,.20));
-    transition:filter .2s ease, transform .16s ease;
-    --pz-r:11px;
-    --pz-gap:19px;
-    /* the loose piece drifts past the button's own box, so hold the next
-       CTA off by roughly that much or the two overlap */
-    margin-right:22px;
-  }
-  .btn-puzzle:hover{filter:drop-shadow(0 12px 28px rgba(204,85,0,.32));transform:translateY(-2px);}
-  .btn-puzzle:active{transform:translateY(0);}
-  .pz-body{
-    display:flex;align-items:center;white-space:nowrap;
-    padding:14px 22px;background:var(--lime);border-radius:11px 0 0 11px;
-    transition:background .18s;
-    -webkit-mask-image:radial-gradient(circle var(--pz-r) at 100% 50%,transparent calc(var(--pz-r) - .8px),#000 var(--pz-r));
-            mask-image:radial-gradient(circle var(--pz-r) at 100% 50%,transparent calc(var(--pz-r) - .8px),#000 var(--pz-r));
-    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-  }
-  .pz-slot{display:flex;align-items:stretch;}
-  .pz-piece{
-    position:relative;display:flex;align-items:center;justify-content:center;
-    width:40px;background:var(--lime);border-radius:0 11px 11px 0;
-    translate:var(--pz-gap) -5px;rotate:-12deg;
-    animation:pzDrift 3.4s ease-in-out infinite;
-    transition:translate .34s cubic-bezier(.32,1.5,.52,1),
-               rotate .34s cubic-bezier(.32,1.5,.52,1),
-               background .18s;
-  }
-  /* the knob that fills the socket - 1.2px narrower than the hole so a hairline
-     of background stays visible as a seam once the piece is seated */
-  .pz-piece::before{
-    content:"";position:absolute;left:calc(1.2px - var(--pz-r));top:50%;
-    width:calc(var(--pz-r) * 2 - 2.4px);height:calc(var(--pz-r) * 2 - 2.4px);
-    transform:translateY(-50%);border-radius:50%;background:var(--lime);
-    transition:background .18s;
-  }
-  .pz-piece svg{position:relative;z-index:1;}
-  .btn-puzzle:hover .pz-body,
-  .btn-puzzle:hover .pz-piece,
-  .btn-puzzle:hover .pz-piece::before{background:var(--lime-dim);}
-  .btn-puzzle:hover .pz-piece,
-  .btn-puzzle:focus-visible .pz-piece,
-  .btn-puzzle:active .pz-piece{translate:0 0;rotate:0deg;animation:none;}
-  @keyframes pzDrift{
-    0%,100%{transform:translate(0,0) rotate(0deg);}
-    50%{transform:translate(3px,-4px) rotate(4deg);}
-  }
-  @media(prefers-reduced-motion:reduce){
-    .btn-puzzle,.pz-piece{transition:none;}
-    .pz-piece{animation:none;}
-  }
-  .menu-btn{display:none;background:none;border:none;padding:6px;cursor:pointer;color:var(--text);flex-shrink:0;}
-  .nav-act .btn{white-space:nowrap;}
-  /* the nav button carries the full wording where there is room and a short one on phones */
-  .join-short{display:none;}
-
-  .mobile-menu{display:none;flex-direction:column;gap:2px;padding:8px 22px 20px;border-bottom:1px solid var(--line);background:var(--bg);}
-  .mobile-menu.open{display:flex;}
-  .mobile-menu a{padding:12px 0;font-weight:600;color:var(--text-2);border-bottom:1px solid var(--line);}
-  .mobile-menu .btn{margin-top:14px;width:100%;}
-  @media(max-width:1100px){
-    .nav-links{display:none;}
-    .nav-act .btn-ghost{display:none;}
-    .menu-btn{display:block;}
-  }
-  @media(max-width:480px){
-    .nav-act .btn-solid{padding:9px 13px;font-size:.8rem;}
-  }
-  @media(max-width:400px){
-    .nav-act .btn-solid{padding:8px 10px;font-size:.76rem;}
-  }
-  /* the mark is sized in em off .brand, so shrinking the lockup is one line */
-  @media(max-width:360px){.brand{font-size:.92rem;}}
-  /* "Login/SignUp" holds down to about 360px once the button tightens up. On
-     320px-class screens the brand, the button and the menu icon stop fitting on
-     one line, so the button falls back to the short label. */
-  @media(max-width:340px){
-    .join-long{display:none;}
-    .join-short{display:inline;}
-  }
-
-  /* ---------- HERO ---------- */
-  .hero{padding:clamp(42px,9vw,88px) 0 clamp(38px,7vw,68px);position:relative;overflow:hidden;}
-  .hero::before{
-    content:"";position:absolute;top:-100px;left:50%;transform:translateX(-50%);
-    width:min(700px,150vw);height:min(520px,90vw);
-    background:radial-gradient(circle,rgba(204,85,0,.14),transparent 70%);
-    pointer-events:none;z-index:0;
-  }
-  /* The cube sits beside the copy at every width, phones included. The copy column
-     takes the free space, the cube column is a fluid fraction of the container, and
-     the CTA row spans both columns so the buttons stay full-size and tappable on
-     narrow screens. .hero-copy is display:contents so its children are the real grid
-     items and can be placed into those areas. */
-  .hero-grid{
-    position:relative;z-index:1;max-width:820px;margin:0 auto;text-align:left;
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(86px,38%);
-    grid-template-areas:
-      "seal cube"
-      "head cube"
-      "lede cube"
-      "cta  cta";
-    align-items:center;
-    column-gap:clamp(10px,3.2vw,34px);
-  }
-  .hero-copy{display:contents;}
-  .hero-copy .seal{grid-area:seal;}
-  .hero-copy h1{grid-area:head;}
-  .hero-copy .lede{grid-area:lede;}
-  .hero-copy .hero-cta{grid-area:cta;}
-  .hero-visual{grid-area:cube;}
-  @media(min-width:960px){
-    .hero-grid{
-      max-width:1180px;
-      grid-template-columns:1.05fr .95fr;
-      grid-template-areas:
-        "head cube"
-        "lede cube"
-        "cta  cube";
-      column-gap:40px;
-    }
-    .hero-cta{justify-content:flex-start;}
-    .avatar-row{justify-content:flex-start;}
-  }
-  /* round 3D seal badge - the "#1 automation builder hub in Nigeria" claim */
-  .seal{
-    position:relative;width:clamp(56px,15vw,96px);aspect-ratio:1/1;border-radius:50%;
-    display:grid;place-items:center;margin:0 0 clamp(10px,2.2vw,22px);pointer-events:none;
-    background:radial-gradient(circle at 34% 26%,#F08A3C,#CC5500 52%,#7E3300 100%);
-    box-shadow:
-      0 16px 34px rgba(0,0,0,.45),
-      inset 0 2px 0 rgba(255,255,255,.30),
-      inset 0 -10px 20px rgba(0,0,0,.35);
-  }
-  .seal::after{
-    content:"";position:absolute;left:8%;right:8%;top:5%;height:38%;
-    border-radius:50%;z-index:1;
-    background:linear-gradient(rgba(255,255,255,.22),rgba(255,255,255,0));
-  }
-  .seal-ring{
-    position:absolute;inset:0;width:100%;height:100%;z-index:2;
-    animation:sealSpin 26s linear infinite;
-  }
-  .seal-ring text{
-    font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
-    /* sized in viewBox units, so it scales with the badge */
-    letter-spacing:1.1px;fill:#FFF3E8;
-  }
-  @keyframes sealSpin{to{transform:rotate(360deg);}}
-  .seal-core{
-    position:relative;z-index:2;width:62%;height:62%;border-radius:50%;
-    display:grid;place-items:center;border:1px solid rgba(0,0,0,.22);
-    background:radial-gradient(circle at 38% 28%,rgba(255,255,255,.20),rgba(0,0,0,.20) 72%);
-    box-shadow:inset 0 2px 6px rgba(0,0,0,.42),inset 0 -2px 0 rgba(255,255,255,.16);
-  }
-  .seal-core b{
-    font-family:'Lora',Georgia,serif;font-size:clamp(.95rem,3.6vw,1.5rem);line-height:1;
-    color:#FFF3E8;text-shadow:0 1px 0 rgba(0,0,0,.45);
-  }
-  html[data-theme="light"] .seal{
-    box-shadow:
-      0 14px 30px rgba(20,30,22,.22),
-      inset 0 2px 0 rgba(255,255,255,.34),
-      inset 0 -10px 20px rgba(0,0,0,.30);
-  }
-  @media(min-width:960px){
-    /* floats free in the hero, up and right of the cube */
-    .seal{position:absolute;top:0;right:4px;width:118px;height:118px;margin:0;z-index:3;}
-    .hero-copy .seal{grid-area:auto;}
-    .seal-core b{font-size:1.85rem;}
-  }
-  h1{font-size:clamp(1.5rem,6.4vw,4.2rem);line-height:1.12;letter-spacing:-.025em;margin-bottom:clamp(12px,2.4vw,22px);max-width:760px;}
-  h1 em{font-style:normal;color:var(--lime);}
-  .word-flip{display:inline-block;position:relative;vertical-align:top;}
-  .word-flip .cursor{display:inline-block;margin-left:2px;color:var(--lime);animation:caretBlink 1s step-end infinite;}
-  /* The typewriter line is an inline-grid holding the live phrase stacked on one hidden
-     copy per candidate word, so the line is permanently as wide as the longest phrase and
-     the heading never reflows. The copy is left-aligned at every width now, so the
-     leftover slack always sits after the phrase, where it is invisible. */
-  .h1-line{display:inline-grid;justify-items:start;vertical-align:top;max-width:100%;}
-  .h1-line > *{grid-area:1 / 1;white-space:nowrap;}
-  .h1-sizer{visibility:hidden;}
-  .h1-sizer .cursor{animation:none;}
-  @keyframes caretBlink{0%,50%{opacity:1;}50.01%,100%{opacity:0;}}
-  .lede{font-size:clamp(.8rem,2.5vw,1.08rem);color:var(--muted);max-width:600px;margin:0 0 clamp(16px,3vw,32px);font-weight:500;}
-  .hero-cta{display:flex;gap:clamp(8px,2vw,12px);flex-wrap:wrap;margin-bottom:0;justify-content:flex-start;}
-  @media(max-width:600px){
-    .hero-cta{margin-top:4px;}
-    .hero-cta .btn-lg{flex:1 1 130px;padding:12px 12px;font-size:.82rem;border-radius:10px;}
-    /* the puzzle CTA shrinks with the row: smaller socket, shorter drift, and a
-       narrower end cap so both buttons still sit side by side on a phone */
-    .hero-cta .btn-puzzle{font-size:.82rem;--pz-r:9px;--pz-gap:13px;margin-right:18px;}
-    .hero-cta .pz-body{padding:12px 14px;}
-    .hero-cta .pz-piece{width:30px;}
-  }
-
-  /* ---------- PHONES (<=767px) ----------
-     The homepage sheds what does not earn its place on a small screen: the 3D
-     cube goes, so the copy gets the full width back. */
-  @media(max-width:767px){
-    /* two classes deep so it beats the .hero-visual{display:flex} base rule
-       further down the sheet, whatever the source order */
-    .hero-grid .hero-visual{display:none;}
-    .hero-grid{
-      grid-template-columns:minmax(0,1fr);
-      grid-template-areas:
-        "seal"
-        "head"
-        "lede"
-        "cta";
-    }
-    .seal{width:clamp(70px,20vw,96px);}
-    h1{font-size:clamp(2rem,9vw,3rem);}
-    .lede{font-size:.95rem;}
-  }
-
-  .avatar-row{display:flex;align-items:center;gap:12px;justify-content:center;}
-  .avatars{display:flex;}
-  .avatars img{
-    width:36px;height:36px;border-radius:50%;object-fit:cover;
-    border:2px solid var(--bg);margin-left:-10px;background:var(--bg-3);
-  }
-  .avatars img:first-child{margin-left:0;}
-  .avatar-row span{font-size:.84rem;color:var(--muted);font-weight:500;}
-  .avatar-row b{color:var(--text);}
-
-  /* ---------- HERO 3D RUBIK'S CUBE ---------- */
-  .hero-visual{display:flex;justify-content:center;align-items:center;perspective:900px;position:relative;min-width:0;}
-  .hero-visual::after{
-    content:"";position:absolute;bottom:6%;left:50%;transform:translateX(-50%);
-    width:60%;height:14%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent 75%);
-    pointer-events:none;z-index:0;
-  }
-  /* The cube is drawn inside this box but its 3D projection is wider than the box
-     when it spins, so the rig is kept clear of the copy column by sizing it to a
-     fraction of its own column rather than filling it. touch-action:pan-y keeps
-     vertical page scrolling working when a finger lands on the cube. */
-  .cube-rig{
-    width:min(82%,clamp(84px,23vw,200px));aspect-ratio:1/1;
-    position:relative;transform-style:preserve-3d;z-index:1;
-    cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none;
-  }
-  .cube-rig.dragging{cursor:grabbing;}
-  @media(min-width:960px){.cube-rig{width:270px;}}
-  .cube-scene{position:absolute;inset:0;transform-style:preserve-3d;}
-  .turn-group{position:absolute;top:0;left:0;transform-style:preserve-3d;}
-  .cubie{position:absolute;top:0;left:0;width:var(--cubie);height:var(--cubie);transform-style:preserve-3d;}
-  .cubie .face{
-    position:absolute;top:0;left:0;width:var(--cubie);height:var(--cubie);
-    border-radius:calc(var(--cubie) * .11);
-    border:clamp(1px,calc(var(--cubie) * .03),2px) solid rgba(0,0,0,.6);
-    box-shadow:inset 0 0 0 clamp(1px,calc(var(--cubie) * .03),2px) rgba(255,255,255,.08);
-    backface-visibility:hidden;
-  }
-  .cubie .face::after{content:"";position:absolute;inset:0;border-radius:calc(var(--cubie) * .08);pointer-events:none;}
-  /* fixed per-direction lighting overlay - simulates a light from top-front-right so the cube reads as a lit 3D object, independent of whatever logo/color the shuffle currently has assigned to that face */
-  .face-px::after{background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,0) 60%);}
-  .face-nx::after{background:rgba(0,0,0,.22);}
-  .face-py::after{background:rgba(0,0,0,.32);}
-  .face-ny::after{background:linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,0) 70%);}
-  .face-pz::after{background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,0) 55%);}
-  .face-nz::after{background:rgba(0,0,0,.28);}
-  .face-px{transform:rotateY(90deg) translateZ(calc(var(--cubie) / 2));}
-  .face-nx{transform:rotateY(-90deg) translateZ(calc(var(--cubie) / 2));}
-  .face-py{transform:rotateX(-90deg) translateZ(calc(var(--cubie) / 2));}
-  .face-ny{transform:rotateX(90deg) translateZ(calc(var(--cubie) / 2));}
-  .face-pz{transform:translateZ(calc(var(--cubie) / 2));}
-  .face-nz{transform:rotateY(180deg) translateZ(calc(var(--cubie) / 2));}
-
-  /* workflow canvas */
-  .canvas{
-    background:var(--bg-2);border:1px solid var(--line);border-radius:18px;
-    box-shadow:var(--shadow-lg);overflow:visible;position:relative;
-  }
-  .canvas-inner{border-radius:18px;overflow:hidden;}
-  .canvas-bar{
-    display:flex;align-items:center;gap:10px;padding:13px 16px;
-    border-bottom:1px solid var(--line);
-  }
-  .canvas-title{font-size:.82rem;font-weight:700;color:var(--text);}
-  .canvas-bar .spacer{flex:1;}
-  .stack-mini{display:flex;}
-  .stack-mini img{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--bg-2);margin-left:-7px;object-fit:cover;background:var(--bg-3);}
-  .stack-mini img:first-child{margin-left:0;}
-  .plus-mini{width:22px;height:22px;border-radius:50%;background:var(--bg-3);border:1.5px solid var(--bg-2);margin-left:-7px;display:grid;place-items:center;font-size:.6rem;color:var(--muted);font-weight:700;}
-
-  .stage{
-    position:relative;padding:34px 20px 26px;min-height:300px;
-    background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);
-    background-size:18px 18px;
-  }
-  .stage svg.wires{position:absolute;inset:0;width:100%;height:100%;}
-  .wires path{fill:none;stroke:rgba(255,255,255,.14);stroke-width:1.6;stroke-dasharray:4 5;}
-  .wires .flow{stroke:var(--lime);stroke-width:2;stroke-dasharray:6 200;opacity:.9;}
-
-  .wf-row{display:flex;justify-content:space-between;gap:10px;position:relative;z-index:1;margin-bottom:30px;}
-  .wf-row.row2{justify-content:center;gap:60px;}
-  .wf-node{display:flex;flex-direction:column;align-items:center;gap:10px;width:88px;}
-  .wf-ic{
-    width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
-    background:var(--bg-3);border:1px solid var(--line-2);color:#fff;
-  }
-  .wf-node b{font-size:.72rem;font-weight:700;color:var(--text);text-align:center;line-height:1.3;}
-  .wf-node span{font-size:.64rem;color:var(--muted);text-align:center;}
-
-  .live-card{
-    position:absolute;left:18px;bottom:-26px;width:200px;
-    background:var(--bg-3);border:1px solid var(--line-2);border-radius:13px;
-    padding:14px 16px;box-shadow:var(--shadow-md);z-index:2;
-  }
-  .live-card h5{font-size:.72rem;font-weight:700;color:var(--text);margin-bottom:10px;}
-  .live-card ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
-  .live-card li{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--text-2);}
-  .live-card li svg{color:var(--lime);flex-shrink:0;}
-  @media(max-width:640px){.live-card{position:static;width:auto;margin:16px 20px 20px;}}
-
-  @media(max-width:1060px){
-    .lede{max-width:520px;}
-  }
-
-  /* ---------- STATS ---------- */
-  .stats{padding:30px 0;}
-  .stats-bar{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    background:var(--bg-2);border:1px solid var(--line);border-radius:16px;
-    overflow:hidden;
-  }
-  .stat{display:flex;align-items:center;justify-content:center;gap:12px;padding:22px 20px;border-right:1px solid var(--line);}
-  .stat:last-child{border-right:none;}
-  .stat-ic{width:38px;height:38px;border-radius:10px;background:rgba(204,85,0,.09);color:var(--lime);display:grid;place-items:center;flex-shrink:0;}
-  .stat b{display:block;font-size:1.2rem;font-weight:800;color:var(--text);letter-spacing:-.02em;line-height:1.2;font-family:'IBM Plex Sans',sans-serif;}
-  .stat span{font-size:.76rem;color:var(--muted);font-weight:500;}
-  @media(max-width:820px){.stats-bar{grid-template-columns:repeat(2,1fr);}.stat{border-bottom:1px solid var(--line);}.stat:nth-child(2n){border-right:none;}}
-  @media(max-width:460px){.stat{padding:18px 14px;gap:10px;}.stat-ic{width:32px;height:32px;}.stat b{font-size:1.02rem;}}
-
-  /* ---------- SECTIONS ---------- */
-  section{padding:70px 0;}
-  @media(min-width:821px){#tutors{padding:0;}}
-  h2{font-size:clamp(1.5rem,3vw,2rem);letter-spacing:-.015em;line-height:1.2;margin-bottom:8px;text-align:center;}
-  h2 em{font-style:normal;color:var(--lime);}
-  .sub{color:var(--muted);font-size:.96rem;font-weight:500;max-width:560px;margin:0 auto 36px;text-align:center;}
-  .sec-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;margin-bottom:0;}
-  .link-arrow{display:inline-flex;align-items:center;gap:6px;color:var(--lime);font-weight:700;font-size:.86rem;white-space:nowrap;}
-  .link-arrow:hover{gap:9px;transition:gap .15s;}
-
-  /* ---------- BENTO LAYOUT (ecosystem / arena / opportunities / community / cta) ---------- */
-  .section-head{text-align:center;max-width:720px;margin:0 auto 40px;}
-  .section-head h2{font-size:clamp(32px,4vw,50px);letter-spacing:-.045em;margin:12px 0;}
-  .section-head p{color:var(--muted);}
-
-  .bento{display:grid;grid-template-columns:1.15fr .85fr .85fr;gap:15px;}
-  .newcard{border:1px solid var(--line);background:var(--surface);border-radius:22px;padding:27px;position:relative;overflow:hidden;transition:.25s;}
-  .newcard:hover{transform:translateY(-4px);border-color:var(--line2);box-shadow:var(--shadow);}
-  .newcard h3{font-size:23px;margin:12px 0 9px;}
-  .newcard p{color:var(--muted);font-size:14px;}
-  .newcard a{display:inline-block;color:var(--accent);font-weight:800;font-size:13px;margin-top:20px;}
-  .newcard.large{grid-row:span 2;}
-  .newicon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:rgba(var(--accent-rgb),.1);color:var(--accent);font-size:22px;}
-  .mini{display:grid;gap:8px;margin-top:25px;}
-  .mini div{background:var(--surface2);border:1px solid var(--line);padding:10px;border-radius:10px;font-size:12px;}
-
-  .arena-new{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;}
-  .challenge small{float:right;color:var(--muted);}
-  .badge{display:inline-block;padding:7px 10px;border-radius:999px;border:1px solid rgba(var(--accent-rgb),.25);background:rgba(var(--accent-rgb),.08);color:var(--accent);font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;}
-  .challenge h3{font-size:30px;margin-top:26px;}
-  .tags{display:flex;gap:7px;flex-wrap:wrap;margin:20px 0;}
-  .tags span{padding:6px 9px;border:1px solid var(--line);border-radius:8px;background:var(--surface2);font-size:11px;}
-  .challenge-foot{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:18px;margin-top:22px;}
-  .challenge-foot b{color:var(--accent);}
-  .newbtn{display:inline-flex!important;justify-content:center;align-items:center;width:100%;padding:13px 17px;border-radius:11px;background:var(--accent);color:#fff!important;margin-top:20px!important;font-weight:800!important;}
-  .newbtn.outline{background:transparent;border:1px solid var(--line2);color:var(--text)!important;}
-  .newbtn.dark{background:#111;color:#fff!important;width:auto;padding:13px 20px;}
-  .workflow-preview{height:230px;border-radius:15px;margin-bottom:20px;background:radial-gradient(circle at center,rgba(var(--accent-rgb),.15),transparent 45%),repeating-linear-gradient(0deg,transparent 0 25px,var(--line) 26px),repeating-linear-gradient(90deg,transparent 0 25px,var(--line) 26px);display:flex;align-items:center;justify-content:space-around;}
-  .workflow-preview i{font-style:normal;border:1px solid var(--line2);background:var(--surface2);padding:12px;border-radius:10px;color:var(--accent);font:800 10px 'IBM Plex Mono',monospace;}
-
-  /* n8n-hosting notice: a workflow-canvas background (nodes + connectors, in
-     n8n's own coral) stands in for a screenshot so the "n8n" association reads
-     at a glance without shipping an image asset. */
-  .n8n-notice{position:relative;overflow:hidden;margin-top:15px;border:1px solid var(--line);border-radius:20px;
-    padding:34px 30px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;background:var(--bg-2);}
-  .n8n-notice::before{content:'';position:absolute;inset:0;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='300' viewBox='0 0 800 300'%3E%3Cg fill='none' stroke='%23FF6D5A' stroke-opacity='.4' stroke-width='2'%3E%3Cpath d='M20,150 C90,150 90,70 160,70'/%3E%3Cpath d='M160,70 C230,70 230,150 300,150'/%3E%3Cpath d='M300,150 C370,150 370,230 440,230'/%3E%3Cpath d='M300,150 C370,150 370,70 440,70'/%3E%3Cpath d='M440,70 C510,70 510,150 580,150'/%3E%3Cpath d='M440,230 C510,230 510,150 580,150'/%3E%3Cpath d='M580,150 C650,150 650,90 720,90'/%3E%3C/g%3E%3Cg fill='%23FF6D5A'%3E%3Ccircle cx='20' cy='150' r='8' fill-opacity='.85'/%3E%3Ccircle cx='160' cy='70' r='8' fill-opacity='.6'/%3E%3Ccircle cx='300' cy='150' r='8' fill-opacity='.75'/%3E%3Ccircle cx='440' cy='70' r='8' fill-opacity='.55'/%3E%3Ccircle cx='440' cy='230' r='8' fill-opacity='.55'/%3E%3Ccircle cx='580' cy='150' r='8' fill-opacity='.8'/%3E%3Ccircle cx='720' cy='90' r='8' fill-opacity='.9'/%3E%3C/g%3E%3C/svg%3E"),
-      repeating-linear-gradient(0deg,transparent 0 25px,var(--line) 26px),repeating-linear-gradient(90deg,transparent 0 25px,var(--line) 26px);
-    background-size:cover,26px 26px,26px 26px;background-position:center,0 0,0 0;opacity:.9;}
-  .n8n-notice::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,var(--bg-2) 8%,rgba(16,20,15,.5) 45%,rgba(255,109,90,.14));}
-  html[data-theme="light"] .n8n-notice::after{background:linear-gradient(100deg,var(--bg-2) 8%,rgba(255,255,255,.72) 45%,rgba(255,109,90,.14));}
-  .n8n-notice>*{position:relative;z-index:1;}
-  .n8n-notice-copy{max-width:540px;}
-  .n8n-notice-copy .badge{margin-bottom:12px;}
-  .n8n-notice-copy h3{font-size:1.5rem;margin:0 0 9px;line-height:1.25;}
-  .n8n-notice-copy p{color:var(--soft);font-size:.88rem;line-height:1.55;}
-  .n8n-notice-copy p b{color:var(--accent);}
-  .n8n-notice .newbtn{width:auto;margin-top:0!important;padding:14px 24px;flex-shrink:0;white-space:nowrap;}
-  @media(max-width:640px){.n8n-notice{padding:26px 22px;}.n8n-notice .newbtn{width:100%;}}
-
-  /* ---------- LIVE FROM THE APP (assets/live.js) ---------- */
-  .livegrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;}
-  .live-label{font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--accent);}
-  .feed-card h3{font-size:21px;margin:10px 0 6px;}
-  .live-rows{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:9px;}
-  .live-row{display:flex;align-items:center;gap:10px;font-size:14px;min-width:0;}
-  .live-rank{width:26px;flex-shrink:0;font:700 12px 'IBM Plex Mono',monospace;color:var(--muted);}
-  .live-ava{width:32px;height:32px;flex-shrink:0;border-radius:50%;object-fit:cover;background:var(--surface2);border:1px solid var(--line);display:grid;place-items:center;font:700 11px/1 'IBM Plex Mono',monospace;color:var(--accent);}
-  .live-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text);}
-  .newcard a.live-name{display:block;margin:0;font-size:14px;font-weight:600;color:var(--text);}
-  .newcard a.live-name:hover{color:var(--accent);}
-  .live-val{font:700 12px 'IBM Plex Mono',monospace;color:var(--accent);white-space:nowrap;}
-  .live-seats{display:flex;gap:4px;flex-shrink:0;}
-  .live-seats i{width:8px;height:8px;border-radius:50%;background:var(--line2);}
-  .live-seats i.on{background:var(--accent);}
-  .live-empty{margin-top:14px;}
-  .live-more{margin-top:18px;border-top:1px solid var(--line);padding-top:14px;}
-  .live-more b{font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:var(--muted);}
-  .live-more ul{list-style:none;padding:0;margin:8px 0 0;display:flex;flex-direction:column;gap:7px;}
-  .live-more li{display:flex;justify-content:space-between;gap:12px;font-size:13px;}
-  .live-more-title{color:var(--text-2);min-width:0;}
-  .live-more-tag{color:var(--muted);font:600 11px 'IBM Plex Mono',monospace;white-space:nowrap;}
-  .live-starter{margin-top:14px;font-size:13px!important;}
-  .newcard .live-starter a{margin-top:0;font-size:13px;}
-  /* The cut-outs are made to stand on a dark card, so the stage stays dark in
-     both themes. */
-  /* A round frame, like a profile photo: the cut-out rises from its bottom
-     edge; without one, the photo (or initials) fills the circle. */
-  .showcase-stage{position:relative;width:min(240px,100%);aspect-ratio:1;border-radius:50%;margin:0 auto 20px;overflow:hidden;background:radial-gradient(circle at 50% 80%,rgba(204,85,0,.42),transparent 64%),#0a0d0b;border:1px solid rgba(255,255,255,.1);box-shadow:0 0 0 6px rgba(var(--accent-rgb),.08);}
-  .showcase-cut{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:90%;max-width:100%;object-fit:contain;object-position:bottom;}
-  .showcase-ava{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#161b15;display:grid;place-items:center;font:700 52px/1 'IBM Plex Mono',monospace;color:#cc5500;}
-  .showcase-meta{font-size:14px;}
-  .newcard .showcase-meta a{margin-top:0;font-size:14px;}
-  .showcase-dots{display:flex;gap:6px;margin-top:16px;}
-  .showcase-dots .dot{width:8px;height:8px;padding:0;border:0;border-radius:99px;background:var(--line2);cursor:pointer;transition:width .25s,background .25s;}
-  .showcase-dots .dot.on{width:22px;background:var(--accent);}
-
-  .community-new{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;}
-  /* Holds a screenshot of the real community rather than mocked-up messages.
-     The image is absolutely positioned and cropped with object-fit, so whatever
-     its own dimensions are it fills the card exactly and is trimmed to fit.
-     Anchored top left rather than centred: the screenshot is wider than the card,
-     so a centred crop shaves both edges and cuts the app's sidebar down the middle,
-     which reads as a mistake. Anchoring left keeps the sidebar and the start of the
-     thread whole and takes the trim off the empty right-hand side instead. */
-  .chat{padding:0;min-height:270px;}
-  .chat-shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;}
-  .chat-fallback{
-    position:absolute;inset:0;display:grid;place-items:center;text-align:center;
-    padding:24px;font-size:.82rem;color:var(--muted);line-height:1.5;
-    background:repeating-linear-gradient(45deg,var(--bg-3),var(--bg-3) 10px,var(--bg-2) 10px,var(--bg-2) 20px);
-  }
-  .whynew{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
-  .whynew .newcard{padding:20px;}
-  .whynew h3{font-size:16px;}
-
-  .pricegrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:900px;margin:36px auto 0;}
-  .pricegrid .featured{border-color:rgba(var(--accent-rgb),.45);background:linear-gradient(145deg,rgba(var(--accent-rgb),.07),var(--surface));}
-  .price{font-family:'Lora',Georgia,serif;font-weight:700;font-size:42px;color:var(--accent);margin:18px 0;}
-  .pricegrid ul{list-style:none;display:grid;gap:10px;color:var(--soft);font-size:13px;}
-  .price-note{text-align:center;color:var(--muted);font-size:12px;margin-top:15px;}
-
-  .promo-bar{max-width:900px;margin:30px auto 0;padding:14px 20px;border-radius:14px;text-align:center;
-    border:1px dashed rgba(var(--accent-rgb),.45);background:rgba(var(--accent-rgb),.07);
-    display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;}
-  .promo-bar b{color:var(--accent);font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.09em;}
-  .promo-bar span{color:var(--soft);font-size:13px;font-weight:600;}
-  .price-from{display:block;font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:var(--muted);margin-top:18px;}
-  .price-from + .price{margin-top:4px;}
-  .price.soon{font-size:30px;color:var(--muted);}
-  .price-sub{color:var(--good);font-size:12px;font-weight:700;margin:-8px 0 0;}
-  .price-sub + ul{margin-top:18px;}
-  .pricegrid .tierlist{display:grid;gap:8px;margin:0;font-size:13px;}
-  .pricegrid .tierlist li{list-style:none;}
-  .tierpick{border:0;margin:18px 0 20px;}
-  .tierpick legend{
-    font:800 10px 'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--muted);padding:0;margin-bottom:9px;
-  }
-  /* the whole row is the control - the radio itself is only there for
-     keyboard and screen-reader users */
-  .pricegrid .tier{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);
-    cursor:pointer;transition:border-color .18s,background .18s,box-shadow .18s;}
-  .pricegrid .tier:hover{border-color:var(--line2);}
-  /* visually hidden, but still focusable and announced */
-  .tier input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;
-    overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;}
-  .tier input:focus-visible{outline:none;}
-  .tier-name{font-weight:700;color:var(--text);display:flex;flex-direction:column;gap:1px;}
-  .tier-name small{font-weight:500;font-size:11px;color:var(--muted);}
-  .tier-price{white-space:nowrap;margin-left:auto;}
-  .tier-price s{color:var(--muted);font-size:12px;margin-right:7px;}
-  .tier-price b{color:var(--accent);font-size:15px;}
-  .tier-tick{
-    flex:none;width:17px;height:17px;border-radius:50%;border:1.5px solid var(--line2);
-    position:relative;transition:border-color .18s,background .18s;
-  }
-  .tier-tick::after{
-    content:"";position:absolute;inset:3.5px;border-radius:50%;background:#fff;
-    transform:scale(0);transition:transform .18s cubic-bezier(.32,1.5,.52,1);
-  }
-  .tier input:checked ~ .tier-tick{border-color:var(--accent);background:var(--accent);}
-  .tier input:checked ~ .tier-tick::after{transform:scale(1);}
-  .pricegrid .tier.is-picked,
-  .pricegrid .tier:has(input:checked){
-    border-color:rgba(var(--accent-rgb),.6);background:rgba(var(--accent-rgb),.10);
-    box-shadow:0 0 0 1px rgba(var(--accent-rgb),.28) inset;
-  }
-  .tier input:focus-visible ~ .tier-tick{outline:2.5px solid var(--lime);outline-offset:3px;}
-  .newcard .tier-hint{color:var(--muted);font-size:11.5px;text-align:center;margin-top:10px;}
-  .newbtn.disabled{background:transparent;border:1px dashed var(--line2);color:var(--muted)!important;cursor:not-allowed;}
-
-  .cta-new{padding:25px 0 70px;}
-  .cta-new .wrap{background:var(--accent);padding:30px;border-radius:25px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-  .cta-new h2{color:#fff;font-size:36px;}
-  .cta-new p{color:rgba(255,255,255,.78);font-size:13px;}
-  .cta-new .newbtn{width:auto;margin-top:0!important;}
-
-  @media(max-width:1000px){
-    .bento{grid-template-columns:1fr 1fr;}
-    .newcard.large{grid-column:span 2;grid-row:auto;}
-    .livegrid{grid-template-columns:1fr 1fr;}
-    .arena-new,.community-new{grid-template-columns:1fr;}
-  }
-  @media(max-width:650px){
-    .bento,.livegrid,.pricegrid{grid-template-columns:1fr;}
-    .newcard.large{grid-column:auto;}
-    .whynew{grid-template-columns:1fr;}
-    .cta-new .wrap{flex-direction:column;align-items:flex-start;}
-    .cta-new h2{font-size:29px;}
-  }
-
-  /* footer */
-  footer{padding:64px 0 28px;}
-  .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr 1.3fr;gap:30px;margin-bottom:40px;text-align:center;}
-  .fgrid .brand{justify-content:center;}
-  .fbrand p{font-size:.82rem;color:var(--muted);max-width:230px;margin:14px auto 0;line-height:1.6;}
-  footer h5{color:var(--text);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;font-weight:700;font-family:'IBM Plex Mono',monospace;}
-  .fcol{display:flex;flex-direction:column;align-items:center;gap:10px;}
-  .fcol a{font-size:.84rem;color:var(--muted);}
-  .fcol a:hover{color:var(--lime);}
-  .signup{display:flex;gap:8px;margin:6px auto 0;max-width:280px;}
-  .signup input{
-    flex:1;background:var(--bg-2);border:1px solid var(--line-2);border-radius:9px;
-    padding:11px 13px;color:var(--text);font-size:.82rem;font-family:inherit;min-width:0;
-  }
-  .signup input::placeholder{color:var(--muted);}
-  .signup button{
-    width:42px;height:42px;border-radius:9px;background:var(--lime);color:var(--ink);
-    display:grid;place-items:center;border:none;cursor:pointer;flex-shrink:0;
-  }
-  .fbot{
-    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
-    border-top:1px solid var(--line);padding-top:22px;font-size:.8rem;color:var(--muted);
-  }
-  .fsocial{display:flex;gap:14px;}
-  .fsocial a{color:var(--muted);}
-  .fsocial a:hover{color:var(--lime);}
-  @media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr;}}
-  @media(max-width:520px){.fgrid{grid-template-columns:1fr;}}
-
-  /* Footer link groups are <details>: accordions on a phone, plain columns
-     above 767px, where site.js forces them open and the summary stops
-     behaving like a control. */
-  .fgroup summary{list-style:none;}
-  .fgroup summary::-webkit-details-marker{display:none;}
-  @media(min-width:768px){
-    .fgroup summary{pointer-events:none;}
-  }
-  @media(max-width:767px){
-    /* the floating June and theme buttons sit over the bottom of the page,
-       so the footer keeps enough room below its last line to clear them */
-    footer{padding:36px 0 84px;}
-    .fgrid{gap:0;margin-bottom:26px;text-align:left;}
-    .fgrid .brand{justify-content:flex-start;}
-    .fbrand{margin-bottom:8px;}
-    .fbrand p{margin:12px 0 0;max-width:none;}
-    .fgroup{border-top:1px solid var(--line);}
-    .fgroup summary{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:15px 0;cursor:pointer;
-    }
-    .fgroup summary h5{margin-bottom:0;}
-    .fgroup summary::after{
-      content:"";width:9px;height:9px;flex-shrink:0;
-      border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);
-      transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s ease;
-    }
-    .fgroup[open] summary::after{transform:rotate(-135deg) translate(-3px,-3px);}
-    .fgroup .fcol{align-items:flex-start;padding:2px 0 16px;}
-    .fnews{border-top:1px solid var(--line);padding-top:16px;}
-    .signup{margin:6px 0 0;max-width:none;}
-    .fbot{justify-content:center;text-align:center;}
-  }
-
-  /* ---------- WHAT YOU DO HERE ---------- */
-  /* Five tinted cards. Each one carries its own accent as --path-c and its own
-     surface as --path-bg, so the row is one rule plus a colour per card, and both
-     themes are a matter of restating those two values. */
-  .paths{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));}
-  .path{
-    position:relative;overflow:hidden;border-radius:18px;
-    padding:24px 22px 78px;
-    background:var(--path-bg);border:1px solid var(--path-line);
-  }
-  .path h3{
-    font-family:'IBM Plex Sans',sans-serif;font-size:1.04rem;font-weight:700;
-    letter-spacing:-.01em;color:var(--path-c);margin-bottom:11px;
-  }
-  .path p{font-size:.89rem;line-height:1.55;color:var(--text-2);font-weight:500;}
-  .path-ic{position:absolute;right:18px;bottom:16px;color:var(--path-c);opacity:.9;pointer-events:none;}
-  .path-ic svg{width:36px;height:36px;stroke-width:1.5;}
-  .path-progress{margin-top:16px;max-width:150px;}
-  .path-progress b{
-    display:block;font-family:'IBM Plex Mono',monospace;font-size:.8rem;
-    font-weight:600;color:var(--path-c);margin-bottom:7px;
-  }
-  .path-track{display:block;height:7px;border-radius:999px;background:var(--path-line);overflow:hidden;}
-  .path-track i{display:block;height:100%;width:79%;border-radius:999px;background:var(--path-c);}
-
-  .path.p-green {--path-c:#4ADE80;--path-bg:rgba(74,222,128,.07); --path-line:rgba(74,222,128,.20);}
-  .path.p-purple{--path-c:#A78BFA;--path-bg:rgba(167,139,250,.08);--path-line:rgba(167,139,250,.22);}
-  .path.p-blue  {--path-c:#60A5FA;--path-bg:rgba(96,165,250,.08); --path-line:rgba(96,165,250,.22);}
-  .path.p-orange{--path-c:#FB923C;--path-bg:rgba(251,146,60,.08); --path-line:rgba(251,146,60,.22);}
-  html[data-theme="light"] .path.p-green {--path-c:#15803D;--path-bg:#EDF7EF;--path-line:rgba(21,128,61,.16);}
-  html[data-theme="light"] .path.p-purple{--path-c:#6D28D9;--path-bg:#F4F0FD;--path-line:rgba(109,40,217,.16);}
-  html[data-theme="light"] .path.p-blue  {--path-c:#1D4ED8;--path-bg:#EDF3FD;--path-line:rgba(29,78,216,.16);}
-  html[data-theme="light"] .path.p-orange{--path-c:#C2410C;--path-bg:#FDF1E8;--path-line:rgba(194,65,12,.16);}
-
-  /* ---------- MEET YOUR TUTORS ---------- */
-  .tutors-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;margin-top:36px;}
-  .tutor-frame{
-    position:relative;aspect-ratio:9/10;border-radius:var(--radius);overflow:hidden;
-    border:1px solid var(--line);background:var(--bg-2);box-shadow:var(--shadow-lg);
-  }
-  .tutor-shot{width:100%;height:100%;object-fit:cover;transition:opacity .45s ease;}
-  .tutor-caption{
-    position:absolute;left:0;right:0;bottom:0;padding:22px 22px 20px;
-    background:linear-gradient(to top, rgba(10,13,11,.92), rgba(10,13,11,.05));
-  }
-  .tutor-idx{display:block;color:var(--lime);font-size:.7rem;font-weight:700;letter-spacing:.08em;margin-bottom:6px;}
-  .tutor-socials{position:absolute;right:16px;bottom:16px;display:flex;gap:8px;z-index:2;}
-  .tutor-social-btn{
-    width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
-    background:rgba(10,13,11,.55);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.16);
-    color:var(--text);transition:background .2s ease,border-color .2s ease,transform .2s ease,color .2s ease;
-  }
-  .tutor-social-btn:hover{background:var(--lime);border-color:var(--lime);color:var(--ink);transform:translateY(-2px);}
-  .tutor-social-btn i{width:16px;height:16px;}
-  .tutor-caption h4{font-family:'Lora',Georgia,serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:2px;}
-  .tutor-caption span{font-size:.8rem;color:var(--muted);}
-
-  .tutor-list{display:flex;flex-direction:column;gap:10px;}
-  .tutor-item{
-    display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:12px;
-    border:1px solid var(--line);background:var(--bg-2);cursor:pointer;
-    transition:border-color .2s ease, background .2s ease;
-  }
-  .tutor-item:hover{border-color:var(--line-2);}
-  .tutor-item.active{border-color:var(--lime);background:rgba(204,85,0,.06);}
-  .tutor-item-num{font-size:.78rem;color:var(--muted);font-weight:700;flex-shrink:0;}
-  .tutor-item.active .tutor-item-num{color:var(--lime);}
-  .tutor-item b{display:block;font-size:.94rem;font-weight:800;color:var(--text);font-family:'IBM Plex Sans',sans-serif;}
-  .tutor-item span span{font-size:.78rem;color:var(--muted);}
-  /* Sticky scroll-through. The track is taller than the viewport, the panel pins
-     inside it, and how far the track has been scrolled decides which tutor shows, so
-     the section is fully in frame for the whole run. --tutor-steps is set from the
-     tutor count in JS so the track always has room for every one of them. */
-  .tutors-track{position:relative;}
-  @media(min-width:821px){
-    .tutors-track{height:calc(100vh + var(--tutor-steps, 4) * 40vh);}
-    .tutors-sticky{
-      position:sticky;top:0;min-height:100vh;
-      display:flex;flex-direction:column;justify-content:center;
-      padding:clamp(80px,10vh,96px) 0 clamp(32px,5vh,48px);
-    }
-    /* Keep the whole panel inside the viewport on short screens, or it cannot pin.
-       Both grid columns have to give: on narrow-but-short screens the name list is
-       the taller of the two, not the portrait. */
-    .tutors-sticky .tutor-frame{aspect-ratio:auto;height:min(54vh,600px);}
-    .tutors-sticky .sub{margin-bottom:clamp(16px,3vh,36px);}
-    .tutors-sticky .tutors-grid{margin-top:clamp(20px,4vh,36px);}
-    .tutors-sticky .tutor-list{gap:clamp(6px,1.1vh,10px);}
-    .tutors-sticky .tutor-item{padding:clamp(10px,1.8vh,18px) 20px;}
-  }
-  @media(max-width:820px){
-    /* no pinning on small screens - it would mean several extra screens of scrolling */
-    .tutors-grid{grid-template-columns:1fr;}
-    .tutor-frame{aspect-ratio:4/3;}
-  }
-
-  /* ---------- WHATSAPP COMMUNITY CTA ---------- */
-  .wa-cta{grid-column:1/-1;margin-top:6px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(120deg, rgba(204,85,0,.08), var(--bg-2) 60%);padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-  .wa-cta-left{display:flex;align-items:center;gap:14px;text-align:left;}
-  .wa-ic{width:46px;height:46px;border-radius:12px;background:var(--bg-3);border:1px solid var(--line-2);display:grid;place-items:center;color:var(--lime);flex-shrink:0;}
-  .wa-cta h4{font-size:.98rem;color:var(--text);margin-bottom:3px;font-family:'IBM Plex Sans',sans-serif;font-weight:800;}
-  .wa-cta p{font-size:.8rem;color:var(--muted);}
-  @media(max-width:560px){.wa-cta{flex-direction:column;text-align:center;}.wa-cta-left{flex-direction:column;text-align:center;}}
-
-  /* ---------- FAQ ---------- */
-  .faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
-  .faq-item{border:1px solid var(--line);border-radius:14px;background:var(--bg-2);padding:4px 20px;transition:border-color .2s ease;}
-  .faq-item:hover{border-color:var(--line-2);}
-  .faq-item summary{list-style:none;cursor:pointer;padding:18px 0;font-weight:700;color:var(--text);font-size:.94rem;display:flex;align-items:center;justify-content:space-between;gap:14px;}
-  .faq-item summary::-webkit-details-marker{display:none;}
-  .faq-item summary .faq-ic{flex-shrink:0;color:var(--lime);transition:transform .2s ease;}
-  .faq-item[open] summary .faq-ic{transform:rotate(45deg);}
-  .faq-item p{font-size:.86rem;color:var(--muted);padding:0 0 18px;line-height:1.6;}
-
-  .kicker{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--lime);margin-bottom:10px;}
-
-  .theme-toggle{position:fixed;right:20px;bottom:20px;z-index:999;width:48px;height:48px;border-radius:50%;border:1px solid var(--line-2);background:var(--bg-2);color:var(--text);box-shadow:var(--shadow-md);cursor:pointer;font-size:20px;display:grid;place-items:center;transition:.2s}
-  .theme-toggle:hover{transform:translateY(-2px);border-color:var(--lime);color:var(--lime)}
-
-  /* ---------- JUNE CHAT WIDGET ---------- */
-  .june-launcher{
-    position:fixed;left:20px;bottom:20px;z-index:999;
-    display:flex;align-items:center;gap:10px;
-    background:var(--lime);color:var(--ink);border:none;border-radius:999px;
-    padding:13px 20px 13px 15px;cursor:pointer;box-shadow:0 12px 28px rgba(204,85,0,.32);
-    font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:.88rem;
-    transition:transform .18s ease, box-shadow .2s ease;
-  }
-  .june-launcher:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(204,85,0,.4);}
-  .june-launcher .i{width:20px;height:20px;}
-  .june-launcher .june-dot{width:8px;height:8px;border-radius:50%;background:#1a7a3d;box-shadow:0 0 0 2px rgba(255,255,255,.5);}
-  .june-launcher.hide{display:none;}
-
-  .june-panel{
-    position:fixed;right:20px;bottom:20px;z-index:1000;
-    width:min(370px, calc(100vw - 32px));height:min(560px, calc(100vh - 40px));
-    background:var(--bg-2);border:1px solid var(--line-2);border-radius:18px;
-    box-shadow:var(--shadow-lg);display:none;flex-direction:column;overflow:hidden;
-  }
-  .june-panel.open{display:flex;}
-  .june-head{
-    display:flex;align-items:center;gap:10px;padding:16px 16px;
-    border-bottom:1px solid var(--line);background:var(--bg-3);flex-shrink:0;
-  }
-  .june-avatar{
-    width:36px;height:36px;border-radius:50%;background:var(--lime);color:var(--ink);
-    display:grid;place-items:center;font-weight:800;font-family:'IBM Plex Sans',sans-serif;flex-shrink:0;
-  }
-  .june-head-info{flex:1;min-width:0;}
-  .june-head-info b{display:block;color:var(--text);font-size:.9rem;font-family:'IBM Plex Sans',sans-serif;}
-  .june-head-info span{display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--muted);}
-  .june-head-info span .june-dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;}
-  .june-close{background:none;border:none;color:var(--muted);cursor:pointer;padding:6px;border-radius:8px;flex-shrink:0;}
-  .june-close:hover{color:var(--text);background:var(--line);}
-
-  .june-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
-  .june-msg{max-width:84%;font-size:.86rem;line-height:1.55;padding:10px 13px;border-radius:13px;white-space:pre-line;}
-  .june-msg.bot{align-self:flex-start;background:var(--bg-3);border:1px solid var(--line);color:var(--text-2);border-bottom-left-radius:4px;}
-  .june-msg.user{align-self:flex-end;background:var(--lime);color:var(--ink);font-weight:600;border-bottom-right-radius:4px;}
-  .june-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:var(--bg-3);border:1px solid var(--line);border-radius:13px;border-bottom-left-radius:4px;}
-  .june-typing span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:juneBlink 1.1s infinite;}
-  .june-typing span:nth-child(2){animation-delay:.15s;}
-  .june-typing span:nth-child(3){animation-delay:.3s;}
-  @keyframes juneBlink{0%,60%,100%{opacity:.3;transform:scale(.85);}30%{opacity:1;transform:scale(1);}}
-
-  .june-suggest{display:flex;flex-wrap:wrap;gap:7px;padding:0 16px 12px;flex-shrink:0;}
-  .june-chip{
-    border:1px solid var(--line-2);background:var(--bg-3);color:var(--text-2);
-    border-radius:999px;padding:7px 12px;font-size:.74rem;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;
-    transition:border-color .15s ease, color .15s ease;
-  }
-  .june-chip:hover{border-color:var(--lime);color:var(--lime);}
-
-  .june-input-row{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);flex-shrink:0;}
-  .june-input-row input{
-    flex:1;background:var(--bg);border:1px solid var(--line-2);border-radius:10px;
-    padding:11px 13px;color:var(--text);font-size:.85rem;font-family:inherit;min-width:0;
-  }
-  .june-input-row input::placeholder{color:var(--muted);}
-  .june-input-row input:focus{outline:none;border-color:var(--lime);}
-  .june-send{
-    width:42px;height:42px;border-radius:10px;background:var(--lime);color:var(--ink);
-    display:grid;place-items:center;border:none;cursor:pointer;flex-shrink:0;transition:.15s;
-  }
-  .june-send:hover{background:var(--lime-dim);}
-  @media(max-width:480px){
-    .june-panel{right:10px;left:10px;width:auto;bottom:10px;height:min(72vh,560px);}
-    .june-launcher{left:10px;bottom:10px;}
-  }
-
-  /* reveal */
-  .js .rv{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s ease;}
-  .js .rv.in{opacity:1;transform:none;}
-  .rv.in{opacity:1;transform:none;}
-  @media (prefers-reduced-motion:reduce){
-    *{animation:none !important;transition:none !important;}
-    .rv,.js .rv{opacity:1;transform:none;}
-    html{scroll-behavior:auto;}
-  }
-</style>
+<!-- Before the first paint, so a light-first page never flashes dark: the
+     same rule site.js applies later (a saved choice wins, else the default). -->
+<script>(function(){var t=null;try{t=localStorage.getItem('an-theme');}catch(e){}if(t!=='dark')document.documentElement.setAttribute('data-theme','light');})();</script>
+<link rel="stylesheet" href="assets/canvas.css">
 </head>
 <body>
 
-<!-- ============ NAV ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="s-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></symbol>
+  <symbol id="s-instagram" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.4"/></g><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/></symbol>
+  <symbol id="s-x" viewBox="0 0 24 24"><path fill="currentColor" d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24H16.2l-5.2-6.8-5.95 6.8H1.74l7.73-8.84L1.32 2.25H8.6l4.7 6.22 4.94-6.22Zm-1.16 17.52h1.83L7.02 4.13H5.05l12.03 15.64Z"/></symbol>
+</svg>
+
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="brand" aria-label="Automate Naija">
-      <img class="mark" src="assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
-      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
-    </a>
-
-    <nav class="nav-links">
-      <a href="#ecosystem">Learn</a>
-      <a href="#arena">Build</a>
-      <a href="#community">Community</a>
-      <a href="#live">Leaderboard</a>
-      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a class="brand" href="index.html" aria-label="Automate Naija"><img class="logo-on-dark" src="assets/brand/logo.png" alt="Automate Naija" width="1000" height="269"><img class="logo-on-light" src="assets/brand/logo-light.png" alt="" width="1000" height="269"></a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#week">This week</a>
+      <a href="#live">Live</a>
+      <a href="#proof">Credentials</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#tutors">Tutors</a>
       <a href="blog/index.html">Blog</a>
-      <a href="about.html">About</a>
     </nav>
-
-    <div class="nav-act">
-      <a href="https://app.automatenaija.com/login" id="loginTop" class="btn btn-ghost">Log in</a>
-      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
-      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
-        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
-      </button>
+    <div class="nav-right">
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch theme" title="Switch theme"><i data-lucide="sun" class="t-sun"></i><i data-lucide="moon" class="t-moon"></i></button>
+      <a class="nav-login" href="https://app.automatenaija.com/login" data-link="app">Log in</a>
+      <a class="btn btn-run js-start" href="https://app.automatenaija.com/login?mode=signup">Start free</a>
+      <button class="icon-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false"><i data-lucide="menu" style="width:22px;height:22px"></i></button>
     </div>
   </div>
-
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#ecosystem">Learn</a>
-    <a href="#arena">Build</a>
-    <a href="#community">Community</a>
-    <a href="#live">Leaderboard</a>
+    <a href="#week">This week's builds</a>
+    <a href="#live">Live from the app</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#tutors">Tutors</a>
     <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
     <a href="blog/index.html">Blog</a>
     <a href="about.html">About</a>
-    <a href="careers.html">Careers</a>
-    <a href="contact.html">Contact</a>
-    <a href="https://app.automatenaija.com/login" id="loginMob" class="btn btn-line">Log in</a>
+    <a class="btn btn-ghost" href="https://app.automatenaija.com/login" data-link="app">Log in</a>
   </div>
-
 </header>
 
-<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
-     make position:fixed resolve against the header instead of the viewport and
-     park this button on top of the mobile menu button. -->
-<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+<main>
+<!-- ================= HERO: a member's path as a workflow ================= -->
+<div class="hero dots" id="top">
+  <div class="floaters" id="heroTiles" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <span class="live-chip"><i class="pulse" aria-hidden="true"></i><span id="heroChip">New builds every Monday</span></span>
+        <h1>Learn automation<br> by <span class="u">shipping<svg viewBox="0 0 200 20" preserveAspectRatio="none" aria-hidden="true"><path d="M2 14 C 40 2, 80 2, 100 10 S 160 18, 198 6" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/></svg></span> it.</h1>
+      </div>
+      <div class="hero-side">
+        <p class="lead">Every Monday a real problem from a Nigerian business lands here. You build the workflow in n8n, Make or Zapier, a grader marks it in about a minute, and a pass becomes a credential anyone can check.</p>
+        <div class="ctas">
+          <a class="btn btn-run js-start" href="https://app.automatenaija.com/login?mode=signup"><span class="play"><i data-lucide="play"></i></span>Start your free build</a>
+          <a class="btn btn-ghost" href="#week">See this week's builds</a>
+        </div>
+      </div>
+    </div>
 
+    <ol class="flow" id="flow" aria-label="How it works">
+      <li class="node trigger">
+        <span class="ic ink"><i data-lucide="zap"></i></span>
+        <div><span class="type">Trigger</span><b>You sign up</b><small>Free. No card needed.</small></div>
+        <span class="port out"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="node lo" style="--c:#2F6FDB">
+        <span class="ic"><i data-lucide="book-open"></i></span>
+        <div><span class="type">Learn · optional</span><b>13-week course</b><small>Zapier, Make, then n8n. <span class="live">₦10,000 once.</span></small></div>
+        <span class="port in"></span><span class="port out"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="node" style="--c:var(--n8n)">
+        <span class="ic"><i data-lucide="wrench"></i></span>
+        <div><span class="type">Build · this week</span><b id="flowBuild">A new real build every week</b><small class="live" id="flowClose">At your level, in your tool</small></div>
+        <span class="port in"></span><span class="port out"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="node lo" style="--c:#7A5AF8">
+        <span class="ic"><i data-lucide="clipboard-check"></i></span>
+        <div><span class="type">Grade</span><b>Marked against a rubric</b><small>Score and feedback in about a minute.</small></div>
+        <span class="port in"></span><span class="port out"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="node" style="--c:var(--ok)">
+        <span class="ic"><i data-lucide="badge-check"></i></span>
+        <div><span class="type">Output</span><b>Verified credential</b><small>On your portfolio and LinkedIn.</small></div>
+        <span class="port in"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
+      </li>
+      <li class="sticky" aria-label="Note"><b>Note:</b> the first build is free and never closes. Every weekly Beginner build is free too, with a step-by-step guide.</li>
+    </ol>
+    <p class="runbar" id="runbar" hidden><span class="okpill"><i data-lucide="check"></i>Last successful run</span><span id="lastRun"></span></p>
+  </div>
+</div>
 
-<!-- ============ JUNE CHAT WIDGET ============ -->
-<button class="june-launcher" id="juneLauncher" aria-label="Chat with June">
-  <i data-lucide="message-circle" class="i"></i>
-  Ask June
-  <span class="june-dot" aria-hidden="true"></span>
-</button>
+<!-- ================= THIS WEEK ================= -->
+<section id="week">
+  <span class="anchor" id="arena"></span>
+  <div class="bgi" data-set="week" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">This week</span>
+        <h2 id="weekH">Real business problems. Pick one and ship it.</h2>
+        <p class="lead">One brief per level and tool. Each is a problem a real business here would pay to have automated, with a starter kit to get you moving.</p>
+      </div>
+      <div class="countdown" id="countdown" hidden><div class="t" id="cd"></div><span>left to submit<br>this week's builds</span></div>
+    </div>
+    <a class="starter" id="starter" href="https://app.automatenaija.com/login?mode=signup">
+      <span class="tag">START HERE · FREE</span>
+      <span><b id="starterTitle">Your first build is free</b><small>About an hour · never closes · no plan needed</small></span>
+      <span class="go">Open the free build <i data-lucide="arrow-right" class="i"></i></span>
+    </a>
+    <div class="lanes" id="lanes"></div>
+    <div class="week-empty" id="weekEmpty" hidden>
+      <span>A new set of builds drops every Monday, one per level and tool. See this week's in the app.</span>
+      <a class="btn btn-ghost" href="https://app.automatenaija.com/login" data-link="app">Open the app</a>
+    </div>
+  </div>
+</section>
 
+<!-- ================= EXECUTIONS (live from the app) ================= -->
+<section id="live" class="dots" hidden>
+  <div class="bgi" data-set="live" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Live from the app</span>
+        <h2>Executions, not testimonials.</h2>
+        <p class="lead">Every row below is a real build that passed the grader, from a builder who made their portfolio public.</p>
+      </div>
+    </div>
+    <div class="summary" id="summary"></div>
+    <div class="exec-grid">
+      <div class="panel">
+        <div class="panel-h"><span>Recent executions</span><a href="https://app.automatenaija.com/verify">Check a credential →</a></div>
+        <table class="log"><thead><tr><th>Status</th><th>Builder</th><th>Workflow</th><th>Score</th><th>Graded</th></tr></thead><tbody id="log"></tbody></table>
+      </div>
+      <div class="side">
+        <div class="panel">
+          <div class="panel-h"><span>Leaderboard</span><span class="tabs" role="group" aria-label="Leaderboard range"><button type="button" data-range="week" aria-pressed="false">This week</button><button type="button" data-range="all_time" aria-pressed="true">All time</button></span></div>
+          <ol class="rows" id="leaders"></ol>
+        </div>
+        <div class="panel" id="quizPanel">
+          <div class="panel-h"><span id="quizH">Weekly quiz</span><a id="quizGo" href="https://app.automatenaija.com/game">Play →</a></div>
+          <ol class="rows" id="quiz"></ol>
+          <p class="panel-f" id="quizF"></p>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><span>Squads</span><a id="partnerGo" href="https://app.automatenaija.com/partner">Find a partner →</a></div>
+          <ol class="rows" id="squads"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CREDENTIAL ================= -->
+<section id="proof">
+  <span class="anchor" id="ecosystem"></span>
+  <div class="wrap cred-wrap">
+    <div class="cred" id="cred" hidden>
+      <span class="stamp"><i data-lucide="shield-check"></i>VERIFIED</span>
+      <div class="photo" id="credPhoto"></div>
+      <div>
+        <span class="k">BUILDER CREDENTIAL · AUTOMATE NAIJA</span>
+        <h3 id="credName"></h3>
+        <p class="t" id="credTitle"></p>
+        <dl>
+          <div><dt>Score</dt><dd id="credScore"></dd></div>
+          <div><dt>Level</dt><dd id="credLevel"></dd></div>
+          <div><dt>Tool</dt><dd id="credTool"></dd></div>
+          <div><dt>Graded</dt><dd id="credDate"></dd></div>
+        </dl>
+        <a class="view" id="credGo" href="https://app.automatenaija.com/verify">See the build <i data-lucide="external-link"></i></a>
+      </div>
+    </div>
+    <div>
+      <span class="kicker">What a pass gets you</span>
+      <h2 style="margin-top:14px">A credential anyone can check.</h2>
+      <div class="points">
+        <div><span class="n"><i data-lucide="clipboard-check" class="i"></i></span><div><b>Graded against a published rubric</b><p>The score is the grader's, and the feedback says what to fix.</p></div></div>
+        <div><span class="n"><i data-lucide="shield-check" class="i"></i></span><div><b>Checkable in one click</b><p>Every credential has its own page at app.automatenaija.com/verify, with the real build behind it.</p></div></div>
+        <div><span class="n"><i data-lucide="share-2" class="i"></i></span><div><b>Made to be shared</b><p>A share card with your photo and score, sized for LinkedIn and WhatsApp status.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section id="pricing" class="dots">
+  <div class="bgi" data-set="pricing" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head"><div><span class="kicker">Pricing</span><h2>Two ways in.</h2><p class="lead">The community and every Beginner build are free. Pay when you want the course or the harder weekly builds.</p></div></div>
+    <div class="tracks">
+      <article class="track">
+        <div class="hd"><span class="ic" style="background:#2F6FDB"><i data-lucide="book-open"></i></span><div><b>Learn</b><span>Start from zero</span></div></div>
+        <div class="price"><b>₦10,000</b><span>once, yours to keep</span></div>
+        <ul class="checks">
+          <li><i data-lucide="check"></i>13 weeks, beginner to intermediate</li>
+          <li><i data-lucide="check"></i>Zapier, Make and n8n, one tool at a time</li>
+          <li><i data-lucide="check"></i>Notes, resources and a practice task in every class</li>
+          <li><i data-lucide="check"></i>Live classes with your cohort, and a capstone for a real business</li>
+        </ul>
+        <a class="btn btn-ghost" href="https://app.automatenaija.com/login?next=%2Flearn">Start learning</a>
+        <p class="hint">See the whole course outline in the app, then pay once on Paystack.</p>
+      </article>
+      <article class="track feat">
+        <span class="ribbon">BEGINNER IS FREE</span>
+        <div class="hd"><span class="ic" style="background:var(--accent)"><i data-lucide="wrench"></i></span><div><b>Automate</b><span>6-week build cycle</span></div></div>
+        <fieldset class="tiers" id="tiers">
+          <legend>Choose your level</legend>
+          <label><input type="radio" name="automate-level" value="beginner" data-was="" data-now="Free" data-label="Beginner" checked><b>Beginner</b><span>New to automation</span><em>Free</em></label>
+          <label><input type="radio" name="automate-level" value="intermediate" data-was="₦12,000" data-now="₦8,000" data-label="Intermediate"><b>Intermediate</b><span>Built a few</span><em>₦8,000 <s>₦12,000</s></em></label>
+          <label><input type="radio" name="automate-level" value="expert" data-was="₦20,000" data-now="₦10,000" data-label="Expert"><b>Expert</b><span>Shipping for clients</span><em>₦10,000 <s>₦20,000</s></em></label>
+        </fieldset>
+        <div class="price"><b id="automateNow">Free</b><s id="automateWas"></s><span id="automateNote">Beginner, free for every member</span></div>
+        <ul class="checks">
+          <li><i data-lucide="check"></i>A new real build every week at your level, with a step-by-step guide on Beginner builds</li>
+          <li><i data-lucide="check"></i>Graded in minutes, with a credential for every pass</li>
+          <li><i data-lucide="check"></i>Squads, the leaderboard and a 10-question weekly quiz</li>
+          <li><i data-lucide="check"></i>Cash bonuses on high scores and the ₦10,000 weekly Top Builder prize, for plan members</li>
+        </ul>
+        <a class="btn btn-run" id="automateCta" href="https://app.automatenaija.com/login?plan=automate&amp;level=beginner"><span class="play"><i data-lucide="play"></i></span><span id="automateCtaText">Start Beginner free</span></a>
+        <p class="hint">Intermediate and Expert prices go back to normal once the first 100 spots are gone.</p>
+      </article>
+      <div class="addon"><b>Add-on: hosted n8n.</b> Your own instance, always up to date. ₦3,000 a month, first 30 days free.<a href="https://app.automatenaija.com/n8n">See hosted n8n →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TUTORS ================= -->
+<section id="tutors">
+  <div class="bgi" data-set="tutors" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-head"><div><span class="kicker">Tutors</span><h2>Taught and graded by people who ship.</h2></div></div>
+    <div class="people">
+      <div class="person"><div class="ph">OO<img src="https://media.prodeegee.com/fm.png" alt="Oginni Oluwafemi" loading="lazy" decoding="async"></div><b>Oginni Oluwafemi</b><span>Lead Instructor · n8n &amp; AI Agents</span>
+        <div class="socials"><a href="https://linkedin.com/in/prodeegee" target="_blank" rel="noopener" aria-label="Oginni Oluwafemi on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/prodeegee" target="_blank" rel="noopener" aria-label="Oginni Oluwafemi on Instagram"><svg><use href="#s-instagram"/></svg></a></div></div>
+      <div class="person"><div class="ph">OJ<img src="https://media.prodeegee.com/jo.png" alt="Oluwabunmi Josephine" loading="lazy" decoding="async"></div><b>Oluwabunmi Josephine</b><span>Automation &amp; Integrations</span>
+        <div class="socials"><a href="https://www.linkedin.com/in/josephine-oluwabunmi-b484253a8/" target="_blank" rel="noopener" aria-label="Oluwabunmi Josephine on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/oluwabunmi" target="_blank" rel="noopener" aria-label="Oluwabunmi Josephine on Instagram"><svg><use href="#s-instagram"/></svg></a><a href="https://twitter.com/oluwabunmi" target="_blank" rel="noopener" aria-label="Oluwabunmi Josephine on X"><svg><use href="#s-x"/></svg></a></div></div>
+      <div class="person"><div class="ph">AA<img src="https://media.prodeegee.com/bayou.png" alt="Abdulhafeez Adebayo" loading="lazy" decoding="async"></div><b>Abdulhafeez Adebayo</b><span>Client Work &amp; Deployment</span>
+        <div class="socials"><a href="https://www.linkedin.com/in/abdulhafeez-adebayo-298636135/" target="_blank" rel="noopener" aria-label="Abdulhafeez Adebayo on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/abdulhafeez" target="_blank" rel="noopener" aria-label="Abdulhafeez Adebayo on Instagram"><svg><use href="#s-instagram"/></svg></a><a href="https://twitter.com/abdulhafeez" target="_blank" rel="noopener" aria-label="Abdulhafeez Adebayo on X"><svg><use href="#s-x"/></svg></a></div></div>
+      <div class="person"><div class="ph">OO<img src="https://okvpssmufcqmpglgehak.supabase.co/storage/v1/object/public/portfolio-media/ca8f5f57-ffdb-458c-9228-bb7b964bb648/655cabc1-4c9f-490c-8094-e4c2d2f5f038/E4F24323-5B95-4DF9-8032-8B7F0851B788.png" alt="Ogechukwu Okochukwu" loading="lazy" decoding="async"></div><b>Ogechukwu Okochukwu</b><span>Automations &amp; Integrations</span>
+        <div class="socials"><a href="https://linkedin.com/in/ogechukwu-okochukwu" target="_blank" rel="noopener" aria-label="Ogechukwu Okochukwu on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/ogechukwu" target="_blank" rel="noopener" aria-label="Ogechukwu Okochukwu on Instagram"><svg><use href="#s-instagram"/></svg></a><a href="https://twitter.com/ogechukwu" target="_blank" rel="noopener" aria-label="Ogechukwu Okochukwu on X"><svg><use href="#s-x"/></svg></a></div></div>
+      <div class="person"><div class="ph">LO<img src="https://media.prodeegee.com/bfa8e3e4-12c6-4ba7-8ba4-5f6672c0c1a4.png" alt="Linda Okike" loading="lazy" decoding="async"></div><b>Linda Okike</b><span>Backend &amp; Automations</span>
+        <div class="socials"><a href="https://linkedin.com/in/linda-okiken" target="_blank" rel="noopener" aria-label="Linda Okike on LinkedIn"><svg><use href="#s-linkedin"/></svg></a><a href="https://instagram.com/lindaokike" target="_blank" rel="noopener" aria-label="Linda Okike on Instagram"><svg><use href="#s-instagram"/></svg></a><a href="https://twitter.com/lindaokike" target="_blank" rel="noopener" aria-label="Linda Okike on X"><svg><use href="#s-x"/></svg></a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMMUNITY ================= -->
+<section id="community" class="dots">
+  <span class="anchor" id="opportunities"></span>
+  <div class="wrap comm">
+    <div class="comm-copy">
+      <span class="kicker">Community</span>
+      <h2>Nobody debugs alone.</h2>
+      <p class="lead">The WhatsApp community is where builders post the error, share what a client paid, and find someone to build with. It's free.</p>
+      <div class="ctas"><a class="btn btn-wa" href="https://chat.whatsapp.com/" data-link="whatsapp" target="_blank" rel="noopener"><i data-lucide="users" class="i"></i>Join the WhatsApp community</a></div>
+    </div>
+    <figure class="shot">
+      <img id="commShot" src="https://okvpssmufcqmpglgehak.supabase.co/storage/v1/object/public/thread-media/ca8f5f57-ffdb-458c-9228-bb7b964bb648/oghxgilthvr/image-1788639415843.png" alt="A conversation in the Automate Naija community" loading="lazy" decoding="async">
+      <div class="chat" id="commChat" hidden>
+        <div class="msg"><small>A BUILDER</small>My webhook gets the form but the WhatsApp node says <code>401</code>. Anyone?</div>
+        <div class="msg"><small>A TUTOR</small>Your API token expired. Make a new one, update the credential, then re-run.</div>
+        <div class="msg me"><small>A BUILDER</small>That was it. Submitted and passed.</div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq">
+  <div class="bgi" data-set="faq" aria-hidden="true"></div>
+  <div class="wrap faq">
+    <div class="faq-copy">
+      <span class="kicker">FAQ</span>
+      <h2>Before you start.</h2>
+      <p class="lead">Anything else, ask June. She knows the prices, the tracks and the Arena.</p>
+      <button class="btn btn-ghost ask" type="button" onclick="document.getElementById('juneLauncher').click()"><i data-lucide="message-circle" class="i"></i>Ask June</button>
+    </div>
+    <div>
+      <details open><summary>Is it free?</summary><p>Yes, to start. The community and every Beginner build are free, each with a step-by-step guide, and you earn stacks, credentials and a place on the leaderboard. You only pay when you want the Learn course (a one-time ₦10,000) or the Intermediate and Expert builds.</p></details>
+      <details><summary>Do I need coding experience?</summary><p>No. Learn starts from zero: 13 weeks that take you from your first automation to a capstone for a real business. Automate has a free Beginner level with step-by-step guides, plus paid Intermediate and Expert levels for people who already know a tool like n8n or Make.</p></details>
+      <details><summary>What tools will I work with?</summary><p>n8n, WhatsApp APIs, OpenAI, Supabase, Make and related automation integrations, taught through real builds rather than isolated tutorials.</p></details>
+      <details><summary>Can I find paid work here?</summary><p>We don't run a job board, so we won't promise you postings. What you build here is the proof that wins work: every graded build goes on your public portfolio, and each one can become a verified credential that a client or employer checks for themselves, with your score and the real work behind it. The community is where builders find collaborators.</p></details>
+      <details><summary>Can I earn cash?</summary><p>Plan members can. Intermediate and Expert members earn a cash bonus on high scores, and one plan member wins the ₦10,000 Top Builder prize every week. Free members earn stacks, credentials and a place on the leaderboard, but not cash.</p></details>
+      <details><summary>Do I need a profile photo?</summary><p>Yes, before you submit your first build. Your builds go on a public portfolio, so we ask for a clear photo of your face. It takes under a minute on your profile page.</p></details>
+      <details><summary>How does the first-100 discount work?</summary><p>It's a limited-time discount, open right now to the first 100 subscribers on the paid Automate levels. Intermediate is ₦8,000 instead of ₦12,000 and Expert ₦10,000 instead of ₦20,000. Beginner is free for everyone. Once the 100 spots are taken, the paid levels return to normal prices.</p></details>
+      <details><summary>What's in the Learn track?</summary><p>Learn AI Automation is open now: 13 weeks covering Zapier, Make and n8n one tool at a time, then APIs, payments, AI and building for clients, ending in a capstone for a real business. Every class has notes, resources and a practice task, with live classes alongside your cohort. It's ₦10,000, paid once, and the course is yours to keep. Sign up and you can see the whole outline before you pay. Join mid-cohort and the weeks it has already covered open straight away, so you can catch up.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL ================= -->
+<section class="final dots">
+  <div class="floaters" id="finalTiles" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="kicker">Ready when you are</span>
+    <h2>Your first run is free.</h2>
+    <a class="node trigger js-start" href="https://app.automatenaija.com/login?mode=signup">
+      <span class="ic" style="background:var(--accent)"><i data-lucide="zap"></i></span>
+      <span><span class="type">Execute workflow</span><b style="font-size:1.25rem">Start your free build</b><small>Under an hour. Graded in about a minute.</small></span>
+      <i data-lucide="arrow-right" class="go"></i>
+    </a>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><a class="brand" href="index.html" aria-label="Automate Naija"><img class="logo-on-dark" src="assets/brand/logo.png" alt="Automate Naija" width="1000" height="269"><img class="logo-on-light" src="assets/brand/logo-light.png" alt="" width="1000" height="269"></a><p style="margin-top:14px;max-width:32ch">Where Nigerian builders learn AI automation by shipping real work.</p></div>
+      <div><h3>Platform</h3><a href="#week">This week's builds</a><a href="#live">Leaderboard</a><a href="#pricing">Pricing</a><a href="https://app.automatenaija.com/n8n">Hosted n8n</a></div>
+      <div><h3>Resources</h3><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="https://app.automatenaija.com/verify">Verify a credential</a><a href="https://app.automatenaija.com/login" data-link="app">Log in</a></div>
+      <div><h3>Company</h3><a href="about.html">About</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div>
+    </div>
+    <div class="fine"><span>© <span data-year>2026</span> Automate Naija · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span><span>Built in Naija. For the world.</span></div>
+  </div>
+</footer>
+
+<!-- June: markup here, behaviour in assets/june.js (shared with index.html) -->
+<button class="june-launcher" id="juneLauncher" type="button" aria-label="Chat with June"><span class="jv" aria-hidden="true">J</span>Ask June</button>
 <div class="june-panel" id="junePanel" role="dialog" aria-label="Chat with June" aria-hidden="true">
   <div class="june-head">
-    <div class="june-avatar">J</div>
-    <div class="june-head-info">
-      <b>June</b>
-      <span><span class="june-dot"></span> Automate Naija's assistant</span>
-    </div>
-    <button class="june-close" id="juneClose" aria-label="Close chat">
-      <i data-lucide="x" class="i" style="width:18px;height:18px"></i>
-    </button>
+    <div class="june-avatar" aria-hidden="true">J</div>
+    <div class="june-head-info"><b>June</b><span><span class="june-dot"></span> Automate Naija's assistant</span></div>
+    <button class="june-close" id="juneClose" type="button" aria-label="Close chat"><i data-lucide="x"></i></button>
   </div>
   <div class="june-body" id="juneBody"></div>
   <div class="june-suggest" id="juneSuggest"></div>
   <form class="june-input-row" id="juneForm">
     <input type="text" id="juneInput" placeholder="Ask me anything about Automate Naija…" aria-label="Message June" autocomplete="off">
-    <button type="submit" class="june-send" aria-label="Send">
-      <i data-lucide="send" class="i" style="width:17px;height:17px"></i>
-    </button>
+    <button type="submit" class="june-send" aria-label="Send"><i data-lucide="send"></i></button>
   </form>
 </div>
 
-<!-- ============ HERO ============ -->
-<div class="hero">
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <span class="seal rv" role="img" aria-label="The number one automation builder hub in Nigeria">
-        <svg class="seal-ring" viewBox="0 0 120 120" aria-hidden="true">
-          <defs>
-            <path id="sealArc" fill="none" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/>
-          </defs>
-          <text><textPath href="#sealArc" startOffset="0">AUTOMATION BUILDER HUB &#183; NIGERIA &#183; </textPath></text>
-        </svg>
-        <span class="seal-core" aria-hidden="true"><b>#1</b></span>
-      </span>
-      <h1 class="rv">Build the future.<br><span class="h1-line" id="h1Line"><span class="h1-live" id="h1Live">One <em><span class="word-flip"><span id="heroWord" class="flip-word">workflow</span><span class="cursor">|</span></span></em></span></span><br>at a time.</h1>
-      <p class="lede rv">Automate Naija is where AI &amp; automation builders learn, build real solutions, collaborate with other builders, and connect with opportunities.</p>
-
-      <div class="hero-cta rv">
-        <a href="#pricing" class="btn-puzzle">
-          <span class="pz-body">Start Building</span>
-          <span class="pz-slot" aria-hidden="true">
-            <span class="pz-piece">
-              <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
-            </span>
-          </span>
-        </a>
-        <a href="#community" class="btn btn-line btn-lg">Explore Community</a>
-      </div>
-    </div>
-
-    <div class="hero-visual rv" aria-hidden="true">
-      <div class="cube-rig" id="cubeRig">
-        <div class="cube-scene" id="cubeScene"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ WHAT YOU DO HERE ============ -->
-<section class="paths-sec">
-  <div class="wrap">
-    <div class="paths">
-      <article class="path p-green rv">
-        <h3>Build Workflows</h3>
-        <p>Drag, drop and connect apps to automate your world.</p>
-        <span class="path-ic"><i data-lucide="workflow"></i></span>
-      </article>
-      <article class="path p-purple rv">
-        <h3>Learn Automation</h3>
-        <p>Step-by-step lessons, real world projects and challenges.</p>
-        <div class="path-progress">
-          <b>79%</b>
-          <span class="path-track" role="img" aria-label="79 percent complete"><i></i></span>
-        </div>
-        <span class="path-ic"><i data-lucide="graduation-cap"></i></span>
-      </article>
-      <article class="path p-blue rv">
-        <h3>Explore &amp; Fork</h3>
-        <p>Browse community workflows and fork what inspires you.</p>
-        <span class="path-ic"><i data-lucide="git-fork"></i></span>
-      </article>
-      <article class="path p-orange rv">
-        <h3>Share &amp; Grow</h3>
-        <p>Share your work, get feedback and grow your brand.</p>
-        <span class="path-ic"><i data-lucide="users"></i></span>
-      </article>
-      <article class="path p-green rv">
-        <h3>Earn &amp; Scale</h3>
-        <p>Monetize your skills and automations. Build your business.</p>
-        <span class="path-ic"><i data-lucide="trending-up"></i></span>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ MEET YOUR TUTORS ============ -->
-<section id="tutors">
-  <div class="tutors-track" id="tutorsTrack">
-   <div class="tutors-sticky">
-    <div class="wrap">
-      <h2 class="rv">Meet Your Tutors</h2>
-      <p class="sub rv">The builders who'll actually be teaching you, live, every week.</p>
-
-    <div class="tutors-grid">
-      <div class="tutor-frame rv">
-        <img class="tutor-shot" id="tutorShot" alt="Automate Naija tutor" loading="lazy" decoding="async" fetchpriority="high" width="900" height="1000">
-        <div class="tutor-caption">
-          <span class="tutor-idx mono" id="tutorIdx">01 / 05</span>
-          <h4 id="tutorName">Oginni Oluwafemi</h4>
-          <span id="tutorRole">Lead Instructor · n8n &amp; AI Agents</span>
-        </div>
-        <div class="tutor-socials">
-          <a class="tutor-social-btn" id="tutorLinkedin" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
-          </a>
-          <a class="tutor-social-btn" id="tutorInstagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
-          </a>
-          <a class="tutor-social-btn" id="tutorTwitter" href="#" target="_blank" rel="noopener" aria-label="X (Twitter)">
-            <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24H16.2l-5.2-6.8-5.95 6.8H1.74l7.73-8.84L1.32 2.25H8.6l4.7 6.22 4.94-6.22Zm-1.16 17.52h1.83L7.02 4.13H5.05l12.03 15.64Z"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="tutor-list">
-        <div class="tutor-item rv active" data-idx="0">
-          <span class="tutor-item-num mono">01</span>
-          <span><b>Oginni Oluwafemi</b><span>Lead Instructor · n8n &amp; AI Agents</span></span>
-        </div>
-        <div class="tutor-item rv" data-idx="1">
-          <span class="tutor-item-num mono">02</span>
-          <span><b>Oluwabunmi Josephine</b><span>Automation &amp; Integrations</span></span>
-        </div>
-        <div class="tutor-item rv" data-idx="2">
-          <span class="tutor-item-num mono">03</span>
-          <span><b>Abdulhafeez Adebayo</b><span>Client Work &amp; Deployment</span></span>
-        </div>
-        <div class="tutor-item rv" data-idx="3">
-          <span class="tutor-item-num mono">04</span>
-          <span><b>Ogechukwu Okochukwu</b><span>Automations &amp; Integrations</span></span>
-        </div>
-        <div class="tutor-item rv" data-idx="4">
-          <span class="tutor-item-num mono">05</span>
-          <span><b>Linda Okike</b><span>Backend &amp; Automations</span></span>
-        </div>
-      </div>
-    </div>
-    </div>
-   </div>
-  </div>
-</section>
-
-<!-- ============ ECOSYSTEM ============ -->
-<section id="ecosystem">
-  <div class="wrap">
-    <div class="section-head rv">
-      <span class="kicker">ONE ECOSYSTEM</span>
-      <h2>Everything you need to become a better builder.</h2>
-      <p>Not another course library. A place where learning connects directly to building, proof and opportunity.</p>
-    </div>
-    <div class="bento">
-      <article class="newcard large rv">
-        <span class="newicon">✦</span>
-        <h3>Learn by doing, not watching.</h3>
-        <p>Follow a structured path through AI, automation and no-code tools, then turn what you learn into something usable.</p>
-        <a href="#pricing">Explore learning →</a>
-        <div class="mini">
-          <div>✓ AI &amp; automation foundations</div>
-          <div>✓ Hands-on workflows &amp; integrations</div>
-          <div>✓ Deployment &amp; client-ready builds</div>
-        </div>
-      </article>
-      <article class="newcard rv">
-        <span class="newicon">＋</span>
-        <h3>Build</h3>
-        <p>Compete in challenges designed around problems businesses actually have.</p>
-        <a href="#arena">Enter the Arena →</a>
-      </article>
-      <article class="newcard rv">
-        <span class="newicon">◎</span>
-        <h3>Collaborate</h3>
-        <p>Find builders with complementary skills and ship together.</p>
-        <a href="#community">Meet builders →</a>
-      </article>
-      <article class="newcard rv">
-        <span class="newicon">★</span>
-        <h3>Showcase</h3>
-        <p>Turn finished projects into portfolio proof and reputation.</p>
-        <a href="#arena">See the showcase →</a>
-      </article>
-      <article class="newcard rv">
-        <span class="newicon">▣</span>
-        <h3>Get verified</h3>
-        <p>Every graded build earns a credential anyone can check, so a client sees proof, not promises.</p>
-        <a href="#arena">See verified builds →</a>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ARENA + SHOWCASE ============ -->
-<section id="arena">
-  <div class="wrap">
-    <div class="section-head rv">
-      <span class="kicker">AUTOMATION ARENA</span>
-      <h2>Real problems. Real builders. Real impact.</h2>
-      <p>Build under constraints, earn stacks and leave with work you can actually show.</p>
-    </div>
-    <div class="arena-new">
-      <!-- Filled from the app by assets/live.js; this copy stays if it can't be reached. -->
-      <article class="newcard challenge rv" id="liveBuild">
-        <span class="badge">THIS WEEK'S BUILDS</span>
-        <h3>A new business problem every Monday.</h3>
-        <p>Each week drops real builds for Beginner, Intermediate and Expert, in n8n, Make and Zapier. Ship one, get it graded against a rubric, earn stacks and a verified credential.</p>
-        <a class="newbtn" href="https://app.automatenaija.com/login" data-link="app">See this week's builds</a>
-      </article>
-
-      <article class="newcard showcase rv" id="liveShowcase">
-        <span class="kicker">BUILDER SHOWCASE</span>
-        <h3>Real builds, graded and verified.</h3>
-        <p>Every finished build is marked against a rubric, and every pass earns a credential anyone can check.</p>
-        <a href="https://app.automatenaija.com/verify">Check a credential →</a>
-      </article>
-    </div>
-
-    <div class="n8n-notice rv">
-      <div class="n8n-notice-copy">
-        <span class="badge">HOSTED N8N</span>
-        <h3>Tired of changing n8n every 2 weeks?</h3>
-        <p>Skip the version-hopping and self-host headaches. Get your own managed instance for as low as <b>₦3,000/month</b> — always up to date, always online.</p>
-      </div>
-      <a class="newbtn" href="https://app.automatenaija.com/n8n">Get your instance →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ LIVE FROM THE APP ============ -->
-<!-- Hidden until assets/live.js has real data for it. -->
-<section id="live" hidden>
-  <div class="wrap">
-    <div class="section-head rv">
-      <span class="kicker">LIVE FROM THE APP</span>
-      <h2>Who's building right now.</h2>
-      <p id="liveStats">Leaderboards, the weekly quiz and the squads, straight from the app.</p>
-    </div>
-
-    <div class="livegrid">
-      <article class="newcard feed-card" id="liveLeaders"></article>
-      <article class="newcard feed-card" id="liveQuiz"></article>
-      <article class="newcard feed-card" id="liveSquads"></article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ COMMUNITY ============ -->
-<section id="community">
-  <div class="wrap">
-    <div class="section-head rv">
-      <span class="kicker">COMMUNITY</span>
-      <h2>Your network becomes part of your toolkit.</h2>
-      <p>Ask builders. Share budgets. Debug together. Find collaborators.</p>
-    </div>
-    <div class="community-new">
-      <figure class="newcard chat rv">
-        <img class="chat-shot" id="communityShot" alt="A conversation in the Automate Naija community" loading="lazy">
-        <figcaption class="chat-fallback" id="communityShotFallback">
-          Drop a community screenshot into <b>IMAGES.communityShot</b> and it will be cropped to fill this card.
-        </figcaption>
-      </figure>
-      <div class="whynew">
-        <div class="newcard rv"><h3>Practical learning</h3><p>No fluff. Learn by shipping.</p></div>
-        <div class="newcard rv"><h3>Active community</h3><p>Get help from people building too.</p></div>
-        <div class="newcard rv"><h3>Real opportunities</h3><p>Turn capability into income.</p></div>
-        <div class="newcard rv"><h3>Build reputation</h3><p>Show work, credentials and progress.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ WHATSAPP COMMUNITY CTA ============ -->
-<section style="padding-top:0;">
-  <div class="wrap">
-    <div class="wa-cta rv">
-      <div class="wa-cta-left">
-        <span class="wa-ic"><i data-lucide="message-circle" style="width:22px;height:22px"></i></span>
-        <div>
-          <h4>Join the Automate Naija WhatsApp community</h4>
-          <p>Fastest way to get help, find collaborators and hear about new challenges first.</p>
-        </div>
-      </div>
-      <a href="https://chat.whatsapp.com/" data-link="whatsapp" target="_blank" rel="noopener" class="btn btn-solid">Join on WhatsApp</a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ PRICING ============ -->
-<section class="pricing-new" id="pricing">
-  <div class="wrap">
-    <div class="section-head rv">
-      <span class="kicker">SIMPLE PRICING</span>
-      <h2>Choose your starting point.</h2>
-      <p>Community is free. Learn from zero for one payment, or build on the Automate track, where the first 100 subscribers pay a lot less.</p>
-    </div>
-    <div class="promo-bar rv">
-      <b>LIMITED-TIME DISCOUNT</b>
-      <span>Open now for the first 100 Automate subscribers. Prices go back to normal once the 100 spots are gone.</span>
-    </div>
-    <div class="pricegrid">
-      <article class="newcard rv">
-        <span class="badge">OPEN NOW</span>
-        <h3>Learn</h3>
-        <p>A 13-week course for starting from zero, one tool at a time.</p>
-        <span class="price-from">ONE-TIME PAYMENT</span>
-        <div class="price">₦10,000</div>
-        <p class="price-sub">Pay once. The course is yours to keep.</p>
-        <ul>
-          <li>✓ 13 weeks, beginner to intermediate</li>
-          <li>✓ Zapier, Make and n8n, one tool at a time</li>
-          <li>✓ Notes, resources and a practice task in every class</li>
-          <li>✓ Live classes with your cohort, and a capstone for a real business</li>
-        </ul>
-        <!-- /learn is behind the sign-in; ?next brings people back to it. -->
-        <a class="newbtn outline" href="https://app.automatenaija.com/login?next=%2Flearn">Start learning →</a>
-        <p class="tier-hint">See the whole course outline in the app, then pay once on Paystack.</p>
-      </article>
-      <article class="newcard featured rv">
-        <span class="badge">FIRST 100 SUBSCRIBERS</span>
-        <h3>Automate</h3>
-        <p>6-week build cycle. Pick the level that matches where you are.</p>
-        <span class="price-from" id="automateLead">STARTS FROM</span>
-        <div class="price" id="automatePrice">₦8,000</div>
-        <p class="price-sub" id="automateSub">Discounted to ₦5,000 for the first 100 subscribers.</p>
-        <fieldset class="tierpick">
-          <legend>Choose your level</legend>
-          <ul class="tierlist">
-            <li><label class="tier">
-              <input type="radio" name="automate-level" value="beginner" data-was="₦8,000" data-now="₦5,000" data-label="Beginner">
-              <span class="tier-name">Beginner<small>New to automation</small></span>
-              <span class="tier-price"><s>₦8,000</s><b>₦5,000</b></span>
-              <span class="tier-tick" aria-hidden="true"></span>
-            </label></li>
-            <li><label class="tier">
-              <input type="radio" name="automate-level" value="intermediate" data-was="₦12,000" data-now="₦8,000" data-label="Intermediate">
-              <span class="tier-name">Intermediate<small>Built a few automations</small></span>
-              <span class="tier-price"><s>₦12,000</s><b>₦8,000</b></span>
-              <span class="tier-tick" aria-hidden="true"></span>
-            </label></li>
-            <li><label class="tier">
-              <input type="radio" name="automate-level" value="expert" data-was="₦20,000" data-now="₦10,000" data-label="Expert">
-              <span class="tier-name">Expert<small>Shipping for clients already</small></span>
-              <span class="tier-price"><s>₦20,000</s><b>₦10,000</b></span>
-              <span class="tier-tick" aria-hidden="true"></span>
-            </label></li>
-          </ul>
-        </fieldset>
-        <ul>
-          <li>✓ 6-week build cycle</li>
-          <li>✓ Automation Arena challenges</li>
-          <li>✓ Portfolio &amp; credentials</li>
-          <li>✓ Squads, leaderboard and weekly quiz</li>
-        </ul>
-        <a class="newbtn" id="automateCta" href="https://app.automatenaija.com/login">Claim the discount</a>
-        <p class="tier-hint" id="automateHint">Pick a level above and we’ll carry it through to checkout.</p>
-      </article>
-    </div>
-    <p class="price-note">Automate discounts apply to the first 100 subscribers only · Optional <a href="https://app.automatenaija.com/n8n">hosted n8n instance</a>: <b>₦3,000/month</b>, first 30 days free</p>
-  </div>
-</section>
-
-<!-- ============ FAQ ============ -->
-<section id="faq">
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="kicker">FAQ</span>
-      <h2>Questions, answered.</h2>
-    </div>
-
-    <div class="faq-list">
-      <details class="faq-item rv">
-        <summary>Is the community free? <i data-lucide="plus" class="i faq-ic"></i></summary>
-        <p>Yes. The community layer is completely free to join. You only pay for a course: Learn, a one-time ₦10,000, or the Automate build track.</p>
-      </details>
-      <details class="faq-item rv">
-        <summary>Do I need coding experience? <i data-lucide="plus" class="i faq-ic"></i></summary>
-        <p>No. Learn starts from zero: 13 weeks that take you from your first automation to a capstone for a real business. Automate has a Beginner level too, plus Intermediate and Expert levels for people who already know a tool like n8n or Make.</p>
-      </details>
-      <details class="faq-item rv">
-        <summary>What tools will I work with? <i data-lucide="plus" class="i faq-ic"></i></summary>
-        <p>n8n, WhatsApp APIs, OpenAI, Supabase, Make and related automation integrations, taught through real builds rather than isolated tutorials.</p>
-      </details>
-      <details class="faq-item rv">
-        <summary>Can I find paid work here? <i data-lucide="plus" class="i faq-ic"></i></summary>
-        <p>We don't run a job board, so we won't promise you postings. What you build here is the proof that wins work: every graded build goes on your public portfolio, and each one can become a verified credential that a client or employer checks for themselves, with your score and the real work behind it. The community is where builders find collaborators.</p>
-      </details>
-      <details class="faq-item rv">
-        <summary>How does the first-100 discount work? <i data-lucide="plus" class="i faq-ic"></i></summary>
-        <p>It's a limited-time discount, open right now to the first 100 subscribers on the Automate track. Beginner is ₦5,000 instead of ₦8,000, Intermediate ₦8,000 instead of ₦12,000 and Expert ₦10,000 instead of ₦20,000. Once the 100 spots are taken, prices return to normal.</p>
-      </details>
-      <details class="faq-item rv">
-        <summary>What's in the Learn track? <i data-lucide="plus" class="i faq-ic"></i></summary>
-        <p>Learn AI Automation is open now: 13 weeks covering Zapier, Make and n8n one tool at a time, then APIs, payments, AI and building for clients, ending in a capstone for a real business. Every class has notes, resources and a practice task, with live classes alongside your cohort. It's ₦10,000, paid once, and the course is yours to keep. Sign up and you can see the whole outline before you pay. Join mid-cohort and the weeks it has already covered open straight away, so you can catch up.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FINAL CTA ============ -->
-<section class="cta-new" id="cta">
-  <div class="wrap">
-    <div class="rv">
-      <h2>Your next build starts here.</h2>
-      <p>Learn something. Build something. Meet someone. Ship something.</p>
-    </div>
-    <a class="newbtn dark rv" href="https://app.automatenaija.com/login" data-link="app">Join Automate Naija →</a>
-  </div>
-</section>
-
-<!-- ============ FOOTER ============ -->
-<footer>
-  <div class="wrap">
-    <div class="fgrid">
-      <div class="fbrand">
-        <a href="index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
-          <img class="mark" src="assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
-          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
-        </a>
-        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
-      </div>
-      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="#ecosystem">Learn</a><a href="#arena">Build</a><a href="#community">Community</a><a href="#live">Leaderboard</a><a href="#pricing">Pricing</a></div></details>
-      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
-      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="about.html">About us</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div></details>
-      <div class="fnews">
-        <h5>Stay in the loop</h5>
-        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
-        <form class="signup">
-          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
-          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
-        </form>
-      </div>
-    </div>
-    <div class="fbot">
-      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span>
-      <span class="fsocial">
-        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
-        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
-        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
-        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
-      </span>
-      <span class="mono">Built in Naija. For the world. 🇳🇬</span>
-    </div>
-  </div>
-</footer>
-
-<style>@keyframes dash{to{stroke-dashoffset:-206;}}</style>
-
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
-        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){drawIcons();};document.head.appendChild(s);"></script>
+<script src="assets/canvas-icons.js"></script>
 <script src="assets/site.js"></script>
-<script src="assets/live.js" defer></script>
-<script>
-  /* =================================================================
-     EDIT EVERYTHING HERE. Nothing else needs touching.
-     ================================================================= */
-  /* Links live in assets/site.js so every page shares one source of truth. */
-  var N8N_URL = (window.SITE && SITE.app) || "https://app.automatenaija.com/login";
-
-  var IMAGES = {
-    // Replace each with your own image URL, or "./filename.jpg" if the
-    // file sits in the same folder as this index.html on Cloudflare Pages.
-    avatars: [
-      "https://i.pravatar.cc/80?img=12",
-      "https://i.pravatar.cc/80?img=32",
-      "https://i.pravatar.cc/80?img=45",
-      "https://i.pravatar.cc/80?img=5"
-    ],
-    canvasFaces: [
-      "https://i.pravatar.cc/60?img=15",
-      "https://i.pravatar.cc/60?img=22",
-      "https://i.pravatar.cc/60?img=8"
-    ],
-    challengeFaces: [
-      "https://i.pravatar.cc/60?img=18",
-      "https://i.pravatar.cc/60?img=27",
-      "https://i.pravatar.cc/60?img=41"
-    ],
-    onlineFaces: [
-      "https://i.pravatar.cc/60?img=3",
-      "https://i.pravatar.cc/60?img=9",
-      "https://i.pravatar.cc/60?img=19"
-    ],
-    // Screenshot of the real community, a channel or a single thread. Any shape
-    // works, it is cropped from the top to fill the card. Leave it empty and the
-    // card shows a placeholder instead of a broken image.
-    communityShot: "https://okvpssmufcqmpglgehak.supabase.co/storage/v1/object/public/thread-media/ca8f5f57-ffdb-458c-9228-bb7b964bb648/oghxgilthvr/image-1788639415843.png",
-    host: "https://i.pravatar.cc/60?img=12",
-    showcase: "https://picsum.photos/seed/an-showcase/800/500",
-    tutors: [
-      { name: "Oginni Oluwafemi",    role: "Lead Instructor · n8n & AI Agents", photo: "https://media.prodeegee.com/fm.png",
-        social: { linkedin: "https://linkedin.com/in/prodeegee", instagram: "https://instagram.com/prodeegee", twitter: "https://twitter.com/abdulhafeez" } },
-      { name: "Oluwabunmi Josephine",      role: "Automation & Integrations",         photo: "https://media.prodeegee.com/jo.png",
-        social: { linkedin: "https://www.linkedin.com/in/josephine-oluwabunmi-b484253a8/", instagram: "https://instagram.com/oluwabunmi", twitter: "https://twitter.com/oluwabunmi" } },
-      { name: "Abdulhafeez Adebayo",    role: "Client Work & Deployment",          photo: "https://media.prodeegee.com/bayou.png",
-        social: { linkedin: "https://www.linkedin.com/in/abdulhafeez-adebayo-298636135/", instagram: "https://instagram.com/abdulhafeez", twitter: "https://twitter.com/abdulhafeez" } },
-      { name: "Ogechukwu Okochukwu",    role: "Automations & Integrations",        photo: "https://okvpssmufcqmpglgehak.supabase.co/storage/v1/object/public/portfolio-media/ca8f5f57-ffdb-458c-9228-bb7b964bb648/655cabc1-4c9f-490c-8094-e4c2d2f5f038/E4F24323-5B95-4DF9-8032-8B7F0851B788.png",
-        social: { linkedin: "https://linkedin.com/in/ogechukwu-okochukwu", instagram: "https://instagram.com/ogechukwu", twitter: "https://twitter.com/ogechukwu" } },
-      { name: "Linda Okike",           role: "Backend & Automations",             photo: "https://media.prodeegee.com/bfa8e3e4-12c6-4ba7-8ba4-5f6672c0c1a4.png",
-        social: { linkedin: "https://linkedin.com/in/linda-okiken", instagram: "https://instagram.com/lindaokike", twitter: "https://twitter.com/lindaokike" } }
-    ]
-  };
-  /* ================================================================= */
-
-  /* ---- 1. SCROLL REVEAL, THEME TOGGLE and MOBILE MENU now live in assets/site.js,
-     shared by every page. ---- */
-
-  /* ---- 2. ICONS - guarded, never fatal ---- */
-  function drawIcons(){
-    try { if (window.lucide && lucide.createIcons) lucide.createIcons(); } catch(e){}
-  }
-  drawIcons();
-  window.addEventListener('load', drawIcons);
-
-
-
-  /* ---- 3. IMAGES + LOGIN LINK ---- */
-  (function(){
-    function set(id, prop, val){ var el = document.getElementById(id); if (el) el[prop] = val; }
-    set('avA','src',IMAGES.avatars[0]); set('avB','src',IMAGES.avatars[1]);
-    set('avC','src',IMAGES.avatars[2]); set('avD','src',IMAGES.avatars[3]);
-    set('ncA','src',IMAGES.canvasFaces[0]); set('ncB','src',IMAGES.canvasFaces[1]); set('ncC','src',IMAGES.canvasFaces[2]);
-    set('chA','src',IMAGES.challengeFaces[0]); set('chB','src',IMAGES.challengeFaces[1]); set('chC','src',IMAGES.challengeFaces[2]);
-    set('onA','src',IMAGES.onlineFaces[0]); set('onB','src',IMAGES.onlineFaces[1]); set('onC','src',IMAGES.onlineFaces[2]);
-    set('imgHost','src',IMAGES.host);
-    set('imgShowcase','src',IMAGES.showcase);
-    set('tutorShot','src',IMAGES.tutors[0].photo);
-    set('loginTop','href',N8N_URL);
-    set('loginMob','href',N8N_URL);
-
-    // The tutor portrait is one <img> whose src gets swapped as you scroll
-    // (see section 5 below). Left alone, each swap is a fresh network
-    // fetch that stalls the cross-fade. Warming the browser cache for
-    // tutors 2-5 means those swaps resolve instantly from cache instead -
-    // fired low-priority so it never competes with the current tutor shot
-    // or anything else still loading above the fold.
-    var prefetched = false;
-    function prefetchTutorPhotos(){
-      if(prefetched) return;
-      prefetched = true;
-      IMAGES.tutors.slice(1).forEach(function(t){
-        if(!t.photo) return;
-        var img = new Image();
-        img.fetchPriority = 'low';   // Chrome/Edge; harmless no-op elsewhere
-        img.src = t.photo;
-      });
-    }
-    // Start the warm-up as soon as the tutors section is getting close,
-    // rather than guessing a fixed delay - on a fast scroll it's already
-    // cached by the time you arrive, on a slow one it costs nothing extra.
-    var tutorsSection = document.getElementById('tutors');
-    if(tutorsSection && 'IntersectionObserver' in window){
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){ if(e.isIntersecting) prefetchTutorPhotos(); });
-      }, { rootMargin: '600px 0px' });
-      io.observe(tutorsSection);
-    } else if('requestIdleCallback' in window){
-      requestIdleCallback(prefetchTutorPhotos, {timeout: 3000});
-    } else {
-      setTimeout(prefetchTutorPhotos, 1500);
-    }
-  })();
-
-
-
-
-  /* ---- 3b. PRICING: pick an Automate level, carry it to checkout ----
-
-     Nothing on this page can take money on its own: it is a static site with
-     no server, so the level a visitor picks has to travel to whatever does the
-     charging.
-
-       - Leave a level's paystack entry empty and the picker sends people to
-         the app with the level in the query string (?plan=automate&level=...),
-         so app.automatenaija.com opens on the right plan.
-       - Paste a Paystack payment link (Dashboard > Payment Pages > copy link)
-         into a level and that level checks out on Paystack directly, no app
-         round trip. Set that page's redirect/callback URL to the app signup so
-         people land back in their account after paying, and confirm the
-         payment with a Paystack webhook once there is a backend to receive it.
-
-     Do NOT put a Paystack secret key on this page. Payment links and the
-     public key are safe in a browser; the secret key is not.                */
-  var CHECKOUT = {
-    paystack: {
-      beginner:     "",
-      intermediate: "",
-      expert:       ""
-    }
-  };
-
-  (function(){
-    var cta   = document.getElementById('automateCta');
-    var lead  = document.getElementById('automateLead');
-    var price = document.getElementById('automatePrice');
-    var sub   = document.getElementById('automateSub');
-    var hint  = document.getElementById('automateHint');
-    var inputs = document.querySelectorAll('input[name="automate-level"]');
-    if(!cta || !inputs.length) return;
-
-    function checkoutUrl(level){
-      var link = CHECKOUT.paystack[level];
-      if(link) return link;
-      return N8N_URL + (N8N_URL.indexOf('?') === -1 ? '?' : '&') +
-             'plan=automate&level=' + encodeURIComponent(level);
-    }
-
-    function pick(input){
-      Array.prototype.forEach.call(inputs, function(other){
-        other.closest('.tier').classList.toggle('is-picked', other === input);
-      });
-      var label = input.getAttribute('data-label');
-      lead.textContent  = label.toUpperCase() + ' · FIRST 100 PRICE';
-      price.textContent = input.getAttribute('data-now');
-      sub.textContent   = 'Normally ' + input.getAttribute('data-was') +
-                          '. You save the difference while the first 100 spots last.';
-      cta.textContent   = 'Continue with ' + label + ' →';
-      cta.href          = checkoutUrl(input.value);
-      hint.textContent  = CHECKOUT.paystack[input.value]
-        ? 'Secure checkout on Paystack.'
-        : 'You will finish signing up for ' + label + ' in the app.';
-    }
-
-    Array.prototype.forEach.call(inputs, function(input){
-      input.addEventListener('change', function(){ pick(input); });
-    });
-
-    // Deep links like index.html#pricing?level=expert, and the browser
-    // restoring a checked radio on a back/forward navigation.
-    var preset = Array.prototype.filter.call(inputs, function(i){ return i.checked; })[0];
-    if(!preset){
-      var wanted = (location.search + location.hash).match(/level=([a-z]+)/i);
-      if(wanted){
-        preset = Array.prototype.filter.call(inputs, function(i){
-          return i.value === wanted[1].toLowerCase();
-        })[0];
-        if(preset) preset.checked = true;
-      }
-    }
-    if(preset) pick(preset);
-    // no level picked yet: still send people to the app rather than to the
-    // URL hardcoded in the markup, so SITE.app stays the single source
-    else cta.href = N8N_URL + (N8N_URL.indexOf('?') === -1 ? '?' : '&') + 'plan=automate';
-  })();
-
-
-  /* ---- 4b. COMMUNITY SCREENSHOT ---- */
-  (function(){
-    var img = document.getElementById('communityShot');
-    var fallback = document.getElementById('communityShotFallback');
-    if(!img) return;
-    function showFallback(){
-      if(img.parentNode) img.parentNode.removeChild(img);
-    }
-    if(IMAGES.communityShot){
-      img.addEventListener('error', showFallback);   // bad path should not leave a broken image
-      img.addEventListener('load', function(){
-        if(fallback && fallback.parentNode) fallback.parentNode.removeChild(fallback);
-      });
-      img.src = IMAGES.communityShot;
-    } else {
-      showFallback();
-    }
-  })();
-
-  /* ---- 5. MEET YOUR TUTORS - image swaps as you scroll ---- */
-  (function(){
-    var frame = document.getElementById('tutorShot');
-    var idxEl = document.getElementById('tutorIdx');
-    var nameEl = document.getElementById('tutorName');
-    var roleEl = document.getElementById('tutorRole');
-    var items = document.querySelectorAll('.tutor-item');
-    if(!frame || !items.length) return;
-
-    /* Drive the sidebar labels from the same data the portrait caption uses. The markup
-       keeps its own copy as a no-JS fallback, but at runtime the two can no longer drift
-       apart the way they had (the list and the caption were naming different people). */
-    items.forEach(function(el){
-      var i = Number(el.dataset.idx);
-      var t = IMAGES.tutors[i];
-      if(!t) return;
-      var num  = el.querySelector('.tutor-item-num');
-      var name = el.querySelector('b');
-      var role = el.querySelector('b + span');
-      if(num)  num.textContent  = String(i+1).padStart(2,'0');
-      if(name) name.textContent = t.name;
-      if(role) role.textContent = t.role;
-    });
-
-    var current = -1;
-    function setSocial(id, url){
-      var el = document.getElementById(id);
-      if(!el) return;
-      if(url){ el.href = url; el.style.display = ''; }
-      else { el.style.display = 'none'; }
-    }
-    var swapTimer = null;
-    function show(i){
-      if(i === current) return;
-      current = i;
-      var t = IMAGES.tutors[i];
-      if(!t) return;
-      frame.style.opacity = 0;
-      clearTimeout(swapTimer);   // never let two cross-fades overlap
-      swapTimer = setTimeout(function(){
-        frame.src = t.photo;
-        nameEl.textContent = t.name;
-        roleEl.textContent = t.role;
-        idxEl.textContent = String(i+1).padStart(2,'0') + ' / ' + String(IMAGES.tutors.length).padStart(2,'0');
-        frame.style.opacity = 1;
-        var s = t.social || {};
-        setSocial('tutorLinkedin', s.linkedin);
-        setSocial('tutorInstagram', s.instagram);
-        setSocial('tutorTwitter', s.twitter);
-      }, 180);
-      items.forEach(function(el){ el.classList.toggle('active', Number(el.dataset.idx) === i); });
-    }
-
-    /* The portrait used to advance off each list item's own scroll position, which
-       started swapping while the section was barely half on screen, so most of the
-       list had gone past before you could see it. The section is pinned instead: the
-       track scrolls, the panel stays put, and how far through the track you are picks
-       the tutor, so the section is fully in frame for the whole run.
-
-       Pinning costs several extra screens of scrolling, which is not worth it on a
-       phone, so below the layout breakpoint the track is inert and a dwell timer
-       advances the portrait once the section is framed. */
-    var section  = document.getElementById('tutors');
-    var track    = document.getElementById('tutorsTrack');
-    var pinned   = window.matchMedia('(min-width:821px)');
-    var rotation = null;
-    var held     = false;   // pointer is over the section, so hold the current tutor
-    var reduce   = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var DWELL_MS = 4000;
-
-    // give the track a slice of scrolling per tutor, however many there are
-    if(track){
-      track.style.setProperty('--tutor-steps', String(Math.max(1, IMAGES.tutors.length - 1)));
-    }
-
-    function trackMetrics(){
-      var r = track.getBoundingClientRect();
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      return { top: r.top, travel: r.height - vh };
-    }
-    function pinnedIndex(){
-      var m = trackMetrics();
-      if(m.travel <= 0) return 0;
-      var p = Math.max(0, Math.min(1, -m.top / m.travel));
-      return Math.min(IMAGES.tutors.length - 1, Math.floor(p * IMAGES.tutors.length));
-    }
-
-    function framed(){
-      if(!section) return true;
-      var r = section.getBoundingClientRect();
-      var vh = window.innerHeight || document.documentElement.clientHeight;
-      var visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
-      return visible >= Math.min(r.height, vh) * 0.9;
-    }
-    function stopRotation(){
-      if(rotation){ clearInterval(rotation); rotation = null; }
-    }
-    function startRotation(){
-      if(rotation || held || reduce) return;
-      rotation = setInterval(function(){
-        show((current + 1) % IMAGES.tutors.length);
-      }, DWELL_MS);
-    }
-    function sync(){
-      if(pinned.matches && track){
-        stopRotation();          // scrolling drives it while the panel is pinned
-        show(pinnedIndex());
-      } else {
-        framed() ? startRotation() : stopRotation();
-      }
-    }
-
-    var ticking = false;
-    function onScroll(){
-      if(ticking) return;
-      ticking = true;
-      requestAnimationFrame(function(){ ticking = false; sync(); });
-    }
-    window.addEventListener('scroll', onScroll, { passive:true });
-    window.addEventListener('resize', onScroll, { passive:true });
-
-    /* mouse events rather than pointer events: on touch there is no reliable leave
-       event, and a tap must not park the rotation permanently */
-    if(section){
-      section.addEventListener('mouseenter', function(){
-        if(pinned.matches) return;   // nothing to hold, scrolling is in charge
-        held = true; stopRotation();
-      });
-      section.addEventListener('mouseleave', function(){ held = false; sync(); });
-    }
-    if(pinned.addEventListener){ pinned.addEventListener('change', sync); }
-
-    // click a name to go to that tutor: scroll to its slice when pinned, else just show it
-    items.forEach(function(el){
-      el.addEventListener('click', function(){
-        var i = Number(el.dataset.idx);
-        if(pinned.matches && track){
-          var m = trackMetrics();
-          if(m.travel > 0){
-            var mid = (i + 0.5) / IMAGES.tutors.length;
-            window.scrollTo({ top: m.top + window.scrollY + mid * m.travel, behavior:'smooth' });
-            return;
-          }
-        }
-        show(i);
-        stopRotation();
-        startRotation();
-      });
-    });
-
-    show(0);
-    sync();
-  })();
-
-  /* hero heading typewriter animation */
-  (function(){
-    var el = document.getElementById('heroWord');
-    if(!el) return;
-    var words = ['workflow','node','automation','canvas','step','build','assignment','project'];
-
-    /* Stack one hidden clone of the live phrase per candidate word behind it. Cloning
-       rather than rebuilding guarantees the sizers carry identical fonts, spacing and
-       caret metrics, so the line is sized to the widest phrase and holds that width. */
-    var line = document.getElementById('h1Line');
-    var live = document.getElementById('h1Live');
-    if(line && live){
-      words.forEach(function(w){
-        var sizer = live.cloneNode(true);
-        sizer.className = 'h1-sizer';
-        sizer.setAttribute('aria-hidden','true');
-        var target = sizer.querySelector('.flip-word');
-        if(target){ target.textContent = w; }
-        Array.prototype.forEach.call(sizer.querySelectorAll('[id]'), function(el){
-          el.removeAttribute('id');
-        });
-        sizer.removeAttribute('id');
-        line.appendChild(sizer);
-      });
-    }
-
-    var i = 0;
-    var typeSpeed = 90;
-    var deleteSpeed = 50;
-    var holdTime = 1500;
-
-    function type(word, cb){
-      var idx = 0;
-      (function step(){
-        el.textContent = word.slice(0, idx);
-        idx++;
-        if(idx <= word.length){
-          setTimeout(step, typeSpeed);
-        } else {
-          cb();
-        }
-      })();
-    }
-
-    function erase(word, cb){
-      var idx = word.length;
-      (function step(){
-        el.textContent = word.slice(0, idx);
-        idx--;
-        if(idx >= 0){
-          setTimeout(step, deleteSpeed);
-        } else {
-          cb();
-        }
-      })();
-    }
-
-    function cycle(){
-      var current = words[i];
-      type(current, function(){
-        setTimeout(function(){
-          erase(current, function(){
-            i = (i + 1) % words.length;
-            setTimeout(cycle, 150);
-          });
-        }, holdTime);
-      });
-    }
-
-    el.textContent = '';
-    cycle();
-  })();
-
-  /* ---- 6. HERO 3D RUBIK'S CUBE - builds a real 26-cubie cube, tumbles it, and periodically turns a random layer ---- */
-  (function(){
-    var rig = document.getElementById('cubeRig');
-    var scene = document.getElementById('cubeScene');
-    if(!rig || !scene) return;
-
-    function svgUrl(inner){
-      return 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#fff">' + inner + '</svg>');
-    }
-    var LOGOS = {
-      pz: { name:'n8n', bg:'#EA4B71', img: svgUrl('<path d="M21.4737 5.6842c-1.1772 0-2.1663.8051-2.4468 1.8947h-2.8955c-1.235 0-2.289.893-2.492 2.111l-.1038.623a1.263 1.263 0 0 1-1.246 1.0555H11.289c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947s-2.1663.8051-2.4467 1.8947H4.973c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947C1.1311 9.4737 0 10.6047 0 12s1.131 2.5263 2.5263 2.5263c1.1772 0 2.1663-.8051 2.4468-1.8947h1.4223c.2804 1.0896 1.2696 1.8947 2.4467 1.8947 1.1772 0 2.1663-.8051 2.4468-1.8947h1.0008a1.263 1.263 0 0 1 1.2459 1.0555l.1038.623c.203 1.218 1.257 2.111 2.492 2.111h.3692c.2804 1.0895 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263c-1.1772 0-2.1664.805-2.4468 1.8947h-.3692a1.263 1.263 0 0 1-1.246-1.0555l-.1037-.623A2.52 2.52 0 0 0 13.9607 12a2.52 2.52 0 0 0 .821-1.4794l.1038-.623a1.263 1.263 0 0 1 1.2459-1.0555h2.8955c.2805 1.0896 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263m0 1.2632a1.263 1.263 0 0 1 1.2631 1.2631 1.263 1.263 0 0 1-1.2631 1.2632 1.263 1.263 0 0 1-1.2632-1.2632 1.263 1.263 0 0 1 1.2632-1.2631M2.5263 10.7368A1.263 1.263 0 0 1 3.7895 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 1.2632 12a1.263 1.263 0 0 1 1.2631-1.2632m6.3158 0A1.263 1.263 0 0 1 10.1053 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 7.579 12a1.263 1.263 0 0 1 1.2632-1.2632m10.1053 3.7895a1.263 1.263 0 0 1 1.2631 1.2632 1.263 1.263 0 0 1-1.2631 1.2631 1.263 1.263 0 0 1-1.2632-1.2631 1.263 1.263 0 0 1 1.2632-1.2632"/>') },
-      px: { name:'Make', bg:'#6D00CC', img: svgUrl('<path d="M13.38 3.498c-.27 0-.511.19-.566.465L9.85 18.986a.578.578 0 0 0 .453.678l4.095.826a.58.58 0 0 0 .682-.455l2.963-15.021a.578.578 0 0 0-.453-.678l-4.096-.826a.589.589 0 0 0-.113-.012zm-5.876.098a.576.576 0 0 0-.516.318L.062 17.697a.575.575 0 0 0 .256.774l3.733 1.877a.578.578 0 0 0 .775-.258l6.926-13.781a.577.577 0 0 0-.256-.776L7.762 3.658a.571.571 0 0 0-.258-.062zm11.74.115a.576.576 0 0 0-.576.576v15.426c0 .318.258.578.576.578h4.178a.58.58 0 0 0 .578-.578V4.287a.578.578 0 0 0-.578-.576Z"/>') },
-      nx: { name:'Zapier', bg:'#FF4F00', img: svgUrl('<path d="M4.157 0A4.151 4.151 0 0 0 0 4.161v15.678A4.151 4.151 0 0 0 4.157 24h15.682A4.152 4.152 0 0 0 24 19.839V4.161A4.152 4.152 0 0 0 19.839 0H4.157Zm10.61 8.761h.03a.577.577 0 0 1 .23.038.585.585 0 0 1 .201.124.63.63 0 0 1 .162.431.612.612 0 0 1-.162.435.58.58 0 0 1-.201.128.58.58 0 0 1-.23.042.529.529 0 0 1-.235-.042.585.585 0 0 1-.332-.328.559.559 0 0 1-.038-.235.613.613 0 0 1 .17-.431.59.59 0 0 1 .405-.162Zm2.853 1.572c.03.004.061.004.095.004.325-.011.646.064.937.219.238.144.431.355.552.609.128.279.189.582.185.888v.193a2 2 0 0 1 0 .219h-2.498c.003.227.075.45.204.642a.78.78 0 0 0 .646.265.714.714 0 0 0 .484-.136.642.642 0 0 0 .23-.318l.915.257a1.398 1.398 0 0 1-.28.537c-.14.159-.321.284-.521.355a2.234 2.234 0 0 1-.836.136 1.923 1.923 0 0 1-1.001-.245 1.618 1.618 0 0 1-.665-.703 2.221 2.221 0 0 1-.227-1.036 1.95 1.95 0 0 1 .48-1.398 1.9 1.9 0 0 1 1.3-.488Zm-9.607.023c.162.004.325.026.48.079.207.065.4.174.563.314.26.302.393.692.366 1.088v2.276H8.53l-.109-.711h-.065c-.064.163-.155.31-.272.439a1.122 1.122 0 0 1-.374.264 1.023 1.023 0 0 1-.453.083 1.334 1.334 0 0 1-.866-.264.965.965 0 0 1-.329-.801.993.993 0 0 1 .076-.431 1.02 1.02 0 0 1 .242-.363 1.478 1.478 0 0 1 1.043-.303h.952v-.181a.696.696 0 0 0-.136-.454.553.553 0 0 0-.438-.154.695.695 0 0 0-.378.086.48.48 0 0 0-.193.254l-.99-.144a1.26 1.26 0 0 1 .257-.563c.14-.174.321-.302.533-.378.261-.091.54-.136.82-.129.053-.003.106-.007.163-.007Zm4.384.007c.174 0 .347.038.506.114.182.083.34.211.458.374.257.423.377.911.351 1.406a2.53 2.53 0 0 1-.355 1.448 1.148 1.148 0 0 1-1.009.517c-.204 0-.401-.045-.582-.136a1.052 1.052 0 0 1-.48-.457 1.298 1.298 0 0 1-.114-.234h-.045l.004 1.784h-1.059v-4.713h.904l.117.805h.057c.068-.208.177-.401.328-.56a1.129 1.129 0 0 1 .843-.344h.076v-.004Zm7.559.084h.903l.113.805h.053a1.37 1.37 0 0 1 .235-.484.813.813 0 0 1 .313-.242.82.82 0 0 1 .39-.076h.234v1.051h-.401a.662.662 0 0 0-.313.008.623.623 0 0 0-.272.155.663.663 0 0 0-.174.26.683.683 0 0 0-.027.314v1.875h-1.054v-3.666Zm-17.515.003h3.262v.896L3.73 13.104l.034.113h1.973l.042.9H2.4v-.9l1.931-1.754-.045-.117H2.441v-.896Zm11.815 0h1.055v3.659h-1.055V10.45Zm3.443.684.019.016a.69.69 0 0 0-.351.045.756.756 0 0 0-.287.204c-.11.155-.174.336-.189.522h1.545c-.034-.526-.257-.787-.74-.787h.003Zm-5.718.163c-.026 0-.057 0-.083.004a.78.78 0 0 0-.31.053.746.746 0 0 0-.257.189 1.016 1.016 0 0 0-.204.695v.064c-.015.257.057.507.204.711a.634.634 0 0 0 .253.196.638.638 0 0 0 .314.061.644.644 0 0 0 .578-.265c.14-.223.204-.48.189-.74a1.216 1.216 0 0 0-.181-.711.677.677 0 0 0-.503-.257Zm-4.509 1.266a.464.464 0 0 0-.268.102.373.373 0 0 0-.114.276c0 .053.008.106.027.155a.375.375 0 0 0 .087.132.576.576 0 0 0 .397.11v.004a.863.863 0 0 0 .563-.182.573.573 0 0 0 .211-.457v-.14h-.903Z"/>') },
-      py: { name:'Python', bg:'#3776AB', img: svgUrl('<path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/>') },
-      ny: { name:'HTML5', bg:'#E34F26', img: svgUrl('<path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/>') },
-      nz: { name:'Supabase', bg:'#3FCF8E', img: svgUrl('<path d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z"/>') }
-    };
-    var VEC = { px:[1,0,0], nx:[-1,0,0], py:[0,1,0], ny:[0,-1,0], pz:[0,0,1], nz:[0,0,-1] };
-    var FACES = ['px','nx','py','ny','pz','nz'];
-    var AXES = [-1,0,1];
-
-    // the rig is fluid (its width is a fraction of the hero column), so every pixel
-    // measurement below is re-derived from its current box - once now, and again
-    // whenever the viewport changes size or orientation.
-    var size = 0, unit = 0, cubie = 0;
-    function measure(){
-      // the rig is display:none on phones, where it measures 0 - that is the
-      // signal to leave the cube alone until the viewport gets wide enough
-      size = rig.getBoundingClientRect().width;
-      if(!size) return;
-      unit = size / 3;
-      cubie = unit - Math.max(1.5, unit * 0.045); // keep the seam between cubies proportional
-      scene.style.setProperty('--cubie', cubie + 'px');
-      // cubies are built centered on cube-scene's own (0,0) origin; shift the whole scene
-      // by half the box so that point lands on cube-rig's rotation pivot (its own 50% 50% center) -
-      // otherwise the cube spins off-axis, like it's hanging from a rope tied to one side.
-      scene.style.transform = 'translate3d(' + (size / 2) + 'px,' + (size / 2) + 'px,0)';
-    }
-    measure();
-
-    function vecKey(v){
-      for(var i=0;i<FACES.length;i++){
-        var k = VEC[FACES[i]];
-        if(Math.round(v[0])===k[0] && Math.round(v[1])===k[1] && Math.round(v[2])===k[2]) return FACES[i];
-      }
-      return null;
-    }
-
-    function rotVec(axis, dir, v){
-      var x=v[0], y=v[1], z=v[2];
-      if(axis==='x') return dir>0 ? [x,-z,y] : [x,z,-y];
-      if(axis==='y') return dir>0 ? [z,y,-x] : [-z,y,x];
-      return dir>0 ? [-y,x,z] : [y,-x,z];
-    }
-
-    function applyTransform(c){
-      c.el.style.transform = 'translate3d(' + (c.x*unit - cubie/2) + 'px,' + (c.y*unit - cubie/2) + 'px,' + (c.z*unit) + 'px)';
-    }
-    function applyColors(c){
-      FACES.forEach(function(f){
-        var logo = c.colors[f];
-        var el = c.faceEls[f];
-        if(logo){
-          el.style.background = logo.bg;
-          el.style.backgroundImage = 'url("' + logo.img + '")';
-          el.style.backgroundRepeat = 'no-repeat';
-          el.style.backgroundPosition = 'center';
-          el.style.backgroundSize = '52%';
-        } else {
-          el.style.background = '#15181a';
-          el.style.backgroundImage = 'none';
-        }
-      });
-    }
-
-    var cubies = [];
-    AXES.forEach(function(x){
-      AXES.forEach(function(y){
-        AXES.forEach(function(z){
-          if(x===0 && y===0 && z===0) return;
-          var colors = {px:null,nx:null,py:null,ny:null,pz:null,nz:null};
-          if(x===1) colors.px = LOGOS.px;
-          if(x===-1) colors.nx = LOGOS.nx;
-          if(y===1) colors.py = LOGOS.py;
-          if(y===-1) colors.ny = LOGOS.ny;
-          if(z===1) colors.pz = LOGOS.pz;
-          if(z===-1) colors.nz = LOGOS.nz;
-
-          var el = document.createElement('div');
-          el.className = 'cubie';
-          var faceEls = {};
-          FACES.forEach(function(f){
-            var fd = document.createElement('div');
-            fd.className = 'face face-' + f;
-            el.appendChild(fd);
-            faceEls[f] = fd;
-          });
-          scene.appendChild(el);
-
-          var c = { x:x, y:y, z:z, colors:colors, el:el, faceEls:faceEls };
-          applyColors(c);
-          applyTransform(c);
-          cubies.push(c);
-        });
-      });
-    });
-
-    /* ---- rotation: cube hangs at a fixed tilt and only ever spins on Y - like on a rope ---- */
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var FIXED_TILT = -18;
-    var rotY = 0;
-    var baseVelocity = reduceMotion ? 0 : 0.01; // deg/ms ambient drift when idle
-    var flingVelocity = 0; // deg/ms added by a drag release, decays back to baseVelocity
-    var dragging = false;
-    var lastX = 0, lastT = 0, lastDragDeg = 0;
-
-    function applyRigTransform(){
-      rig.style.transform = 'rotateX(' + FIXED_TILT + 'deg) rotateY(' + rotY + 'deg)';
-    }
-    applyRigTransform();
-
-    var lastFrameT = null, rafId = null;
-    function tick(t){
-      if(!size){ lastFrameT = null; rafId = null; return; } // hidden: stop burning frames
-      if(lastFrameT == null) lastFrameT = t;
-      var dt = Math.min(t - lastFrameT, 50);
-      lastFrameT = t;
-      if(!dragging){
-        flingVelocity *= Math.pow(0.994, dt);
-        rotY += (baseVelocity + flingVelocity) * dt;
-        applyRigTransform();
-      }
-      rafId = requestAnimationFrame(tick);
-    }
-    function startTick(){ if(rafId == null && size) rafId = requestAnimationFrame(tick); }
-    startTick();
-
-    function pointerDown(e){
-      dragging = true;
-      flingVelocity = 0;
-      lastX = e.clientX;
-      lastT = performance.now();
-      lastDragDeg = 0;
-      rig.classList.add('dragging');
-      if(e.pointerId != null && rig.setPointerCapture) rig.setPointerCapture(e.pointerId);
-    }
-    function pointerMove(e){
-      if(!dragging) return;
-      var now = performance.now();
-      var dx = e.clientX - lastX;
-      var dt = Math.max(now - lastT, 1);
-      var deg = dx * 0.35;
-      rotY += deg;
-      lastDragDeg = deg / dt;
-      lastX = e.clientX;
-      lastT = now;
-      applyRigTransform();
-    }
-    function pointerUp(){
-      if(!dragging) return;
-      dragging = false;
-      flingVelocity = lastDragDeg;
-      rig.classList.remove('dragging');
-    }
-    rig.addEventListener('pointerdown', pointerDown);
-    window.addEventListener('pointermove', pointerMove);
-    window.addEventListener('pointerup', pointerUp);
-    window.addEventListener('pointercancel', pointerUp);
-
-    var turning = false;
-    function shuffleMove(){
-      if(turning || !size) return; // nothing to shuffle while the cube is hidden
-      var axes = ['x','y','z'];
-      var axis = axes[Math.floor(Math.random()*3)];
-      var layer = AXES[Math.floor(Math.random()*3)];
-      var dir = Math.random() < 0.5 ? 1 : -1;
-      var layerCubies = cubies.filter(function(c){ return c[axis] === layer; });
-      if(!layerCubies.length) return;
-      turning = true;
-
-      var group = document.createElement('div');
-      group.className = 'turn-group';
-      scene.appendChild(group);
-      layerCubies.forEach(function(c){ group.appendChild(c.el); });
-
-      void group.offsetWidth; // force reflow before transitioning
-      group.style.transition = 'transform .65s cubic-bezier(.65,0,.35,1)';
-      group.style.transform = 'rotate' + axis.toUpperCase() + '(' + (90*dir) + 'deg)';
-
-      var done = false;
-      function finish(){
-        if(done) return;
-        done = true;
-        layerCubies.forEach(function(c){
-          var pos = rotVec(axis, dir, [c.x, c.y, c.z]);
-          c.x = Math.round(pos[0]); c.y = Math.round(pos[1]); c.z = Math.round(pos[2]);
-          var newColors = {};
-          FACES.forEach(function(f){
-            newColors[vecKey(rotVec(axis, dir, VEC[f]))] = c.colors[f];
-          });
-          c.colors = newColors;
-          applyColors(c);
-          scene.appendChild(c.el);
-          applyTransform(c);
-        });
-        group.remove();
-        turning = false;
-      }
-      group.addEventListener('transitionend', finish, { once:true });
-      setTimeout(finish, 900);
-    }
-
-    if(!reduceMotion){
-      setInterval(shuffleMove, 4200);
-    }
-
-    /* the rig scales with the viewport, so re-derive the cubie geometry after a
-       resize or an orientation change and re-place every cubie at the new unit */
-    var resizeTimer = null, lastSize = size;
-    window.addEventListener('resize', function(){
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function(){
-        var w = rig.getBoundingClientRect().width;
-        if(Math.abs(w - lastSize) < 1) return;
-        lastSize = w;
-        size = w;
-        if(!w) return;          // just went hidden - tick stops on its own
-        measure();
-        cubies.forEach(applyTransform);
-        applyRigTransform();
-        startTick();            // back on screen after a rotate or a resize
-      }, 140);
-    });
-  })();
-</script>
-<script src="assets/june.js"></script>
+<script src="assets/tool-logos.js" defer></script>
+<script src="assets/canvas.js" defer></script>
+<script src="assets/june.js" defer></script>
 </body>
 </html>
