@@ -85,8 +85,10 @@ svg.i{width:18px;height:18px;flex-shrink:0;}
 header{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--canvas) 84%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);}
 .nav{display:flex;align-items:center;gap:28px;height:68px;}
 .brand{display:inline-flex;align-items:baseline;font:700 1.08rem/1 var(--body);letter-spacing:-.02em;white-space:nowrap;}
-.brand img{width:1.5em;height:1.5em;transform:translateY(.12em);}
-.brand b{color:var(--brand-green);font-weight:700;}
+.brand img{height:2.5rem;width:auto;}
+.brand .logo-on-light{display:none;}
+html[data-theme="light"] .brand .logo-on-dark{display:none;}
+html[data-theme="light"] .brand .logo-on-light{display:block;}
 .nav-links{display:flex;gap:24px;margin-left:12px;font-size:.92rem;font-weight:500;color:var(--ink-2);}
 .nav-links a:hover{color:var(--ink);}
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:12px;}

@@ -22,7 +22,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Automate Naija: Learn automation by shipping it">
 <meta property="og:description" content="A real build for a Nigerian business every week, graded in about a minute, with a credential anyone can check.">
-<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png?v=2">
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="preload" href="assets/fonts/bricolage-grotesque-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -44,7 +44,7 @@
 
 <header>
   <div class="wrap nav">
-    <a class="brand" href="canvas.html" aria-label="Automate Naija"><img src="assets/brand/logo-mark.svg" alt="" width="64" height="64">utomate<b>Naija</b></a>
+    <a class="brand" href="canvas.html" aria-label="Automate Naija"><img class="logo-on-dark" src="assets/brand/logo.png" alt="Automate Naija" width="1000" height="269"><img class="logo-on-light" src="assets/brand/logo-light.png" alt="" width="1000" height="269"></a>
     <nav class="nav-links" aria-label="Sections">
       <a href="#week">This week</a>
       <a href="#live">Live</a>
@@ -117,7 +117,7 @@
         <div><span class="type">Output</span><b>Verified credential</b><small>On your portfolio and LinkedIn.</small></div>
         <span class="port in"></span><span class="ok" aria-hidden="true"><i data-lucide="check"></i></span>
       </li>
-      <li class="sticky" aria-label="Note"><b>Note:</b> the first build is free and never closes. Most people finish it in under an hour.</li>
+      <li class="sticky" aria-label="Note"><b>Note:</b> the first build is free and never closes. Every weekly Beginner build is free too, with a step-by-step guide.</li>
     </ol>
     <p class="runbar" id="runbar" hidden><span class="okpill"><i data-lucide="check"></i>Last successful run</span><span id="lastRun"></span></p>
   </div>
@@ -219,7 +219,7 @@
 <section id="pricing" class="dots">
   <div class="bgi" data-set="pricing" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head"><div><span class="kicker">Pricing</span><h2>Two ways in.</h2><p class="lead">The community and the first build are free. Pay when you want the course or the weekly builds.</p></div></div>
+    <div class="sec-head"><div><span class="kicker">Pricing</span><h2>Two ways in.</h2><p class="lead">The community and every Beginner build are free. Pay when you want the course or the harder weekly builds.</p></div></div>
     <div class="tracks">
       <article class="track">
         <div class="hd"><span class="ic" style="background:#2F6FDB"><i data-lucide="book-open"></i></span><div><b>Learn</b><span>Start from zero</span></div></div>
@@ -234,22 +234,23 @@
         <p class="hint">See the whole course outline in the app, then pay once on Paystack.</p>
       </article>
       <article class="track feat">
-        <span class="ribbon">FIRST 100 SUBSCRIBERS</span>
+        <span class="ribbon">BEGINNER IS FREE</span>
         <div class="hd"><span class="ic" style="background:var(--accent)"><i data-lucide="wrench"></i></span><div><b>Automate</b><span>6-week build cycle</span></div></div>
         <fieldset class="tiers" id="tiers">
           <legend>Choose your level</legend>
-          <label><input type="radio" name="automate-level" value="beginner" data-was="₦8,000" data-now="₦5,000" data-label="Beginner" checked><b>Beginner</b><span>New to automation</span><em>₦5,000 <s>₦8,000</s></em></label>
+          <label><input type="radio" name="automate-level" value="beginner" data-was="" data-now="Free" data-label="Beginner" checked><b>Beginner</b><span>New to automation</span><em>Free</em></label>
           <label><input type="radio" name="automate-level" value="intermediate" data-was="₦12,000" data-now="₦8,000" data-label="Intermediate"><b>Intermediate</b><span>Built a few</span><em>₦8,000 <s>₦12,000</s></em></label>
           <label><input type="radio" name="automate-level" value="expert" data-was="₦20,000" data-now="₦10,000" data-label="Expert"><b>Expert</b><span>Shipping for clients</span><em>₦10,000 <s>₦20,000</s></em></label>
         </fieldset>
-        <div class="price"><b id="automateNow">₦5,000</b><s id="automateWas">₦8,000</s><span id="automateNote">Beginner, first-100 price</span></div>
+        <div class="price"><b id="automateNow">Free</b><s id="automateWas"></s><span id="automateNote">Beginner, free for every member</span></div>
         <ul class="checks">
-          <li><i data-lucide="check"></i>A new real build every week at your level</li>
+          <li><i data-lucide="check"></i>A new real build every week at your level, with a step-by-step guide on Beginner builds</li>
           <li><i data-lucide="check"></i>Graded in minutes, with a credential for every pass</li>
-          <li><i data-lucide="check"></i>Squads, the leaderboard and the weekly quiz</li>
+          <li><i data-lucide="check"></i>Squads, the leaderboard and a 10-question weekly quiz</li>
+          <li><i data-lucide="check"></i>Cash bonuses on high scores and the ₦10,000 weekly Top Builder prize, for plan members</li>
         </ul>
-        <a class="btn btn-run" id="automateCta" href="https://app.automatenaija.com/login?plan=automate&amp;level=beginner"><span class="play"><i data-lucide="play"></i></span><span id="automateCtaText">Continue with Beginner</span></a>
-        <p class="hint">Prices go back to normal once the first 100 spots are gone.</p>
+        <a class="btn btn-run" id="automateCta" href="https://app.automatenaija.com/login?plan=automate&amp;level=beginner"><span class="play"><i data-lucide="play"></i></span><span id="automateCtaText">Start Beginner free</span></a>
+        <p class="hint">Intermediate and Expert prices go back to normal once the first 100 spots are gone.</p>
       </article>
       <div class="addon"><b>Add-on: hosted n8n.</b> Your own instance, always up to date. ₦3,000 a month, first 30 days free.<a href="https://app.automatenaija.com/n8n">See hosted n8n →</a></div>
     </div>
@@ -307,11 +308,13 @@
       <button class="btn btn-ghost ask" type="button" onclick="document.getElementById('juneLauncher').click()"><i data-lucide="message-circle" class="i"></i>Ask June</button>
     </div>
     <div>
-      <details open><summary>Is the community free?</summary><p>Yes. The community layer is completely free to join. You only pay for a course: Learn, a one-time ₦10,000, or the Automate build track.</p></details>
-      <details><summary>Do I need coding experience?</summary><p>No. Learn starts from zero: 13 weeks that take you from your first automation to a capstone for a real business. Automate has a Beginner level too, plus Intermediate and Expert levels for people who already know a tool like n8n or Make.</p></details>
+      <details open><summary>Is it free?</summary><p>Yes, to start. The community and every Beginner build are free, each with a step-by-step guide, and you earn stacks, credentials and a place on the leaderboard. You only pay when you want the Learn course (a one-time ₦10,000) or the Intermediate and Expert builds.</p></details>
+      <details><summary>Do I need coding experience?</summary><p>No. Learn starts from zero: 13 weeks that take you from your first automation to a capstone for a real business. Automate has a free Beginner level with step-by-step guides, plus paid Intermediate and Expert levels for people who already know a tool like n8n or Make.</p></details>
       <details><summary>What tools will I work with?</summary><p>n8n, WhatsApp APIs, OpenAI, Supabase, Make and related automation integrations, taught through real builds rather than isolated tutorials.</p></details>
       <details><summary>Can I find paid work here?</summary><p>We don't run a job board, so we won't promise you postings. What you build here is the proof that wins work: every graded build goes on your public portfolio, and each one can become a verified credential that a client or employer checks for themselves, with your score and the real work behind it. The community is where builders find collaborators.</p></details>
-      <details><summary>How does the first-100 discount work?</summary><p>It's a limited-time discount, open right now to the first 100 subscribers on the Automate track. Beginner is ₦5,000 instead of ₦8,000, Intermediate ₦8,000 instead of ₦12,000 and Expert ₦10,000 instead of ₦20,000. Once the 100 spots are taken, prices return to normal.</p></details>
+      <details><summary>Can I earn cash?</summary><p>Plan members can. Intermediate and Expert members earn a cash bonus on high scores, and one plan member wins the ₦10,000 Top Builder prize every week. Free members earn stacks, credentials and a place on the leaderboard, but not cash.</p></details>
+      <details><summary>Do I need a profile photo?</summary><p>Yes, before you submit your first build. Your builds go on a public portfolio, so we ask for a clear photo of your face. It takes under a minute on your profile page.</p></details>
+      <details><summary>How does the first-100 discount work?</summary><p>It's a limited-time discount, open right now to the first 100 subscribers on the paid Automate levels. Intermediate is ₦8,000 instead of ₦12,000 and Expert ₦10,000 instead of ₦20,000. Beginner is free for everyone. Once the 100 spots are taken, the paid levels return to normal prices.</p></details>
       <details><summary>What's in the Learn track?</summary><p>Learn AI Automation is open now: 13 weeks covering Zapier, Make and n8n one tool at a time, then APIs, payments, AI and building for clients, ending in a capstone for a real business. Every class has notes, resources and a practice task, with live classes alongside your cohort. It's ₦10,000, paid once, and the course is yours to keep. Sign up and you can see the whole outline before you pay. Join mid-cohort and the weeks it has already covered open straight away, so you can catch up.</p></details>
     </div>
   </div>
@@ -335,7 +338,7 @@
 <footer>
   <div class="wrap">
     <div class="fg">
-      <div><a class="brand" href="canvas.html" aria-label="Automate Naija"><img src="assets/brand/logo-mark.svg" alt="" width="64" height="64">utomate<b>Naija</b></a><p style="margin-top:14px;max-width:32ch">Where Nigerian builders learn AI automation by shipping real work.</p></div>
+      <div><a class="brand" href="canvas.html" aria-label="Automate Naija"><img class="logo-on-dark" src="assets/brand/logo.png" alt="Automate Naija" width="1000" height="269"><img class="logo-on-light" src="assets/brand/logo-light.png" alt="" width="1000" height="269"></a><p style="margin-top:14px;max-width:32ch">Where Nigerian builders learn AI automation by shipping real work.</p></div>
       <div><h3>Platform</h3><a href="#week">This week's builds</a><a href="#live">Leaderboard</a><a href="#pricing">Pricing</a><a href="https://app.automatenaija.com/n8n">Hosted n8n</a></div>
       <div><h3>Resources</h3><a href="blog/index.html">Blog</a><a href="#faq">FAQ</a><a href="https://app.automatenaija.com/verify">Verify a credential</a><a href="https://app.automatenaija.com/login" data-link="app">Log in</a></div>
       <div><h3>Company</h3><a href="about.html">About</a><a href="careers.html">Careers</a><a href="partners.html">Partner with us</a><a href="contact.html">Contact</a></div>
