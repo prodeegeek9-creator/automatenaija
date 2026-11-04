@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fix n8n http request node returns 401 when uploading to Telegram</title>
+<meta name="description" content="n8n http request node returns 401 while uploading files to Telegram. Follow a short troubleshooting playbook to fix token, endpoint, binary handling and...">
+<link rel="canonical" href="https://automatenaija.com/blog/n8n-http-request-node-returns-401">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/n8n-http-request-node-returns-401">
+<meta property="og:title" content="Fix n8n http request node returns 401 when uploading to Telegram">
+<meta property="og:description" content="n8n http request node returns 401 while uploading files to Telegram. Follow a short troubleshooting playbook to fix token, endpoint, binary handling and...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-11-04T04:32:21.306229+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Fix n8n http request node returns 401 when uploading to Telegram">
+<meta name="twitter:description" content="n8n http request node returns 401 while uploading files to Telegram. Follow a short troubleshooting playbook to fix token, endpoint, binary handling and...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Fix n8n http request node returns 401 when uploading to Telegram","description":"n8n http request node returns 401 while uploading files to Telegram. Follow a short troubleshooting playbook to fix token, endpoint, binary handling and...","datePublished":"2026-11-04T04:32:21.306229+00:00","dateModified":"2026-11-04T04:32:21.306229+00:00","inLanguage":"en-NG","keywords":"n8n http request node returns 401, telegram bot api 401 n8n, n8n send document telegram 401, http request node telegram 401","wordCount":1270,"mainEntityOfPage":"https://automatenaija.com/blog/n8n-http-request-node-returns-401","url":"https://automatenaija.com/blog/n8n-http-request-node-returns-401","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why do I get 401 from Telegram but curl works locally?","acceptedAnswer":{"@type":"Answer","text":"If curl succeeds but n8n returns 401, the problem is how n8n builds the HTTP request. Check that you enabled Send Binary Data , set the correct Binary Property , used the method endpoint like /bot TOKEN /sendDocument , and removed any manual Content-Type or Authorization headers."}},{"@type":"Question","name":"Can I put the token in an Authorization header instead of the URL?","acceptedAnswer":{"@type":"Answer","text":"Telegram expects the bot token in the URL path for the standard Bot API endpoints. If you place a Bearer or Authorization header, Telegram may not accept it and you can see a 401. Use https://API.telegram.org/bot TOKEN /METHOD or follow Telegram documentation for alternative auth."}},{"@type":"Question","name":"What if my file is stored in S3 or external storage?","acceptedAnswer":{"@type":"Answer","text":"If binary is external, ensure n8n has resolved and attached the binary to the workflow item before the HTTP Request node. An empty or missing binary property creates malformed multipart data. Check the previous node output for a valid binary key and size."}},{"@type":"Question","name":"I still see 401 after following this guide, what should I share when asking for help?","acceptedAnswer":{"@type":"Answer","text":"Share the curl output that works or fails, the n8n HTTP Request node screenshots of settings, the outgoing request headers and body summary from execution logs, and the exact response body and status text. That lets helpers check token placement, form-data, and headers quickly."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Fix n8n http request node returns 401 when uploading to Telegram</h1>
+    <p class="lede">A concise troubleshooting playbook to fix n8n HTTP uploads to Telegram that return 401 Unauthorized, with exact node settings and header checks you can apply now.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-11-04T04:32:21.306229+00:00">4 November 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If your n8n http request node returns 401 when uploading animations, documents or videos to the Telegram Bot API, the fix is one of four causes: wrong token or Authorization header, using the download endpoint instead of the upload endpoint, incorrect binary handling in n8n, or manually overriding Content-Type and other headers. Fix those four and uploads will work.</p>
+
+<h2>Why n8n http request node returns 401</h2>
+
+<p>A 401 Unauthorized from Telegram usually means Telegram does not accept the credentials or the request shape. For uploads the common culprits are: you put the bot token in an Authorization header instead of in the URL, you are hitting the wrong hostname, n8n is not attaching a valid binary file, or you overrode multipart headers so Telegram cannot read the file. All produce a 401 rather than a 400 in many cases.</p>
+
+<h2>Step-by-step fix you can reproduce now</h2>
+
+<ol>
+<li>Verify the token by calling a simple API method with curl or an n8n HTTP Request node: <pre><code>curl -s -X POST "https://api.telegram.org/bot/getMe"</code></pre> If this returns user info, the token is correct. If it returns 401, re-copy the token, watch for leading or trailing spaces, and confirm the bot token from BotFather.</li>
+
+<li>Check you are using the upload endpoint. For sending files you must call methods like <code>/bot&lt;TOKEN&gt;/sendDocument</code>, <code>/bot&lt;TOKEN&gt;/sendAnimation</code> or <code>/bot&lt;TOKEN&gt;/sendVideo</code>. Do not use the <code>https://api.telegram.org/file/bot&lt;TOKEN&gt/...</code> path, because that path is for file downloads and will not accept uploads.</li>
+
+<li>Open the n8n node named <code>HTTP Request</code> and set these fields exactly: <ul>
+<li><code>Method</code>: POST</li>
+<li><code>URL</code>: <code>https://api.telegram.org/bot&lt;TOKEN&gt;/sendDocument</code> (replace method name as needed)</li>
+<li><code>Response Format</code>: JSON</li>
+<li><code>Body Content Type</code> or equivalent: Form-Data (multipart)</li>
+<li>Enable <code>Send Binary Data</code> and set <code>Binary Property</code> to the binary key from the previous node, for example <code>data</code> or <code>file</code></li>
+<li>Add a form-data field with the exact field name Telegram expects, for example <code>document</code> for sendDocument, <code>animation</code> for sendAnimation</li>
+</ul></li>
+
+<li>Do not set or override the <code>Content-Type</code> header manually. If you added a custom <code>Authorization</code> header, remove it. Telegram expects the token only in the URL path, not in a Bearer header, unless you intentionally configured header auth. In n8n, set <code>Authentication</code> to <code>None</code> unless using a specific header scheme.</li>
+
+<li>Test with a minimal known-good file. Use a small PDF, PNG or MP4 under a few MB to rule out large file or streaming issues. If you still get 401, enable node execution logging and inspect the request headers and form boundary that n8n created.</li>
+
+<li>If you use external binary storage (S3 or similar), confirm the binary property exists on the item and n8n actually attached the binary. An empty or missing binary property will produce malformed multipart data or no file part, which Telegram can respond to with 401 in some cases.</li>
+</ol>
+
+<h2>n8n specific node settings and header overrides</h2>
+
+<p>Here are the exact n8n controls to check. Open the <code>HTTP Request</code> node and verify the following UI fields:</p>
+
+<ul>
+<li><strong>URL</strong>: <code>https://api.telegram.org/bot&lt;TOKEN&gt;/sendDocument</code> or the method you need.</li>
+<li><strong>Method</strong>: <code>POST</code>.</li>
+<li><strong>Body Content Type</strong>: select <code>Form-Data</code> or the option that supports multipart.</li>
+<li><strong>Send Binary Data</strong>: checked.</li>
+<li><strong>Binary Property</strong>: the name of the binary key from the previous node, for example <code>file</code> or <code>data</code>.</li>
+<li><strong>Form-Data Parameter</strong>: add a row where <code>Name</code> is <code>document</code> or <code>animation</code>, and leave the value mechanism to n8n so it attaches the binary property.</li>
+<li><strong>Headers</strong>: remove any custom <code>Authorization</code> or <code>Content-Type</code> entries. Let n8n set the multipart boundary header automatically.</li>
+</ul>
+
+<p>If you must add headers, only add non-content headers such as <code>Accept: application/json</code>. Never add <code>Content-Type: multipart/form-data</code> manually because you will miss the required boundary parameter.</p>
+
+<h3>Quick curl test to confirm the token, outside n8n</h3>
+
+<pre><code>curl -F "document=@/path/to/file.pdf" "https://api.telegram.org/bot&lt;TOKEN&gt;/sendDocument"
+</code></pre>
+
+<p>If curl works and n8n fails, the problem is how n8n is attaching binary data or headers. Re-check the <code>Binary Property</code> setting and the item passed to the HTTP Request node.</p>
+
+<h2>Common error cases and exact fixes</h2>
+
+<ul>
+<li>Token vs header mismatch: If you used an <code>Authorization: Bearer</code> header or set <code>Authentication</code> in the node, remove it and use the token in the URL. Confirm no extra characters in the token string.</li>
+<li>Wrong upload endpoint: Switch any <code>/file/bot</code> URLs to <code>/bot&lt;TOKEN&gt;/sendX</code> methods. Upload requests must go to the API method endpoints.</li>
+<li>Binary handling: Ensure the input item actually contains binary data. Inspect the previous node output. If you used S3 external binary storage, make sure n8n has downloaded or attached the binary before the HTTP node.</li>
+<li>File header mistakes: Remove manual <code>Content-Type</code> header. Let n8n create the multipart header with correct boundary.</li>
+</ul>
+
+<h2>How to stop this happening again</h2>
+
+<ul>
+<li>Keep a small test workflow that does a <code>getMe</code> call and a small <code>sendDocument</code> using a static test token for quick verification after changes.</li>
+<li>Use named credentials in n8n if available, so you never paste tokens into ad hoc nodes and accidentally add headers.</li>
+<li>Add an execution check step before uploads that verifies <code>Boolean($binary)</code> or that the binary property exists. Fail early with a clear error instead of sending a malformed request.</li>
+<li>Document the rule in your team: token only in URL, no manual Content-Type, use <code>Send Binary Data</code>.</li>
+</ul>
+
+<h2>When to get help</h2>
+
+<p>If you confirmed the token and curl tests work but n8n still returns 401 after adjusting the above, capture the node request and response and share them with the n8n community. The n8n forum thread where users reported this exact symptom is useful for context: see the report about <a href="https://community.n8n.io/t/http-request-node-returns-401-unauthorized-when-trying-to-send-animation-or-document-video-via-telegram-bot-api/326265" target="_blank" rel="noopener noreferrer">HTTP Request node returns 401 when sending animation or document/video</a>. If binary storage is involved, check the related S3 binary storage thread for symptoms that look like missing binary payloads: <a href="https://community.n8n.io/t/s3-external-binary-storage-deleteobjects-fails-with-missing-content-md5/326351" target="_blank" rel="noopener noreferrer">S3 external binary storage issues</a>.</p>
+
+<p>If you prefer one-line triage, run curl to <code>/getMe</code>, then curl to a simple <code>/sendDocument</code> with a small file. If both succeed, the issue is n8n node configuration. If curl fails, the token or bot setup is the problem.</p>
+
+<p>To learn more automations and stable patterns for API uploads, join Automate Naija training and workshops. You can also read our post on keeping n8n polling triggers reliable for other production protections: <a href="https://automatenaija.com/blog/n8n-polling-trigger-stops">N8n polling trigger stops, heartbeat and watchdog fix</a>.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Why do I get 401 from Telegram but curl works locally?</h3>
+      <p>If curl succeeds but n8n returns 401, the problem is how n8n builds the HTTP request. Check that you enabled Send Binary Data , set the correct Binary Property , used the method endpoint like /bot TOKEN /sendDocument , and removed any manual Content-Type or Authorization headers.</p>
+      <h3>Can I put the token in an Authorization header instead of the URL?</h3>
+      <p>Telegram expects the bot token in the URL path for the standard Bot API endpoints. If you place a Bearer or Authorization header, Telegram may not accept it and you can see a 401. Use https://API.telegram.org/bot TOKEN /METHOD or follow Telegram documentation for alternative auth.</p>
+      <h3>What if my file is stored in S3 or external storage?</h3>
+      <p>If binary is external, ensure n8n has resolved and attached the binary to the workflow item before the HTTP Request node. An empty or missing binary property creates malformed multipart data. Check the previous node output for a valid binary key and size.</p>
+      <h3>I still see 401 after following this guide, what should I share when asking for help?</h3>
+      <p>Share the curl output that works or fails, the n8n HTTP Request node screenshots of settings, the outgoing request headers and body summary from execution logs, and the exact response body and status text. That lets helpers check token placement, form-data, and headers quickly.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
