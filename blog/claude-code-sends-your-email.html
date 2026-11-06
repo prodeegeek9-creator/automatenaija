@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code sends your email? Reproduce and fix</title>
+<meta name="description" content="If claude code sends your email, follow this guide to reproduce the leak, apply immediate mitigations, and verify no further exfiltration from your...">
+<link rel="canonical" href="https://automatenaija.com/blog/claude-code-sends-your-email">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/claude-code-sends-your-email">
+<meta property="og:title" content="Claude Code sends your email? Reproduce and fix">
+<meta property="og:description" content="If claude code sends your email, follow this guide to reproduce the leak, apply immediate mitigations, and verify no further exfiltration from your...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-11-06T04:32:19.649931+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Claude Code sends your email? Reproduce and fix">
+<meta name="twitter:description" content="If claude code sends your email, follow this guide to reproduce the leak, apply immediate mitigations, and verify no further exfiltration from your...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"Claude Code sends your email? Reproduce and fix","description":"If claude code sends your email, follow this guide to reproduce the leak, apply immediate mitigations, and verify no further exfiltration from your...","datePublished":"2026-11-06T04:32:19.649931+00:00","dateModified":"2026-11-06T04:32:19.649931+00:00","inLanguage":"en-NG","keywords":"claude code sends your email, claude code email leak, claude sends personal data, claude privacy bug, claude code data exfiltration","wordCount":1286,"mainEntityOfPage":"https://automatenaija.com/blog/claude-code-sends-your-email","url":"https://automatenaija.com/blog/claude-code-sends-your-email","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How quickly can I tell if Claude Code leaked an email from my prompt?","acceptedAnswer":{"@type":"Answer","text":"You can confirm a leak in minutes by using a test email such as test@example.com, opening your browser Developer Tools Network tab or running mitmproxy, submitting the prompt, and watching for outgoing requests that include the test address. Save the capture and timestamp as evidence."}},{"@type":"Question","name":"What is the fastest mitigation if my real email was pasted into a prompt?","acceptedAnswer":{"@type":"Answer","text":"Stop using the session, sign out, disable any suspicious browser extensions, replace the exposed address with a new one or a token in templates, and use a temporary email for tests. If credentials leaked, rotate them immediately and check access logs for suspicious activity."}},{"@type":"Question","name":"Can I block Claude Code from contacting external sites from my network?","acceptedAnswer":{"@type":"Answer","text":"Yes, block outbound requests at your gateway or host firewall, add temporary /etc/hosts entries to redirect suspicious hosts, or use a proxy with an allow list. For cloud or managed services, request tighter egress controls from your IT team."}},{"@type":"Question","name":"Should I report the issue to the provider and what details will they need?","acceptedAnswer":{"@type":"Answer","text":"Report it, include reproduction steps, the exact prompt you used (or a sanitized version), timestamps, and network captures showing the outbound request. If customer data was involved, include scope and affected user counts so the provider can prioritise a response."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>Claude Code sends your email? Reproduce and fix</h1>
+    <p class="lede">Reproduce the leak in minutes, apply prompt and network mitigations, and verify logs so Claude Code stops sending your email to external sites.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-11-06T04:32:19.649931+00:00">6 November 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If claude code sends your email to external websites, stop using the prompt or workspace immediately, reproduce the behaviour safely, then apply client side redaction, network blocking and temporary address workarounds. This guide shows how to reproduce the leak in minutes and gives immediate mitigations you can use today.</p>
+
+<h2>claude code sends your email: reproduce in minutes</h2>
+
+<p>Reproducing the issue quickly gives you evidence to act and to report. Use a test address that you control, for example <code>test@example.com</code>, not a personal or company email. Open Claude Code in your browser, open Developer Tools, switch to the Network tab, then paste a short prompt referencing the test address. Watch for any outgoing HTTP requests to third party domains that include the email in the URL, query string or request body.</p>
+
+<pre><code>Example quick test prompt to paste in Claude Code
+"Here is an email to include in the output: test@example.com. Do not share this externally, just echo the email back in plain text."
+</code></pre>
+
+<p>If you see requests that contain the test address, capture them with the browser Network tab or with a proxy such as <strong>mitmproxy</strong> or a packet capture like <strong>tcpdump</strong> or <strong>Wireshark</strong>. Save the capture and timestamp. The Hacker News discussions reporting this behaviour help confirm community reports, see the thread reporting addresses sent to websites and the SEO thread for context.</p>
+
+<p><a href="https://news.ycombinator.com/item?id=50385272" target="_blank" rel="noopener noreferrer">Hacker News: Claude Code sends your email address to websites</a>, <a href="https://news.ycombinator.com/item?id=50387890" target="_blank" rel="noopener noreferrer">Hacker News: Claude Code, but for SEO</a></p>
+
+<h2>Why this happens</h2>
+
+<p>There are a few likely causes to the behaviour people see. First, prompt content that includes an address may be used by internal logging, telemetry, or by auxiliary tooling that performs lookups. Second, some assistant features attempt to fetch or validate external content, and those subsystems can forward user-provided strings to third party services if not correctly sandboxed. Finally, browser extensions or third party integrations can intercept page content and leak it externally. You should assume any string pasted in a prompt can be forwarded unless you can verify otherwise.</p>
+
+<h2>Immediate mitigations, step by step</h2>
+
+<ol>
+  <li>Stop using the affected session, and sign out. If you paste sensitive data into Claude Code, close the tab to stop further immediate interaction.</li>
+  <li>Reproduce with a test address as above and capture network evidence. Use Developer Tools Network, or run <code>mitmproxy</code>, or capture packets with <code>sudo tcpdump -i any -w claude-leak.pcap</code> while reproducing.</li>
+  <li>Sanitise prompts before sending. Replace real addresses with placeholders using a small client side script, browser extension or clipboard tool. For example replace <code>name@company.com</code> with <code>[EMAIL_REDACTED]</code> before paste.</li>
+  <li>Use temporary email addresses when testing, such as Mailinator or 10 Minute Mail, so any leak does not expose real inboxes. Do not use production or staff emails in prompts.</li>
+  <li>Block outbound network requests to unexpected domains. On macOS or Linux add temporary /etc/hosts entries or use a network firewall to block the domain you observed, or use an enterprise proxy to deny unknown hosts. On Windows use Windows Defender Firewall outbound rules.</li>
+  <li>Turn off or audit browser extensions. Disable extensions that can read page content, such as SEO toolbars, clipboard managers, or injection scripts, then retest.</li>
+  <li>Rotate any exposed credentials. If the leaked string included API keys, account tokens or internal emails, rotate them immediately and revoke sessions as needed.</li>
+</ol>
+
+<h2>Tool specific notes: n8n, Make.com and Zapier</h2>
+
+<p>These platforms often send prompt text to LLMs or store logs. Apply the following platform specific steps.</p>
+
+<h3>n8n</h3>
+
+<p>In n8n, avoid embedding raw personal data into nodes that log or forward it. Use the <code>Code</code> node to perform client side redaction before calls, and the <code>HTTP Request</code> node only after you have replaced or hashed sensitive fields. For example, in a prior node set an expression that replaces emails, then feed the sanitized field into the <code>HTTP Request</code> node. Also check workflow execution logs in the n8n UI to see any stored values.</p>
+
+<p>If you run self hosted n8n, place an egress rule on your server or a reverse proxy to block unexpected outgoing hosts. See our related post on common n8n troubleshooting for guidance about workflow failures.</p>
+
+<p><a href="https://automatenaija.com/blog/n8n-chat-trigger-failed-to-receive-response">Fix n8n chat trigger failed to receive response</a></p>
+
+<h3>Make.com</h3>
+
+<p>In Make.com, sanitize variables in a prior module step before an LLM or HTTP module. Use the parse and replace functions available in text modules to remove email patterns. Review scenario execution history for saved bundles that may include the original text and delete any containing sensitive strings.</p>
+
+<h3>Zapier</h3>
+
+<p>In Zapier, add a Formatter step before any integration that could forward text, using the Formatter by Zapier action to replace or mask emails. Check Task History for tasks that include the original data and delete tasks if needed. Also rotate any connected account keys if you see suspicious calls.</p>
+
+<h2>How to stop it happening again, a verification checklist</h2>
+
+<ul>
+  <li>Audit all prompts, templates and stored messages. Replace real addresses with tokens in source templates and environment variables.</li>
+  <li>Enable strict logging retention and redact logs where possible. If your platform supports automatic redaction, turn it on.</li>
+  <li>Run regular network captures for a short window after deployments or when testing new automations. Use <code>tcpdump</code> or your corporate packet capture and search for email patterns with <code>grep</code> or Wireshark filters like <code>http.request or frame contains "@"</code>.</li>
+  <li>Implement blocking rules for unknown outbound domains at the perimeter, and require allow lists for automation servers.</li>
+  <li>Use organization controls where available. If Claude or your provider offers team or org settings for telemetry or data sharing, disable optional data sharing, and require admins to approve integrations.</li>
+  <li>Train your team and contractors, and add a short SOP so anyone embedding prompts follows the redaction workflow and uses temporary addresses for tests.</li>
+</ul>
+
+<h2>When to get help</h2>
+
+<p>If you see confirmed requests that contain real user or customer emails, or if you can reproducibly show personal data going to third party domains, escalate. Contact the service provider support and include your captures, timestamps and the exact prompt used. If the leak touches customer data or regulatory personal data, involve your security team and consider notification obligations under local law.</p>
+
+<p>If you need help instrumenting network captures or removing sensitive items from logs, seek an experienced developer or security consultant. For immediate community discussion and reports, see the Hacker News threads linked above.</p>
+
+<p>Automations are powerful, but they need simple safety checks. Learn how to build and secure automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How quickly can I tell if Claude Code leaked an email from my prompt?</h3>
+      <p>You can confirm a leak in minutes by using a test email such as test@example.com, opening your browser Developer Tools Network tab or running mitmproxy, submitting the prompt, and watching for outgoing requests that include the test address. Save the capture and timestamp as evidence.</p>
+      <h3>What is the fastest mitigation if my real email was pasted into a prompt?</h3>
+      <p>Stop using the session, sign out, disable any suspicious browser extensions, replace the exposed address with a new one or a token in templates, and use a temporary email for tests. If credentials leaked, rotate them immediately and check access logs for suspicious activity.</p>
+      <h3>Can I block Claude Code from contacting external sites from my network?</h3>
+      <p>Yes, block outbound requests at your gateway or host firewall, add temporary /etc/hosts entries to redirect suspicious hosts, or use a proxy with an allow list. For cloud or managed services, request tighter egress controls from your IT team.</p>
+      <h3>Should I report the issue to the provider and what details will they need?</h3>
+      <p>Report it, include reproduction steps, the exact prompt you used (or a sanitized version), timestamps, and network captures showing the outbound request. If customer data was involved, include scope and affected user counts so the provider can prioritise a response.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
