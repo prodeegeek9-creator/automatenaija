@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N8n API timed out retry, avoid duplicate writes</title>
+<meta name="description" content="n8n API timed out retry guide to decide safe retries, add idempotency keys, locks, webhook ACKs and compensation writes so you can prevent duplicate writes...">
+<link rel="canonical" href="https://automatenaija.com/blog/n8n-api-timed-out-retry">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/n8n-api-timed-out-retry">
+<meta property="og:title" content="N8n API timed out retry, avoid duplicate writes">
+<meta property="og:description" content="n8n API timed out retry guide to decide safe retries, add idempotency keys, locks, webhook ACKs and compensation writes so you can prevent duplicate writes...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-11-09T04:32:34.058269+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="N8n API timed out retry, avoid duplicate writes">
+<meta name="twitter:description" content="n8n API timed out retry guide to decide safe retries, add idempotency keys, locks, webhook ACKs and compensation writes so you can prevent duplicate writes...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"N8n API timed out retry, avoid duplicate writes","description":"n8n API timed out retry guide to decide safe retries, add idempotency keys, locks, webhook ACKs and compensation writes so you can prevent duplicate writes...","datePublished":"2026-11-09T04:32:34.058269+00:00","dateModified":"2026-11-09T04:32:34.058269+00:00","inLanguage":"en-NG","keywords":"n8n api timed out retry, n8n error handling, n8n retry strategy, n8n idempotent writes, n8n duplicate emails","wordCount":1293,"mainEntityOfPage":"https://automatenaija.com/blog/n8n-api-timed-out-retry","url":"https://automatenaija.com/blog/n8n-api-timed-out-retry","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What exactly is an idempotency key and how do I use it in n8n?","acceptedAnswer":{"@type":"Answer","text":"An idempotency key is a unique identifier for a request so the server can tell repeated calls are the same operation. In n8n, create a key with a Code node and send it with the HTTP Request node as a header like Idempotency-Key. If the server supports the header, it will ignore duplicate requests with the same key."}},{"@type":"Question","name":"If my API does not support idempotency headers, what should I do?","acceptedAnswer":{"@type":"Answer","text":"Use a dedupe store you control. Insert a record with the idempotency key into a Postgres table with a unique constraint before making the remote call. If the insert fails because the key exists, skip the call. This prevents retries from creating duplicates even if the API lacks native support."}},{"@type":"Question","name":"How do I stop n8n from retrying automatically after a timeout?","acceptedAnswer":{"@type":"Answer","text":"Edit the failing node and check the node or workflow retry settings, often shown as Retry On Fail. Reduce the retry count and increase backoff, or disable automatic retries for non-idempotent operations. Instead use manual or controlled retry logic with dedupe checks."}},{"@type":"Question","name":"What is a compensating write and when should I use it?","acceptedAnswer":{"@type":"Answer","text":"A compensating write reverses or corrects an unintended action, for example deleting a duplicated order or sending a cancellation email. Use compensating workflows when you cannot avoid duplicates at write time, so you can repair state later without manual spreadsheets."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>N8n API timed out retry, avoid duplicate writes</h1>
+    <p class="lede">Decide whether to retry safely after an n8n API timeout, then apply idempotency keys, locks, webhook acknowledgements or compensating writes to avoid duplicates.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-11-09T04:32:34.058269+00:00">9 November 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p><strong>n8n api timed out retry</strong>: if your HTTP call timed out after a write, first decide whether the remote API write is idempotent. If it is, retry with an idempotency key. If it is not, do not retry blindly, instead use locks, dedupe records, or a compensating workflow to fix duplicates later.</p>
+
+<h2>Why this happens</h2>
+<p>When n8n shows a timeout or network error on an HTTP Request node the execution may have reached the remote service but not received a response in time. n8n can then retry according to node or workflow settings, and that retry may trigger the same write again. The result is duplicate rows, duplicate emails, or repeated API side effects. Community reports show this exact behaviour, including a case where retries re-sent 49 emails after a timeout. See the thread about retries that re-sent emails for real examples.</p>
+
+<h2>n8n api timed out retry: quick decision tree</h2>
+<p>Use this short decision tree before you hit retry or enable automatic retries. It saves time and prevents unsafe retries.</p>
+<ol>
+  <li>Is the remote operation idempotent by API design? If yes, you can usually retry safely with an idempotency key.</li>
+  <li>If no, can you make it idempotent by adding a unique dedupe key or database unique constraint? If yes, add that before retrying.</li>
+  <li>If you cannot make it idempotent, do not retry automatically. Instead acknowledge the trigger and queue a background check or manual review, or use a compensating write to undo duplicates.</li>
+</ol>
+
+<h2>Step by step fix you can apply now</h2>
+<ol>
+  <li>Stop automatic blind retries. Check the node settings on the failing node and disable aggressive retry policies. In n8n, the node option visible on failures is called <code>Retry On Fail</code>. If you depend on retries, keep them minimal.</li>
+  <li>Add an idempotency key where supported. Generate a key in a Code node and send it in a header like <code>Idempotency-Key</code> or in the payload. Many APIs honour that header.</li>
+  <li>Protect writes with a dedupe store. Use a database table with a unique constraint or a Redis key. Before doing the remote write, insert the dedupe key and abort if it already exists.</li>
+  <li>Use webhook acknowledgement when appropriate. In n8n Webhook nodes set <code>Response Mode</code> to <strong>On Received</strong> to reply 200 immediately, then process the write asynchronously to reduce timeouts.</li>
+  <li>For non-idempotent APIs, write a compensating workflow that detects duplicates and reverses or flags the extra write. Record the original request details for later reconciliation.</li>
+</ol>
+
+<h2>n8n patterns and ready to paste node examples</h2>
+<p>Below are patterns you can copy into your n8n workflow. Replace field names and table names with your own.</p>
+
+<h3>1. Generate an idempotency key in a Code node</h3>
+<p>Use a Code node named <code>Make Idempotency Key</code>. This example combines a customer id with a timestamp or a request uuid.</p>
+<pre><code>const uuid = require('uuid').v4 ? require('uuid').v4() : Date.now().toString();
+items[0].json.idempotency_key = `${items[0].json.customerId || 'anon'}-${uuid}`;
+return items;</code></pre>
+<p>Then send that key in your HTTP Request node headers using the expression field, for example:</p>
+<pre><code>Idempotency-Key: {{$json["idempotency_key"]}}</code></pre>
+
+<h3>2. Use a Postgres dedupe table before the API write</h3>
+<p>Create a small table with a unique primary key to prevent duplicates.</p>
+<pre><code>CREATE TABLE processed_requests (
+  idempotency_key text PRIMARY KEY,
+  processed_at timestamptz DEFAULT now()
+);
+
+-- In n8n use the Postgres node with parameterized values
+-- Attempt to insert, only proceed if insert succeeded
+INSERT INTO processed_requests (idempotency_key) VALUES ($1) ON CONFLICT DO NOTHING;</code></pre>
+<p>Check the affected rows returned by the Postgres node. If zero, skip the write, because it was already processed.</p>
+
+<h3>3. Webhook acknowledgement to avoid timeouts</h3>
+<p>If your workflow starts from an incoming webhook, open the Webhook node and set <code>Response Mode</code> to <strong>On Received</strong>. This sends the HTTP 200 quickly and prevents client timeouts. Then continue processing in the workflow or push a job to a queue for slower steps.</p>
+
+<h3>4. Compensating write example</h3>
+<p>If a duplicate gets created, design a small compensating workflow that can find duplicates by matching on dedupe keys or timestamps, then call the remote API to reverse the change, or mark the duplicate in your database for manual review.</p>
+
+<h2>Tool specific notes: n8n, Make.com and Zapier</h2>
+<p>n8n specific tips: the HTTP Request node is where you add headers like <code>Idempotency-Key</code>. Use the Code node to create keys. If a node shows <code>Retry On Fail</code> toggled, verify the retry count and backoff under Workflow Settings if you use built in retry behaviour. For webhook triggers use <code>Response Mode</code> set to <strong>On Received</strong>.</p>
+<p>Make.com scenarios and Zapier Zaps also need idempotency patterns. Make.com calls steps modules and can add custom headers. Zapier supports unique keys too, but if a step times out, most safe practice is the same: make the downstream operation idempotent or record a dedupe key in your own store.</p>
+
+<h2>How to stop this happening again</h2>
+<ul>
+  <li>Add idempotency keys to every write. Prefer the API documented header if available, otherwise add a body field the remote system can use.</li>
+  <li>Use database unique constraints or a Redis lock to enforce single processing. A constraint is reliable and cheap.</li>
+  <li>Reply quickly to webhooks. Move slow operations into background jobs. This reduces the number of timed out executions.</li>
+  <li>Monitor for duplicate emails or writes with a simple daily job that queries recent records and reports anomalies. The n8n forum shows how painful duplicate emails can be when retries run wild.</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>If you cannot change the API server to accept idempotency keys, or if the system already has many duplicated writes, ask for help. Post a minimal reproducible example on the n8n community, including the HTTP Request node setup, your Code node script, and the failure logs. The thread asking how to decide whether to retry is a good starting point for discussion and will help experienced builders see your case fast.</p>
+
+<p>For more on recovering from retry problems and restarting only failed nodes, see our guide on <a href="https://automatenaija.com/blog/retry-from-the-failed-node-n8n">retrying from the failed node</a>.</p>
+
+<p>Following these patterns will let you adopt a safe n8n retry strategy, reduce n8n error handling pain, and eliminate most n8n duplicate emails and duplicate writes in production.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+<p>References: community reports where retries caused duplicate emails and where timeouts left users unsure whether to retry, see the n8n forum threads <a href="https://community.n8n.io/t/retry-re-sent-49-emails-that-had-already-gone-out-and-node-retry-on-fail-marked-it-as-success/327579" target="_blank" rel="noopener noreferrer">Retry re-sent 49 emails</a> and <a href="https://community.n8n.io/t/the-api-timed-out-after-a-write-how-do-you-decide-whether-to-retry/327482" target="_blank" rel="noopener noreferrer">The API timed out after a write</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What exactly is an idempotency key and how do I use it in n8n?</h3>
+      <p>An idempotency key is a unique identifier for a request so the server can tell repeated calls are the same operation. In n8n, create a key with a Code node and send it with the HTTP Request node as a header like Idempotency-Key. If the server supports the header, it will ignore duplicate requests with the same key.</p>
+      <h3>If my API does not support idempotency headers, what should I do?</h3>
+      <p>Use a dedupe store you control. Insert a record with the idempotency key into a Postgres table with a unique constraint before making the remote call. If the insert fails because the key exists, skip the call. This prevents retries from creating duplicates even if the API lacks native support.</p>
+      <h3>How do I stop n8n from retrying automatically after a timeout?</h3>
+      <p>Edit the failing node and check the node or workflow retry settings, often shown as Retry On Fail. Reduce the retry count and increase backoff, or disable automatic retries for non-idempotent operations. Instead use manual or controlled retry logic with dedupe checks.</p>
+      <h3>What is a compensating write and when should I use it?</h3>
+      <p>A compensating write reverses or corrects an unintended action, for example deleting a duplicated order or sending a cancellation email. Use compensating workflows when you cannot avoid duplicates at write time, so you can repair state later without manual spreadsheets.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
