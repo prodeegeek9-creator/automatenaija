@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>N8n error handling workflow pattern</title>
+<meta name="description" content="n8n error handling workflow recipe to add idempotency keys, dedupe store, retries and dead-lettering so you can prevent duplicate sends and silent crashes...">
+<link rel="canonical" href="https://automatenaija.com/blog/n8n-error-handling-workflow">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/n8n-error-handling-workflow">
+<meta property="og:title" content="N8n error handling workflow pattern">
+<meta property="og:description" content="n8n error handling workflow recipe to add idempotency keys, dedupe store, retries and dead-lettering so you can prevent duplicate sends and silent crashes...">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-11-10T04:32:39.456286+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="N8n error handling workflow pattern">
+<meta name="twitter:description" content="n8n error handling workflow recipe to add idempotency keys, dedupe store, retries and dead-lettering so you can prevent duplicate sends and silent crashes...">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"N8n error handling workflow pattern","description":"n8n error handling workflow recipe to add idempotency keys, dedupe store, retries and dead-lettering so you can prevent duplicate sends and silent crashes...","datePublished":"2026-11-10T04:32:39.456286+00:00","dateModified":"2026-11-10T04:32:39.456286+00:00","inLanguage":"en-NG","keywords":"n8n error handling workflow, n8n workflow failures, n8n retry handling, n8n prevent duplicate runs, n8n failed workflow best practices","wordCount":1222,"mainEntityOfPage":"https://automatenaija.com/blog/n8n-error-handling-workflow","url":"https://automatenaija.com/blog/n8n-error-handling-workflow","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I stop n8n from sending duplicate emails after a retry?","acceptedAnswer":{"@type":"Answer","text":"Generate a deterministic idempotency key at the start of the workflow, write that key to a dedupe store with a unique index, and gate the email send behind a successful insert. If the insert finds a duplicate, skip the send. Also use node-level retries and route exhausted attempts to a dead-letter workflow for inspection."}},{"@type":"Question","name":"Should I use Postgres or Redis for deduplication?","acceptedAnswer":{"@type":"Answer","text":"Use Postgres if you already have it, because a unique constraint and ON CONFLICT DO NOTHING is simple and reliable. Use Redis if you need very low latency and have an easy way to call Redis from n8n, for example via a Redis bridge or custom node. Both work if you implement a strict uniqueness check."}},{"@type":"Question","name":"What node settings control retries in n8n?","acceptedAnswer":{"@type":"Answer","text":"Look in the node settings panel for retry or retry on fail options in your n8n version. If those are not available, implement retries with a loop in a Code node combined with a Wait node, or use a controlled wrapper that attempts the HTTP Request a fixed number of times before failing and sending to the DLQ."}},{"@type":"Question","name":"When should I route a failed run to a dead-letter workflow?","acceptedAnswer":{"@type":"Answer","text":"Route to a dead-letter workflow after your configured number of retries is exhausted, or after detecting an unrecoverable error like authentication failure. The DLQ should record the payload, idempotency key and error, notify the team, and allow safe manual replay without risk of duplicates."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>N8n error handling workflow pattern</h1>
+    <p class="lede">A compact, production-ready n8n error handling workflow that combines idempotency keys, a small Postgres/Redis dedupe store, node retries and a dead-letter sub-workflow.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-11-10T04:32:39.456286+00:00">10 November 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>Build a production-safe n8n error handling workflow by generating an idempotency key early, writing it to a dedupe store with a unique constraint, using node-level retry settings and routing exhausted attempts to a dead-letter sub-workflow so failures do not cause duplicate sends or silent crashes.</p>
+
+<h2>Why this keeps happening</h2>
+<p>n8n workflow failures commonly happen when external APIs time out, a node is retried blindly, or parallel branches race to perform the same side effect. If the workflow has no idempotency check, retries or invisible crashes lead to duplicate emails, duplicate writes or lost alerts. Forum threads show users seeing retries re-send emails, or multiple parallel sub-workflows crashing without recorded errors, which is why a defensive pattern is needed.</p>
+
+<h2>Step by step fix</h2>
+<ol>
+  <li>
+    <strong>Create a stable idempotency key.</strong> Use a Code node to build a deterministic key from the incoming webhook or payload, for example customer id plus event type plus the provider id. Example Code node output:
+    <pre><code>const p = items[0].json;
+const key = `${p.customerId || p.id}_${p.event || p.type}`;
+return [{ json: { idempotencyKey: key, payload: p } }];</code></pre>
+  </li>
+  <li>
+    <strong>Write to a dedupe store with a uniqueness constraint.</strong> Use a lightweight Postgres table or Redis with a SETNX style lock. For Postgres, create a table with unique index on <code>idempotency_key</code>. Example SQL to run once in your DB:
+    <pre><code>CREATE TABLE dedupe (
+  id SERIAL PRIMARY KEY,
+  idempotency_key TEXT UNIQUE,
+  payload JSONB,
+  created_at TIMESTAMP DEFAULT now()
+);</code></pre>
+    Then use the Postgres node to run this parameterized insert, with conflict handling:
+    <pre><code>INSERT INTO dedupe (idempotency_key, payload)
+VALUES ($1, $2)
+ON CONFLICT (idempotency_key) DO NOTHING
+RETURNING id;</code></pre>
+    If a row is returned the run is first time, otherwise treat it as duplicate and stop further side-effect nodes.
+  </li>
+  <li>
+    <strong>Set node-level retry handling.</strong> Configure node retry attempts and delay in the node settings panel, and avoid global blind retries. When a node calls an external API, set a modest retry count and a backoff delay. If your plan or version lacks per-node retry UI, wrap the call in a small loop in a Code node or use a Wait node between attempts. Do not mark intermittent network errors as success with the <code>Continue On Fail</code> toggle without recording the failure.
+  </li>
+  <li>
+    <strong>Move exhaustion to a dead-letter workflow.</strong> Add an <code>Execute Workflow</code> node to call a dedicated DLQ workflow when attempts exceed threshold. Pass the original payload, <code>idempotencyKey</code>, and error text. The DLQ workflow can notify a Slack channel, create a ticket, and store the failed payload for manual replay.
+  </li>
+  <li>
+    <strong>Log and alert.</strong> Record attempt counts and error messages in a monitoring log table or external tool. Send alerts only from the DLQ path so you are not flooded by transient failures. Include the idempotency key in every log line for fast lookup.</li>
+</ol>
+
+<h2>n8n error handling workflow: practical example</h2>
+<p>Below is a concise n8n pattern you can copy into your workflow. Nodes, in order: Webhook trigger, Code (build key), Postgres (dedupe insert), IF (check insert returned id), HTTP Request (external send), Execute Workflow (dead-letter). Use the Postgres node to detect duplicates and stop the flow early.</p>
+
+<p>Code node snippet to build key (already shown) should produce <code>idempotencyKey</code>. Postgres insert uses that key as the $1 parameter and the payload as $2. Then use an IF node that checks whether Postgres returned a row. If true continue to the HTTP Request node, if false end the run with a short log message.</p>
+
+<p>When the HTTP Request node returns an error, the node-level retry settings should fire. After all retries fail, connect the error path to the <code>Execute Workflow</code> node to push the run to your DLQ workflow where you can inspect and reprocess safely without risk of duplicates.</p>
+
+<h2>Tool-specific notes</h2>
+<ul>
+  <li><strong>Postgres vs Redis</strong>, Postgres is simplest if you already use SQL. Use a unique index and <code>ON CONFLICT DO NOTHING</code>. Redis with SETNX is lighter, but you will need a Redis client or Webdis bridge since n8n lacks a built-in Redis set node in some versions.</li>
+  <li><strong>Make.com</strong>, create a deterministic webhook id and write it to a global datastore module or a database with unique constraint. Use the router and flow control to stop duplicate paths. Scenarios allow iterator and error handlers you can reuse similarly.</li>
+  <li><strong>Zapier</strong>, store a unique key in Storage by Zapier or your database and bail out when the key exists. Zapier has built-in deduplication for many triggers but persistent store is required for cross-Zap idempotency.</li>
+</ul>
+
+<h2>How to stop it happening again</h2>
+<p>Adopt idempotent external calls, add a DB-level uniqueness check so duplicates cannot be written even if workflow logic fails, and centralize retry policy. Avoid relying on opaque cloud retries alone. Test failure modes by simulating API timeouts and by forcing duplicate webhook deliveries. See real reports of retries re-sending emails on the forum so you know this is not hypothetical, for example this thread about retries re-sending messages and this general discussion of how others handle n8n workflow failures.</p>
+
+<h2>When to get help</h2>
+<p>If you see silent crashes with no node error logs, or retries marked as success incorrectly, open a support ticket with n8n Cloud, and capture a failing execution JSON for debugging. If you want hands-on help to implement this pattern in your stack, read our Automate Naija playbook on retrying from failed nodes and preventing duplicates, or contact a freelancer who can add Postgres/Redis dedupe and a DLQ workflow for you.</p>
+
+<p>Put this pattern into a template: Code node for idempotency key, Postgres dedupe insert, IF node to gate side effects, node retry settings, and Execute Workflow for dead-lettering. That combination covers n8n retry handling and prevents duplicate runs while giving you a safe path for manual fixes.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+<p>Related reading: <a href="https://community.n8n.io/t/retry-re-sent-49-emails-that-had-already-gone-out-and-node-retry-on-fail-marked-it-as-success/327579" target="_blank" rel="noopener noreferrer">forum report of retries re-sending emails</a>, and <a href="https://community.n8n.io/t/learning-n8n-how-do-you-handle-workflow-failures/327698" target="_blank" rel="noopener noreferrer">community discussion on handling workflow failures</a>. Also see our guide on <a href="https://automatenaija.com/blog/retry-from-the-failed-node-n8n">retrying from the failed node</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>How do I stop n8n from sending duplicate emails after a retry?</h3>
+      <p>Generate a deterministic idempotency key at the start of the workflow, write that key to a dedupe store with a unique index, and gate the email send behind a successful insert. If the insert finds a duplicate, skip the send. Also use node-level retries and route exhausted attempts to a dead-letter workflow for inspection.</p>
+      <h3>Should I use Postgres or Redis for deduplication?</h3>
+      <p>Use Postgres if you already have it, because a unique constraint and ON CONFLICT DO NOTHING is simple and reliable. Use Redis if you need very low latency and have an easy way to call Redis from n8n, for example via a Redis bridge or custom node. Both work if you implement a strict uniqueness check.</p>
+      <h3>What node settings control retries in n8n?</h3>
+      <p>Look in the node settings panel for retry or retry on fail options in your n8n version. If those are not available, implement retries with a loop in a Code node combined with a Wait node, or use a controlled wrapper that attempts the HTTP Request a fixed number of times before failing and sending to the DLQ.</p>
+      <h3>When should I route a failed run to a dead-letter workflow?</h3>
+      <p>Route to a dead-letter workflow after your configured number of retries is exhausted, or after detecting an unrecoverable error like authentication failure. The DLQ should record the payload, idempotency key and error, notify the team, and allow safe manual replay without risk of duplicates.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
