@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatGPT Not Following Instructions: Debug Playbook</title>
+<meta name="description" content="Fix ChatGPT not following instructions with a short debugging playbook: prompt fixes, account checks, cache tricks, and n8n, Make.com, Zapier notes.">
+<link rel="canonical" href="https://automatenaija.com/blog/chatgpt-not-following-instructions">
+
+<!-- Brand icons -->
+<link rel="icon" href="../favicon.ico" sizes="32x32">
+<link rel="icon" href="../assets/brand/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="theme-color" content="#0A0D0B">
+<meta name="color-scheme" content="dark light">
+
+<!-- Link preview: WhatsApp, Facebook, LinkedIn, Slack -->
+<meta property="og:site_name" content="Automate Naija">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://automatenaija.com/blog/chatgpt-not-following-instructions">
+<meta property="og:title" content="ChatGPT Not Following Instructions: Debug Playbook">
+<meta property="og:description" content="Fix ChatGPT not following instructions with a short debugging playbook: prompt fixes, account checks, cache tricks, and n8n, Make.com, Zapier notes.">
+<meta property="og:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:secure_url" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+<meta property="og:locale" content="en_NG">
+<meta property="article:published_time" content="2026-11-18T04:32:34.579086+00:00">
+
+<!-- Link preview: X -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ChatGPT Not Following Instructions: Debug Playbook">
+<meta name="twitter:description" content="Fix ChatGPT not following instructions with a short debugging playbook: prompt fixes, account checks, cache tricks, and n8n, Make.com, Zapier notes.">
+<meta name="twitter:image" content="https://automatenaija.com/assets/brand/og-image.png">
+<meta name="twitter:image:alt" content="Automate Naija - build powerful workflows, learn new skills and grow together">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<script>document.documentElement.className+=' js';</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","headline":"ChatGPT Not Following Instructions: Debug Playbook","description":"Fix ChatGPT not following instructions with a short debugging playbook: prompt fixes, account checks, cache tricks, and n8n, Make.com, Zapier notes.","datePublished":"2026-11-18T04:32:34.579086+00:00","dateModified":"2026-11-18T04:32:34.579086+00:00","inLanguage":"en-NG","keywords":"chatgpt not following instructions, chatgpt ignores instructions, gpt 6 not following instructions, chatgpt instruction limitations, chatgpt response quality regression","wordCount":1179,"mainEntityOfPage":"https://automatenaija.com/blog/chatgpt-not-following-instructions","url":"https://automatenaija.com/blog/chatgpt-not-following-instructions","image":"https://automatenaija.com/assets/brand/og-image.png","author":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com"},"publisher":{"@type":"Organization","name":"Automate Naija","url":"https://automatenaija.com","logo":{"@type":"ImageObject","url":"https://automatenaija.com/assets/brand/logo-mark.svg"}}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does ChatGPT suddenly ignore rules I set in the prompt?","acceptedAnswer":{"@type":"Answer","text":"The model may be treating your text as conversational context rather than an enforceable instruction, or there may be account or caching differences. Test by placing the same text as a system or developer message and by regenerating the response. If behavior differs across accounts, check usage limits and file a reproducible test with support."}},{"@type":"Question","name":"How do I test whether it is a prompt issue or a model bug?","acceptedAnswer":{"@type":"Answer","text":"Create a minimal reproducible prompt and send it in three roles: system, developer, and user. If only one role succeeds, it points to how the prompt is interpreted. If the same payload gives different answers after regenerating, or across accounts, suspect caching or a model-side regression and capture logs for support."}},{"@type":"Question","name":"What quick steps should I try inside n8n or Zapier when ChatGPT ignores instructions?","acceptedAnswer":{"@type":"Answer","text":"Run a single-step test using the HTTP Request node in n8n or a Webhooks action in Zapier to send the exact JSON. Use the n8n Code node to avoid accidental template interpolation. Compare raw responses, and retry with model fallback or regenerate before changing workflow logic."}},{"@type":"Question","name":"When should I open an OpenAI support ticket?","acceptedAnswer":{"@type":"Answer","text":"Open a ticket when you have a minimal reproducible payload that fails consistently, or when behavior differs between accounts or models. Include the full request JSON, response headers, timestamps and any request ids. Link to community reports if relevant, and explain what role placement and regeneration tests you already tried."}}]}]}</script>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a href="../index.html" class="brand" aria-label="Automate Naija">
+      <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+      <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="../index.html#ecosystem">Learn</a>
+      <a href="../index.html#arena">Build</a>
+      <a href="../index.html#community">Community</a>
+      <a href="../index.html#opportunities">Opportunities</a>
+      <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+      <a href="../blog/index.html" class="active">Blog</a>
+      <a href="../about.html">About</a>
+    </nav>
+
+    <div class="nav-act">
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-ghost">Log in</a>
+      <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-solid"><span class="join-long">Login/SignUp</span><span class="join-short">Login</span></a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="i" style="width:24px;height:24px"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="../index.html#ecosystem">Learn</a>
+    <a href="../index.html#arena">Build</a>
+    <a href="../index.html#community">Community</a>
+    <a href="../index.html#opportunities">Opportunities</a>
+    <a href="https://app.automatenaija.com/n8n">Hosted n8n</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../about.html">About</a>
+    <a href="../careers.html">Careers</a>
+    <a href="../contact.html">Contact</a>
+    <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line">Log in</a>
+  </div>
+
+</header>
+
+<!-- Outside <header> on purpose: the header has a backdrop-filter, which would
+     make position:fixed resolve against the header instead of the viewport and
+     park this button on top of the mobile menu button. -->
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☼</span></button>
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="crumbs"><a href="../index.html">Home</a> / <a href="index.html">Blog</a> / Fix</p>
+    <span class="eyebrow">Fix</span>
+    <h1>ChatGPT Not Following Instructions: Debug Playbook</h1>
+    <p class="lede">A short, practical playbook to restore ChatGPT output quality using prompt tweaks, account and cache checks, and tool-specific fixes for n8n, Make.com and Zapier.</p>
+    <div class="post-meta">
+      <span>By the Automate Naija team</span><span>&middot;</span><span><time datetime="2026-11-18T04:32:34.579086+00:00">18 November 2026</time></span><span>&middot;</span><span>6 min read</span>
+    </div>
+  </div>
+</div>
+
+<section style="padding-top:10px;">
+  <div class="wrap">
+    <article class="prose rv">
+
+<p>If you see chatgpt not following instructions, this compact playbook gets you from symptom to root cause fast: verify system and developer messages, try the same instruction placed in different message roles, check account and shared limits, clear conversation cache or regenerate, and fall back to another model to restore quality.</p>
+
+<h2>Why chatgpt not following instructions happens</h2>
+<p>There are three practical classes of cause: prompt role and wording, account or rate/usage differences, and caching or regeneration bugs. Prompt role problems occur when instructions are placed where the model treats them as context rather than binding rules. Account issues manifest as inconsistent behavior between users on the same model. Finally, prompt caching or regeneration bugs can produce lower quality or contradictory outputs even when your prompt is correct.</p>
+
+<h2>Step by step fix</h2>
+<ol>
+  <li><strong>Reproduce with a minimal test</strong>. Create a tiny, explicit test that isolates the instruction. For example use a short system role and one user request. This removes long context as a variable.</li>
+  <li><strong>Swap message roles</strong>. Send the same instruction as a <code>system</code> message, then as a <code>developer</code> message, then in the user prompt. The difference often shows whether the model respects the role binding.</li>
+  <li><strong>Use a tiny, deterministic prompt</strong>. Example test you can paste into an API call or ChatGPT dev UI:</li>
+</ol>
+<pre><code>System: You are a concise assistant. Always answer in two sentences only.
+User: Say hello and explain your role in one sentence.
+</code></pre>
+<ol>
+  <li><strong>Regenerate and clear cache</strong>. Click Regenerate response, or duplicate the conversation and send again. If available, start a new conversation or clear chat history. Some users report different results after these steps.</li>
+  <li><strong>Try a model fallback</strong>. If GPT-6 behaves poorly, test GPT-4 or another model. If the fallback follows the same steps correctly, the problem is model-specific.</li>
+  <li><strong>Compare across accounts</strong>. If the problem is reproducible for some accounts but not others, check usage and team limits, and compare the exact API request payloads. Differences in account-level features or shared usage limits can explain behavior variation.</li>
+  <li><strong>Capture a minimal reproducible payload</strong>. Save the request and full response headers. If you need to file a bug report, this payload is what support will ask for.</li>
+</ol>
+
+<h2>Quick tests and what they tell you</h2>
+<ul>
+  <li>If the instruction works as a <code>developer</code> message but not as the <code>instructions</code> field, suspect prompt caching or a bug with how that field is handled. The OpenAI thread about cached tokens points this out. See this <a href="https://community.openai.com/t/gpt-6-2-sol-text-in-instructions-is-never-prompt-cached-cached-tokens-and-cache-write-tokens-stay-0-while-the-same-text-as-a-developer-message-caches-fine/1417570" target="_blank" rel="noopener noreferrer">prompt caching report</a>.</li>
+  <li>If different accounts see different quality, it may be a model rollout, throttling or a shared usage cap. Reports of gpt 6 not following instructions and response quality regression have been posted by multiple users; compare account-level settings and quotas.</li>
+  <li>If regenerating fixes it, the issue is likely transient or cache-related rather than your prompt wording.</li>
+</ul>
+
+<h2>Tool specific notes: n8n, Make.com and Zapier</h2>
+<p>Automations introduce additional layers where instructions can break. Check these common points.</p>
+
+<h3>n8n</h3>
+<ul>
+  <li>Use the <code>HTTP Request</code> node to send a controlled API test payload. That isolates n8n workflow variations like credential reuse or variable interpolation.</li>
+  <li>If you use JavaScript in the workflow, use the <code>Code</code> node to construct the exact JSON payload. Avoid templated fields that accidentally strip or escape quotes.</li>
+  <li>When a response changes mid-run, retry from the failed node after clearing workflow state. See Automate Naija guides on retry patterns for safe retries.</li>
+</ul>
+
+<h3>Make.com (scenarios)</h3>
+<ul>
+  <li>Use a single module to run the test payload and log the full request and response. That helps you see if Make.com is altering headers or the body.</li>
+  <li>Temporarily disable other modules in the scenario to remove side effects like data enrichment or character encoding changes.</li>
+</ul>
+
+<h3>Zapier</h3>
+<ul>
+  <li>Build a minimal Zap with a Webhooks by Zapier action, send the exact JSON and inspect the raw response. Zapier step transformations sometimes change types or truncate long fields.</li>
+  <li>Use separate test Zaps per model and compare outputs. If only one Zap or account shows regression, it is likely account or integration related.</li>
+</ul>
+
+<h2>How to stop it happening again</h2>
+<p>Reduce surface area and add observability so you can find regressions early.</p>
+<ul>
+  <li>Lock critical constraints into explicit system or developer messages rather than buried user text. System and developer messages are intended to be stronger signals than a later user message.</li>
+  <li>Version your prompts. Keep a canonical test in source control or a shared document, and run it after changes or when you notice drift.</li>
+  <li>Log full request and response payloads with timestamps and model identifier. Include model name, temperature and max tokens fields so differences are visible.</li>
+  <li>Automate regeneration checks. If a single response fails, have a lightweight watchdog job repeat the request once or twice before escalating. This reduces false positives from transient network or cache issues.</li>
+  <li>Track account usage and shared usage limits. If your team hits a quota, behavior can change. See our team playbook on shared usage limits for immediate steps to reduce impact.</li>
+</ul>
+
+<h2>When to get help</h2>
+<p>If you have a minimal reproducible test that fails consistently and the same payload behaves differently across accounts or model versions, escalate. Capture the exact JSON, response headers and timestamps, then open a support ticket with OpenAI and attach your test. Link to community reports such as the OpenAI thread reporting <a href="https://community.openai.com/t/chatgpt-6-not-following-instructions-nor-limitations/1417437" target="_blank" rel="noopener noreferrer">GPT-6 ignoring instructions</a> and the caching report linked above. Support will want the request id or logs to trace model-side behavior.</p>
+
+<p>Immediate mitigations you can do while waiting for help: use a model fallback, duplicate the conversation and resend, or move critical constraints into a developer message. These often restore expected behavior in minutes.</p>
+
+<p>Learn to build automations like this with <a href="https://automatenaija.com">Automate Naija</a>.</p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Why does ChatGPT suddenly ignore rules I set in the prompt?</h3>
+      <p>The model may be treating your text as conversational context rather than an enforceable instruction, or there may be account or caching differences. Test by placing the same text as a system or developer message and by regenerating the response. If behavior differs across accounts, check usage limits and file a reproducible test with support.</p>
+      <h3>How do I test whether it is a prompt issue or a model bug?</h3>
+      <p>Create a minimal reproducible prompt and send it in three roles: system, developer, and user. If only one role succeeds, it points to how the prompt is interpreted. If the same payload gives different answers after regenerating, or across accounts, suspect caching or a model-side regression and capture logs for support.</p>
+      <h3>What quick steps should I try inside n8n or Zapier when ChatGPT ignores instructions?</h3>
+      <p>Run a single-step test using the HTTP Request node in n8n or a Webhooks action in Zapier to send the exact JSON. Use the n8n Code node to avoid accidental template interpolation. Compare raw responses, and retry with model fallback or regenerate before changing workflow logic.</p>
+      <h3>When should I open an OpenAI support ticket?</h3>
+      <p>Open a ticket when you have a minimal reproducible payload that fails consistently, or when behavior differs between accounts or models. Include the full request JSON, response headers, timestamps and any request ids. Link to community reports if relevant, and explain what role placement and regeneration tests you already tried.</p>
+
+      <hr>
+      <p><strong>Build it with us.</strong> The community is free and the build track teaches this kind of automation week by week: <a href="../index.html#pricing">see pricing</a> or <a href="../index.html#community">join the community</a>.</p>
+    </article>
+
+    <div class="band rv" style="margin-top:40px;">
+      <h2>Keep reading</h2>
+      <p>A new fix lands here every morning, picked from what builders are stuck on right now.</p>
+      <div class="hero-actions">
+        <a href="index.html" class="btn btn-solid btn-lg">All posts</a>
+        <a href="https://app.automatenaija.com/login" data-link="app" class="btn btn-line btn-lg">Start building</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <a href="../index.html" class="brand" aria-label="Automate Naija" style="margin-bottom:6px;">
+          <img class="mark" src="../assets/brand/logo-mark.svg" alt="" width="64" height="64" decoding="async">
+          <span class="brand-name" aria-hidden="true">utomate<span class="brand-name-accent">Naija</span></span>
+        </a>
+        <p>Building the infrastructure that connects Nigerian automation builders with skills and impact.</p>
+      </div>
+      <details class="fgroup"><summary><h5>Platform</h5></summary><div class="fcol"><a href="../index.html#ecosystem">Learn</a><a href="../index.html#arena">Build</a><a href="../index.html#community">Community</a><a href="../index.html#opportunities">Opportunities</a><a href="../index.html#pricing">Pricing</a></div></details>
+      <details class="fgroup"><summary><h5>Resources</h5></summary><div class="fcol"><a href="https://app.automatenaija.com/n8n">Hosted n8n</a><a href="../blog/index.html">Blog</a><a href="../index.html#faq">FAQ</a><a href="../index.html#tutors">Meet the tutors</a><a href="https://app.automatenaija.com/login" data-link="app">Log in to the app</a></div></details>
+      <details class="fgroup"><summary><h5>Company</h5></summary><div class="fcol"><a href="../about.html">About us</a><a href="../careers.html">Careers</a><a href="../partners.html">Partner with us</a><a href="../contact.html">Contact</a></div></details>
+      <div class="fnews">
+        <h5>Stay in the loop</h5>
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:12px;line-height:1.5;">Get the latest challenges, resources and opportunities delivered to your inbox.</p>
+        <form class="signup">
+          <input type="email" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit" aria-label="Subscribe"><i data-lucide="arrow-right" style="width:16px;height:16px"></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>&copy; <span data-year>2026</span> Automate Naija. All rights reserved. &middot; <a href="../privacy.html">Privacy</a> &middot; <a href="../terms.html">Terms</a></span>
+      <span class="fsocial">
+        <a href="#" data-social="twitter" aria-label="X (Twitter)"><i data-lucide="twitter" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="linkedin" aria-label="LinkedIn"><i data-lucide="linkedin" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="youtube" aria-label="YouTube"><i data-lucide="youtube" style="width:16px;height:16px"></i></a>
+        <a href="#" data-social="instagram" aria-label="Instagram"><i data-lucide="instagram" style="width:16px;height:16px"></i></a>
+      </span>
+      <span class="mono">Built in Naija. For the world. &#127475;&#127468;</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"
+        onerror="var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js';s.onload=function(){if(window.anDrawIcons)anDrawIcons();};document.head.appendChild(s);"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
