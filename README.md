@@ -17,6 +17,7 @@ assets/site.css            shared shell styles for every page except index.html
 assets/site.js             shared links config + theme toggle, mobile menu, reveal
 assets/live.js             the homepage's live builds, showcase, leaderboard, quiz and squads
 assets/june.js             June, the Q&A bot: answers and behaviour, shared by both homepage templates
+scripts/sync-june-kb.mjs   copies June's answers from the app into assets/june.js
 assets/canvas.css          the Canvas template's styles
 assets/canvas.js           the Canvas template's live data, workflow wires, level picker and background
 assets/canvas-icons.js     the Lucide icons the Canvas template uses, without the whole library
@@ -84,7 +85,7 @@ builds and hides the execution log and the credential card.
 What each template writes in its own markup, so a change goes in both: the
 pricing (Learn, the Automate levels and first-100 prices, hosted n8n), the FAQ,
 and the tutors (names, roles, photos, links). June's answers live once, in
-`assets/june.js`.
+`assets/june.js` (see **June** below).
 
 **Going back to Classic:** rename `index.html` to `canvas.html` and `classic.html`
 to `index.html`; in the new `index.html` remove the `noindex` meta and point its
@@ -93,6 +94,30 @@ to `index.html`; in the new `index.html` remove the `noindex` meta and point its
 
 The Canvas theme opens in light for a first visit (`data-default-theme="light"`
 on its `<html>`); a visitor's saved choice from either template wins.
+
+## June
+
+June on this site gives the same built-in answers as the June inside the app
+(prices, plans, builds, credentials, squads, and AI automation basics such as
+webhooks, APIs, 401 errors and agents). The app's
+`src/lib/juneKb.js` (in `automate-naija-app`) is the source of truth; the block
+between the `JUNE_KB` markers in `assets/june.js` is a generated copy. Never
+edit that block by hand. After an answer changes in the app, run this from this
+repo's root with the app checked out beside it, then commit `assets/june.js`:
+
+```bash
+node scripts/sync-june-kb.mjs ../automate-naija-app/src/lib/juneKb.js
+```
+
+The script puts two visitor-only answers first (signing up, and the WhatsApp
+community), which are kept in the script itself. App pages named in an answer,
+like `/challenges`, link to `https://app.automatenaija.com/challenges`.
+
+Matching is the app's: a short question mostly about one answer gets it; a
+looser match is offered as "the closest answer I have"; anything else gets a
+list of topics and a pointer to sign up and ask June inside the app, which can
+answer anything with AI. There is no AI on this site, because the app's AI
+June needs a signed-in member.
 
 ## Adding a blog post
 

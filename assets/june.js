@@ -1,89 +1,932 @@
 /* =========================================================================
    June, the Automate Naija Q&A bot. Shared by every homepage template
-   (index.html, canvas.html): each page carries June's markup (#juneLauncher,
+   (index.html, classic.html): each page carries June's markup (#juneLauncher,
    #junePanel, #juneBody, #juneSuggest, #juneForm, #juneInput, #juneClose)
-   and its own styles; this file is the knowledge and the behaviour, so a
-   price or an answer changes in one place.
+   and its own styles; this file is the knowledge and the behaviour.
    ========================================================================= */
-/* Answers are matched locally against JUNE_KB below. To hook June up to a
-   real AI model later, replace the body of getJuneAnswer() with a call to
-   your API (e.g. fetch a backend endpoint), keeping the same signature:
-   it receives the raw user text and must return the reply string. ---- */
-(function(){
-  var JUNE_KB = [
-    { k: ['hi','hello','hey','good morning','good afternoon','good evening','yo'],
-      a: "Hey, I'm June 👋 I can answer questions about Automate Naija: pricing, the Learn and Automate tracks, the community, challenges, credentials and opportunities. What do you want to know?" },
-    { k: ['what is automate naija','about automate naija','what do you do','what is this','who are you','your name','what are you'],
-      a: "Automate Naija is a hub for AI & automation builders in Nigeria. It's where you learn practical automation skills, build real projects in the Automation Arena, collaborate with other builders, and build a portfolio that proves what you can do." },
-    { k: ['price','pricing','cost','how much','fee','fees'],
-      a: "Pricing is simple:\n• Beginner builds: free for every member, with a step-by-step guide on each\n• Learn: ₦10,000, paid once, and the course is yours to keep\n• Intermediate and Expert builds: ₦8,000 and ₦10,000 for a 60-day plan, with a limited-time discount for the first 100 subscribers (normally ₦12,000 and ₦20,000)\n• Optional hosted n8n instance: ₦3,000/month\nThe community itself is completely free to join." },
-    { k: ['free','community free','is it free','cost to join'],
-      a: "Yes, you can start for free. The community and every Beginner build are free, and you earn stacks, credentials and a place on the leaderboard. You only pay for the Learn course (a one-time ₦10,000) or the Intermediate and Expert builds. Cash bonuses and the weekly Top Builder prize are for plan members." },
-    { k: ['learn','learn track','learn program','course','syllabus','curriculum','when does learn','no experience','no code','never coded','new to this'],
-      a: "Learn AI Automation is open now: 13 weeks for complete beginners, covering Zapier, Make and n8n one tool at a time, then APIs, payments, AI and building for clients, ending in a capstone for a real business. Every class has notes, resources and a practice task, plus live classes with your cohort. It's ₦10,000, paid once, and it's yours to keep. Sign up and open Learn in the app to see the full outline before you pay." },
-    { k: ['automate track','automate program','6-week','6 week','already know'],
-      a: "The Automate track is a 6-week build cycle with three levels: Beginner (free), Intermediate and Expert. You get Automation Arena challenges, a portfolio, verified credentials, a squad to build with, and a place on the weekly leaderboard. Right now the first 100 subscribers get Intermediate at ₦8,000 and Expert at ₦10,000." },
-    { k: ['discount','promo','offer','first 100','limited time','deal','cheaper','level','levels','tier','beginner','intermediate','expert'],
-      a: "There's a limited-time discount open for the first 100 subscribers on the paid Automate levels:\n• Intermediate: ₦12,000 → ₦8,000\n• Expert: ₦20,000 → ₦10,000\nBeginner is free for everyone. Once the 100 spots are gone, the paid levels go back to normal prices." },
-    { k: ['coding experience','need to code','need coding','experience','complete beginner','from scratch','starting out'],
-      a: "No coding experience needed. The Automate track has a free Beginner level built for people starting out, with a step-by-step guide on every build, plus paid Intermediate and Expert levels for people who already know a tool like n8n or Make. Or start from zero with Learn: 13 weeks, ₦10,000 paid once." },
-    { k: ['tool','tools','tech stack','stack','what will i learn','n8n','make.com','whatsapp api','openai','supabase'],
-      a: "You'll work with real automation tools: n8n, WhatsApp APIs, OpenAI, Supabase and Make, all taught through actual builds, not isolated tutorials." },
-    { k: ['cash','cash bonus','top builder','prize','win money','earn money','earnings','withdraw','weekly prize'],
-      a: "Plan members earn a cash bonus on high scores, and one plan member wins the ₦10,000 Top Builder prize every week. Free members earn stacks, credentials and a place on the leaderboard, but not cash." },
-    { k: ['photo','profile picture','profile photo','face','avatar'],
-      a: "Before you submit your first build you need a profile photo that shows your face clearly, because your builds go on a public portfolio. You can add it on your profile page in the app." },
-    { k: ['job','jobs','paid work','hire','hiring','opportunit','freelance','money','income','get paid'],
-      a: "We don't run a job board, so I won't promise you postings. What you get is proof that wins work: every graded build lands on your public portfolio and can become a verified credential that a client or employer checks for themselves, with your score and the real work behind it. The WhatsApp community is where builders find collaborators." },
-    { k: ['arena','challenge','compete','competition'],
-      a: "The Automation Arena is where you ship real builds for real businesses. New builds drop every week at three levels, in n8n, Make and Zapier. Each one is graded, earns stacks and counts towards the leaderboard. This week's builds are on this page, in the Arena section." },
-    { k: ['credential','certificate','proof','badge'],
-      a: "Every graded Arena challenge can become a Verifiable Builder Credential, tied to a real graded submission, shareable on LinkedIn or your portfolio, showing your score, the tools used and the actual work behind it." },
-    { k: ['tutor','instructor','teach','who teaches','mentor'],
-      a: "Your tutors are working builders, not just lecturers: Oginni Oluwafemi (n8n & AI Agents), Oluwabunmi Josephine (Automation & Integrations), Abdulhafeez Adebayo (Client Work & Deployment), Ogechukwu Okochukwu (Automations & Integrations) and Linda Okike (Backend & Automations)." },
-    { k: ['whatsapp','discord','community chat','join community','group'],
-      a: "Join the free Automate Naija WhatsApp community: it's the fastest way to get help, find collaborators and hear about new challenges first. You'll find the link in the Community section of this page." },
-    { k: ['sign up','signup','register','join','login','log in','how do i start','get started'],
-      a: "Head to 'Login/SignUp' at the top of the page to create your free account, then open the Beginner builds. Add a clear profile photo before you submit your first build. When you want the harder builds, pick Intermediate or Expert in the Pricing section. For Learn, sign up and open Learn in the app: you'll see the whole outline, and one ₦10,000 payment unlocks it." },
-    { k: ['hosted n8n','hosting','instance'],
-      a: "An optional hosted n8n instance is available for ₦3,000/month, and the first 30 days are free. Full details at https://app.automatenaija.com/n8n — you'll need a free Automate Naija account, because the workspace is set up for a specific person." },
-    { k: ['contact','support','help','reach you','email'],
-      a: "Best way to reach the team is through the Automate Naija WhatsApp community: someone will point you in the right direction fast." },
-    { k: ['thank','thanks','thank you','appreciate'],
-      a: "Anytime! If anything else comes to mind, just ask." },
-    { k: ['bye','goodbye','see you'],
-      a: "Catch you later, happy building! 👋" }
-  ];
+/* June's answers are the same ones the June inside the app gives without
+   calling the AI: they come from the app's src/lib/juneKb.js, copied into the
+   JUNE_KB block below by scripts/sync-june-kb.mjs (see the README). Change an
+   answer there and re-run the script, never here by hand.
 
-  var JUNE_FALLBACK = "I don't have a direct answer for that yet. I'm running on a fixed script for now, but I'll soon be upgraded with full AI so I can answer absolutely anything. In the meantime, try asking about pricing, the Learn/Automate tracks, the Arena, credentials, tutors or opportunities.";
+   Matching works like the app's: a short question that is mostly about one
+   answer gets it outright; otherwise the closest answer is offered as the
+   closest thing June has; otherwise she says what she can help with and
+   points to the app, where June can answer anything with AI. ---- */
+(function(){
+  /* JUNE_KB:START (generated by scripts/sync-june-kb.mjs, do not edit by hand) */
+  var JUNE_KB = [
+    {
+      "id": "signup",
+      "k": [
+        "sign up",
+        "signup",
+        "register",
+        "registration",
+        "create account",
+        "create an account",
+        "open an account",
+        "join",
+        "how do i join",
+        "how can i join",
+        "log in",
+        "login",
+        "start free",
+        "get started",
+        "how do i start",
+        "where do i start",
+        "account"
+      ],
+      "a": "Create your free account at https://app.automatenaija.com/login, no card needed. Then:\n1. Add a clear photo of your face on /profile.\n2. Open this week's builds at /challenges. Your first build is free and never closes, and every Beginner build is free.\n\nWant to learn from zero first? After signing up, open /learn to see the whole course outline before you pay."
+    },
+    {
+      "id": "whatsapp-join",
+      "k": [
+        "whatsapp group",
+        "whatsapp community",
+        "join whatsapp",
+        "whatsapp link",
+        "telegram",
+        "discord",
+        "group chat"
+      ],
+      "a": "The Automate Naija WhatsApp community is free: builders post errors, share wins and find people to build with. The join button is in the Community section of this page. Inside the app, /community is the forum."
+    },
+    {
+      "id": "hello",
+      "k": [
+        "hi",
+        "hello",
+        "hey",
+        "good morning",
+        "good afternoon",
+        "good evening",
+        "howdy",
+        "hi june",
+        "hello june"
+      ],
+      "a": "Hey 👋 I'm June. Ask me about this week's builds, your plan, rewards, or anything about n8n, Make, Zapier and AI automation.",
+      "short": true
+    },
+    {
+      "id": "thanks",
+      "k": [
+        "thanks",
+        "thank you",
+        "thank u",
+        "thx",
+        "appreciate it",
+        "appreciate",
+        "nice one",
+        "great thanks"
+      ],
+      "a": "Anytime! Ask me whenever you get stuck. Happy building 🛠️",
+      "short": true
+    },
+    {
+      "id": "bye",
+      "k": [
+        "bye",
+        "goodbye",
+        "see you",
+        "later",
+        "good night"
+      ],
+      "a": "Catch you later, happy building! 👋",
+      "short": true
+    },
+    {
+      "id": "who",
+      "k": [
+        "who are you",
+        "what are you",
+        "what is june",
+        "are you a bot",
+        "are you human",
+        "are you ai",
+        "what can you do",
+        "help me"
+      ],
+      "a": "I'm June, Automate Naija's assistant. I can help with:\n- the app: builds, plans and prices, stacks, credits, credentials, squads, where to find things\n- AI and automation: n8n, Make, Zapier, webhooks, APIs, AI agents, fixing a broken workflow\n\nI can make mistakes, so for account or payment problems email support@automatenaija.com."
+    },
+    {
+      "id": "about",
+      "k": [
+        "what is automate naija",
+        "about automate naija",
+        "how does this work",
+        "how does it work",
+        "how does automate naija work",
+        "what is this app"
+      ],
+      "a": "Automate Naija is where Nigerian builders learn AI automation by shipping real work:\n1. Every Monday new builds drop: real problems from Nigerian businesses, at three levels.\n2. You build the workflow in n8n, Make or Zapier and submit it.\n3. A grader marks it against a published rubric in about a minute, with a score and feedback.\n4. A pass becomes a verified credential on your portfolio.\n\nStart at /challenges."
+    },
+    {
+      "id": "first-build",
+      "k": [
+        "first build",
+        "submit",
+        "submit build",
+        "submit my build",
+        "how do i submit",
+        "submission",
+        "get started",
+        "how do i start",
+        "where do i start",
+        "start building",
+        "free build"
+      ],
+      "a": "To submit a build:\n1. Add a clear photo of your face on /profile (needed before your first submission).\n2. Open /challenges and pick a build at your level. Your first build is free and never closes, and every Beginner build is free.\n3. Read the brief and use the starter kit.\n4. Build the workflow in n8n, Make or Zapier, then submit it on the build's page.\n\nThe grader marks it in about a minute with a score and feedback on what to fix."
+    },
+    {
+      "id": "grading",
+      "k": [
+        "grade",
+        "graded",
+        "grading",
+        "grader",
+        "score",
+        "rubric",
+        "feedback",
+        "how is it marked",
+        "marked",
+        "failed my build",
+        "resubmit"
+      ],
+      "a": "Each build is graded against a published rubric, usually in about a minute. You get a score and feedback that says what to fix. A pass earns stacks and can become a verified credential. If your score is low, read the feedback, fix those points, and ask in /community if it is unclear."
+    },
+    {
+      "id": "deadline",
+      "k": [
+        "deadline",
+        "extend deadline",
+        "extend",
+        "missed deadline",
+        "late",
+        "more time",
+        "when do builds drop",
+        "new builds",
+        "monday"
+      ],
+      "a": "New builds drop every Monday, one per level and tool. Each build has a deadline shown on its page in /challenges. If you need more time, you can extend a deadline by spending credits from your wallet. The first free build never closes."
+    },
+    {
+      "id": "pricing",
+      "k": [
+        "price",
+        "prices",
+        "pricing",
+        "cost",
+        "how much",
+        "fee",
+        "fees",
+        "plans",
+        "plan",
+        "subscription",
+        "subscribe",
+        "paid plans",
+        "what do the paid plans unlock",
+        "upgrade"
+      ],
+      "a": "Pricing:\n- **Beginner builds and the community:** free for every member\n- **Intermediate:** ₦8,000 (normally ₦12,000) for 60 days\n- **Expert:** ₦10,000 (normally ₦20,000) for 60 days\n- **Learn AI Automation course:** ₦10,000 once, yours to keep\n- **Hosted n8n:** ₦3,000/month, first 30 days free\n\nA plan unlocks its own level's builds only (Intermediate does not include Expert). The discount is for the first 100 subscribers on the paid levels. See /pricing."
+    },
+    {
+      "id": "levels",
+      "k": [
+        "beginner",
+        "intermediate",
+        "expert",
+        "expert plan",
+        "intermediate plan",
+        "beginner plan",
+        "level",
+        "levels",
+        "which level",
+        "difference between levels",
+        "what level"
+      ],
+      "a": "The three levels:\n- **Beginner** (free): step-by-step briefs with worked examples. Best if you are new.\n- **Intermediate** (₦8,000 / 60 days): multi-step builds where the architecture calls are yours.\n- **Expert** (₦10,000 / 60 days): open-ended, client-grade problems with minimal hand-holding.\n\nEach plan unlocks only its own level. Compare them on /pricing."
+    },
+    {
+      "id": "discount",
+      "k": [
+        "discount",
+        "promo",
+        "offer",
+        "first 100",
+        "coupon",
+        "promo code",
+        "cheaper"
+      ],
+      "a": "The first 100 subscribers on the paid levels get Intermediate at ₦8,000 (normally ₦12,000) and Expert at ₦10,000 (normally ₦20,000). Beginner is free for everyone. Once the 100 spots are gone, the prices go back to normal. See /pricing."
+    },
+    {
+      "id": "payment",
+      "k": [
+        "pay",
+        "payment",
+        "paystack",
+        "card",
+        "bank transfer",
+        "payment failed",
+        "charged",
+        "refund",
+        "receipt"
+      ],
+      "a": "Payments go through Paystack. Pick a plan on /pricing and pay there. If a payment failed, you were charged but nothing unlocked, or you need a refund, email support@automatenaija.com with the email on your account and the date of the payment."
+    },
+    {
+      "id": "expiry",
+      "k": [
+        "expire",
+        "expired",
+        "expiry",
+        "renew",
+        "renewal",
+        "how long does a plan last",
+        "60 days",
+        "plan ended"
+      ],
+      "a": "An Intermediate or Expert plan lasts 60 days from payment. When it ends you keep everything you already earned (stacks, credentials, portfolio), and you can renew from /pricing to keep getting that level's builds. The Learn course is paid once and never expires."
+    },
+    {
+      "id": "learn",
+      "k": [
+        "learn",
+        "course",
+        "learn course",
+        "syllabus",
+        "curriculum",
+        "lessons",
+        "lesson",
+        "classes",
+        "cohort",
+        "learning hub",
+        "learn ai automation"
+      ],
+      "a": "Learn AI Automation is a 13-week course for complete beginners: Zapier, Make and n8n one tool at a time, then APIs, payments, AI and building for clients, ending in a capstone for a real business. Every class has notes, resources and a practice task, plus live classes with your cohort.\n\nIt costs ₦10,000 once and it is yours to keep. Open /learn to see the full outline before you pay. If you join mid-cohort, the weeks already covered open straight away."
+    },
+    {
+      "id": "live-class",
+      "k": [
+        "live class",
+        "live classes",
+        "live session",
+        "class link",
+        "join class",
+        "recording",
+        "class recording",
+        "zoom",
+        "meet"
+      ],
+      "a": "Live classes run inside the app, in /learn. The join button opens about ten minutes before the class starts. After a class, its recording link appears in the same place."
+    },
+    {
+      "id": "ai-video",
+      "k": [
+        "ai video",
+        "video class",
+        "video creation",
+        "ai video class",
+        "learn ai video",
+        "mentorship"
+      ],
+      "a": "The AI Video Creation Class is sold on its own for ₦5,000 (shown against ₦45,000), with optional one-on-one mentorship afterwards. Everything about it is at /learn-ai-video."
+    },
+    {
+      "id": "n8n-addon",
+      "k": [
+        "hosted n8n",
+        "n8n workspace",
+        "n8n instance",
+        "n8n add on",
+        "n8n addon",
+        "n8n hosting",
+        "own n8n",
+        "n8n account",
+        "n8n trial"
+      ],
+      "a": "The hosted n8n add-on gives you your own n8n workspace, kept up to date for you. It costs ₦3,000 a month and the first 30 days are free (a ₦100 card check is charged and refunded to start the trial). Set it up at /n8n. That page also has a help box if your workspace is giving trouble."
+    },
+    {
+      "id": "stacks",
+      "k": [
+        "stacks",
+        "stack",
+        "points",
+        "leaderboard",
+        "rank",
+        "ranking",
+        "top of the leaderboard"
+      ],
+      "a": "Stacks are points you earn from graded builds. They decide your place on the leaderboard (weekly and all time), which you can see on /dashboard. Higher scores earn more stacks."
+    },
+    {
+      "id": "credits",
+      "k": [
+        "credits",
+        "credit",
+        "cash",
+        "earn money",
+        "earn cash",
+        "make money",
+        "bonus",
+        "cash bonus",
+        "top builder",
+        "prize",
+        "weekly prize",
+        "how do i earn",
+        "earn credits"
+      ],
+      "a": "Credits are worth ₦1 each.\n- Intermediate and Expert plan members earn cash bonuses on high scores.\n- The top plan member each week wins the ₦10,000 Top Builder prize.\n- The month's best Rubik's cube solve in /game enters a draw for 5,000 credits.\n\nFree members earn stacks, credentials and a leaderboard place, but not cash. Your credits live in the wallet in /settings."
+    },
+    {
+      "id": "wallet",
+      "k": [
+        "wallet",
+        "withdraw",
+        "withdrawal",
+        "top up",
+        "topup",
+        "fund wallet",
+        "balance",
+        "bank account",
+        "cash out"
+      ],
+      "a": "Your wallet is in /settings. You can top it up through Paystack, spend credits (for example to extend a build deadline), and withdraw what you earned to a Nigerian bank account. 1 credit = ₦1. For a withdrawal that has not arrived, email support@automatenaija.com."
+    },
+    {
+      "id": "streak",
+      "k": [
+        "streak",
+        "streaks",
+        "active days",
+        "lost my streak",
+        "heatmap"
+      ],
+      "a": "Your streak counts consecutive active days. A day counts when you submit a build or post a thread in /community. You can see it on /dashboard."
+    },
+    {
+      "id": "track",
+      "k": [
+        "track",
+        "tracks",
+        "my track",
+        "12 weeks",
+        "16 weeks",
+        "own pace",
+        "self paced",
+        "programme",
+        "program",
+        "award"
+      ],
+      "a": "A build track is a level taken for 4 to 16 weeks at your own pace. Start one at /track:\n- pick a level, then how many weeks\n- each week has real builds and a short quiz, and you only see the week you are on\n- take the week's quiz first (you need it before you can submit), then send one of the week's builds to open the next week\n- finish every week and you get an award you can share on LinkedIn\nBeginner is free for 4 weeks. Longer Beginner tracks and Intermediate or Expert tracks cost that level's plan price."
+    },
+    {
+      "id": "credential",
+      "k": [
+        "credential",
+        "credentials",
+        "certificate",
+        "certification",
+        "badge",
+        "verify",
+        "verification",
+        "linkedin",
+        "proof"
+      ],
+      "a": "Every passed build can become a Verifiable Builder Credential:\n- it has its own public page that anyone can check at /verify\n- it shows your score, the tool and the real build behind it\n- it comes with a share card for LinkedIn and WhatsApp status, and LinkedIn's \"Add to profile\" link"
+    },
+    {
+      "id": "portfolio",
+      "k": [
+        "portfolio",
+        "public portfolio",
+        "portfolio link",
+        "share my work",
+        "showcase"
+      ],
+      "a": "Your portfolio is at /portfolio. Your graded builds can appear there, and you decide whether it is public. Once it is public you get a link to share with clients and employers."
+    },
+    {
+      "id": "profile-photo",
+      "k": [
+        "photo",
+        "profile photo",
+        "profile picture",
+        "avatar",
+        "picture",
+        "change my name",
+        "edit profile",
+        "bio"
+      ],
+      "a": "Edit your name, photo, bio and social links on /profile. A clear photo of your face is required before you submit your first build, because your builds go on a public portfolio."
+    },
+    {
+      "id": "squad",
+      "k": [
+        "squad",
+        "squads",
+        "team",
+        "teammates",
+        "build partner",
+        "partner",
+        "find a partner",
+        "invite friends to squad",
+        "squad call"
+      ],
+      "a": "A squad is a team of 3 to 5 who score together each week, with its own chat and calls. Find yours on /squad, and invite friends with your squad invite link. Looking for someone to build with? Try /partner."
+    },
+    {
+      "id": "quiz",
+      "k": [
+        "quiz",
+        "weekly quiz",
+        "play arena",
+        "game",
+        "games",
+        "rubik",
+        "cube"
+      ],
+      "a": "Play Arena is at /game. It has the weekly quiz (10 easy AI and automation questions, new every Monday) and a Rubik's cube game. The month's best solve enters a draw for 5,000 credits."
+    },
+    {
+      "id": "referral",
+      "k": [
+        "refer",
+        "referral",
+        "referral link",
+        "invite",
+        "invite a friend",
+        "invite friends"
+      ],
+      "a": "Your personal referral link is on /dashboard. Share it, and anyone who signs up through it is credited to you."
+    },
+    {
+      "id": "community",
+      "k": [
+        "community",
+        "forum",
+        "whatsapp group",
+        "whatsapp community",
+        "ask a question",
+        "post a question",
+        "other builders"
+      ],
+      "a": "Post in /community to ask other builders and the tutors: share what you tried and the exact error message. There is also a free WhatsApp community. For private chats, use /messages."
+    },
+    {
+      "id": "notifications",
+      "k": [
+        "notifications",
+        "notification",
+        "emails",
+        "stop emails",
+        "unsubscribe",
+        "push notifications",
+        "whatsapp reminders",
+        "reminders"
+      ],
+      "a": "Choose your push, email and WhatsApp reminder settings in /settings."
+    },
+    {
+      "id": "password",
+      "k": [
+        "password",
+        "reset password",
+        "forgot password",
+        "change password",
+        "log out",
+        "logout",
+        "sign out",
+        "delete account",
+        "change email"
+      ],
+      "a": "You can change your password in /settings. If you are locked out, use \"Forgot password\" on the login page. To change your email or delete your account, email support@automatenaija.com."
+    },
+    {
+      "id": "support",
+      "k": [
+        "support",
+        "contact",
+        "contact support",
+        "customer care",
+        "talk to a human",
+        "human",
+        "admin",
+        "report a bug",
+        "bug",
+        "complain",
+        "complaint"
+      ],
+      "a": "For account, payment or anything I cannot sort out, email support@automatenaija.com and a person will reply. For build questions, /community is the fastest place to get help."
+    },
+    {
+      "id": "tutors",
+      "k": [
+        "tutor",
+        "tutors",
+        "instructor",
+        "instructors",
+        "teacher",
+        "mentor",
+        "who teaches"
+      ],
+      "a": "The tutors are working builders: Oginni Oluwafemi (lead instructor, n8n and AI agents), Oluwabunmi Josephine (automation and integrations), Abdulhafeez Adebayo (client work and deployment), Ogechukwu Okochukwu (automations and integrations) and Linda Okike (backend and automations)."
+    },
+    {
+      "id": "coding",
+      "k": [
+        "coding",
+        "code",
+        "need to code",
+        "coding experience",
+        "programming",
+        "no experience",
+        "complete beginner",
+        "never coded"
+      ],
+      "a": "No coding experience is needed. Beginner builds are free, with a step-by-step guide on each one. If you would like a structured path from zero, the Learn course (₦10,000 once) covers Zapier, Make and n8n one tool at a time. Open /learn to see the outline."
+    },
+    {
+      "id": "jobs",
+      "k": [
+        "job",
+        "jobs",
+        "get hired",
+        "hiring",
+        "internship",
+        "freelance",
+        "clients",
+        "paid work",
+        "find work",
+        "get clients"
+      ],
+      "a": "Automate Naija does not run a job board, so I will not promise postings. What you build here is the proof that wins work: graded builds on your public /portfolio and verified credentials a client can check. The /community is where builders find collaborators."
+    },
+    {
+      "id": "what-automation",
+      "k": [
+        "what is automation",
+        "automation",
+        "what is ai automation",
+        "ai automation",
+        "workflow",
+        "what is a workflow",
+        "trigger",
+        "triggers"
+      ],
+      "a": "Automation means letting software do a repeated task for you. A workflow has:\n- a **trigger**: what starts it (a form is submitted, a payment arrives, every morning at 8)\n- **actions**: what happens next (send a WhatsApp message, add a row to a sheet, email a receipt)\n\nAI automation adds a model like ChatGPT in the middle, to read, write or decide something, such as summarising a message or sorting enquiries."
+    },
+    {
+      "id": "tools-compare",
+      "k": [
+        "n8n",
+        "make",
+        "zapier",
+        "vs",
+        "versus",
+        "compare",
+        "n8n vs make",
+        "n8n vs zapier",
+        "make vs zapier",
+        "which tool",
+        "best tool",
+        "difference between n8n and make",
+        "difference between n8n and zapier",
+        "what is n8n"
+      ],
+      "a": "All three connect apps into workflows:\n- **Zapier:** the easiest to start with. Simple, linear zaps, but it gets expensive as you scale.\n- **Make:** a visual canvas with branching and data handling. Good value and very popular.\n- **n8n:** the most powerful and flexible, and you can self-host it. Great for AI agents and custom logic, and the main tool in many builds here.\n\nNew to all of them? Start on the free Beginner builds in /challenges in whichever tool you have."
+    },
+    {
+      "id": "webhook",
+      "k": [
+        "webhook",
+        "webhooks",
+        "what is a webhook",
+        "webhook url",
+        "webhook not working"
+      ],
+      "a": "A **webhook** is a URL that another app calls the moment something happens, for example \"a payment just succeeded\". It works like a doorbell: instead of your workflow checking every few minutes, the other app rings it.\n\nIn n8n:\n1. Add a **Webhook** node and copy its test URL.\n2. Paste that URL into the other app's webhook settings.\n3. Click **Listen for test event**, then trigger the event.\n4. When it works, switch to the production URL and activate the workflow."
+    },
+    {
+      "id": "api",
+      "k": [
+        "api",
+        "apis",
+        "what is an api",
+        "rest api",
+        "endpoint",
+        "http request",
+        "http request node"
+      ],
+      "a": "An **API** is how one app lets other software talk to it: you send a request to a URL (an endpoint) and get data back.\n\nA request usually has:\n- a **method**: GET to read, POST to create\n- **headers**, often including your API key\n- a **body** of JSON when you send data\n\nIn n8n, the **HTTP Request** node calls any API, even one without a built-in node. Most API docs show a curl example you can import straight into it."
+    },
+    {
+      "id": "json",
+      "k": [
+        "json",
+        "what is json",
+        "json format",
+        "parse json"
+      ],
+      "a": "JSON is the text format apps use to send data to each other. It is made of `\"key\": value` pairs inside curly braces, for example `{\"name\": \"Ada\", \"amount\": 5000}`. In n8n, every item that flows between nodes is JSON, and you pick values out with expressions like `{{ $json.name }}`."
+    },
+    {
+      "id": "api-key",
+      "k": [
+        "api key",
+        "api keys",
+        "token",
+        "access token",
+        "secret key",
+        "credentials in n8n",
+        "leaked my key"
+      ],
+      "a": "An API key is a password for software. Keep it private:\n- store it in your tool's credentials (in n8n: **Credentials**), never pasted into a node or a post\n- never share it in screenshots or in /community\n- if one leaks, delete it in the provider's dashboard and make a new one straight away"
+    },
+    {
+      "id": "error-401",
+      "k": [
+        "401",
+        "403",
+        "unauthorized",
+        "forbidden",
+        "authorization failed",
+        "invalid api key",
+        "authentication failed"
+      ],
+      "a": "A **401** (or 403) means the app refused your credentials. Check:\n1. The API key or token is correct, with no extra spaces.\n2. It has not expired. Tokens such as the WhatsApp Cloud API's temporary one expire, so generate a new one.\n3. It is sent the way the API expects, often a header like `Authorization: Bearer YOUR_KEY`.\n4. The key has permission for that action.\n\nUpdate the credential in n8n, then run the node again."
+    },
+    {
+      "id": "error-general",
+      "k": [
+        "error",
+        "errors",
+        "not working",
+        "broken",
+        "workflow failed",
+        "execution failed",
+        "debug",
+        "debugging",
+        "fix my workflow",
+        "404",
+        "429",
+        "500",
+        "timeout"
+      ],
+      "a": "To debug a workflow:\n1. Open the failed execution and find the first red node.\n2. Read the error message and the node's input data. Most bugs are wrong or missing input.\n3. Common codes: **400** bad data sent, **401/403** credentials, **404** wrong URL or ID, **429** too many requests (slow down or add a wait), **500** the other service failed (retry later).\n4. Pin the data and re-run just that node while you fix it.\n\nStill stuck? Post the exact error in /community, without any API keys."
+    },
+    {
+      "id": "prompt",
+      "k": [
+        "prompt",
+        "prompts",
+        "prompting",
+        "prompt engineering",
+        "write a good prompt",
+        "better prompt"
+      ],
+      "a": "A good prompt is clear and specific:\n- say **who** the AI should act as and **what** the task is\n- give the context and the input it needs\n- say exactly what output you want (format, length, tone); for automations, ask for JSON\n- add one example of a good answer if you can\n\nThen test it with a few real inputs before you put it in a workflow."
+    },
+    {
+      "id": "hallucination",
+      "k": [
+        "hallucination",
+        "hallucinate",
+        "hallucinations",
+        "ai makes things up",
+        "ai is wrong",
+        "wrong answer"
+      ],
+      "a": "A hallucination is when an AI states something false with confidence. Reduce it by giving the model the facts it needs in the prompt (or retrieving them, which is RAG), asking it to say \"I don't know\" when unsure, and checking important outputs before they reach a customer."
+    },
+    {
+      "id": "llm",
+      "k": [
+        "llm",
+        "large language model",
+        "chatgpt",
+        "openai",
+        "gemini",
+        "claude",
+        "what is ai",
+        "gpt"
+      ],
+      "a": "An LLM (large language model), such as ChatGPT, Gemini or Claude, is an AI that reads and writes text. In automations it can summarise, classify, extract details, draft replies and make simple decisions. You call it through an API (in n8n, with nodes such as OpenAI or the AI Agent node) and pay per use, so keep prompts focused."
+    },
+    {
+      "id": "agent",
+      "k": [
+        "ai agent",
+        "agent",
+        "agents",
+        "ai agents",
+        "what is an ai agent",
+        "build an agent"
+      ],
+      "a": "An **AI agent** is an AI that can decide which tools to use to finish a task, not just answer once. For example, it can look up an order, check stock and then reply to a customer.\n\nIn n8n, the **AI Agent** node takes:\n- a chat model (such as OpenAI)\n- memory, so it remembers the conversation\n- tools: other nodes or workflows it may call\n\nStart small, with one or two tools and clear instructions."
+    },
+    {
+      "id": "rag",
+      "k": [
+        "rag",
+        "retrieval",
+        "vector",
+        "vector database",
+        "embeddings",
+        "knowledge base",
+        "chat with documents"
+      ],
+      "a": "**RAG** (retrieval-augmented generation) lets an AI answer from your own documents:\n1. Split the documents into chunks and turn them into embeddings (numbers that capture meaning).\n2. Store them in a vector database.\n3. For each question, fetch the most relevant chunks and give them to the model with the question.\n\nIn n8n you can build this with the vector store and embeddings nodes plus an AI Agent."
+    },
+    {
+      "id": "whatsapp-api",
+      "k": [
+        "whatsapp api",
+        "whatsapp bot",
+        "whatsapp business",
+        "whatsapp cloud api",
+        "send whatsapp message",
+        "whatsapp automation"
+      ],
+      "a": "To automate WhatsApp you need the WhatsApp Business **Cloud API** from Meta:\n1. Create a Meta developer app and add WhatsApp.\n2. Get a phone number ID and an access token. The temporary token expires in 24 hours, so make a permanent one with a system user.\n3. Send messages with n8n's WhatsApp node or an HTTP Request.\n4. Receive messages with a webhook.\n\nOutside the 24-hour customer service window, you can only send pre-approved template messages."
+    },
+    {
+      "id": "schedule",
+      "k": [
+        "schedule",
+        "cron",
+        "run every day",
+        "run daily",
+        "schedule trigger",
+        "every morning",
+        "every hour"
+      ],
+      "a": "To run a workflow on a timetable, use a **Schedule Trigger** (n8n), the Schedule setting (Make) or Schedule by Zapier. Set the interval, check the time zone (Nigeria is WAT, UTC+1), and remember to activate the workflow, or it will not run."
+    },
+    {
+      "id": "activate",
+      "k": [
+        "activate",
+        "activate workflow",
+        "workflow not running",
+        "production url",
+        "test url",
+        "publish workflow",
+        "go live"
+      ],
+      "a": "In n8n, a workflow only runs on its own when it is **active** (the toggle at the top). Test URLs for webhooks only work while you are listening in the editor; once it is active, use the **production** webhook URL in the other app."
+    },
+    {
+      "id": "what-to-automate",
+      "k": [
+        "what should i automate",
+        "automation ideas",
+        "ideas",
+        "business ideas",
+        "what can i automate",
+        "use cases"
+      ],
+      "a": "Good things to automate are repeated, rule-based and time-wasting. For example:\n- sending a receipt and thank-you after a Paystack payment\n- saving form or WhatsApp enquiries into a Google Sheet or CRM\n- daily sales or stock summaries sent to the owner\n- reminders for appointments and unpaid invoices\n- AI replies to common customer questions\n\nThe weekly builds in /challenges are all real problems like these."
+    }
+  ];
+  /* JUNE_KB:END */
+
+  var APP = 'https://app.automatenaija.com';
+
+  var JUNE_GREETING = "Hi, I'm June 👋 Ask me about Automate Naija (prices, the free Beginner builds, the Learn course, credentials) or about AI automation: n8n, Make, Zapier, webhooks, APIs and AI agents.";
+
+  var JUNE_FALLBACK = "I don't have a ready answer for that one. Try asking it a simpler way, or ask me about:\n- prices, plans and the free Beginner builds\n- the Learn course, credentials and squads\n- n8n, webhooks, APIs, errors and AI agents\n\nSign up free at " + APP + "/login and ask June inside the app: there she can answer anything about AI automation.";
 
   var JUNE_SUGGESTIONS = [
     "What's the pricing?",
-    "Is there a discount?",
+    "How do I join?",
     "Do I need coding experience?",
-    "Can I find paid work here?",
-    "What tools will I learn?"
+    "What is a webhook, simply?",
+    "Can I find paid work here?"
   ];
 
+  /* ---- Matching (a port of matchJune() in the app's src/lib/juneKb.js) -- */
+  function wordSet(list){
+    var s = {};
+    list.split(' ').forEach(function(w){ s[w] = true; });
+    return s;
+  }
+  // Words that carry no meaning on their own.
+  var STOP = wordSet('a an the is are was were be been am i me my you your we our it its this that these those to of in on at for with ' +
+    'and or but so do does did can could would should will shall may might please pls kindly tell about what how why ' +
+    'when where which who whom there here just also like want need get got have has had any some much many more ' +
+    'from by as if then than up out into over again very really u ur abeg o sir ma hello hi june better best');
+  // Tool names and filler that say what a question is about, not what it asks.
+  var GENERIC = wordSet('n8n make zapier node nodes workflow workflows app automation says say said saying showing shows keeps ' +
+    'keep getting now still');
+
   function normalize(s){
-    return (s || '').toLowerCase().replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    return String(s || '').toLowerCase().replace(/[’']/g, '').replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  function meaningfulWord(w){ return !STOP[w] && !GENERIC[w]; }
+
+  // Returns { entry, confident } or null.
+  function matchJune(question){
+    var text = normalize(question);
+    if(!text) return null;
+    var words = text.split(' ');
+    var padded = ' ' + text + ' ';
+    var meaningful = words.filter(meaningfulWord).join('').length;
+
+    var best = null, bestScore = 0, bestCovered = 0;
+    for(var i = 0; i < JUNE_KB.length; i++){
+      var entry = JUNE_KB[i];
+      // Greetings and thanks only count when they are the whole message.
+      if(entry.short && words.length > 4) continue;
+      var score = 0, covered = {};
+      for(var j = 0; j < entry.k.length; j++){
+        var phrase = entry.k[j];
+        if(padded.indexOf(' ' + phrase + ' ') === -1) continue;
+        score += phrase.length;
+        phrase.split(' ').forEach(function(w){ if(meaningfulWord(w)) covered[w] = true; });
+      }
+      var coveredLength = Object.keys(covered).join('').length;
+      if(score > bestScore || (score > 0 && score === bestScore && coveredLength > bestCovered)){
+        best = entry; bestScore = score; bestCovered = coveredLength;
+      }
+    }
+
+    if(!best) return null;
+    if(best.short) return { entry: best, confident: true };
+    if(bestScore < 3) return null;
+    var confident;
+    if(words.length > 14) confident = false;
+    else if(meaningful === 0) confident = words.length <= 6;
+    else confident = bestCovered / meaningful >= 0.5;
+    return { entry: best, confident: confident };
   }
 
   function getJuneAnswer(rawText){
-    var text = normalize(rawText);
-    if(!text) return "Ask me anything about Automate Naija: pricing, tracks, the Arena, community or opportunities.";
-    var best = null, bestScore = 0;
-    for(var i = 0; i < JUNE_KB.length; i++){
-      var entry = JUNE_KB[i];
-      var score = 0;
-      for(var j = 0; j < entry.k.length; j++){
-        if(text.indexOf(entry.k[j]) !== -1) score += entry.k[j].length;
-      }
-      if(score > bestScore){ bestScore = score; best = entry; }
-    }
-    return best ? best.a : JUNE_FALLBACK;
+    if(!normalize(rawText)) return "Ask me anything about Automate Naija or AI automation.";
+    var m = matchJune(rawText);
+    if(!m) return JUNE_FALLBACK;
+    if(m.confident) return m.entry.a;
+    return "Here's the closest answer I have:\n\n" + m.entry.a;
   }
 
+  /* ---- Rendering --------------------------------------------------------
+     A little formatting: **bold**, `code`, links (full URLs, e-mail
+     addresses, and app pages like /challenges, which open in the app). Built
+     as DOM nodes, never as HTML, so nothing in an answer can inject markup. */
+  var INLINE = /(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|`[^`]+`|https?:\/\/[^\s)]+|[\w.+-]+@[\w-]+\.[\w.]+|\/[a-z][\w\-\/]*)/g;
+
+  function link(href, label){
+    var a = document.createElement('a');
+    a.href = href;
+    a.textContent = label;
+    if(/^https?:/.test(href)){ a.target = '_blank'; a.rel = 'noopener'; }
+    a.style.color = 'inherit';
+    a.style.textDecoration = 'underline';
+    a.style.textUnderlineOffset = '2px';
+    a.style.fontWeight = '600';
+    return a;
+  }
+
+  function renderInto(el, text){
+    var last = 0, m;
+    INLINE.lastIndex = 0;
+    while((m = INLINE.exec(text))){
+      var part = m[0], at = m.index;
+      if(part.charAt(0) === '/'){
+        var before = at === 0 ? ' ' : text.charAt(at - 1);
+        var after = text.charAt(at + part.length) || ' ';
+        // "and/or" is not a page, and "/r/<code>" is a placeholder.
+        if(!/[\s(]/.test(before) || after === '<') continue;
+      }
+      if(at > last) el.appendChild(document.createTextNode(text.slice(last, at)));
+      last = at + part.length;
+
+      if(part.indexOf('**') === 0 && part.length > 4){
+        var b = document.createElement('strong'); b.textContent = part.slice(2, -2); el.appendChild(b);
+      } else if(part.charAt(0) === '*' && part.length > 2){
+        var em = document.createElement('em'); em.textContent = part.slice(1, -1); el.appendChild(em);
+      } else if(part.charAt(0) === '`' && part.length > 2){
+        var c = document.createElement('code'); c.textContent = part.slice(1, -1); el.appendChild(c);
+      } else if(/^https?:\/\//.test(part)){
+        var url = part.replace(/[.,;:!?]+$/, '');
+        el.appendChild(link(url, url.replace(/^https?:\/\//, '')));
+        if(url.length < part.length) el.appendChild(document.createTextNode(part.slice(url.length)));
+      } else if(part.indexOf('@') > 0){
+        var email = part.replace(/\.+$/, '');
+        el.appendChild(link('mailto:' + email, email));
+        if(email.length < part.length) el.appendChild(document.createTextNode(part.slice(email.length)));
+      } else {
+        var path = part.replace(/[-\/]+$/, '');
+        el.appendChild(link(APP + path, path));
+        if(path.length < part.length) el.appendChild(document.createTextNode(part.slice(path.length)));
+      }
+    }
+    if(last < text.length) el.appendChild(document.createTextNode(text.slice(last)));
+  }
+
+  /* ---- Behaviour -------------------------------------------------------- */
   var launcher = document.getElementById('juneLauncher');
   var panel = document.getElementById('junePanel');
   var closeBtn = document.getElementById('juneClose');
@@ -98,12 +941,14 @@
   function addMessage(text, who){
     var el = document.createElement('div');
     el.className = 'june-msg ' + who;
-    el.textContent = text;
+    if(who === 'bot') renderInto(el, text);
+    else el.textContent = text;
     body.appendChild(el);
     scrollToBottom();
   }
 
   function renderSuggestions(){
+    if(!suggestWrap) return;
     suggestWrap.innerHTML = '';
     JUNE_SUGGESTIONS.forEach(function(q){
       var chip = document.createElement('button');
@@ -141,7 +986,7 @@
     launcher.classList.add('hide');
     if(!started){
       started = true;
-      addMessage("Hi, I'm June! I'm Automate Naija's assistant: ask me about pricing, the Learn/Automate tracks, the Arena, credentials, tutors or opportunities.", 'bot');
+      addMessage(JUNE_GREETING, 'bot');
       renderSuggestions();
     }
     setTimeout(function(){ input.focus(); }, 50);
@@ -153,7 +998,7 @@
   }
 
   launcher.addEventListener('click', openPanel);
-  closeBtn.addEventListener('click', closePanel);
+  if(closeBtn) closeBtn.addEventListener('click', closePanel);
   form.addEventListener('submit', function(e){
     e.preventDefault();
     sendMessage(input.value);
